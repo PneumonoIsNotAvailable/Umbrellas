@@ -32,5 +32,9 @@
     "umbrellas.advancements.get_gliding_umbrella.name": "I'm Mary Poppins, Y'all!",
     "umbrellas.advancements.get_gliding_umbrella.desc": "Enchant an Umbrella with Gliding",
     
-    "stat.umbrellas.clean_umbrella": "Umbrellas Cleaned"
+    "stat.umbrellas.clean_umbrella": "Umbrellas Cleaned",
+
+    "umbrellas.configs_screen.title": "Umbrellas Configs",
+    "umbrellas.configs.gliding": "Gliding",
+    "umbrellas.configs.gliding.tooltip": "Whether or not the Gliding enchantment is enabled"
 }

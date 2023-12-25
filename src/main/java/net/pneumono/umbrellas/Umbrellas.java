@@ -1,7 +1,9 @@
 package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ModInitializer;
-
+import net.pneumono.pneumonocore.config.BooleanConfiguration;
+import net.pneumono.pneumonocore.config.ConfigEnv;
+import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.umbrellas.content.ModContent;
 import net.pneumono.umbrellas.content.UmbrellaCauldronBehavior;
 import org.slf4j.Logger;
@@ -11,9 +13,12 @@ public class Umbrellas implements ModInitializer {
 	public static final String MOD_ID = "umbrellas";
     public static final Logger LOGGER = LoggerFactory.getLogger("Umbrellas");
 
+	public static final BooleanConfiguration GLIDING = Configs.register(new BooleanConfiguration(MOD_ID, "gliding", ConfigEnv.SERVER, true, MOD_ID + ".configs.gliding"));
+
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initialising Umbrellas");
+		Configs.reload(MOD_ID);
 
 		ModContent.registerModContent();
 		UmbrellaCauldronBehavior.registerCauldronBehavior();

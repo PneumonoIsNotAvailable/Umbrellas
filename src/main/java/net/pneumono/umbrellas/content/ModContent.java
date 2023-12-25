@@ -144,7 +144,7 @@ public class ModContent {
     }
 
     private static Enchantment registerEnchantment(String name, Enchantment enchantment) {
-        return Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, name), enchantment);
+        return Umbrellas.GLIDING.getValue() ? Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, name), enchantment) : enchantment;
     }
 
     public static Identifier registerStat(Identifier name, StatFormatter formatter) {
