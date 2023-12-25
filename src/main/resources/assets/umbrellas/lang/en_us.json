@@ -1,0 +1,36 @@
+{
+    "item.umbrellas.umbrella": "Umbrella",
+    "item.umbrellas.umbrella_pride": "Pride Umbrella",
+
+    "tooltip.umbrellas.umbrella_pride.pride": "Rainbow Pride Flag",
+    "tooltip.umbrellas.umbrella_pride.abrosexual": "Abrosexual Flag",
+    "tooltip.umbrellas.umbrella_pride.agender": "Agender Flag",
+    "tooltip.umbrellas.umbrella_pride.aroace": "Aro-Ace Flag",
+    "tooltip.umbrellas.umbrella_pride.aromantic": "Aromantic Flag",
+    "tooltip.umbrellas.umbrella_pride.asexual": "Asexual Flag",
+    "tooltip.umbrellas.umbrella_pride.bigender": "Bigender Flag",
+    "tooltip.umbrellas.umbrella_pride.bisexual": "Bisexual Flag",
+    "tooltip.umbrellas.umbrella_pride.gay": "Gay Flag",
+    "tooltip.umbrellas.umbrella_pride.genderfluid": "Genderfluid Flag",
+    "tooltip.umbrellas.umbrella_pride.intersex": "Intersex Flag",
+    "tooltip.umbrellas.umbrella_pride.lesbian": "Lesbian Flag",
+    "tooltip.umbrellas.umbrella_pride.nonbinary": "Non-Binary Flag",
+    "tooltip.umbrellas.umbrella_pride.omnisexual": "Omnisexual Flag",
+    "tooltip.umbrellas.umbrella_pride.pangender": "Pangender Flag",
+    "tooltip.umbrellas.umbrella_pride.pansexual": "Pansexual Flag",
+    "tooltip.umbrellas.umbrella_pride.polysexual": "Polysexual Flag",
+    "tooltip.umbrellas.umbrella_pride.transgender": "Transgender Flag",
+    
+    "itemGroup.umbrellas.umbrellas": "Umbrellas",
+
+    "enchantment.umbrellas.gliding": "Gliding",
+    
+    "umbrellas.advancements.get_umbrella.name": "Rain, Rain, go Away",
+    "umbrellas.advancements.get_umbrella.desc": "Construct or Find an Umbrella",
+    "umbrellas.advancements.get_pride_umbrella.name": "We're Here, We're Queer",
+    "umbrellas.advancements.get_pride_umbrella.desc": "Dye an Umbrella with the colors of a Pride Flag",
+    "umbrellas.advancements.get_gliding_umbrella.name": "I'm Mary Poppins, Y'all!",
+    "umbrellas.advancements.get_gliding_umbrella.desc": "Enchant an Umbrella with Gliding",
+    
+    "stat.umbrellas.clean_umbrella": "Umbrellas Cleaned"
+}

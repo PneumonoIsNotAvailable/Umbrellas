@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "pride_umbrellas",
+  "ingredients": [
+    {
+      "item": "minecraft:magenta_dye"
+    },
+    {
+      "item": "minecraft:purple_dye"
+    },
+    {
+      "item": "minecraft:blue_dye"
+    },
+    {
+      "item": "umbrellas:umbrella"
+    },
+    {
+      "tag": "minecraft:banners"
+    }
+  ],
+  "result": {
+    "item": "umbrellas:umbrella_bisexual"
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_banner": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "minecraft:banners"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_green_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:green_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_magenta_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:magenta_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:umbrella_polysexual"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_umbrella": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "umbrellas:umbrella"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_magenta_dye",
+      "has_green_dye",
+      "has_umbrella",
+      "has_banner"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:umbrella_polysexual"
+    ]
+  },
+  "sends_telemetry_event": false
+}

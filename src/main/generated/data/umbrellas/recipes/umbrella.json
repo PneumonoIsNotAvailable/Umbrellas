@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "LLL",
+    "LSL",
+    " S "
+  ],
+  "result": {
+    "item": "umbrellas:umbrella"
+  },
+  "show_notification": true
+}
