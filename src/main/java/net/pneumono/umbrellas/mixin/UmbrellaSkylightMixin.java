@@ -7,9 +7,10 @@ import net.pneumono.umbrellas.content.UmbrellaItem;
 import org.spongepowered.asm.mixin.Mixin;
 
 @Mixin(World.class)
+@SuppressWarnings("unused")
 public abstract class UmbrellaSkylightMixin implements WorldAccess {
     @Override
     public boolean isSkyVisible(BlockPos pos) {
-        return !UmbrellaItem.isUnderUmbrella(((World)(Object)this), pos) && WorldAccess.super.isSkyVisible(pos);
+        return !UmbrellaItem.isUnderUmbrella((World)(Object)this, pos) && WorldAccess.super.isSkyVisible(pos);
     }
 }

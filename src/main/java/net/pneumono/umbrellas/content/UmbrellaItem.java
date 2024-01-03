@@ -11,8 +11,8 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.pneumono.pneumonocore.enchantment.EnchantableItem;
-
-import java.util.List;
+import net.pneumono.pneumonocore.util.PneumonoMathHelper;
+import net.pneumono.umbrellas.Umbrellas;
 
 import static net.minecraft.item.ToolMaterials.WOOD;
 
@@ -28,28 +28,21 @@ public class UmbrellaItem extends ToolItem implements Vanishable, EnchantableIte
 
     @Override
     public boolean isAcceptableEnchantment(Enchantment enchantment) {
-        return enchantment == ModContent.GLIDING;
+        return enchantment == UmbrellasContent.GLIDING;
     }
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        return false;
+        return Umbrellas.ENCHANTMENT_GLINT.getValue();
     }
 
     public static boolean isUnderUmbrella(World world, BlockPos pos) {
         Box box = new Box(new BlockPos(pos.getX() - 2, pos.getY(), pos.getZ() - 2), new BlockPos(pos.getX() + 2, pos.getY() + 10, pos.getZ() + 2));
-        List<Entity> targettedEntities = world.getOtherEntities(null, box);
-        for (Entity temp : targettedEntities) {
-            if (temp instanceof LivingEntity friend && horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2 && (friend.getMainHandStack().getItem() instanceof UmbrellaItem || friend.getOffHandStack().getItem() instanceof UmbrellaItem)) {
+        for (Entity temp : world.getOtherEntities(null, box)) {
+            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2 && (friend.getMainHandStack().getItem() instanceof UmbrellaItem || friend.getOffHandStack().getItem() instanceof UmbrellaItem)) {
                 return true;
             }
         }
         return false;
-    }
-
-    private static double horizontalDistanceBetween(BlockPos pos1, BlockPos pos2) {
-        double xDifference = Math.abs(pos1.getX() - pos2.getX());
-        double zDifference = Math.abs(pos1.getZ() - pos2.getZ());
-        return Math.sqrt((xDifference * xDifference) + (zDifference * zDifference));
     }
 }

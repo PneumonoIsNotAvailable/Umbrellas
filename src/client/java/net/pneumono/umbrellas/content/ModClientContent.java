@@ -7,30 +7,30 @@ public class ModClientContent {
     public static void registerColorProviders() {
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
-                tintIndex > 0 ? -1 : ((DyeableItem)stack.getItem()).getColor(stack), ModContent.UMBRELLA
+                tintIndex > 0 ? -1 : ((DyeableItem)stack.getItem()).getColor(stack), UmbrellasContent.UMBRELLA
         );
 
         ColorProviderRegistry.ITEM.register((stack, tintIndex) -> (
                 (PrideUmbrellaItem)stack.getItem()).getStripe(tintIndex),
 
-            ModContent.UMBRELLA_ABROSEXUAL,
-            ModContent.UMBRELLA_AGENDER,
-            ModContent.UMBRELLA_AROACE,
-            ModContent.UMBRELLA_AROMANTIC,
-            ModContent.UMBRELLA_ASEXUAL,
-            ModContent.UMBRELLA_BIGENDER,
-            ModContent.UMBRELLA_BISEXUAL,
-            ModContent.UMBRELLA_GAY,
-            ModContent.UMBRELLA_GENDERFLUID,
+            UmbrellasContent.UMBRELLA_ABROSEXUAL,
+            UmbrellasContent.UMBRELLA_AGENDER,
+            UmbrellasContent.UMBRELLA_AROACE,
+            UmbrellasContent.UMBRELLA_AROMANTIC,
+            UmbrellasContent.UMBRELLA_ASEXUAL,
+            UmbrellasContent.UMBRELLA_BIGENDER,
+            UmbrellasContent.UMBRELLA_BISEXUAL,
+            UmbrellasContent.UMBRELLA_GAY,
+            UmbrellasContent.UMBRELLA_GENDERFLUID,
             // Intersex not included, since it isn't stripey
-            ModContent.UMBRELLA_LESBIAN,
-            ModContent.UMBRELLA_NONBINARY,
-            ModContent.UMBRELLA_OMNISEXUAL,
-            ModContent.UMBRELLA_PANGENDER,
-            ModContent.UMBRELLA_PANSEXUAL,
-            ModContent.UMBRELLA_POLYSEXUAL,
-            ModContent.UMBRELLA_PRIDE,
-            ModContent.UMBRELLA_TRANSGENDER
+            UmbrellasContent.UMBRELLA_LESBIAN,
+            UmbrellasContent.UMBRELLA_NONBINARY,
+            UmbrellasContent.UMBRELLA_OMNISEXUAL,
+            UmbrellasContent.UMBRELLA_PANGENDER,
+            UmbrellasContent.UMBRELLA_PANSEXUAL,
+            UmbrellasContent.UMBRELLA_POLYSEXUAL,
+            UmbrellasContent.UMBRELLA_PRIDE,
+            UmbrellasContent.UMBRELLA_TRANSGENDER
         );
     }
 }

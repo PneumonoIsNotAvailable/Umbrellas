@@ -1,4 +1,9 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "umbrellas:pride_umbrellas_enabled"
+    }
+  ],
   "parent": "umbrellas:adventure/get_umbrella",
   "criteria": {
     "has_pride_umbrella": {

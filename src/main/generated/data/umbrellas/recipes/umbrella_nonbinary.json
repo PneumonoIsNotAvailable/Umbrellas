@@ -1,4 +1,9 @@
 {
+  "fabric:load_conditions": [
+    {
+      "condition": "umbrellas:pride_umbrellas_enabled"
+    }
+  ],
   "type": "minecraft:crafting_shapeless",
   "category": "equipment",
   "group": "pride_umbrellas",

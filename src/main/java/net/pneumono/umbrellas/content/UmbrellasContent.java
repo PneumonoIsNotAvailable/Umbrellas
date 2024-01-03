@@ -8,7 +8,6 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.stat.StatFormatter;
@@ -22,7 +21,7 @@ import net.pneumono.umbrellas.Umbrellas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ModContent {
+public class UmbrellasContent {
     public static List<Item> UMBRELLAS = new ArrayList<>();
     public static List<Item> WASHABLE_UMBRELLAS = new ArrayList<>();
     public static List<Item> PRIDE_UMBRELLAS = new ArrayList<>();
@@ -74,6 +73,7 @@ public class ModContent {
                     new DyeColor[]{DyeColor.PINK, DyeColor.WHITE, DyeColor.MAGENTA, DyeColor.BLACK, DyeColor.BLUE},
                     0xff76a4, 0xffffff, 0xc011d7, 0x2c2c2c, 0x2f3cbe
             ));
+    @SuppressWarnings("unused")
     public static final Item UMBRELLA_INTERSEX = registerPrideUmbrella("umbrella_intersex",
             new PrideUmbrellaItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE), "intersex",
                     new DyeColor[]{DyeColor.YELLOW, DyeColor.PURPLE}
@@ -120,7 +120,7 @@ public class ModContent {
                     0x5bcefa, 0xf5a9b8, 0xffffff, 0xf5a9b8, 0x5bcefa
             ));
 
-    public static Enchantment GLIDING = registerEnchantment("gliding", new GlidingEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND));
+    public static Enchantment GLIDING = registerGliding(new GlidingEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND));
 
     public static final TagKey<Item> TAG_UMBRELLAS = TagKey.of(RegistryKeys.ITEM, new Identifier(Umbrellas.MOD_ID, "umbrellas"));
     public static final TagKey<Item> TAG_WASHABLE_UMBRELLAS = TagKey.of(RegistryKeys.ITEM, new Identifier(Umbrellas.MOD_ID, "washable_umbrellas"));
@@ -143,8 +143,8 @@ public class ModContent {
         return Registry.register(Registries.ITEM, new Identifier(Umbrellas.MOD_ID, name), item);
     }
 
-    private static Enchantment registerEnchantment(String name, Enchantment enchantment) {
-        return Umbrellas.GLIDING.getValue() ? Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, name), enchantment) : enchantment;
+    private static Enchantment registerGliding(Enchantment enchantment) {
+        return Umbrellas.GLIDING.getValue() ? Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, "gliding"), enchantment) : enchantment;
     }
 
     public static Identifier registerStat(Identifier name, StatFormatter formatter) {
@@ -153,44 +153,25 @@ public class ModContent {
         return name;
     }
 
-    private static ItemGroup registerItemGroup(String name, Item icon, List<ItemConvertible> items) {
-        return Registry.register(Registries.ITEM_GROUP, new Identifier(Umbrellas.MOD_ID, name),
-                FabricItemGroup.builder().displayName(Text.translatable("itemGroup." + Umbrellas.MOD_ID + "." + name)).icon(() -> new ItemStack(icon))
+    public static void registerModContent() {
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((content) -> content.addAfter(Items.FISHING_ROD, UMBRELLA));
+
+        Registry.register(Registries.ITEM_GROUP, new Identifier(Umbrellas.MOD_ID, Umbrellas.MOD_ID),
+                FabricItemGroup.builder().displayName(Text.translatable("itemGroup." + Umbrellas.MOD_ID + "." + Umbrellas.MOD_ID)).icon(() -> new ItemStack(UmbrellasContent.UMBRELLA))
                         .entries(((displayContext, entries) -> {
-                            for (ItemConvertible item : items) {
+                            for (ItemConvertible item : UMBRELLAS) {
                                 entries.add(item);
                             }
+                            if (UmbrellasContent.UMBRELLA instanceof DyeableUmbrellaItem dyeableUmbrella) {
+                                // Vanilla dye colors. For some reason DyeColor uses some "colorComponents" stuff far beyond my comprehension, so I figured this is just easier
+                                int[] colors = new int[]{16383998, 16351261, 13061821, 3847130, 16701501, 8439583, 15961002, 4673362, 10329495, 1481884, 8991416, 3949738, 8606770, 6192150, 11546150, 1908001};
+                                for (int color : colors) {
+                                    ItemStack stack = UmbrellasContent.UMBRELLA.getDefaultStack();
+                                    dyeableUmbrella.setColor(stack, color);
+                                    entries.add(stack);
+                                }
+                            }
                         })).build()
-        );
-    }
-
-    private static void addToVanillaGroup(RegistryKey<ItemGroup> group, ItemConvertible previousItem, boolean isAfterItem, ItemConvertible... items) {
-        ItemGroupEvents.modifyEntriesEvent(group).register((content) -> {
-            if (previousItem != null) {
-                if (isAfterItem) {
-                    content.addAfter(previousItem, items);
-                } else {
-                    content.addBefore(previousItem, items);
-                }
-            } else {
-                for (ItemConvertible item : items) {
-                    content.add(item);
-                }
-            }
-        });
-    }
-
-    private static void addToVanillaGroup(RegistryKey<ItemGroup> group, ItemConvertible previousItem, ItemConvertible... items) {
-        addToVanillaGroup(group, previousItem, true, items);
-    }
-
-    public static void registerModContent() {
-        addToVanillaGroup(ItemGroups.TOOLS, Items.FISHING_ROD,
-                ModContent.UMBRELLA
-        );
-
-        registerItemGroup(Umbrellas.MOD_ID, ModContent.UMBRELLA,
-                new ArrayList<>(ModContent.UMBRELLAS)
         );
     }
 }

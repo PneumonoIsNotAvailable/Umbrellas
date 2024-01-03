@@ -35,6 +35,20 @@
     "stat.umbrellas.clean_umbrella": "Umbrellas Cleaned",
 
     "umbrellas.configs_screen.title": "Umbrellas Configs",
+    "umbrellas.configs.pride_umbrellas": "Pride Umbrellas",
+    "umbrellas.configs.pride_umbrellas.tooltip": "Whether or not Umbrellas can be crafted into Pride Umbrellas",
     "umbrellas.configs.gliding": "Gliding",
-    "umbrellas.configs.gliding.tooltip": "Whether or not the Gliding enchantment is enabled"
+    "umbrellas.configs.gliding.tooltip": "Whether or not the Gliding enchantment is enabled",
+    "umbrellas.configs.slow_falling": "Slow Falling",
+    "umbrellas.configs.slow_falling.tooltip": "Whether or not the Gliding enchantment grants players slow falling",
+    "umbrellas.configs.slow_falling.always": "Always",
+    "umbrellas.configs.slow_falling.gliding_only": "Gliding Only",
+    "umbrellas.configs.slow_falling.never": "Never",
+    "umbrellas.configs.campfire_boosting": "Campfire Boosting",
+    "umbrellas.configs.campfire_boosting.tooltip": "Whether or not the Gliding enchantment can boost players up in campfire smoke",
+    "umbrellas.configs.campfire_boosting.always": "Always",
+    "umbrellas.configs.campfire_boosting.gliding_only": "Gliding Only",
+    "umbrellas.configs.campfire_boosting.never": "Never",
+    "umbrellas.configs.enchantment_glint": "Enchantment Glint",
+    "umbrellas.configs.enchantment_glint.tooltip": "Whether or not enchanted Umbrellas have a visible glint"
 }

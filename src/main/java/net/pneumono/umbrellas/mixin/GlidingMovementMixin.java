@@ -11,9 +11,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
-import net.pneumono.pneumonocore.util.PneumonoEnchantmentHelper;
-import net.pneumono.umbrellas.content.ModContent;
+import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.content.AbilityType;
 import net.pneumono.umbrellas.content.UmbrellaItem;
+import net.pneumono.umbrellas.content.UmbrellasContent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -22,21 +23,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.List;
 
 @Mixin(LivingEntity.class)
+@SuppressWarnings("unused")
 public abstract class GlidingMovementMixin {
-    @WrapOperation(method = "travel", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z", ordinal = 0))
-    private boolean travelGliding(LivingEntity instance, StatusEffect effect, Operation<Boolean> original) {
-        ItemStack activeItem = instance.getMainHandStack();
-        if (PneumonoEnchantmentHelper.hasEnchantment(ModContent.GLIDING, activeItem)) {
-            return true;
-        } else {
-            return original.call(instance, effect);
-        }
-    }
-
-    @WrapOperation(method = "tickMovement", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z", ordinal = 0))
+    @WrapOperation(method = {"tickMovement", "travel"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z", ordinal = 0))
     private boolean tickGlidingMovement(LivingEntity instance, StatusEffect effect, Operation<Boolean> original) {
         ItemStack activeItem = instance.getMainHandStack();
-        if (PneumonoEnchantmentHelper.hasEnchantment(ModContent.GLIDING, activeItem)) {
+        if (Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(activeItem)) {
             return true;
         } else {
             return original.call(instance, effect);
@@ -45,19 +37,22 @@ public abstract class GlidingMovementMixin {
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
     private void tickGlidingBoost(CallbackInfo ci) {
-        LivingEntity entity = (LivingEntity)(Object)this;
-        World world = entity.getWorld();
+        LivingEntity entity = (LivingEntity)(Object) this;
         ItemStack stack = entity.getMainHandStack();
-        double level = EnchantmentHelper.getLevel(ModContent.GLIDING, stack);
-        BlockPos pos = entity.getBlockPos();
-        if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInCampfireSmoke(world, pos)) {
-            double entityVelocity = entity.getVelocity().getY();
+        AbilityType type = Umbrellas.CAMPFIRE_BOOSTING.getValue();
+        if (type.shouldHaveAbility(stack)) {
+            World world = entity.getWorld();
+            int level = type == AbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasContent.GLIDING, stack);
+            BlockPos pos = entity.getBlockPos();
+            if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInCampfireSmoke(world, pos)) {
+                double entityVelocity = entity.getVelocity().getY();
 
-            double campfireVelocityCap = 0.1 * (Math.pow(2, level - 1));
-            double campfireVelocityBoost = 0.01 * (level + 8);
+                double campfireVelocityCap = 0.1 * (Math.pow(2, level - 1));
+                double campfireVelocityBoost = 0.01 * (level + 8);
 
-            if (entityVelocity < campfireVelocityCap) {
-                entity.addVelocity(0, campfireVelocityBoost, 0);
+                if (entityVelocity < campfireVelocityCap) {
+                    entity.addVelocity(0, campfireVelocityBoost, 0);
+                }
             }
         }
     }

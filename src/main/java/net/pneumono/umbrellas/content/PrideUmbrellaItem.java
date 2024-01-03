@@ -2,6 +2,7 @@ package net.pneumono.umbrellas.content;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.resource.featuretoggle.FeatureSet;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
@@ -49,5 +50,10 @@ public class PrideUmbrellaItem extends UmbrellaItem {
         } else {
             return stripes[stripe];
         }
+    }
+
+    @Override
+    public boolean isEnabled(FeatureSet enabledFeatures) {
+        return Umbrellas.PRIDE_UMBRELLAS.getValue() && super.isEnabled(enabledFeatures);
     }
 }
