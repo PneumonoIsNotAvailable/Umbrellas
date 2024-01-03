@@ -1,7 +1,15 @@
 {
   "fabric:load_conditions": [
     {
-      "condition": "umbrellas:pride_umbrellas_enabled"
+      "condition": "pneumonocore:config_values",
+      "conditions": [
+        {
+          "type": "CONFIG",
+          "configuration": "umbrellas:pride_umbrellas",
+          "operator": "EQUAL",
+          "value": "true"
+        }
+      ]
     }
   ],
   "parent": "minecraft:recipes/root",

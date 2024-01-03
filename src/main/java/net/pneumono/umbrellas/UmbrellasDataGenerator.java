@@ -1,13 +1,11 @@
 package net.pneumono.umbrellas;
 
-import com.google.gson.JsonObject;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.fabricmc.fabric.api.resource.conditions.v1.ConditionJsonProvider;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.AdvancementFrame;
@@ -27,8 +25,11 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
-import net.pneumono.umbrellas.content.UmbrellasContent;
+import net.pneumono.pneumonocore.datagen.ConfigCondition;
+import net.pneumono.pneumonocore.datagen.PneumonoDatagenHelper;
+import net.pneumono.pneumonocore.datagen.enums.Operator;
 import net.pneumono.umbrellas.content.PrideUmbrellaItem;
+import net.pneumono.umbrellas.content.UmbrellasContent;
 
 import java.util.List;
 import java.util.Optional;
@@ -101,20 +102,8 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                 builder.input(UmbrellasContent.UMBRELLA).criterion(FabricRecipeProvider.hasItem(UmbrellasContent.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasContent.UMBRELLA))
                         .input(ItemTags.BANNERS).criterion("has_banner", FabricRecipeProvider.conditionsFromTag(ItemTags.BANNERS))
                         .group("pride_umbrellas")
-                        .offerTo(this.withConditions(exporter, prideUmbrella(new Identifier(Umbrellas.MOD_ID, "pride_umbrellas_enabled"))));
+                        .offerTo(this.withConditions(exporter, PneumonoDatagenHelper.configValues(new ConfigCondition(Umbrellas.PRIDE_UMBRELLAS.getID(), Operator.EQUAL, true))));
             }
-        }
-
-        public static ConditionJsonProvider prideUmbrella(Identifier id) {
-            return new ConditionJsonProvider() {
-                @Override
-                public Identifier getConditionId() {
-                    return id;
-                }
-
-                @Override
-                public void writeParameters(JsonObject object) {}
-            };
         }
     }
 
@@ -151,7 +140,8 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                             false
                     )
                     .criterion("has_pride_umbrella", InventoryChangedCriterion.Conditions.items(getTagPredicate(UmbrellasContent.TAG_PRIDE_UMBRELLAS)))
-                    .build(withConditions(consumer, RecipesGenerator.prideUmbrella(new Identifier(Umbrellas.MOD_ID, "pride_umbrellas_enabled"))), Umbrellas.MOD_ID + ":adventure/get_pride_umbrella");
+                    .build(withConditions(consumer, PneumonoDatagenHelper.configValues(new ConfigCondition(Umbrellas.PRIDE_UMBRELLAS.getID(), Operator.EQUAL, true))),
+                            Umbrellas.MOD_ID + ":adventure/get_pride_umbrella");
 
             Advancement.Builder.create().parent(getUmbrellaAdvancement)
                     .display(
