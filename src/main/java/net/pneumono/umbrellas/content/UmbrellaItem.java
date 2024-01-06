@@ -27,6 +27,6 @@ public class UmbrellaItem extends ToolItem implements Vanishable, EnchantableIte
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        return Umbrellas.ENCHANTMENT_GLINT.getValue();
+        return stack.hasEnchantments() && Umbrellas.ENCHANTMENT_GLINT.getValue();
     }
 }
