@@ -19,11 +19,11 @@ public class Umbrellas implements ModInitializer {
 	public static final String MOD_ID = "umbrellas";
     public static final Logger LOGGER = LoggerFactory.getLogger("Umbrellas");
 
-	public static final BooleanConfiguration PRIDE_UMBRELLAS = Configs.register(new BooleanConfiguration(MOD_ID, "pride_umbrellas", ConfigEnv.SERVER, false, MOD_ID + ".configs.pride_umbrellas.tooltip"));
-	public static final BooleanConfiguration GLIDING = Configs.register(new BooleanConfiguration(MOD_ID, "gliding", ConfigEnv.SERVER, true, MOD_ID + ".configs.gliding.tooltip"));
-	public static final EnumConfiguration<AbilityType> SLOW_FALLING = Configs.register(new EnumConfiguration<>(MOD_ID, "slow_falling",ConfigEnv.SERVER, AbilityType.GLIDING_ONLY,MOD_ID + ".configs.slow_falling.tooltip"));
-	public static final EnumConfiguration<AbilityType> CAMPFIRE_BOOSTING = Configs.register(new EnumConfiguration<>(MOD_ID, "campfire_boosting", ConfigEnv.SERVER, AbilityType.GLIDING_ONLY, MOD_ID + ".configs.campfire_boosting.tooltip"));
-	public static final BooleanConfiguration ENCHANTMENT_GLINT = Configs.register(new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, false, MOD_ID + ".configs.enchantment_glint.tooltip"));
+	public static final BooleanConfiguration PRIDE_UMBRELLAS = Configs.register(new BooleanConfiguration(MOD_ID, "pride_umbrellas", ConfigEnv.SERVER, false));
+	public static final BooleanConfiguration GLIDING = Configs.register(new BooleanConfiguration(MOD_ID, "gliding", ConfigEnv.SERVER, true));
+	public static final EnumConfiguration<AbilityType> SLOW_FALLING = Configs.register(new EnumConfiguration<>(MOD_ID, "slow_falling",ConfigEnv.SERVER, AbilityType.GLIDING_ONLY));
+	public static final EnumConfiguration<AbilityType> CAMPFIRE_BOOSTING = Configs.register(new EnumConfiguration<>(MOD_ID, "campfire_boosting", ConfigEnv.SERVER, AbilityType.GLIDING_ONLY));
+	public static final BooleanConfiguration ENCHANTMENT_GLINT = Configs.register(new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, false));
 
 	@Override
 	public void onInitialize() {

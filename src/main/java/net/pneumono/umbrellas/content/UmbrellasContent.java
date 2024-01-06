@@ -106,7 +106,7 @@ public class UmbrellasContent {
             ));
     public static final Item UMBRELLA_POLYSEXUAL = registerPrideUmbrella("umbrella_polysexual",
             new PrideUmbrellaItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE), "polysexual",
-                    new DyeColor[]{DyeColor.MAGENTA, DyeColor.GREEN, DyeColor.MAGENTA},
+                    new DyeColor[]{DyeColor.MAGENTA, DyeColor.GREEN, DyeColor.BLUE},
                     0xf714ba, 0x01d66a, 0x1594f6
             ));
     public static final Item UMBRELLA_PRIDE = registerPrideUmbrella("umbrella_pride",
