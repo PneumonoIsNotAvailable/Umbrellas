@@ -24,6 +24,18 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
+    "has_blue_dye": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:blue_dye"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
     "has_green_dye": {
       "conditions": {
         "items": [
@@ -72,6 +84,7 @@
       "has_the_recipe",
       "has_magenta_dye",
       "has_green_dye",
+      "has_blue_dye",
       "has_umbrella",
       "has_banner"
     ]

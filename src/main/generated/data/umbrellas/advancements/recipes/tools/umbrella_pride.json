@@ -117,7 +117,6 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_red_dye",
       "has_orange_dye",
       "has_yellow_dye",
@@ -125,7 +124,8 @@
       "has_blue_dye",
       "has_purple_dye",
       "has_umbrella",
-      "has_banner"
+      "has_banner",
+      "has_the_recipe"
     ]
   ],
   "rewards": {

@@ -81,12 +81,12 @@
   },
   "requirements": [
     [
-      "has_the_recipe",
       "has_orange_dye",
       "has_white_dye",
       "has_magenta_dye",
       "has_umbrella",
-      "has_banner"
+      "has_banner",
+      "has_the_recipe"
     ]
   ],
   "rewards": {
