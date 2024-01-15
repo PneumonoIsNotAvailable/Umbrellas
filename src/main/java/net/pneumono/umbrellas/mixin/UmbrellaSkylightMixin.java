@@ -15,7 +15,7 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class UmbrellaSkylightMixin implements WorldAccess {
     @Override
     public boolean isSkyVisible(BlockPos pos) {
-        return isUnderUmbrella(pos) && WorldAccess.super.isSkyVisible(pos);
+        return !isUnderUmbrella(pos) && WorldAccess.super.isSkyVisible(pos);
     }
 
     public boolean isUnderUmbrella(BlockPos pos) {
