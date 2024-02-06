@@ -55,7 +55,7 @@ public class UmbrellasRegistry {
             ));
     public static final Item UMBRELLA_BIGENDER = registerPrideUmbrella("umbrella_bigender",
             new PrideUmbrellaItem(new FabricItemSettings().maxCount(1).rarity(Rarity.RARE), "bigender",
-                    new DyeColor[]{DyeColor.PINK, DyeColor.WHITE, DyeColor.LIGHT_BLUE},
+                    new DyeColor[]{DyeColor.MAGENTA, DyeColor.WHITE, DyeColor.LIGHT_BLUE},
                     0xc479a2, 0xeda5cd, 0xd6c7e8, 0xffffff, 0xd6c7e8, 0x9ac7e8, 0x6d82d1
             ));
     public static final Item UMBRELLA_BISEXUAL = registerPrideUmbrella("umbrella_bisexual",

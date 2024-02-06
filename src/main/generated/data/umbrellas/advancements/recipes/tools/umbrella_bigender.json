@@ -36,12 +36,12 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "has_pink_dye": {
+    "has_magenta_dye": {
       "conditions": {
         "items": [
           {
             "items": [
-              "minecraft:pink_dye"
+              "minecraft:magenta_dye"
             ]
           }
         ]
@@ -81,7 +81,7 @@
   },
   "requirements": [
     [
-      "has_pink_dye",
+      "has_magenta_dye",
       "has_white_dye",
       "has_light_blue_dye",
       "has_umbrella",

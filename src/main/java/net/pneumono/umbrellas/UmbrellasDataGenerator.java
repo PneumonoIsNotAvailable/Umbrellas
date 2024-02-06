@@ -8,6 +8,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.advancement.Advancement;
 import net.minecraft.advancement.AdvancementFrame;
+import net.minecraft.advancement.criterion.ImpossibleCriterion;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
@@ -15,6 +16,7 @@ import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
+import net.minecraft.predicate.NbtPredicate;
 import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.EnchantmentPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
@@ -30,8 +32,6 @@ import net.pneumono.pneumonocore.datagen.enums.Operator;
 import net.pneumono.umbrellas.content.PrideUmbrellaItem;
 import net.pneumono.umbrellas.content.UmbrellasRegistry;
 
-import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -113,7 +113,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         public void generateAdvancement(Consumer<Advancement> consumer) {
-            Advancement getUmbrellaAdvancement = Advancement.Builder.create().parent(new Identifier("minecraft","adventure/root"))
+            Advancement getUmbrellaAdvancement = Advancement.Builder.create().parent(getDummy(new Identifier("minecraft","adventure/root")))
                     .display(
                             UmbrellasRegistry.UMBRELLA,
                             Text.translatable("umbrellas.advancements.get_umbrella.name"),
@@ -158,11 +158,27 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         }
 
         public static ItemPredicate getTagPredicate(TagKey<Item> tagKey) {
-            return new ItemPredicate(tagKey, Set.of(), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, new EnchantmentPredicate[]{}, new EnchantmentPredicate[]{}, null, null);
+            return new ItemPredicate(tagKey, null, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, EnchantmentPredicate.ARRAY_OF_ANY, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY);
         }
 
         public static ItemPredicate getEnchantmentPredicate(EnchantmentPredicate enchantment) {
-            return new ItemPredicate(null, null, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, List.of(enchantment).toArray(new EnchantmentPredicate[]{}), new EnchantmentPredicate[]{}, null, null);
+            return new ItemPredicate(null, null, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, new EnchantmentPredicate[]{enchantment}, EnchantmentPredicate.ARRAY_OF_ANY, null, NbtPredicate.ANY);
+        }
+
+        public static Advancement getDummy(Identifier advancementID) {
+            return Advancement.Builder.create()
+                    .display(
+                            Items.BARRIER,
+                            Text.literal("Uh oh"),
+                            Text.literal("If you're reading this, something has gone very, very wrong"),
+                            null,
+                            AdvancementFrame.CHALLENGE,
+                            false,
+                            false,
+                            false
+                    )
+                    .criterion("impossible", new ImpossibleCriterion.Conditions())
+                    .build(advancementID);
         }
     }
 }
