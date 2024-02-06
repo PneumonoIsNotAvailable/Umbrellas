@@ -14,7 +14,7 @@ import net.minecraft.world.World;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.AbilityType;
 import net.pneumono.umbrellas.content.UmbrellaItem;
-import net.pneumono.umbrellas.content.UmbrellasContent;
+import net.pneumono.umbrellas.content.UmbrellasRegistry;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -49,7 +49,7 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
         AbilityType type = Umbrellas.CAMPFIRE_BOOSTING.getValue();
         if (type.shouldHaveAbility(stack)) {
             World world = getWorld();
-            int level = type == AbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasContent.GLIDING, stack);
+            int level = type == AbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasRegistry.GLIDING, stack);
             BlockPos pos = getBlockPos();
             if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInCampfireSmoke(world, pos)) {
                 double entityVelocity = getVelocity().getY();

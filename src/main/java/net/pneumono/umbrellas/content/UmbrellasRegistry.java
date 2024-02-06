@@ -21,7 +21,7 @@ import net.pneumono.umbrellas.Umbrellas;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UmbrellasContent {
+public class UmbrellasRegistry {
     public static List<Item> UMBRELLAS = new ArrayList<>();
     public static List<Item> WASHABLE_UMBRELLAS = new ArrayList<>();
     public static List<Item> PRIDE_UMBRELLAS = new ArrayList<>();
@@ -157,16 +157,16 @@ public class UmbrellasContent {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register((content) -> content.addAfter(Items.FISHING_ROD, UMBRELLA));
 
         Registry.register(Registries.ITEM_GROUP, new Identifier(Umbrellas.MOD_ID, Umbrellas.MOD_ID),
-                FabricItemGroup.builder().displayName(Text.translatable("itemGroup." + Umbrellas.MOD_ID + "." + Umbrellas.MOD_ID)).icon(() -> new ItemStack(UmbrellasContent.UMBRELLA))
+                FabricItemGroup.builder().displayName(Text.translatable("itemGroup." + Umbrellas.MOD_ID + "." + Umbrellas.MOD_ID)).icon(() -> new ItemStack(UmbrellasRegistry.UMBRELLA))
                         .entries(((displayContext, entries) -> {
                             for (ItemConvertible item : UMBRELLAS) {
                                 entries.add(item);
                             }
-                            if (UmbrellasContent.UMBRELLA instanceof DyeableUmbrellaItem dyeableUmbrella) {
+                            if (UmbrellasRegistry.UMBRELLA instanceof DyeableUmbrellaItem dyeableUmbrella) {
                                 // Vanilla dye colors. For some reason DyeColor uses some "colorComponents" stuff far beyond my comprehension, so I figured this is just easier
                                 int[] colors = new int[]{16383998, 16351261, 13061821, 3847130, 16701501, 8439583, 15961002, 4673362, 10329495, 1481884, 8991416, 3949738, 8606770, 6192150, 11546150, 1908001};
                                 for (int color : colors) {
-                                    ItemStack stack = UmbrellasContent.UMBRELLA.getDefaultStack();
+                                    ItemStack stack = UmbrellasRegistry.UMBRELLA.getDefaultStack();
                                     dyeableUmbrella.setColor(stack, color);
                                     entries.add(stack);
                                 }

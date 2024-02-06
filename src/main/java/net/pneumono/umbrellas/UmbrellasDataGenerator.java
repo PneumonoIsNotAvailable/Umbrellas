@@ -28,7 +28,7 @@ import net.pneumono.pneumonocore.datagen.ConfigCondition;
 import net.pneumono.pneumonocore.datagen.PneumonoDatagenHelper;
 import net.pneumono.pneumonocore.datagen.enums.Operator;
 import net.pneumono.umbrellas.content.PrideUmbrellaItem;
-import net.pneumono.umbrellas.content.UmbrellasContent;
+import net.pneumono.umbrellas.content.UmbrellasRegistry;
 
 import java.util.List;
 import java.util.Set;
@@ -53,18 +53,18 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         protected void configure(WrapperLookup arg) {
-            FabricTagBuilder umbrellaBuilder = getOrCreateTagBuilder(UmbrellasContent.TAG_UMBRELLAS);
-            for (Item item : UmbrellasContent.UMBRELLAS) {
+            FabricTagBuilder umbrellaBuilder = getOrCreateTagBuilder(UmbrellasRegistry.TAG_UMBRELLAS);
+            for (Item item : UmbrellasRegistry.UMBRELLAS) {
                 umbrellaBuilder.add(item);
             }
 
-            FabricTagBuilder washableUmbrellaBuilder = getOrCreateTagBuilder(UmbrellasContent.TAG_WASHABLE_UMBRELLAS);
-            for (Item item : UmbrellasContent.WASHABLE_UMBRELLAS) {
+            FabricTagBuilder washableUmbrellaBuilder = getOrCreateTagBuilder(UmbrellasRegistry.TAG_WASHABLE_UMBRELLAS);
+            for (Item item : UmbrellasRegistry.WASHABLE_UMBRELLAS) {
                 washableUmbrellaBuilder.add(item);
             }
 
-            FabricTagBuilder prideUmbrellaBuilder = getOrCreateTagBuilder(UmbrellasContent.TAG_PRIDE_UMBRELLAS);
-            for (Item item : UmbrellasContent.PRIDE_UMBRELLAS) {
+            FabricTagBuilder prideUmbrellaBuilder = getOrCreateTagBuilder(UmbrellasRegistry.TAG_PRIDE_UMBRELLAS);
+            for (Item item : UmbrellasRegistry.PRIDE_UMBRELLAS) {
                 prideUmbrellaBuilder.add(item);
             }
         }
@@ -77,7 +77,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
 
         @Override
         public void generate(Consumer<RecipeJsonProvider> exporter) {
-            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasContent.UMBRELLA)
+            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.UMBRELLA)
                     .pattern("LLL")
                     .pattern("LSL")
                     .pattern(" S ")
@@ -88,7 +88,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                     .offerTo(exporter);
 
 
-            for (Item item : UmbrellasContent.PRIDE_UMBRELLAS) {
+            for (Item item : UmbrellasRegistry.PRIDE_UMBRELLAS) {
                 ShapelessRecipeJsonBuilder builder = ShapelessRecipeJsonBuilder.create(RecipeCategory.TOOLS, item);
 
                 if (item instanceof PrideUmbrellaItem umbrella) {
@@ -98,7 +98,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                     }
                 }
 
-                builder.input(UmbrellasContent.UMBRELLA).criterion(FabricRecipeProvider.hasItem(UmbrellasContent.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasContent.UMBRELLA))
+                builder.input(UmbrellasRegistry.UMBRELLA).criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
                         .input(ItemTags.BANNERS).criterion("has_banner", FabricRecipeProvider.conditionsFromTag(ItemTags.BANNERS))
                         .group("pride_umbrellas")
                         .offerTo(this.withConditions(exporter, PneumonoDatagenHelper.configValues(new ConfigCondition(Umbrellas.PRIDE_UMBRELLAS.getID(), Operator.EQUAL, true))));
@@ -115,7 +115,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         public void generateAdvancement(Consumer<Advancement> consumer) {
             Advancement getUmbrellaAdvancement = Advancement.Builder.create().parent(new Identifier("minecraft","adventure/root"))
                     .display(
-                            UmbrellasContent.UMBRELLA,
+                            UmbrellasRegistry.UMBRELLA,
                             Text.translatable("umbrellas.advancements.get_umbrella.name"),
                             Text.translatable("umbrellas.advancements.get_umbrella.desc"),
                             null,
@@ -124,12 +124,12 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                             true,
                             false
                     )
-                    .criterion("has_umbrella", InventoryChangedCriterion.Conditions.items(getTagPredicate(UmbrellasContent.TAG_UMBRELLAS)))
+                    .criterion("has_umbrella", InventoryChangedCriterion.Conditions.items(getTagPredicate(UmbrellasRegistry.TAG_UMBRELLAS)))
                     .build(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
 
             Advancement.Builder.create().parent(getUmbrellaAdvancement)
                     .display(
-                            UmbrellasContent.UMBRELLA_PRIDE,
+                            UmbrellasRegistry.UMBRELLA_PRIDE,
                             Text.translatable("umbrellas.advancements.get_pride_umbrella.name"),
                             Text.translatable("umbrellas.advancements.get_pride_umbrella.desc"),
                             null,
@@ -138,13 +138,13 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                             true,
                             false
                     )
-                    .criterion("has_pride_umbrella", InventoryChangedCriterion.Conditions.items(getTagPredicate(UmbrellasContent.TAG_PRIDE_UMBRELLAS)))
+                    .criterion("has_pride_umbrella", InventoryChangedCriterion.Conditions.items(getTagPredicate(UmbrellasRegistry.TAG_PRIDE_UMBRELLAS)))
                     .build(withConditions(consumer, PneumonoDatagenHelper.configValues(new ConfigCondition(Umbrellas.PRIDE_UMBRELLAS.getID(), Operator.EQUAL, true))),
                             Umbrellas.MOD_ID + ":adventure/get_pride_umbrella");
 
             Advancement.Builder.create().parent(getUmbrellaAdvancement)
                     .display(
-                            UmbrellasContent.UMBRELLA,
+                            UmbrellasRegistry.UMBRELLA,
                             Text.translatable("umbrellas.advancements.get_gliding_umbrella.name"),
                             Text.translatable("umbrellas.advancements.get_gliding_umbrella.desc"),
                             null,
@@ -153,7 +153,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                             true,
                             false
                     )
-                    .criterion("has_gliding_umbrella", InventoryChangedCriterion.Conditions.items(getEnchantmentPredicate(new EnchantmentPredicate(UmbrellasContent.GLIDING, NumberRange.IntRange.ANY))))
+                    .criterion("has_gliding_umbrella", InventoryChangedCriterion.Conditions.items(getEnchantmentPredicate(new EnchantmentPredicate(UmbrellasRegistry.GLIDING, NumberRange.IntRange.ANY))))
                     .build(consumer, Umbrellas.MOD_ID + ":adventure/get_gliding_umbrella");
         }
 

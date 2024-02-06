@@ -22,7 +22,7 @@ public class UmbrellaItem extends ToolItem implements Vanishable, EnchantableIte
 
     @Override
     public boolean isAcceptableEnchantment(Enchantment enchantment) {
-        return enchantment == UmbrellasContent.GLIDING;
+        return enchantment == UmbrellasRegistry.GLIDING;
     }
 
     @Override

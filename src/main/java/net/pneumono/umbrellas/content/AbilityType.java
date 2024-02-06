@@ -14,7 +14,7 @@ public enum AbilityType {
             if (this == ALWAYS) {
                 return true;
             } else {
-                return this == GLIDING_ONLY && PneumonoEnchantmentHelper.hasEnchantment(UmbrellasContent.GLIDING, stack);
+                return this == GLIDING_ONLY && PneumonoEnchantmentHelper.hasEnchantment(UmbrellasRegistry.GLIDING, stack);
             }
         } else {
             return false;

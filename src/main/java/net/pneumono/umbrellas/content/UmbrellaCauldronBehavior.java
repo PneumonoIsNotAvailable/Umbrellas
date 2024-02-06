@@ -13,13 +13,13 @@ public interface UmbrellaCauldronBehavior {
             return ActionResult.PASS;
         } else {
             if (!world.isClient) {
-                ItemStack itemStack = new ItemStack(UmbrellasContent.UMBRELLA);
+                ItemStack itemStack = new ItemStack(UmbrellasRegistry.UMBRELLA);
                 if (stack.hasNbt() && stack.getNbt() != null) {
                     itemStack.setNbt(stack.getNbt().copy());
                 }
 
                 player.setStackInHand(hand, itemStack);
-                player.incrementStat(UmbrellasContent.CLEAN_UMBRELLA);
+                player.incrementStat(UmbrellasRegistry.CLEAN_UMBRELLA);
                 LeveledCauldronBlock.decrementFluidLevel(state, world, pos);
             }
 
@@ -28,11 +28,11 @@ public interface UmbrellaCauldronBehavior {
     };
 
     static void registerCauldronBehavior() {
-        for (Item item : UmbrellasContent.UMBRELLAS) {
-            if (item != UmbrellasContent.UMBRELLA) {
+        for (Item item : UmbrellasRegistry.UMBRELLAS) {
+            if (item != UmbrellasRegistry.UMBRELLA) {
                 CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(item, CLEAN_PRIDE_OR_KOFI_UMBRELLA);
             }
         }
-        CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(UmbrellasContent.UMBRELLA, CauldronBehavior.CLEAN_DYEABLE_ITEM);
+        CauldronBehavior.WATER_CAULDRON_BEHAVIOR.put(UmbrellasRegistry.UMBRELLA, CauldronBehavior.CLEAN_DYEABLE_ITEM);
     }
 }

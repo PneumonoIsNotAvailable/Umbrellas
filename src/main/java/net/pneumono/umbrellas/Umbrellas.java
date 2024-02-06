@@ -9,7 +9,7 @@ import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.pneumonocore.config.EnumConfiguration;
 import net.pneumono.umbrellas.content.AbilityType;
 import net.pneumono.umbrellas.content.UmbrellaCauldronBehavior;
-import net.pneumono.umbrellas.content.UmbrellasContent;
+import net.pneumono.umbrellas.content.UmbrellasRegistry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class Umbrellas implements ModInitializer {
 		LOGGER.info("Initialising Umbrellas");
 		Configs.reload(MOD_ID);
 
-		UmbrellasContent.registerModContent();
+		UmbrellasRegistry.registerModContent();
 		UmbrellaCauldronBehavior.registerCauldronBehavior();
 
 		ResourceConditions.register(new Identifier(MOD_ID, "pride_umbrellas_enabled"), jsonObject -> {
