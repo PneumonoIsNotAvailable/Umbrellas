@@ -7,10 +7,9 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.advancement.Advancement;
-import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
-import net.minecraft.data.server.recipe.RecipeExporter;
+import net.minecraft.data.server.recipe.RecipeJsonProvider;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
 import net.minecraft.data.server.recipe.ShapelessRecipeJsonBuilder;
 import net.minecraft.item.DyeItem;
@@ -32,7 +31,7 @@ import net.pneumono.umbrellas.content.PrideUmbrellaItem;
 import net.pneumono.umbrellas.content.UmbrellasContent;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -77,7 +76,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         }
 
         @Override
-        public void generate(RecipeExporter exporter) {
+        public void generate(Consumer<RecipeJsonProvider> exporter) {
             ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasContent.UMBRELLA)
                     .pattern("LLL")
                     .pattern("LSL")
@@ -113,8 +112,8 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         }
 
         @Override
-        public void generateAdvancement(Consumer<AdvancementEntry> consumer) {
-            AdvancementEntry getUmbrellaAdvancement = Advancement.Builder.create().parent(new AdvancementEntry(new Identifier("minecraft","adventure/root"), null))
+        public void generateAdvancement(Consumer<Advancement> consumer) {
+            Advancement getUmbrellaAdvancement = Advancement.Builder.create().parent(new Identifier("minecraft","adventure/root"))
                     .display(
                             UmbrellasContent.UMBRELLA,
                             Text.translatable("umbrellas.advancements.get_umbrella.name"),
@@ -159,11 +158,11 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         }
 
         public static ItemPredicate getTagPredicate(TagKey<Item> tagKey) {
-            return new ItemPredicate(Optional.of(tagKey), Optional.empty(), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, List.of(), List.of(), Optional.empty(), Optional.empty());
+            return new ItemPredicate(tagKey, Set.of(), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, new EnchantmentPredicate[]{}, new EnchantmentPredicate[]{}, null, null);
         }
 
         public static ItemPredicate getEnchantmentPredicate(EnchantmentPredicate enchantment) {
-            return new ItemPredicate(Optional.empty(), Optional.empty(), NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, List.of(enchantment), List.of(), Optional.empty(), Optional.empty());
+            return new ItemPredicate(null, null, NumberRange.IntRange.ANY, NumberRange.IntRange.ANY, List.of(enchantment).toArray(new EnchantmentPredicate[]{}), new EnchantmentPredicate[]{}, null, null);
         }
     }
 }
