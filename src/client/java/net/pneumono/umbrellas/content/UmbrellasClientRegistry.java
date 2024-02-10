@@ -1,11 +1,16 @@
 package net.pneumono.umbrellas.content;
 
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.item.DyeableItem;
 
-public class ModClientContent {
-    public static void registerColorProviders() {
+public class UmbrellasClientRegistry {
+    public static void registerClientContent() {
+        BlockEntityRendererFactories.register(UmbrellasRegistry.UMBRELLA_STAND_ENTITY, UmbrellaStandBlockEntityRenderer::new);
+        registerColorProviders();
+    }
 
+    private static void registerColorProviders() {
         ColorProviderRegistry.ITEM.register((stack, tintIndex) ->
                 tintIndex > 0 ? -1 : ((DyeableItem)stack.getItem()).getColor(stack), UmbrellasRegistry.UMBRELLA
         );

@@ -3,6 +3,11 @@ package net.pneumono.umbrellas.content;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.*;
@@ -120,6 +125,12 @@ public class UmbrellasRegistry {
                     0x5bcefa, 0xf5a9b8, 0xffffff, 0xf5a9b8, 0x5bcefa
             ));
 
+    public static final Block UMBRELLA_STAND = registerUmbrellaStand();
+
+    public static final BlockEntityType<UmbrellaStandBlockEntity> UMBRELLA_STAND_ENTITY = Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Umbrellas.MOD_ID, "umbrella_stand"),
+            FabricBlockEntityTypeBuilder.create(UmbrellaStandBlockEntity::new, UMBRELLA_STAND).build()
+    );
+
     public static Enchantment GLIDING = registerGliding(new GlidingEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND));
 
     public static final TagKey<Item> TAG_UMBRELLAS = TagKey.of(RegistryKeys.ITEM, new Identifier(Umbrellas.MOD_ID, "umbrellas"));
@@ -143,6 +154,14 @@ public class UmbrellasRegistry {
         return Registry.register(Registries.ITEM, new Identifier(Umbrellas.MOD_ID, name), item);
     }
 
+    private static Block registerUmbrellaStand() {
+        Identifier id = new Identifier(Umbrellas.MOD_ID, "umbrella_stand");
+        UmbrellaStandBlock block = new UmbrellaStandBlock(FabricBlockSettings.copyOf(Blocks.SPRUCE_FENCE).nonOpaque());
+
+        Registry.register(Registries.ITEM, id, new BlockItem(block, new FabricItemSettings()));
+        return Registry.register(Registries.BLOCK, id, block);
+    }
+
     private static Enchantment registerGliding(Enchantment enchantment) {
         return Umbrellas.GLIDING.getValue() ? Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, "gliding"), enchantment) : enchantment;
     }
@@ -159,6 +178,7 @@ public class UmbrellasRegistry {
         Registry.register(Registries.ITEM_GROUP, new Identifier(Umbrellas.MOD_ID, Umbrellas.MOD_ID),
                 FabricItemGroup.builder().displayName(Text.translatable("itemGroup." + Umbrellas.MOD_ID + "." + Umbrellas.MOD_ID)).icon(() -> new ItemStack(UmbrellasRegistry.UMBRELLA))
                         .entries(((displayContext, entries) -> {
+                            entries.add(UMBRELLA_STAND);
                             for (ItemConvertible item : UMBRELLAS) {
                                 entries.add(item);
                             }
