@@ -1,6 +1,0 @@
-{
-	"parent": "umbrellas:item/umbrella",
-	"textures": {
-		"tinted": "umbrellas:item/umbrella_intersex"
-	}
-}

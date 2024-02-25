@@ -1,0 +1,6 @@
+{
+    "parent": "minecraft:item/generated",
+    "textures": {
+        "layer0": "umbrellas:item/piglin_umbrella_pattern"
+    }
+}

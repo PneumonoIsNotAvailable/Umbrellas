@@ -1,0 +1,28 @@
+{
+  "fabric:load_conditions": [
+    {
+      "condition": "pneumonocore:config_values",
+      "conditions": [
+        {
+          "type": "CONFIG",
+          "configuration": "umbrellas:pride_umbrellas",
+          "operator": "EQUAL",
+          "value": "true"
+        }
+      ]
+    }
+  ],
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:paper"
+    },
+    {
+      "item": "minecraft:glow_ink_sac"
+    }
+  ],
+  "result": {
+    "item": "umbrellas:pride_umbrella_pattern"
+  }
+}

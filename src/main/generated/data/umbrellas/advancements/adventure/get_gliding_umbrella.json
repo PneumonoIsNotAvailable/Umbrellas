@@ -19,17 +19,17 @@
   "display": {
     "announce_to_chat": true,
     "description": {
-      "translate": "umbrellas.advancements.get_gliding_umbrella.desc"
+      "translate": "advancements.umbrellas.get_gliding_umbrella.desc"
     },
     "frame": "task",
     "hidden": false,
     "icon": {
       "item": "umbrellas:umbrella",
-      "nbt": "{Damage:0}"
+      "nbt": "{Damage:0,Enchantments:[{id:\"umbrellas:gliding\",lvl:3s}]}"
     },
     "show_toast": true,
     "title": {
-      "translate": "umbrellas.advancements.get_gliding_umbrella.name"
+      "translate": "advancements.umbrellas.get_gliding_umbrella.name"
     }
   },
   "requirements": [

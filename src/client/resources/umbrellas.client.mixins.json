@@ -3,6 +3,9 @@
 	"package": "net.pneumono.umbrellas.mixin.client",
 	"compatibilityLevel": "JAVA_17",
 	"client": [
+		"LayersToLoadersMixin",
+		"UmbrellaModelCreationMixin",
+		"LoomScreenMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

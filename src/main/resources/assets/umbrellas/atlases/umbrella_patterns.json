@@ -1,0 +1,13 @@
+{
+    "sources": [
+        {
+            "type": "single",
+            "resource": "umbrellas:entity/umbrella_base"
+        },
+        {
+            "type": "directory",
+            "source": "entity/umbrella",
+            "prefix": "entity/umbrella/"
+        }
+    ]
+}

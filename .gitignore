@@ -41,3 +41,4 @@ replay_*.log
 
 # datagen output
 src/main/generated/.cache/
+src/main/resources/assets/umbrellas/textures/entity/umbrella/templates/

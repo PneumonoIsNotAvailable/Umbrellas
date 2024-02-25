@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "patternable_umbrellas",
+  "ingredients": [
+    {
+      "item": "umbrellas:umbrella"
+    },
+    {
+      "item": "minecraft:pink_banner"
+    }
+  ],
+  "result": {
+    "item": "umbrellas:pink_umbrella"
+  }
+}
