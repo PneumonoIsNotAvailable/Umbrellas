@@ -5,7 +5,8 @@ Adds Umbrellas to stylishly protect you from the elements!
   - This effect applies in a radius, meaning you can shelter other players/mobs under your umbrella by just being near them
   - This mod will work with the **Origins Mod** and almost every Origins Mod datapack/addon, meaning it can protect hydrophobic origins from rain or origins that burn in the sun
 - They can be dyed in any single color (like other leather items)
-  - A config option exists allowing them to be made into Pride Flag umbrellas
+- They can have **Umbrella Patterns** (similar to Banner Patterns) applied for even more customisation.
+  - If enabled in configs, this can also include Pride Flag patterns!
 - They can be enchanted with **Gliding**, which gives you a slow falling-like effect when held in the main hand.
   - Gliding also allows entities to be boosted upwards by campfire smoke
 
