@@ -28,7 +28,7 @@ public class Umbrellas implements ModInitializer {
 	public static final String MOD_ID = "umbrellas";
     public static final Logger LOGGER = LoggerFactory.getLogger("Umbrellas");
 
-	public static final BooleanConfiguration PRIDE_UMBRELLAS = Configs.register(new BooleanConfiguration(MOD_ID, "pride_umbrellas", ConfigEnv.SERVER, false));
+	public static final BooleanConfiguration PRIDE_UMBRELLAS = Configs.register(new BooleanConfiguration(MOD_ID, "pride_umbrellas", ConfigEnv.SERVER, true));
 	public static final BooleanConfiguration GLIDING = Configs.register(new BooleanConfiguration(MOD_ID, "gliding", ConfigEnv.SERVER, true));
 	public static final EnumConfiguration<AbilityType> SLOW_FALLING = Configs.register(new EnumConfiguration<>(MOD_ID, "slow_falling",ConfigEnv.SERVER, AbilityType.GLIDING_ONLY));
 	public static final EnumConfiguration<AbilityType> CAMPFIRE_BOOSTING = Configs.register(new EnumConfiguration<>(MOD_ID, "campfire_boosting", ConfigEnv.SERVER, AbilityType.GLIDING_ONLY));
