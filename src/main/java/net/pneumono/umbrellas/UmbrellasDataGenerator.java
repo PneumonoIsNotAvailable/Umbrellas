@@ -19,6 +19,7 @@ import net.minecraft.predicate.NumberRange;
 import net.minecraft.predicate.item.EnchantmentPredicate;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.Registries;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
@@ -39,22 +40,36 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-        pack.addProvider(UmbrellaTagsGenerator::new);
+        pack.addProvider(ItemTagsGenerator::new);
+        pack.addProvider(BlockTagsGenerator::new);
         pack.addProvider(RecipesGenerator::new);
         pack.addProvider(AdvancementsGenerator::new);
     }
 
-    private static class UmbrellaTagsGenerator extends FabricTagProvider.ItemTagProvider {
-        public UmbrellaTagsGenerator(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
+    private static class ItemTagsGenerator extends FabricTagProvider.ItemTagProvider {
+        public ItemTagsGenerator(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
             super(output, completableFuture);
         }
 
         @Override
         protected void configure(WrapperLookup arg) {
-            FabricTagBuilder umbrellaBuilder = getOrCreateTagBuilder(UmbrellasRegistry.TAG_UMBRELLAS);
+            FabricTagBuilder umbrellasBuilder = getOrCreateTagBuilder(UmbrellasRegistry.TAG_UMBRELLAS);
             for (Item item : UmbrellasRegistry.UMBRELLAS) {
-                umbrellaBuilder.add(item);
+                umbrellasBuilder.add(item);
             }
+        }
+    }
+
+    private static class BlockTagsGenerator extends FabricTagProvider.BlockTagProvider {
+        public BlockTagsGenerator(FabricDataOutput output, CompletableFuture<WrapperLookup> completableFuture) {
+            super(output, completableFuture);
+        }
+
+        @Override
+        protected void configure(WrapperLookup arg) {
+            FabricTagBuilder umbrellaBoostingBuilder = getOrCreateTagBuilder(UmbrellasRegistry.TAG_BOOSTS_UMBRELLAS);
+            umbrellaBoostingBuilder.forceAddTag(BlockTags.FIRE);
+            umbrellaBoostingBuilder.forceAddTag(BlockTags.CAMPFIRES);
         }
     }
 

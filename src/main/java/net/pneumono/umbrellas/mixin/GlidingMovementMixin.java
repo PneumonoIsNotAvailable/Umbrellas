@@ -68,8 +68,8 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
         for (int i = 0; i <= 19; ++i) {
             BlockPos blockpos = pos.down(i);
             BlockState blockstate = world.getBlockState(blockpos);
-            if (CampfireBlock.isLitCampfire(blockstate)) {
-                if (i > 5 && blockstate.get(CampfireBlock.SIGNAL_FIRE)) {
+            if (blockstate.isIn(UmbrellasRegistry.TAG_BOOSTS_UMBRELLAS)) {
+                if (i > 5 && CampfireBlock.isLitCampfire(blockstate) && blockstate.get(CampfireBlock.SIGNAL_FIRE)) {
                     return true;
                 } else {
                     return i < 6;
