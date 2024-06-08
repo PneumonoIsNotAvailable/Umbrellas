@@ -6,9 +6,14 @@ import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.util.SpriteIdentifier;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.registry.RegistryKey;
+import net.minecraft.util.Arm;
 import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.util.PneumonoEnchantmentHelper;
+import net.pneumono.umbrellas.content.UmbrellaItem;
 import net.pneumono.umbrellas.content.UmbrellaModel;
 import net.pneumono.umbrellas.content.UmbrellaStandBlockEntityRenderer;
 import net.pneumono.umbrellas.content.UmbrellasRegistry;
@@ -40,5 +45,19 @@ public class UmbrellasClient implements ClientModInitializer {
 
 	public static SpriteIdentifier getUmbrellaPatternTextureId(RegistryKey<UmbrellaPattern> umbrellaPattern) {
 		return UMBRELLA_PATTERN_TEXTURES.get(umbrellaPattern);
+	}
+
+	public static boolean shouldChangeArms(LivingEntity entity, Arm arm) {
+		Arm mainArm = entity.getMainArm();
+		ItemStack stack = mainArm == arm ? entity.getMainHandStack() : entity.getOffHandStack();
+		boolean hasUmbrella = stack.getItem() instanceof UmbrellaItem;
+		float minimumVelocity;
+		if (PneumonoEnchantmentHelper.hasEnchantment(UmbrellasRegistry.GLIDING, stack)) {
+			minimumVelocity = -0.19f;
+		} else {
+			minimumVelocity = -0.8f;
+		}
+
+		return hasUmbrella && entity.getVelocity().getY() < minimumVelocity;
 	}
 }

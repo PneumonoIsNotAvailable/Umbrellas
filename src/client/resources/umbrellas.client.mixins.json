@@ -5,7 +5,9 @@
 	"client": [
 		"LayersToLoadersMixin",
 		"UmbrellaModelCreationMixin",
-		"LoomScreenMixin"
+		"LoomScreenMixin",
+		"BipedEntityModelMixin",
+		"HeldItemFeatureRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
