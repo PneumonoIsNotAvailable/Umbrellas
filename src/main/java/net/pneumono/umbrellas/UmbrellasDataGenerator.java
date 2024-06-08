@@ -165,11 +165,11 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                     .criterion("has_umbrella", InventoryChangedCriterion.Conditions.items(PneumonoDatagenHelper.getTagItemPredicate(UmbrellasRegistry.TAG_UMBRELLAS)))
                     .build(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
 
-            ItemStack enchanted = UmbrellasRegistry.UMBRELLA.getDefaultStack();
-            enchanted.addEnchantment(UmbrellasRegistry.GLIDING, 3);
+            ItemStack glidingEnchanted = UmbrellasRegistry.UMBRELLA.getDefaultStack();
+            glidingEnchanted.addEnchantment(UmbrellasRegistry.GLIDING, 3);
             Advancement.Builder.create().parent(getUmbrellaAdvancement)
                     .display(
-                            enchanted,
+                            glidingEnchanted,
                             Text.translatable("advancements.umbrellas.get_gliding_umbrella.name"),
                             Text.translatable("advancements.umbrellas.get_gliding_umbrella.desc"),
                             null,
@@ -180,6 +180,22 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                     )
                     .criterion("has_gliding_umbrella", InventoryChangedCriterion.Conditions.items(PneumonoDatagenHelper.getEnchantmentItemPredicate(new EnchantmentPredicate(UmbrellasRegistry.GLIDING, NumberRange.IntRange.ANY))))
                     .build(consumer, Umbrellas.MOD_ID + ":adventure/get_gliding_umbrella");
+
+            ItemStack windCatchingEnchanted = UmbrellasRegistry.UMBRELLA.getDefaultStack();
+            windCatchingEnchanted.addEnchantment(UmbrellasRegistry.GLIDING, 3);
+            Advancement.Builder.create().parent(getUmbrellaAdvancement)
+                    .display(
+                            windCatchingEnchanted,
+                            Text.translatable("advancements.umbrellas.get_wind_catching_umbrella.name"),
+                            Text.translatable("advancements.umbrellas.get_wind_catching_umbrella.desc"),
+                            null,
+                            AdvancementFrame.TASK,
+                            true,
+                            true,
+                            false
+                    )
+                    .criterion("has_wind_catching_umbrella", InventoryChangedCriterion.Conditions.items(PneumonoDatagenHelper.getEnchantmentItemPredicate(new EnchantmentPredicate(UmbrellasRegistry.WIND_CATCHING, NumberRange.IntRange.ANY))))
+                    .build(consumer, Umbrellas.MOD_ID + ":adventure/get_wind_catching_umbrella");
         }
     }
 }

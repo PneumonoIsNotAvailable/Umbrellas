@@ -148,7 +148,9 @@
     "advancements.umbrellas.get_pride_umbrella.desc": "Dye an Umbrella with the colors of a Pride Flag",
     "advancements.umbrellas.get_gliding_umbrella.name": "I'm Mary Poppins, Y'all!",
     "advancements.umbrellas.get_gliding_umbrella.desc": "Enchant an Umbrella with Gliding",
-    
+    "advancements.umbrellas.get_wind_catching_umbrella.name": "I Can See My House From Here!",
+    "advancements.umbrellas.get_wind_catching_umbrella.desc": "Enchant an Umbrella with Wind Catching",
+
     "stat.umbrellas.clean_umbrella": "Umbrellas Cleaned",
 
     "configs.umbrellas.screen_title": "Umbrellas Configs",
