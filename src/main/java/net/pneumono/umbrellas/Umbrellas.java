@@ -3,33 +3,27 @@ package net.pneumono.umbrellas;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
-import net.fabricmc.fabric.api.resource.conditions.v1.ResourceConditions;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.EmptyEntry;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
-import net.minecraft.util.Identifier;
 import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.pneumono.pneumonocore.config.BooleanConfiguration;
 import net.pneumono.pneumonocore.config.ConfigEnv;
 import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.pneumonocore.config.EnumConfiguration;
+import net.pneumono.umbrellas.content.UmbrellasRegistry;
 import net.pneumono.umbrellas.util.GlidingAbilityType;
 import net.pneumono.umbrellas.util.UmbrellaCauldronBehavior;
-import net.pneumono.umbrellas.content.UmbrellasRegistry;
 import net.pneumono.umbrellas.util.WindCatchingAbilityType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.function.Supplier;
-
 public class Umbrellas implements ModInitializer {
 	public static final String MOD_ID = "umbrellas";
     public static final Logger LOGGER = LoggerFactory.getLogger("Umbrellas");
-
-	public static final BooleanConfiguration PRIDE_UMBRELLAS = Configs.register(new BooleanConfiguration(MOD_ID, "pride_umbrellas", ConfigEnv.SERVER, true));
 	public static final BooleanConfiguration GLIDING = Configs.register(new BooleanConfiguration(MOD_ID, "gliding", ConfigEnv.SERVER, true));
 	public static final BooleanConfiguration WIND_CATCHING = Configs.register(new BooleanConfiguration(MOD_ID, "wind_catching", ConfigEnv.SERVER, true));
 	public static final EnumConfiguration<GlidingAbilityType> SLOW_FALLING = Configs.register(new EnumConfiguration<>(MOD_ID, "slow_falling",ConfigEnv.SERVER, GlidingAbilityType.GLIDING_ONLY));
@@ -43,11 +37,6 @@ public class Umbrellas implements ModInitializer {
 
 		UmbrellasRegistry.registerModContent();
 		UmbrellaCauldronBehavior.registerCauldronBehavior();
-
-		ResourceConditions.register(new Identifier(MOD_ID, "pride_umbrellas_enabled"), jsonObject -> {
-			Supplier<Boolean> booleanSupplier = PRIDE_UMBRELLAS::getValue;
-			return booleanSupplier.get();
-		});
 
 		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
 			if (LootTables.BASTION_OTHER_CHEST.equals(id) && source.isBuiltin()) {

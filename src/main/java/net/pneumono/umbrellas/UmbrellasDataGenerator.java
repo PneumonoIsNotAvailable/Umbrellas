@@ -24,9 +24,7 @@ import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
-import net.pneumono.pneumonocore.datagen.ConfigCondition;
 import net.pneumono.pneumonocore.datagen.PneumonoDatagenHelper;
-import net.pneumono.pneumonocore.datagen.enums.Operator;
 import net.pneumono.umbrellas.content.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.UmbrellasRegistry;
 
@@ -138,9 +136,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                     .input(Items.PAPER)
                     .input(Items.GLOW_INK_SAC)
                     .criterion(FabricRecipeProvider.hasItem(Items.GLOW_INK_SAC), FabricRecipeProvider.conditionsFromItem(Items.GLOW_INK_SAC))
-                    .offerTo(this.withConditions(exporter, PneumonoDatagenHelper.configValues(
-                            new ConfigCondition(Umbrellas.PRIDE_UMBRELLAS.getID(), Operator.EQUAL, true)
-                    )));
+                    .offerTo(exporter);
         }
     }
 
