@@ -49,25 +49,25 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
     @Inject(method = "tickMovement", at = @At("HEAD"))
     private void tickWindCatchingBoost(CallbackInfo ci) {
         ItemStack stack = getMainHandStack();
-        WindCatchingAbilityType type = Umbrellas.CAMPFIRE_BOOSTING.getValue();
+        WindCatchingAbilityType type = Umbrellas.SMOKE_BOOSTING.getValue();
         if (type.shouldHaveAbility(stack)) {
             World world = getWorld();
             int level = type == WindCatchingAbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasRegistry.WIND_CATCHING, stack);
             BlockPos pos = getBlockPos();
-            if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInCampfireSmoke(world, pos)) {
+            if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInSmoke(world, pos)) {
                 double entityVelocity = getVelocity().getY();
 
-                double campfireVelocityCap = 0.1 * (Math.pow(2, level - 1));
-                double campfireVelocityBoost = 0.01 * (level + 8);
+                double smokeVelocityCap = 0.1 * (Math.pow(2, level - 1));
+                double smokeVelocityBoost = 0.01 * (level + 8);
 
-                if (entityVelocity < campfireVelocityCap) {
-                    addVelocity(0, campfireVelocityBoost, 0);
+                if (entityVelocity < smokeVelocityCap) {
+                    addVelocity(0, smokeVelocityBoost, 0);
                 }
             }
         }
     }
 
-    public boolean isInCampfireSmoke(World world, BlockPos pos) {
+    public boolean isInSmoke(World world, BlockPos pos) {
         for (int i = 0; i <= 19; ++i) {
             BlockPos blockpos = pos.down(i);
             BlockState blockstate = world.getBlockState(blockpos);

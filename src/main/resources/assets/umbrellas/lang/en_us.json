@@ -163,11 +163,11 @@
     "configs.umbrellas.slow_falling.always": "Always",
     "configs.umbrellas.slow_falling.gliding_only": "Gliding Only",
     "configs.umbrellas.slow_falling.never": "Never",
-    "configs.umbrellas.campfire_boosting": "Campfire Boosting",
-    "configs.umbrellas.campfire_boosting.tooltip": "Whether or not the Wind Catching enchantment can boost players up in campfire smoke",
-    "configs.umbrellas.campfire_boosting.always": "Always",
-    "configs.umbrellas.campfire_boosting.wind_catching_only": "Wind Catching Only",
-    "configs.umbrellas.campfire_boosting.never": "Never",
+    "configs.umbrellas.smoke_boosting": "Campfire Boosting",
+    "configs.umbrellas.smoke_boosting.tooltip": "Whether or not the Wind Catching enchantment can boost players upwards while in smoke",
+    "configs.umbrellas.smoke_boosting.always": "Always",
+    "configs.umbrellas.smoke_boosting.wind_catching_only": "Wind Catching Only",
+    "configs.umbrellas.smoke_boosting.never": "Never",
     "configs.umbrellas.enchantment_glint": "Enchantment Glint",
     "configs.umbrellas.enchantment_glint.tooltip": "Whether or not enchanted Umbrellas have a visible glint"
 }

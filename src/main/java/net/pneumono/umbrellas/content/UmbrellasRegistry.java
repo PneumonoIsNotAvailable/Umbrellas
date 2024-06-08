@@ -55,7 +55,7 @@ public class UmbrellasRegistry {
     public static Enchantment WIND_CATCHING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND), "wind_catching", Umbrellas.WIND_CATCHING.getValue());
 
     public static final TagKey<Item> TAG_UMBRELLAS = TagKey.of(RegistryKeys.ITEM, new Identifier(Umbrellas.MOD_ID, "umbrellas"));
-    public static final TagKey<Block> TAG_BOOSTS_UMBRELLAS = TagKey.of(RegistryKeys.BLOCK, new Identifier(Umbrellas.MOD_ID, "boosts_campfires"));
+    public static final TagKey<Block> TAG_BOOSTS_UMBRELLAS = TagKey.of(RegistryKeys.BLOCK, new Identifier(Umbrellas.MOD_ID, "boosts_umbrellas"));
 
     public static final Identifier CLEAN_UMBRELLA = registerStat(new Identifier(Umbrellas.MOD_ID, "clean_umbrella"));
 

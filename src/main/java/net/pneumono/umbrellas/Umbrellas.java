@@ -33,7 +33,7 @@ public class Umbrellas implements ModInitializer {
 	public static final BooleanConfiguration GLIDING = Configs.register(new BooleanConfiguration(MOD_ID, "gliding", ConfigEnv.SERVER, true));
 	public static final BooleanConfiguration WIND_CATCHING = Configs.register(new BooleanConfiguration(MOD_ID, "wind_catching", ConfigEnv.SERVER, true));
 	public static final EnumConfiguration<GlidingAbilityType> SLOW_FALLING = Configs.register(new EnumConfiguration<>(MOD_ID, "slow_falling",ConfigEnv.SERVER, GlidingAbilityType.GLIDING_ONLY));
-	public static final EnumConfiguration<WindCatchingAbilityType> CAMPFIRE_BOOSTING = Configs.register(new EnumConfiguration<>(MOD_ID, "campfire_boosting", ConfigEnv.SERVER, WindCatchingAbilityType.WIND_CATCHING_ONLY));
+	public static final EnumConfiguration<WindCatchingAbilityType> SMOKE_BOOSTING = Configs.register(new EnumConfiguration<>(MOD_ID, "smoke_boosting", ConfigEnv.SERVER, WindCatchingAbilityType.WIND_CATCHING_ONLY));
 	public static final BooleanConfiguration ENCHANTMENT_GLINT = Configs.register(new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, false));
 
 	@Override
