@@ -3,6 +3,7 @@ package net.pneumono.umbrellas.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
@@ -17,9 +18,10 @@ import org.spongepowered.asm.mixin.Mixin;
 public abstract class UmbrellaSkylightMixin implements WorldAccess {
     @Override
     public boolean isSkyVisible(BlockPos pos) {
-        return !isUnderUmbrella(pos) && WorldAccess.super.isSkyVisible(pos);
+        return WorldAccess.super.isSkyVisible(pos) && !isUnderUmbrella(pos);
     }
 
+    @SuppressWarnings("ConstantConditions")
     public boolean isUnderUmbrella(BlockPos pos) {
         int areaWidth = 2;
         int startY = 0;
@@ -27,8 +29,16 @@ public abstract class UmbrellaSkylightMixin implements WorldAccess {
 
         Box box = new Box(new BlockPos(pos.getX() - areaWidth, pos.getY() + startY, pos.getZ() - areaWidth), new BlockPos(pos.getX() + areaWidth, pos.getY() + endY, pos.getZ() + areaWidth));
         for (Entity temp : getOtherEntities(null, box)) {
-            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2 && (friend.getMainHandStack().getItem() instanceof UmbrellaItem || friend.getOffHandStack().getItem() instanceof UmbrellaItem)) {
-                return true;
+            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2) {
+                ItemStack friendMainHandStack = friend.getMainHandStack();
+                ItemStack friendOffHandStack = friend.getOffHandStack();
+                if (friendMainHandStack.getItem() instanceof UmbrellaItem) {
+                    UmbrellaItem.damageUmbrella(friendMainHandStack, (World)(Object)this, friend);
+                    return true;
+                } else if (friendOffHandStack.getItem() instanceof UmbrellaItem) {
+                    UmbrellaItem.damageUmbrella(friendOffHandStack, (World)(Object)this, friend);
+                    return true;
+                }
             }
         }
         for (int x = -areaWidth; x <= areaWidth; ++x) {

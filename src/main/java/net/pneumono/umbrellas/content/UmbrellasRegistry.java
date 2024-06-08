@@ -32,9 +32,10 @@ public class UmbrellasRegistry {
     public static List<Item> UMBRELLAS = new ArrayList<>();
     public static List<Item> PATTERNABLE_UMBRELLAS = new ArrayList<>();
     public static final List<Item> UMBRELLA_PATTERNS = new ArrayList<>();
+    public static final int maxDamage = 600;
 
     public static final Item UMBRELLA = registerUmbrella("umbrella",
-            new DyeableUmbrellaItem(new FabricItemSettings().maxCount(1)));
+            new DyeableUmbrellaItem(new FabricItemSettings().maxCount(1).maxDamage(maxDamage)));
 
     public static final Item GLOBE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("globe", Rarity.COMMON);
     public static final Item CREEPER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("creeper", Rarity.UNCOMMON);
@@ -58,7 +59,7 @@ public class UmbrellasRegistry {
     public static final Identifier CLEAN_UMBRELLA = registerStat(new Identifier(Umbrellas.MOD_ID, "clean_umbrella"));
 
     private static void registerDyedUmbrella(String name, DyeColor color) {
-        Item item = new PatternableUmbrellaItem(new FabricItemSettings().maxCount(1), color);
+        Item item = new PatternableUmbrellaItem(new FabricItemSettings().maxCount(1).maxDamage(maxDamage), color);
         PATTERNABLE_UMBRELLAS.add(item);
         registerUmbrella(name, item);
     }
