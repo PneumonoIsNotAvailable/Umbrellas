@@ -52,13 +52,15 @@ public class UmbrellaItem extends ToolItem implements Vanishable, EnchantableIte
     }
 
     public static void damageUmbrella(ItemStack stack, World world, LivingEntity entity) {
-        NbtCompound compound = stack.getNbt();
-        long time = world.getTime();
-        if (stack.getItem() instanceof UmbrellaItem) {
-            boolean hasLastDamaged = compound != null && compound.contains("lastDamaged", NbtElement.LONG_TYPE);
-            if (!hasLastDamaged || compound.getLong("lastDamaged") + 20 <= time) {
-                stack.getOrCreateNbt().putLong("lastDamaged", time);
-                stack.damage(1, entity, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+        if (Umbrellas.DURABILITY.getValue()) {
+            NbtCompound compound = stack.getNbt();
+            long time = world.getTime();
+            if (stack.getItem() instanceof UmbrellaItem) {
+                boolean hasLastDamaged = compound != null && compound.contains("lastDamaged", NbtElement.LONG_TYPE);
+                if (!hasLastDamaged || compound.getLong("lastDamaged") + 20 <= time) {
+                    stack.getOrCreateNbt().putLong("lastDamaged", time);
+                    stack.damage(1, entity, e -> e.sendEquipmentBreakStatus(EquipmentSlot.MAINHAND));
+                }
             }
         }
     }

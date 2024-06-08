@@ -168,6 +168,8 @@
     "configs.umbrellas.smoke_boosting.always": "Always",
     "configs.umbrellas.smoke_boosting.wind_catching_only": "Wind Catching Only",
     "configs.umbrellas.smoke_boosting.never": "Never",
+    "configs.umbrellas.durability": "Durability",
+    "configs.umbrellas.durability.tooltip": "Whether or not Umbrellas lose durability when used",
     "configs.umbrellas.enchantment_glint": "Enchantment Glint",
     "configs.umbrellas.enchantment_glint.tooltip": "Whether or not enchanted Umbrellas have a visible glint"
 }
