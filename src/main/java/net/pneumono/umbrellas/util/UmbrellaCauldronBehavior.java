@@ -1,4 +1,4 @@
-package net.pneumono.umbrellas.content;
+package net.pneumono.umbrellas.util;
 
 import net.minecraft.block.LeveledCauldronBlock;
 import net.minecraft.block.cauldron.CauldronBehavior;
@@ -8,6 +8,7 @@ import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.nbt.NbtList;
 import net.minecraft.util.ActionResult;
+import net.pneumono.umbrellas.content.UmbrellasRegistry;
 
 public interface UmbrellaCauldronBehavior {
     CauldronBehavior CLEAN_PATTERNABLE_UMBRELLA = (state, world, pos, player, hand, stack) -> {

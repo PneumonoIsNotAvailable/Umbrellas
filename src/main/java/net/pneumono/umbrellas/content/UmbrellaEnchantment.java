@@ -6,8 +6,8 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ItemStack;
 import net.pneumono.pneumonocore.enchantment.ModEnchantment;
 
-public class GlidingEnchantment extends ModEnchantment {
-    protected GlidingEnchantment(Enchantment.Rarity weight, EquipmentSlot... slotTypes) {
+public class UmbrellaEnchantment extends ModEnchantment {
+    protected UmbrellaEnchantment(Enchantment.Rarity weight, EquipmentSlot... slotTypes) {
         super(weight, EnchantmentTarget.BREAKABLE, slotTypes);
     }
 

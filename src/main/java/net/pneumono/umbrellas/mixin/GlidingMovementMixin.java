@@ -5,16 +5,19 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.*;
+import net.minecraft.entity.Attackable;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.content.AbilityType;
 import net.pneumono.umbrellas.content.UmbrellaItem;
 import net.pneumono.umbrellas.content.UmbrellasRegistry;
+import net.pneumono.umbrellas.util.WindCatchingAbilityType;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -44,12 +47,12 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    private void tickGlidingBoost(CallbackInfo ci) {
+    private void tickWindCatchingBoost(CallbackInfo ci) {
         ItemStack stack = getMainHandStack();
-        AbilityType type = Umbrellas.CAMPFIRE_BOOSTING.getValue();
+        WindCatchingAbilityType type = Umbrellas.CAMPFIRE_BOOSTING.getValue();
         if (type.shouldHaveAbility(stack)) {
             World world = getWorld();
-            int level = type == AbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasRegistry.GLIDING, stack);
+            int level = type == WindCatchingAbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasRegistry.WIND_CATCHING, stack);
             BlockPos pos = getBlockPos();
             if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInCampfireSmoke(world, pos)) {
                 double entityVelocity = getVelocity().getY();

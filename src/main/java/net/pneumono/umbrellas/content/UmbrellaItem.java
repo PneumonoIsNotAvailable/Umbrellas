@@ -34,6 +34,7 @@ public class UmbrellaItem extends ToolItem implements Vanishable, EnchantableIte
     public boolean isAcceptableEnchantment(Enchantment enchantment) {
         List<Enchantment> acceptable = List.of(
                 UmbrellasRegistry.GLIDING,
+                UmbrellasRegistry.WIND_CATCHING,
                 Enchantments.UNBREAKING,
                 Enchantments.MENDING
         );

@@ -140,7 +140,8 @@
     "itemGroup.umbrellas.umbrellas": "Umbrellas",
 
     "enchantment.umbrellas.gliding": "Gliding",
-    
+    "enchantment.umbrellas.wind_catching": "Wind Catching",
+
     "advancements.umbrellas.get_umbrella.name": "Rain, Rain, go Away",
     "advancements.umbrellas.get_umbrella.desc": "Construct or Find an Umbrella",
     "advancements.umbrellas.get_pride_umbrella.name": "We're Here, We're Queer",
@@ -155,15 +156,17 @@
     "configs.umbrellas.pride_umbrellas.tooltip": "Whether or not Pride Flag Umbrella Patterns can be created",
     "configs.umbrellas.gliding": "Gliding",
     "configs.umbrellas.gliding.tooltip": "Whether or not the Gliding enchantment is enabled",
+    "configs.umbrellas.wind_catching": "Wind Catching",
+    "configs.umbrellas.wind_catching.tooltip": "Whether or not the Wind Catching enchantment is enabled",
     "configs.umbrellas.slow_falling": "Slow Falling",
     "configs.umbrellas.slow_falling.tooltip": "Whether or not the Gliding enchantment grants players slow falling",
     "configs.umbrellas.slow_falling.always": "Always",
     "configs.umbrellas.slow_falling.gliding_only": "Gliding Only",
     "configs.umbrellas.slow_falling.never": "Never",
     "configs.umbrellas.campfire_boosting": "Campfire Boosting",
-    "configs.umbrellas.campfire_boosting.tooltip": "Whether or not the Gliding enchantment can boost players up in campfire smoke",
+    "configs.umbrellas.campfire_boosting.tooltip": "Whether or not the Wind Catching enchantment can boost players up in campfire smoke",
     "configs.umbrellas.campfire_boosting.always": "Always",
-    "configs.umbrellas.campfire_boosting.gliding_only": "Gliding Only",
+    "configs.umbrellas.campfire_boosting.wind_catching_only": "Wind Catching Only",
     "configs.umbrellas.campfire_boosting.never": "Never",
     "configs.umbrellas.enchantment_glint": "Enchantment Glint",
     "configs.umbrellas.enchantment_glint.tooltip": "Whether or not enchanted Umbrellas have a visible glint"

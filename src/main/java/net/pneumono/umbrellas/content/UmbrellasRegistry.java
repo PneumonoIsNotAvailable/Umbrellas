@@ -51,7 +51,8 @@ public class UmbrellasRegistry {
             FabricBlockEntityTypeBuilder.create(UmbrellaStandBlockEntity::new, UMBRELLA_STAND).build()
     );
 
-    public static Enchantment GLIDING = registerGliding(new GlidingEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND));
+    public static Enchantment GLIDING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.UNCOMMON, EquipmentSlot.MAINHAND), "gliding", Umbrellas.GLIDING.getValue());
+    public static Enchantment WIND_CATCHING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND), "wind_catching", Umbrellas.WIND_CATCHING.getValue());
 
     public static final TagKey<Item> TAG_UMBRELLAS = TagKey.of(RegistryKeys.ITEM, new Identifier(Umbrellas.MOD_ID, "umbrellas"));
     public static final TagKey<Block> TAG_BOOSTS_UMBRELLAS = TagKey.of(RegistryKeys.BLOCK, new Identifier(Umbrellas.MOD_ID, "boosts_campfires"));
@@ -97,8 +98,8 @@ public class UmbrellasRegistry {
         return Registry.register(Registries.BLOCK, id, block);
     }
 
-    private static Enchantment registerGliding(Enchantment enchantment) {
-        return Umbrellas.GLIDING.getValue() ? Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, "gliding"), enchantment) : enchantment;
+    private static Enchantment registerEnchantment(Enchantment enchantment, String id, boolean enabled) {
+        return enabled ? Registry.register(Registries.ENCHANTMENT, new Identifier(Umbrellas.MOD_ID, id), enchantment) : enchantment;
     }
 
     private static Identifier registerStat(Identifier name) {
