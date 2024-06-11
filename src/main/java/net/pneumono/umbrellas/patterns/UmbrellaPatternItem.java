@@ -1,4 +1,4 @@
-package net.pneumono.umbrellas.content;
+package net.pneumono.umbrellas.patterns;
 
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.item.Item;
@@ -7,7 +7,6 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;

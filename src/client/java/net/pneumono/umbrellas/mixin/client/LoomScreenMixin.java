@@ -24,7 +24,7 @@ import net.pneumono.pneumonocore.util.PneumonoMathHelper;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.PatternableUmbrellaItem;
-import net.pneumono.umbrellas.content.PrideUmbrellaPatternItem;
+import net.pneumono.umbrellas.patterns.PrideUmbrellaPatternItem;
 import net.pneumono.umbrellas.content.UmbrellaModel;
 import net.pneumono.umbrellas.content.UmbrellasRegistry;
 import net.pneumono.umbrellas.patterns.LoomScreenHandlerAccess;

@@ -24,6 +24,8 @@ import net.minecraft.util.Rarity;
 import net.pneumono.pneumonocore.migration.Migration;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.patterns.PatternRegistry;
+import net.pneumono.umbrellas.patterns.PrideUmbrellaPatternItem;
+import net.pneumono.umbrellas.patterns.UmbrellaPatternItem;
 
 import java.util.ArrayList;
 import java.util.List;
