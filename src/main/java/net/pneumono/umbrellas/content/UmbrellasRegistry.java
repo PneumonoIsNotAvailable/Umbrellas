@@ -141,7 +141,11 @@ public class UmbrellasRegistry {
                 FabricItemGroup.builder().displayName(Text.translatable("itemGroup." + Umbrellas.MOD_ID + "." + Umbrellas.MOD_ID)).icon(() -> new ItemStack(UmbrellasRegistry.UMBRELLA))
                         .entries(((displayContext, entries) -> {
                             entries.add(UMBRELLA_STAND);
-                            for (ItemConvertible item : UMBRELLAS) {
+                            entries.add(UMBRELLA);
+                            for (ItemConvertible item : PATTERNABLE_UMBRELLAS) {
+                                entries.add(item);
+                            }
+                            for (ItemConvertible item : EXTRA_UMBRELLAS) {
                                 entries.add(item);
                             }
                             for (ItemConvertible item : UMBRELLA_PATTERNS) {
