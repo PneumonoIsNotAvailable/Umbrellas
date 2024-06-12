@@ -7,13 +7,16 @@ import net.minecraft.item.ItemStack;
 import net.pneumono.pneumonocore.enchantment.ModEnchantment;
 
 public class UmbrellaEnchantment extends ModEnchantment {
-    protected UmbrellaEnchantment(Enchantment.Rarity weight, EquipmentSlot... slotTypes) {
+    private final int maxLevel;
+
+    protected UmbrellaEnchantment(Enchantment.Rarity weight, int maxLevel, EquipmentSlot... slotTypes) {
         super(weight, EnchantmentTarget.BREAKABLE, slotTypes);
+        this.maxLevel = maxLevel;
     }
 
     @Override
     public int getMaxLevel() {
-        return 3;
+        return maxLevel;
     }
 
     @Override

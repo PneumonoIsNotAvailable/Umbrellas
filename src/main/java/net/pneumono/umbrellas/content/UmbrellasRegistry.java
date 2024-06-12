@@ -62,8 +62,8 @@ public class UmbrellasRegistry {
             FabricBlockEntityTypeBuilder.create(UmbrellaStandBlockEntity::new, UMBRELLA_STAND).build()
     );
 
-    public static Enchantment GLIDING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.UNCOMMON, EquipmentSlot.MAINHAND), "gliding", Umbrellas.GLIDING.getValue());
-    public static Enchantment WIND_CATCHING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.COMMON, EquipmentSlot.MAINHAND), "wind_catching", Umbrellas.WIND_CATCHING.getValue());
+    public static Enchantment GLIDING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.UNCOMMON, 1, EquipmentSlot.MAINHAND), "gliding", Umbrellas.GLIDING.getValue());
+    public static Enchantment WIND_CATCHING = registerEnchantment(new UmbrellaEnchantment(Enchantment.Rarity.COMMON, 3, EquipmentSlot.MAINHAND), "wind_catching", Umbrellas.WIND_CATCHING.getValue());
 
     public static final TagKey<Item> TAG_UMBRELLAS = TagKey.of(RegistryKeys.ITEM, new Identifier(Umbrellas.MOD_ID, "umbrellas"));
     public static final TagKey<Block> TAG_BOOSTS_UMBRELLAS = TagKey.of(RegistryKeys.BLOCK, new Identifier(Umbrellas.MOD_ID, "boosts_umbrellas"));
