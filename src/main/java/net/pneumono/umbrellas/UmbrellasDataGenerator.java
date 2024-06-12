@@ -109,6 +109,51 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                 }
             }
 
+            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.ANIMALS_UMBRELLA)
+                    .pattern("RAR")
+                    .pattern("RUR")
+                    .pattern(" S ")
+                    .input('R', Items.RED_WOOL)
+                    .input('A', Items.AXOLOTL_BUCKET)
+                    .input('U', UmbrellasRegistry.TAG_UMBRELLAS)
+                    .input('S', Items.STICK)
+                    .group("extra_umbrellas")
+                    .criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
+                    .offerTo(exporter);
+            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.AZALEA_UMBRELLA)
+                    .pattern("MFM")
+                    .pattern("MUM")
+                    .pattern(" S ")
+                    .input('M', Items.MOSS_BLOCK)
+                    .input('F', Items.FLOWERING_AZALEA)
+                    .input('U', UmbrellasRegistry.TAG_UMBRELLAS)
+                    .input('S', Items.STICK)
+                    .group("extra_umbrellas")
+                    .criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
+                    .offerTo(exporter);
+            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.GALACTIC_UMBRELLA)
+                    .pattern("PEP")
+                    .pattern("PUP")
+                    .pattern(" S ")
+                    .input('P', Items.PURPLE_WOOL)
+                    .input('E', Items.ENDER_PEARL)
+                    .input('U', UmbrellasRegistry.TAG_UMBRELLAS)
+                    .input('S', Items.STICK)
+                    .group("extra_umbrellas")
+                    .criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
+                    .offerTo(exporter);
+            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.JELLYFISH_UMBRELLA)
+                    .pattern("LKL")
+                    .pattern("LUL")
+                    .pattern(" S ")
+                    .input('L', Items.LIGHT_BLUE_STAINED_GLASS)
+                    .input('K', Items.KELP)
+                    .input('U', UmbrellasRegistry.TAG_UMBRELLAS)
+                    .input('S', Items.STICK)
+                    .group("extra_umbrellas")
+                    .criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
+                    .offerTo(exporter);
+
             List<Pair<Item, Item>> patterns = List.of(
                     new Pair<>(Items.GLOBE_BANNER_PATTERN, UmbrellasRegistry.GLOBE_UMBRELLA_PATTERN),
                     new Pair<>(Items.CREEPER_BANNER_PATTERN, UmbrellasRegistry.CREEPER_UMBRELLA_PATTERN),

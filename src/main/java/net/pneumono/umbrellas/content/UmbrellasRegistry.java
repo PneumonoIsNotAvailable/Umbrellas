@@ -33,11 +33,19 @@ import java.util.List;
 public class UmbrellasRegistry {
     public static List<Item> UMBRELLAS = new ArrayList<>();
     public static List<Item> PATTERNABLE_UMBRELLAS = new ArrayList<>();
+    public static List<Item> EXTRA_UMBRELLAS = new ArrayList<>();
     public static final List<Item> UMBRELLA_PATTERNS = new ArrayList<>();
     public static final int maxDamage = 600;
 
     public static final Item UMBRELLA = registerUmbrella("umbrella",
             new DyeableUmbrellaItem(new FabricItemSettings().maxCount(1).maxDamage(maxDamage)));
+
+    // Most of these extra umbrellas are custom designs from a previous version of the mod used on a private server.
+    // I figured it would be better to put them in the public mod than simply let these go to waste, so here they are!
+    public static final Item ANIMALS_UMBRELLA = registerExtraUmbrella("animals");
+    public static final Item AZALEA_UMBRELLA = registerExtraUmbrella("azalea");
+    public static final Item GALACTIC_UMBRELLA = registerExtraUmbrella("galactic");
+    public static final Item JELLYFISH_UMBRELLA = registerExtraUmbrella("jellyfish");
 
     public static final Item GLOBE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("globe", Rarity.COMMON);
     public static final Item CREEPER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("creeper", Rarity.UNCOMMON);
@@ -65,6 +73,12 @@ public class UmbrellasRegistry {
         Item item = new PatternableUmbrellaItem(new FabricItemSettings().maxCount(1).maxDamage(maxDamage), color);
         PATTERNABLE_UMBRELLAS.add(item);
         registerUmbrella(name, item);
+    }
+
+    private static Item registerExtraUmbrella(String name) {
+        Item item = new UmbrellaItem(new FabricItemSettings().maxCount(1).maxDamage(maxDamage));
+        EXTRA_UMBRELLAS.add(item);
+        return registerUmbrella(name + "_umbrella", item);
     }
 
     private static Item registerUmbrella(String name, Item item) {

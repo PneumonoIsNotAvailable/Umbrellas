@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "extra_umbrellas",
+  "key": {
+    "E": {
+      "item": "minecraft:ender_pearl"
+    },
+    "P": {
+      "item": "minecraft:purple_wool"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "U": {
+      "tag": "umbrellas:umbrellas"
+    }
+  },
+  "pattern": [
+    "PEP",
+    "PUP",
+    " S "
+  ],
+  "result": {
+    "item": "umbrellas:galactic_umbrella"
+  },
+  "show_notification": true
+}

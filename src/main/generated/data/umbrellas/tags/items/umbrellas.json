@@ -2,6 +2,10 @@
   "replace": false,
   "values": [
     "umbrellas:umbrella",
+    "umbrellas:animals_umbrella",
+    "umbrellas:azalea_umbrella",
+    "umbrellas:galactic_umbrella",
+    "umbrellas:jellyfish_umbrella",
     "umbrellas:white_umbrella",
     "umbrellas:orange_umbrella",
     "umbrellas:magenta_umbrella",

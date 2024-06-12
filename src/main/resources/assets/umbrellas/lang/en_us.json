@@ -17,6 +17,11 @@
     "item.umbrellas.red_umbrella": "Red Umbrella",
     "item.umbrellas.black_umbrella": "Black Umbrella",
 
+    "item.umbrellas.animals_umbrella": "Animals Umbrella",
+    "item.umbrellas.azalea_umbrella": "Azalea Umbrella",
+    "item.umbrellas.galactic_umbrella": "Galactic Umbrella",
+    "item.umbrellas.jellyfish_umbrella": "Jellyfish Umbrella",
+
     "item.umbrellas.umbrella_pattern": "Umbrella Pattern",
 
     "tooltip.umbrellas.no_dye": "Does not require Dye",

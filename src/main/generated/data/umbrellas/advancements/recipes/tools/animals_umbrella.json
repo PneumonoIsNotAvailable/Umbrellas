@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:animals_umbrella"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_umbrella": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "umbrellas:umbrella"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_umbrella",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:animals_umbrella"
+    ]
+  },
+  "sends_telemetry_event": false
+}
