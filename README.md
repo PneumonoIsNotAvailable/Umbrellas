@@ -8,6 +8,7 @@ Adds Umbrellas to stylishly protect you from the elements!
 - Durability is lost while doing so (can be disabled in config), but this can be mitigated with Unbreaking and Mending
 - They can be **dyed** in any single color (like other leather items)
 - They can have **Umbrella Patterns** (similar to Banner Patterns) applied for even more customisation, including a number of pride flags!
+- There are also a few craftable **Special Designs** for umbrellas, such as a giant flowering azalea, or a gothic-inspired fancy umbrella
 - The mod also adds two custom enchantments:
   - **Gliding**, which gives you a slow falling-like effect when held in the main hand
   - **Wind Catching**, which allows you to be boosted up by the smoke of heat sources
