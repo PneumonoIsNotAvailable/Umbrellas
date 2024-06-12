@@ -45,8 +45,8 @@ public class UmbrellasRegistry {
     public static final Item ANIMALS_UMBRELLA = registerExtraUmbrella("animals");
     public static final Item AZALEA_UMBRELLA = registerExtraUmbrella("azalea");
     public static final Item GALACTIC_UMBRELLA = registerExtraUmbrella("galactic");
+    public static final Item GOTHIC_UMBRELLA = registerExtraUmbrella("gothic");
     public static final Item JELLYFISH_UMBRELLA = registerExtraUmbrella("jellyfish");
-
     public static final Item GLOBE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("globe", Rarity.COMMON);
     public static final Item CREEPER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("creeper", Rarity.UNCOMMON);
     public static final Item SKULL_UMBRELLA_PATTERN = registerUmbrellaPatternItem("skull", Rarity.UNCOMMON);

@@ -2,19 +2,19 @@
 	"credit": "Made with Blockbench",
 	"parent": "umbrellas:item/extra_umbrella",
 	"textures": {
-		"particle": "umbrellas:item/azalea_umbrella",
-		"umbrella": "umbrellas:item/azalea_umbrella"
+		"particle": "umbrellas:item/gothic_umbrella",
+		"umbrella": "umbrellas:item/gothic_umbrella"
 	},
 	"elements": [
 		{
 			"name": "handle",
 			"from": [7, 0, 7],
-			"to": [8, 29, 8],
+			"to": [8, 31, 8],
 			"faces": {
-				"north": {"uv": [9, 5, 9.25, 12.25], "texture": "#umbrella"},
-				"east": {"uv": [9.25, 5, 9.5, 12.25], "texture": "#umbrella"},
-				"south": {"uv": [9.5, 5, 9.75, 12.25], "texture": "#umbrella"},
-				"west": {"uv": [9.75, 5, 10, 12.25], "texture": "#umbrella"},
+				"north": {"uv": [9, 5, 9.25, 12.75], "texture": "#umbrella"},
+				"east": {"uv": [9.25, 5, 9.5, 12.75], "texture": "#umbrella"},
+				"south": {"uv": [9.5, 5, 9.75, 12.75], "texture": "#umbrella"},
+				"west": {"uv": [9.75, 5, 10, 12.75], "texture": "#umbrella"},
 				"up": {"uv": [9.5, 5, 9.25, 4.75], "texture": "#umbrella"},
 				"down": {"uv": [9.75, 4.75, 9.5, 5], "texture": "#umbrella"}
 			}
@@ -85,34 +85,6 @@
 			}
 		},
 		{
-			"name": "roots_1",
-			"from": [7.5, 10, 5],
-			"to": [7.5, 22, 10],
-			"rotation": {"angle": 45, "axis": "y", "origin": [7.5, 0, 7.5]},
-			"faces": {
-				"north": {"uv": [0, 0, 0, 4], "texture": "#umbrella"},
-				"east": {"uv": [11.25, 13, 12.5, 16], "texture": "#umbrella"},
-				"south": {"uv": [0, 0, 0, 4], "texture": "#umbrella"},
-				"west": {"uv": [10, 13, 11.25, 16], "texture": "#umbrella"},
-				"up": {"uv": [0, 0, 0, 5], "texture": "#umbrella"},
-				"down": {"uv": [0, 0, 0, 5], "texture": "#umbrella"}
-			}
-		},
-		{
-			"name": "roots_2",
-			"from": [5, 10, 7.5],
-			"to": [10, 22, 7.5],
-			"rotation": {"angle": 45, "axis": "y", "origin": [7.5, 0, 7.5]},
-			"faces": {
-				"north": {"uv": [13.75, 13, 15, 16], "texture": "#umbrella"},
-				"east": {"uv": [0, 0, 0, 4], "texture": "#umbrella"},
-				"south": {"uv": [12.5, 13, 13.75, 16], "texture": "#umbrella"},
-				"west": {"uv": [0, 0, 0, 4], "texture": "#umbrella"},
-				"up": {"uv": [0, 0, 0, 5], "rotation": 270, "texture": "#umbrella"},
-				"down": {"uv": [0, 0, 0, 5], "rotation": 90, "texture": "#umbrella"}
-			}
-		},
-		{
 			"name": "middle",
 			"from": [-2, 25, -2],
 			"to": [17, 28, 17],
@@ -139,13 +111,14 @@
 			}
 		}
 	],
+	"display": {},
 	"groups": [
 		{
 			"name": "umbrella",
 			"origin": [8, 8, 8],
 			"color": 0,
 			"nbt": "{}",
-			"children": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+			"children": [0, 1, 2, 3, 4, 5, 6, 7]
 		}
 	]
 }

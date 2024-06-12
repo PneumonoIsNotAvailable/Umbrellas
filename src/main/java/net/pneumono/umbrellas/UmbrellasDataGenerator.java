@@ -142,6 +142,17 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                     .group("extra_umbrellas")
                     .criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
                     .offerTo(exporter);
+            ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.GOTHIC_UMBRELLA)
+                    .pattern("BIB")
+                    .pattern("BUB")
+                    .pattern(" S ")
+                    .input('B', Items.BLACK_WOOL)
+                    .input('I', Items.IRON_INGOT)
+                    .input('U', UmbrellasRegistry.TAG_UMBRELLAS)
+                    .input('S', Items.STICK)
+                    .group("extra_umbrellas")
+                    .criterion(FabricRecipeProvider.hasItem(UmbrellasRegistry.UMBRELLA), FabricRecipeProvider.conditionsFromItem(UmbrellasRegistry.UMBRELLA))
+                    .offerTo(exporter);
             ShapedRecipeJsonBuilder.create(RecipeCategory.TOOLS, UmbrellasRegistry.JELLYFISH_UMBRELLA)
                     .pattern("LKL")
                     .pattern("LUL")
