@@ -51,7 +51,7 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
     // This is dumb
     @ModifyVariable(method = "travel", at = @At(value = "STORE", ordinal = 0))
     private double port_lib$modifyGravity(double original) {
-        if (Umbrellas.CREATE_LOADED && Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(this.getMainHandStack())) {
+        if (Umbrellas.CREATE_LOADED && this.getVelocity().y <= 0.0 && Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(this.getMainHandStack())) {
             return original * 0.125;
         }
         return original;
