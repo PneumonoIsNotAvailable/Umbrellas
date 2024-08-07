@@ -10,6 +10,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -22,6 +23,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
@@ -39,11 +41,20 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
     @WrapOperation(method = {"tickMovement", "travel"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z", ordinal = 0))
     private boolean tickGlidingMovement(LivingEntity instance, StatusEffect effect, Operation<Boolean> original) {
         ItemStack activeItem = instance.getMainHandStack();
-        if (Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(activeItem)) {
+        if (effect == StatusEffects.SLOW_FALLING && Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(activeItem)) {
             return true;
         } else {
             return original.call(instance, effect);
         }
+    }
+
+    // This is dumb
+    @ModifyVariable(method = "travel", at = @At(value = "STORE", ordinal = 0))
+    private double port_lib$modifyGravity(double original) {
+        if (Umbrellas.CREATE_LOADED && Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(this.getMainHandStack())) {
+            return original * 0.125;
+        }
+        return original;
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))

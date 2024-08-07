@@ -3,6 +3,7 @@ package net.pneumono.umbrellas;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.loot.LootPool;
 import net.minecraft.loot.LootTables;
 import net.minecraft.loot.entry.EmptyEntry;
@@ -31,6 +32,8 @@ public class Umbrellas implements ModInitializer {
 	public static final BooleanConfiguration DURABILITY = Configs.register(new BooleanConfiguration(MOD_ID, "durability", ConfigEnv.SERVER, true));
 	public static final BooleanConfiguration ENCHANTMENT_GLINT = Configs.register(new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, false));
 
+	public static boolean CREATE_LOADED = false;
+
 	@Override
 	public void onInitialize() {
 		LOGGER.info("Initialising Umbrellas");
@@ -47,6 +50,10 @@ public class Umbrellas implements ModInitializer {
 				tableBuilder.pool(pool);
 			}
 		});
+
+		if (FabricLoader.getInstance().isModLoaded("create")) {
+			CREATE_LOADED = true;
+		}
 
 		TradeOffers.SellItemFactory factory = new TradeOffers.SellItemFactory(UmbrellasRegistry.GLOBE_UMBRELLA_PATTERN, 8, 1, 30);
 		TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 5, factories -> factories.add(factory));
