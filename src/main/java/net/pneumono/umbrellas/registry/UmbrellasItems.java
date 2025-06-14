@@ -69,8 +69,8 @@ public class UmbrellasItems {
     public static final Item UMBRELLA_STAND = registerItem("umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.UMBRELLA_STAND, settings), new Item.Settings());
 
     public static final ComponentType<Long> LAST_DAMAGE = registerComponent("last_damage", ComponentType.<Long>builder().codec(Codec.LONG).build());
-    public static final ComponentType<ProvidesUmbrellaPatterns> PROVIDES_UMBRELLAS_PATTERNS = registerComponent(
-            "provides_banner_patterns",
+    public static final ComponentType<ProvidesUmbrellaPatterns> PROVIDES_UMBRELLA_PATTERNS = registerComponent(
+            "provides_umbrella_patterns",
             ComponentType.<ProvidesUmbrellaPatterns>builder().codec(ProvidesUmbrellaPatterns.CODEC).build()
     );
     public static final ComponentType<UmbrellaPatternsComponent> UMBRELLA_PATTERNS = registerComponent(
@@ -110,7 +110,7 @@ public class UmbrellasItems {
                 name + "_umbrella_pattern",
                 Item::new,
                 new Item.Settings().maxCount(1).rarity(rarity)
-                        .component(PROVIDES_UMBRELLAS_PATTERNS, new ProvidesUmbrellaPatterns(
+                        .component(PROVIDES_UMBRELLA_PATTERNS, new ProvidesUmbrellaPatterns(
                                 UmbrellasTags.pattern("pattern_item/" + name),
                                 requiresDye
                         ))
