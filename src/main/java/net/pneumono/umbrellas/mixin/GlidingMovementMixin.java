@@ -1,35 +1,29 @@
 package net.pneumono.umbrellas.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CampfireBlock;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.content.UmbrellaItem;
-import net.pneumono.umbrellas.content.UmbrellasRegistry;
-import net.pneumono.umbrellas.util.WindCatchingAbilityType;
+import net.pneumono.umbrellas.registry.UmbrellasMisc;
+import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
 @Mixin(LivingEntity.class)
-@SuppressWarnings("unused")
 public abstract class GlidingMovementMixin extends Entity implements Attackable {
     public GlidingMovementMixin(EntityType<?> type, World world) {
         super(type, world);
@@ -38,51 +32,47 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
     @Shadow
     public abstract ItemStack getMainHandStack();
 
-    @WrapOperation(method = {"tickMovement", "travel"}, at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/LivingEntity;hasStatusEffect(Lnet/minecraft/entity/effect/StatusEffect;)Z", ordinal = 0))
-    private boolean tickGlidingMovement(LivingEntity instance, StatusEffect effect, Operation<Boolean> original) {
-        ItemStack activeItem = instance.getMainHandStack();
-        if (effect == StatusEffects.SLOW_FALLING && Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(activeItem)) {
-            return true;
-        } else {
-            return original.call(instance, effect);
-        }
-    }
+    @Shadow public abstract void remove(RemovalReason reason);
 
-    // This is dumb
-    @ModifyVariable(method = "travel", at = @At(value = "STORE", ordinal = 0))
-    private double port_lib$modifyGravity(double original) {
-        if (Umbrellas.CREATE_LOADED && this.getVelocity().y <= 0.0 && Umbrellas.SLOW_FALLING.getValue().shouldHaveAbility(this.getMainHandStack())) {
-            return original * 0.125;
+    @Inject(method = "getEffectiveGravity", at = @At("RETURN"), cancellable = true)
+    private void applyUmbrellaGravity(CallbackInfoReturnable<Double> info) {
+        double gravity = info.getReturnValue();
+        int strength = Umbrellas.SLOW_FALLING.getValue().getStrength(getMainHandStack(), this.getRandom(), UmbrellasMisc.SLOW_FALLING, 0);
+        if (this.getVelocity().y <= 0.0 && strength > 0) {
+            gravity = Math.min(gravity, 0.04 - (0.01 * strength));
         }
-        return original;
+        info.setReturnValue(gravity);
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    private void tickWindCatchingBoost(CallbackInfo ci) {
-        ItemStack stack = getMainHandStack();
-        WindCatchingAbilityType type = Umbrellas.SMOKE_BOOSTING.getValue();
-        if (type.shouldHaveAbility(stack)) {
-            World world = getWorld();
-            int level = type == WindCatchingAbilityType.ALWAYS ? 3 : EnchantmentHelper.getLevel(UmbrellasRegistry.WIND_CATCHING, stack);
-            BlockPos pos = getBlockPos();
-            if (stack.getItem() instanceof UmbrellaItem && level >= 1 && isInSmoke(world, pos)) {
-                double entityVelocity = getVelocity().getY();
+    private void tickSmokeBoost(CallbackInfo ci) {
+        int strength = Umbrellas.SMOKE_BOOSTING.getValue().getStrength(getMainHandStack(), this.getRandom(), UmbrellasMisc.SMOKE_BOOSTING, 0);
+        if (strength <= 0) {
+            return;
+        }
 
-                double smokeVelocityCap = 0.1 * (Math.pow(2, level - 1));
-                double smokeVelocityBoost = 0.01 * (level + 8);
+        World world = getWorld();
+        BlockPos pos = getBlockPos();
+        if (!isInSmoke(world, pos)) {
+            return;
+        }
 
-                if (entityVelocity < smokeVelocityCap) {
-                    addVelocity(0, smokeVelocityBoost, 0);
-                }
-            }
+        double entityVelocity = getVelocity().getY();
+
+        double smokeVelocityCap = 0.1 * (Math.pow(2, strength - 1));
+        double smokeVelocityBoost = 0.01 * (strength + 8);
+
+        if (entityVelocity < smokeVelocityCap) {
+            addVelocity(0, smokeVelocityBoost, 0);
         }
     }
 
+    @Unique
     public boolean isInSmoke(World world, BlockPos pos) {
         for (int i = 0; i <= 19; ++i) {
             BlockPos blockpos = pos.down(i);
             BlockState blockstate = world.getBlockState(blockpos);
-            if (blockstate.isIn(UmbrellasRegistry.TAG_BOOSTS_UMBRELLAS)) {
+            if (blockstate.isIn(UmbrellasTags.BOOSTS_UMBRELLAS)) {
                 if (i > 5 && CampfireBlock.isLitCampfire(blockstate) && blockstate.get(CampfireBlock.SIGNAL_FIRE)) {
                     return true;
                 } else {

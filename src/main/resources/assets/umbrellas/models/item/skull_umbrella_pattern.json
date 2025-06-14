@@ -1,6 +1,0 @@
-{
-    "parent": "minecraft:item/generated",
-    "textures": {
-        "layer0": "umbrellas:item/skull_umbrella_pattern"
-    }
-}

@@ -1,39 +1,13 @@
 package net.pneumono.umbrellas.mixin;
 
-import com.google.common.collect.ImmutableList;
-import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.*;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.*;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.sound.SoundCategory;
-import net.minecraft.sound.SoundEvents;
-import net.minecraft.util.DyeColor;
-import net.pneumono.umbrellas.content.PatternableUmbrellaItem;
-import net.pneumono.umbrellas.patterns.PrideUmbrellaPatternItem;
-import net.pneumono.umbrellas.patterns.UmbrellaPatternItem;
-import net.pneumono.umbrellas.patterns.LoomScreenHandlerAccess;
-import net.pneumono.umbrellas.patterns.PatternRegistry;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
-import org.jetbrains.annotations.Nullable;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Mutable;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.*;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
 
 @Mixin(LoomScreenHandler.class)
-@SuppressWarnings("unused")
-public abstract class LoomHandlerMixin extends ScreenHandler implements LoomScreenHandlerAccess {
+public abstract class LoomHandlerMixin /*extends ScreenHandler implements LoomScreenHandlerAccess*/ {
+    // ...not now
+
+    /*
     @Shadow
     @Final
     private ScreenHandlerContext context;
@@ -251,4 +225,5 @@ public abstract class LoomHandlerMixin extends ScreenHandler implements LoomScre
     public List<RegistryEntry<UmbrellaPattern>> getUmbrellaPatterns() {
         return umbrellaPatterns;
     }
+     */
 }

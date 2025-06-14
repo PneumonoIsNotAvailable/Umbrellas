@@ -1,8 +1,9 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "umbrellas:item/extra_umbrella",
+	"parent": "umbrellas:item/template_umbrella",
 	"texture_size": [64, 64],
 	"textures": {
+		"particle": "umbrellas:item/galactic_umbrella",
 		"umbrella": "umbrellas:item/galactic_umbrella"
 	},
 	"elements": [

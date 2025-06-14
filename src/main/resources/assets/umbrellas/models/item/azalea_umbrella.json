@@ -1,6 +1,6 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "umbrellas:item/extra_umbrella",
+	"parent": "umbrellas:item/template_umbrella",
 	"textures": {
 		"particle": "umbrellas:item/azalea_umbrella",
 		"umbrella": "umbrellas:item/azalea_umbrella"

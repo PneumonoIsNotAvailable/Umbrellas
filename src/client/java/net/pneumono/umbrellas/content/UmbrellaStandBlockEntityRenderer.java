@@ -1,33 +1,43 @@
 package net.pneumono.umbrellas.content;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.OverlayTexture;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.render.model.json.ModelTransformationMode;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.Vec3d;
+import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
+import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
+import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import net.pneumono.umbrellas.registry.UmbrellasItems;
 
 import java.util.Objects;
 
 public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<UmbrellaStandBlockEntity> {
-    @SuppressWarnings("unused")
-    public UmbrellaStandBlockEntityRenderer(BlockEntityRendererFactory.Context context) {}
+    private final UmbrellaRenderer renderer;
+
+    public UmbrellaStandBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
+        this.renderer = new UmbrellaRenderer(context.getLoadedEntityModels());
+    }
 
     @Override
-    public void render(UmbrellaStandBlockEntity entity, float tickDelta, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay) {
+    public void render(UmbrellaStandBlockEntity entity, float tickProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
+        ItemStack stack = entity.getStack();
+        if (stack.isEmpty() || !(stack.getItem() instanceof PatternableUmbrellaItem umbrellaItem)) return;
+
+        int lightAbove = WorldRenderer.getLightmapCoordinates(Objects.requireNonNull(entity.getWorld()), entity.getPos().up(2));
+
         matrices.push();
 
         matrices.translate(0.53125, 1.5, 0.53125);
-        BlockState state = Objects.requireNonNull(entity.getWorld()).getBlockState(entity.getPos());
-        if (state.getBlock() instanceof UmbrellaStandBlock && state.get(UmbrellaStandBlock.HAS_UMBRELLA)) {
-            int lightAbove = WorldRenderer.getLightmapCoordinates(Objects.requireNonNull(entity.getWorld()), entity.getPos().up(2));
-            ItemStack entityStack = entity.getStack();
-            MinecraftClient.getInstance().getItemRenderer().renderItem(entityStack, ModelTransformationMode.NONE, lightAbove, OverlayTexture.DEFAULT_UV, matrices, vertexConsumers, entity.getWorld(), 0);
-        }
+        this.renderer.render(
+                matrices, vertexConsumers,
+                lightAbove, overlay,
+                false, 0.0F,
+                umbrellaItem.getColor(),
+                stack.getOrDefault(UmbrellasItems.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT)
+        );
 
         matrices.pop();
     }

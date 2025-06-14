@@ -1,52 +1,41 @@
 package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
+import net.minecraft.client.render.item.model.special.SpecialModelTypes;
 import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.util.Arm;
+import net.minecraft.client.util.SpriteMapper;
 import net.minecraft.util.Identifier;
-import net.pneumono.pneumonocore.util.PneumonoEnchantmentHelper;
-import net.pneumono.umbrellas.content.UmbrellaItem;
 import net.pneumono.umbrellas.content.UmbrellaModel;
+import net.pneumono.umbrellas.content.UmbrellaModelRenderer;
 import net.pneumono.umbrellas.content.UmbrellaStandBlockEntityRenderer;
-import net.pneumono.umbrellas.content.UmbrellasRegistry;
-import net.pneumono.umbrellas.patterns.PatternRegistry;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 
+import java.util.HashMap;
 import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
 
 public class UmbrellasClient implements ClientModInitializer {
-	public static final Identifier UMBRELLA_PATTERNS_ATLAS_TEXTURE = new Identifier(Umbrellas.MOD_ID, "textures/atlas/umbrella_patterns.png");
-	public static final EntityModelLayer UMBRELLA = new EntityModelLayer(new Identifier(Umbrellas.MOD_ID, "umbrella"), "main");
-	public static final SpriteIdentifier UMBRELLA_BASE = new SpriteIdentifier(UMBRELLA_PATTERNS_ATLAS_TEXTURE, new Identifier(Umbrellas.MOD_ID, "entity/umbrella_base"));
-	public static final Map<RegistryKey<UmbrellaPattern>, SpriteIdentifier> UMBRELLA_PATTERN_TEXTURES = PatternRegistry.UMBRELLA_PATTERN.getKeys().stream().collect(Collectors.toMap(Function.identity(), UmbrellasClient::createUmbrellaPatternTextureId));
+	public static final EntityModelLayer UMBRELLA_MODEL_LAYER = new EntityModelLayer(Umbrellas.id("umbrella"), "main");
+	public static final Identifier UMBRELLA_PATTERNS_ATLAS_TEXTURE = Umbrellas.id("textures/atlas/umbrella_patterns.png");
+	public static final Map<Identifier, SpriteIdentifier> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
+	public static final SpriteMapper UMBRELLA_PATTERN_SPRITE_MAPPER = new SpriteMapper(UMBRELLA_PATTERNS_ATLAS_TEXTURE, "entity/umbrella");
+	public static final SpriteIdentifier UMBRELLA_BASE = UMBRELLA_PATTERN_SPRITE_MAPPER.map(Umbrellas.id("base"));
+	public static final SpriteIdentifier UMBRELLA_BASE_BAKER = new SpriteIdentifier(
+			UMBRELLA_PATTERNS_ATLAS_TEXTURE, Umbrellas.id("entity/umbrella_base")
+	);
 
 	@Override
 	public void onInitializeClient() {
-		BlockEntityRendererFactories.register(UmbrellasRegistry.UMBRELLA_STAND_ENTITY, UmbrellaStandBlockEntityRenderer::new);
-		EntityModelLayerRegistry.registerModelLayer(UMBRELLA, UmbrellaModel::getTexturedModelData);
-		for (Item item : UmbrellasRegistry.UMBRELLAS) {
-			BuiltinItemRendererRegistry.INSTANCE.register(item, (stack, mode, matrices, vertexConsumers, light, overlay) -> UmbrellaModel.render(stack, matrices, vertexConsumers, light, overlay));
-		}
+		BlockEntityRendererFactories.register(UmbrellasBlocks.UMBRELLA_STAND_BLOCK_ENTITY, UmbrellaStandBlockEntityRenderer::new);
+
+		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_MODEL_LAYER, UmbrellaModel::getTexturedModelData);
+
+		SpecialModelTypes.ID_MAPPER.put(Umbrellas.id("umbrella"), UmbrellaModelRenderer.Unbaked.CODEC);
 	}
 
-	private static SpriteIdentifier createUmbrellaPatternTextureId(RegistryKey<UmbrellaPattern> umbrellaPattern) {
-		return new SpriteIdentifier(UMBRELLA_PATTERNS_ATLAS_TEXTURE, umbrellaPattern.getValue().withPrefixedPath("entity/umbrella/"));
-	}
-
-	public static SpriteIdentifier getUmbrellaPatternTextureId(RegistryKey<UmbrellaPattern> umbrellaPattern) {
-		return UMBRELLA_PATTERN_TEXTURES.get(umbrellaPattern);
-	}
-
+	/*
 	public static boolean shouldChangeArms(LivingEntity entity, Arm arm) {
 		Arm mainArm = entity.getMainArm();
 		ItemStack stack = mainArm == arm ? entity.getMainHandStack() : entity.getOffHandStack();
@@ -60,4 +49,5 @@ public class UmbrellasClient implements ClientModInitializer {
 
 		return hasUmbrella && entity.getVelocity().getY() < minimumVelocity;
 	}
+	 */
 }

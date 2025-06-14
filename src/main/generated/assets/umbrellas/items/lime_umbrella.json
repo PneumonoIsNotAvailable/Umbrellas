@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "umbrellas:item/lime_umbrella",
+    "model": {
+      "type": "umbrellas:umbrella",
+      "color": "lime"
+    }
+  }
+}

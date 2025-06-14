@@ -1,9 +1,9 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "umbrellas:item/extra_umbrella",
+	"parent": "umbrellas:item/template_umbrella",
 	"textures": {
-		"umbrella": "umbrellas:item/jellyfish_umbrella",
-		"particle": "umbrellas:item/jellyfish_umbrella"
+		"particle": "umbrellas:item/jellyfish_umbrella",
+		"umbrella": "umbrellas:item/jellyfish_umbrella"
 	},
 	"elements": [
 		{

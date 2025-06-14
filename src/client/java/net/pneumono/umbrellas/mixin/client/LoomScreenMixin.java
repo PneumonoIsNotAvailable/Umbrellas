@@ -1,49 +1,13 @@
 package net.pneumono.umbrellas.mixin.client;
 
-import com.mojang.datafixers.util.Pair;
-import net.minecraft.client.gui.DrawContext;
-import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.OverlayTexture;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtList;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.screen.LoomScreenHandler;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.math.MathHelper;
-import net.pneumono.pneumonocore.util.PneumonoMathHelper;
-import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.UmbrellasClient;
-import net.pneumono.umbrellas.content.PatternableUmbrellaItem;
-import net.pneumono.umbrellas.patterns.PrideUmbrellaPatternItem;
-import net.pneumono.umbrellas.content.UmbrellaModel;
-import net.pneumono.umbrellas.content.UmbrellasRegistry;
-import net.pneumono.umbrellas.patterns.LoomScreenHandlerAccess;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
-import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.List;
-import java.util.Objects;
 
 @Mixin(LoomScreen.class)
-@SuppressWarnings("unused")
-public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
+public abstract class LoomScreenMixin /*extends HandledScreen<LoomScreenHandler>*/ {
+    // ...not now
+
+    /*
     @Shadow
     private boolean hasTooManyPatterns;
     @Shadow
@@ -73,7 +37,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
 
     @Inject(method = "init", at = @At("TAIL"))
     private void initUmbrellaField(CallbackInfo info) {
-        umbrellaField = Objects.requireNonNull(this.client).getEntityModelLoader().getModelPart(UmbrellasClient.UMBRELLA);
+        umbrellaField = Objects.requireNonNull(this.client).getEntityModelLoader().getModelPart(UmbrellasClient.UMBRELLA_MODEL_LAYER);
         time = 0;
     }
 
@@ -107,7 +71,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
                 this.umbrellaField.pitch = (float)PneumonoMathHelper.toRadians(90);
                 this.umbrellaField.yaw = 0f;
                 this.umbrellaField.roll = 0f;
-                UmbrellaModel.renderUmbrella(context.getMatrices(), context.getVertexConsumers(), 0xF000F0, OverlayTexture.DEFAULT_UV, this.umbrellaField, UmbrellasClient.UMBRELLA_BASE, this.umbrellaPatterns, false);
+                UmbrellaModelOld.renderUmbrella(context.getMatrices(), context.getVertexConsumers(), 0xF000F0, OverlayTexture.DEFAULT_UV, this.umbrellaField, UmbrellasClient.UMBRELLA_BASE, this.umbrellaPatterns, false);
                 context.getMatrices().pop();
                 context.draw();
             } else if (this.hasTooManyPatterns) {
@@ -162,7 +126,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         this.umbrellaField.yaw = 0f;
         this.umbrellaField.roll = 0f;
         List<Pair<RegistryEntry<UmbrellaPattern>, DyeColor>> list = PatternableUmbrellaItem.getPatternsFromNbt(itemStack);
-        UmbrellaModel.renderUmbrella(matrixStack, context.getVertexConsumers(), 0xF000F0, OverlayTexture.DEFAULT_UV, this.umbrellaField, UmbrellasClient.UMBRELLA_BASE, list, false);
+        UmbrellaModelOld.renderUmbrella(matrixStack, context.getVertexConsumers(), 0xF000F0, OverlayTexture.DEFAULT_UV, this.umbrellaField, UmbrellasClient.UMBRELLA_BASE, list, false);
         matrixStack.pop();
         context.draw();
     }
@@ -198,4 +162,6 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
             usingUmbrellas = false;
         }
     }
+
+     */
 }

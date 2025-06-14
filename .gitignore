@@ -40,5 +40,9 @@ replay_*.log
 *.jfr
 
 # datagen output
+
 src/main/generated/.cache/
+
+# texture creation stuff
+
 src/main/resources/assets/umbrellas/textures/entity/umbrella/templates/

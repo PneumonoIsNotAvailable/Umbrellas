@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "has_umbrella": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#umbrellas:umbrellas"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.umbrellas.get_umbrella.desc"
+    },
+    "icon": {
+      "count": 1,
+      "id": "umbrellas:red_umbrella"
+    },
+    "title": {
+      "translate": "advancements.umbrellas.get_umbrella.name"
+    }
+  },
+  "requirements": [
+    [
+      "has_umbrella"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

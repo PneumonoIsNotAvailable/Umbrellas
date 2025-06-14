@@ -1,0 +1,10 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "umbrellas:item/light_gray_umbrella",
+    "model": {
+      "type": "umbrellas:umbrella",
+      "color": "light_gray"
+    }
+  }
+}

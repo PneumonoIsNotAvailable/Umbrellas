@@ -1,11 +1,10 @@
 {
 	"required": true,
 	"package": "net.pneumono.umbrellas.mixin",
-	"compatibilityLevel": "JAVA_17",
+	"compatibilityLevel": "JAVA_21",
 	"mixins": [
 		"GlidingMovementMixin",
-		"UmbrellaSkylightMixin",
-		"LoomHandlerMixin"
+		"UmbrellaSkylightMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

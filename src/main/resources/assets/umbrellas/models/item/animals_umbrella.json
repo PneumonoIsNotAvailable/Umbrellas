@@ -1,8 +1,9 @@
 {
 	"credit": "Made with Blockbench",
-	"parent": "umbrellas:item/extra_umbrella",
+	"parent": "umbrellas:item/template_umbrella",
 	"texture_size": [64, 32],
 	"textures": {
+		"particle": "umbrellas:item/animals_umbrella",
 		"umbrella": "umbrellas:item/animals_umbrella",
 		"axolotl": "umbrellas:item/animals_umbrella_axolotl",
 		"cat": "umbrellas:item/animals_umbrella_cat"

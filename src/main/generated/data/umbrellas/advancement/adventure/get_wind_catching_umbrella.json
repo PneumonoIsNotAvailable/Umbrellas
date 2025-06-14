@@ -1,0 +1,47 @@
+{
+  "parent": "umbrellas:adventure/get_umbrella",
+  "criteria": {
+    "has_wind_catching_umbrella": {
+      "conditions": {
+        "items": [
+          {
+            "predicates": {
+              "minecraft:enchantments": [
+                {
+                  "enchantments": "umbrellas:wind_catching",
+                  "levels": {
+                    "min": 1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.umbrellas.get_wind_catching_umbrella.desc"
+    },
+    "icon": {
+      "components": {
+        "minecraft:enchantments": {
+          "umbrellas:wind_catching": 3
+        }
+      },
+      "count": 1,
+      "id": "umbrellas:red_umbrella"
+    },
+    "title": {
+      "translate": "advancements.umbrellas.get_wind_catching_umbrella.name"
+    }
+  },
+  "requirements": [
+    [
+      "has_wind_catching_umbrella"
+    ]
+  ],
+  "sends_telemetry_event": true
+}
