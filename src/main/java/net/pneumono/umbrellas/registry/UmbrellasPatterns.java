@@ -51,18 +51,20 @@ public class UmbrellasPatterns {
         registerPattern("half_left", true);
         registerPattern("half_right", true);
         registerPattern("border", true);
-        registerPattern("border_curly", true);
         registerPattern("gradient_bottom", true);
         registerPattern("gradient_top", true);
         registerPattern("gradient_left", true);
         registerPattern("gradient_right", true);
-        registerPattern("bricks", true);
         registerPattern("globe", true);
         registerPattern("creeper", true);
         registerPattern("skull", true);
         registerPattern("flower", true);
         registerPattern("mojang", true);
         registerPattern("piglin", true);
+        registerPattern("flow", true);
+        registerPattern("guster", true);
+        registerPattern("field_masoned", true);
+        registerPattern("bordure_indented", true);
 
         registerPattern("accent", true);
         registerPattern("square_full", true);

@@ -55,13 +55,16 @@ public class UmbrellasItems {
     public static final Item GOTHIC_UMBRELLA = registerExtraUmbrella("gothic", Rarity.UNCOMMON);
     public static final Item JELLYFISH_UMBRELLA = registerExtraUmbrella("jellyfish", Rarity.UNCOMMON);
 
-    public static final Item GLOBE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("globe", Rarity.COMMON);
+    public static final Item FLOWER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("flower", Rarity.COMMON);
     public static final Item CREEPER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("creeper", Rarity.UNCOMMON);
     public static final Item SKULL_UMBRELLA_PATTERN = registerUmbrellaPatternItem("skull", Rarity.UNCOMMON);
-    public static final Item FLOWER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("flower", Rarity.COMMON);
     public static final Item MOJANG_UMBRELLA_PATTERN = registerUmbrellaPatternItem("mojang", Rarity.EPIC);
+    public static final Item GLOBE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("globe", Rarity.COMMON);
     public static final Item PIGLIN_UMBRELLA_PATTERN = registerUmbrellaPatternItem("piglin", Rarity.COMMON);
-    // TODO: add equivalents for vanilla's new banner patterns
+    public static final Item FLOW_UMBRELLA_PATTERN = registerUmbrellaPatternItem("flow", Rarity.RARE);
+    public static final Item GUSTER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("guster", Rarity.RARE);
+    public static final Item FIELD_MASONED_UMBRELLA_PATTERN = registerUmbrellaPatternItem("field_masoned", Rarity.COMMON);
+    public static final Item BORDURE_INDENTED_UMBRELLA_PATTERN = registerUmbrellaPatternItem("bordure_indented", Rarity.COMMON);
     public static final Item PRIDE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("pride", Rarity.EPIC, false);
 
     public static final Item UMBRELLA_STAND = registerItem("umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.UMBRELLA_STAND, settings), new Item.Settings());
@@ -133,16 +136,8 @@ public class UmbrellasItems {
     }
 
     public static void registerUmbrellasItems() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> {
-            for (Item item : UMBRELLAS) {
-                content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, item);
-            }
-        });
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> {
-            for (Item item : PATTERNS) {
-                content.addAfter(Items.GUSTER_BANNER_PATTERN, item);
-            }
-        });
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, UMBRELLAS.toArray(Item[]::new)));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, PATTERNS.toArray(Item[]::new)));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(UMBRELLA_STAND));
 
         Identifier itemGroup = Umbrellas.id(Umbrellas.MOD_ID);
