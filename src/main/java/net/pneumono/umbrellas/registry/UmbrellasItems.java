@@ -1,6 +1,7 @@
 package net.pneumono.umbrellas.registry;
 
 import com.mojang.serialization.Codec;
+import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.component.ComponentType;
@@ -137,6 +138,9 @@ public class UmbrellasItems {
     }
 
     public static void registerUmbrellasItems() {
+        ComponentTooltipAppenderRegistry.addFirst(PROVIDES_UMBRELLA_PATTERNS);
+        ComponentTooltipAppenderRegistry.addFirst(UMBRELLA_PATTERNS);
+
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, UMBRELLAS.toArray(Item[]::new)));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, PATTERNS.toArray(Item[]::new)));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(UMBRELLA_STAND));
