@@ -96,7 +96,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         );
         PneumonoDatagenUtil.generateConfigTranslations(builder,
                 Umbrellas.ENCHANTMENT_GLINT,
-                "Slow Falling",
+                "Enchantment Glint",
                 "Whether enchantment glint is visible on enchanted umbrellas"
         );
     }

@@ -8,7 +8,7 @@
   "block.umbrellas.umbrella_stand": "Umbrella Stand",
   "configs.umbrellas.durability": "Durability",
   "configs.umbrellas.durability.tooltip": "Whether umbrellas have limited durability",
-  "configs.umbrellas.enchantment_glint": "Slow Falling",
+  "configs.umbrellas.enchantment_glint": "Enchantment Glint",
   "configs.umbrellas.enchantment_glint.tooltip": "Whether enchantment glint is visible on enchanted umbrellas",
   "configs.umbrellas.screen_title": "Umbrellas Cleaned",
   "configs.umbrellas.slow_falling": "Slow Falling",
