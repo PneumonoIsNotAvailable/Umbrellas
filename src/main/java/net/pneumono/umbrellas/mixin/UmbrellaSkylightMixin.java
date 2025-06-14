@@ -13,6 +13,7 @@ import net.minecraft.world.WorldAccess;
 import net.pneumono.pneumonocore.util.PneumonoMathHelper;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
+import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -37,11 +38,12 @@ public abstract class UmbrellaSkylightMixin implements WorldAccess {
         for (Entity temp : getOtherEntities(null, box)) {
             if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2) {
                 ItemStack friendMainHandStack = friend.getMainHandStack();
-                ItemStack friendOffHandStack = friend.getOffHandStack();
-                if (friendMainHandStack.getItem() instanceof UmbrellaItem) {
+                if (friendMainHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
                     UmbrellaItem.damageUmbrella(friendMainHandStack, (World)(Object)this, friend, EquipmentSlot.MAINHAND);
                     return true;
-                } else if (friendOffHandStack.getItem() instanceof UmbrellaItem) {
+                }
+                ItemStack friendOffHandStack = friend.getOffHandStack();
+                if (friendOffHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
                     UmbrellaItem.damageUmbrella(friendOffHandStack, (World)(Object)this, friend, EquipmentSlot.OFFHAND);
                     return true;
                 }

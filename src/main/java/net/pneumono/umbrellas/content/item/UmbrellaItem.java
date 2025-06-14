@@ -28,7 +28,14 @@ public class UmbrellaItem extends Item {
     public static void damageUmbrella(ItemStack stack, World world, LivingEntity entity, EquipmentSlot slot) {
         if (Umbrellas.DURABILITY.getValue()) {
             long time = world.getTime();
+
+            if (!stack.contains(UmbrellasItems.LAST_DAMAGE)) {
+                stack.set(UmbrellasItems.LAST_DAMAGE, time);
+                return;
+            }
+
             long lastDamaged = stack.getOrDefault(UmbrellasItems.LAST_DAMAGE, time);
+
             if (lastDamaged + 20 <= time) {
                 stack.set(UmbrellasItems.LAST_DAMAGE, time);
                 stack.damage(1, entity, slot);
