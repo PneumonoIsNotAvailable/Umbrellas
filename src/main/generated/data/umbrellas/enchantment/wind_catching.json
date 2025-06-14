@@ -3,6 +3,16 @@
   "description": {
     "translate": "enchantment.umbrellas.wind_catching"
   },
+  "effects": {
+    "umbrellas:smoke_boosting": {
+      "type": "minecraft:add",
+      "value": {
+        "type": "minecraft:linear",
+        "base": 1.0,
+        "per_level_above_first": 1.0
+      }
+    }
+  },
   "max_cost": {
     "base": 55,
     "per_level_above_first": 8

@@ -68,6 +68,9 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
                                     )
                             )
                     )
+            ).addNonListEffect(
+                    UmbrellasMisc.SLOW_FALLING,
+                    new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(1, 1))
             ),
             UmbrellasMisc.WIND_CATCHING,
             itemLookup -> Enchantment.builder(
@@ -79,6 +82,9 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
                             3,
                             AttributeModifierSlot.HAND
                     )
+            ).addNonListEffect(
+                    UmbrellasMisc.SMOKE_BOOSTING,
+                    new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(1, 1))
             )
 
     );
