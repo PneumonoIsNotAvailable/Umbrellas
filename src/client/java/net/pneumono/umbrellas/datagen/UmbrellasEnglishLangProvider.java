@@ -11,6 +11,7 @@ import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasPatterns;
+import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.BiConsumer;
 
@@ -84,6 +85,10 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 "Slow Falling",
                 "Whether umbrellas grant players slow falling"
         );
+        for (EnchantmentAbilityType type : EnchantmentAbilityType.values()) {
+            PneumonoDatagenUtil.generateEnumConfigOptionTranslation(builder, Umbrellas.SLOW_FALLING, type, type.name());
+            PneumonoDatagenUtil.generateEnumConfigOptionTranslation(builder, Umbrellas.SMOKE_BOOSTING, type, type.name());
+        }
         PneumonoDatagenUtil.generateConfigTranslations(builder,
                 Umbrellas.SMOKE_BOOSTING,
                 "Smoke Boosting",
