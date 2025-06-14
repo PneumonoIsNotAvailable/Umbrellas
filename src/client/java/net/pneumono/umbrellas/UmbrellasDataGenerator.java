@@ -16,6 +16,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(UmbrellasEnchantmentProvider::new);
         pack.addProvider(UmbrellasAdvancementProvider::new);
         pack.addProvider(UmbrellasModelProvider::new);
+        pack.addProvider(UmbrellasEnglishLangProvider::new);
     }
 
     @Override

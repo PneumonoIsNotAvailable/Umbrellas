@@ -11,7 +11,6 @@ import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
@@ -79,6 +78,8 @@ public class UmbrellasItems {
             ComponentType.<UmbrellaPatternsComponent>builder().codec(UmbrellaPatternsComponent.CODEC).packetCodec(UmbrellaPatternsComponent.PACKET_CODEC).build()
     );
 
+    public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Umbrellas.id(Umbrellas.MOD_ID));
+
     private static PatternableUmbrellaItem registerPatternableUmbrella(DyeColor color) {
         PatternableUmbrellaItem item = registerUmbrella(color.getId(), settings -> new PatternableUmbrellaItem(settings, color), Rarity.COMMON);
         PATTERNABLE_UMBRELLAS.add(item);
@@ -140,8 +141,9 @@ public class UmbrellasItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, PATTERNS.toArray(Item[]::new)));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(UMBRELLA_STAND));
 
-        Identifier itemGroup = Umbrellas.id(Umbrellas.MOD_ID);
-        Registry.register(Registries.ITEM_GROUP, itemGroup, FabricItemGroup.builder().displayName(Text.translatable(itemGroup.toTranslationKey("itemGroup"))).icon(() -> new ItemStack(RED_UMBRELLA))
+        Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
+                .displayName(Text.translatable(ITEM_GROUP.getValue().toTranslationKey("itemGroup")))
+                .icon(() -> new ItemStack(RED_UMBRELLA))
                 .entries((displayContext, entries) -> {
                     entries.add(UMBRELLA_STAND);
                     for (Item item : UMBRELLAS) {

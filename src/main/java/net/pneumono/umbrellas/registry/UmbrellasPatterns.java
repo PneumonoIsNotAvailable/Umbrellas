@@ -26,8 +26,8 @@ public class UmbrellasPatterns {
     public static final UmbrellaPattern STRIPE_RIGHT = register("stripe_right");
     public static final UmbrellaPattern STRIPE_VERTICAL = register("stripe_vertical");
     public static final UmbrellaPattern STRIPE_HORIZONTAL = register("stripe_horizontal");
-    public static final UmbrellaPattern STRIPE_UP_LEFT = register("stripe_up_left");
-    public static final UmbrellaPattern STRIPE_UP_RIGHT = register("stripe_up_right");
+    public static final UmbrellaPattern STRIPE_DOWN_LEFT = register("stripe_down_left");
+    public static final UmbrellaPattern STRIPE_DOWN_RIGHT = register("stripe_down_right");
     public static final UmbrellaPattern STRIPES_VERTICAL = register("stripes_vertical");
     public static final UmbrellaPattern STRIPES_HORIZONTAL = register("stripes_horizontal");
     public static final UmbrellaPattern CROSS_CARDINAL = register("cross_cardinal");
@@ -72,12 +72,12 @@ public class UmbrellasPatterns {
     public static final UmbrellaPattern SQUARE_FULL = register("square_full");
     public static final UmbrellaPattern SQUARE_HOLLOW = register("square_hollow");
     public static final UmbrellaPattern CIRCLE_HOLLOW = register("circle_hollow");
-    public static final UmbrellaPattern HALF_GRADIENT_TOP = register("half_gradient_top");
     public static final UmbrellaPattern HALF_GRADIENT_BOTTOM = register("half_gradient_bottom");
+    public static final UmbrellaPattern HALF_GRADIENT_TOP = register("half_gradient_top");
     public static final UmbrellaPattern HALF_GRADIENT_LEFT = register("half_gradient_left");
     public static final UmbrellaPattern HALF_GRADIENT_RIGHT = register("half_gradient_right");
-    public static final UmbrellaPattern THIRD_TOP = register("third_top");
     public static final UmbrellaPattern THIRD_BOTTOM = register("third_bottom");
+    public static final UmbrellaPattern THIRD_TOP = register("third_top");
     public static final UmbrellaPattern THIRD_LEFT = register("third_left");
     public static final UmbrellaPattern THIRD_RIGHT = register("third_right");
     public static final UmbrellaPattern THIRD_VERTICAL = register("third_vertical");
