@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.data.*;
 import net.minecraft.client.render.item.model.ItemModel;
 import net.minecraft.item.Item;
+import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.UmbrellaModelRenderer;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
@@ -28,12 +29,14 @@ public class UmbrellasModelProvider extends FabricModelProvider {
 
     private void registerUmbrellaStand(BlockStateModelGenerator generator, Block block) {
         TextureMap textureMap = TextureMap.texture(block);
+        Identifier modelId = TEMPLATE_UMBRELLA_STAND.upload(block, textureMap, generator.modelCollector);
         generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(
                 block,
                 BlockStateModelGenerator.createWeightedVariant(
-                        TEMPLATE_UMBRELLA_STAND.upload(block, textureMap, generator.modelCollector)
-                )));
-        generator.registerItemModel(block);
+                        modelId
+                ))
+        );
+        generator.registerParentedItemModel(block, modelId);
     }
 
     private static final Model TEMPLATE_UMBRELLA = new Model(Optional.of(Umbrellas.id("item/template_umbrella")), Optional.empty());

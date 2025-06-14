@@ -1,6 +1,6 @@
 {
   "model": {
     "type": "minecraft:model",
-    "model": "umbrellas:item/umbrella_stand"
+    "model": "umbrellas:block/umbrella_stand"
   }
 }

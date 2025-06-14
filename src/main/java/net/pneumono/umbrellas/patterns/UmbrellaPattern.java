@@ -2,16 +2,13 @@ package net.pneumono.umbrellas.patterns;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.registry.UmbrellasPatterns;
-import org.jetbrains.annotations.Nullable;
 
 public record UmbrellaPattern(Identifier assetId, String translationKey, boolean dyeable) {
     public static final Codec<UmbrellaPattern> CODEC = RecordCodecBuilder.create(
