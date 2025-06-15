@@ -8,10 +8,7 @@ import net.minecraft.util.DyeColor;
 import net.pneumono.pneumonocore.datagen.PneumonoDatagenUtil;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.patterns.UmbrellaPattern;
-import net.pneumono.umbrellas.registry.UmbrellasBlocks;
-import net.pneumono.umbrellas.registry.UmbrellasItems;
-import net.pneumono.umbrellas.registry.UmbrellasMisc;
-import net.pneumono.umbrellas.registry.UmbrellaPatterns;
+import net.pneumono.umbrellas.registry.*;
 import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.BiConsumer;
@@ -79,6 +76,23 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add("advancements.umbrellas.get_gliding_umbrella.desc", "Enchant an Umbrella with Gliding");
         builder.add("advancements.umbrellas.get_wind_catching_umbrella.name", "I Can See My House From Here!");
         builder.add("advancements.umbrellas.get_wind_catching_umbrella.desc", "Enchant an Umbrella with Wind Catching");
+
+        builder.add(UmbrellasTags.REPAIRS_UMBRELLAS, "Repairs Umbrellas");
+        builder.add(UmbrellasTags.UMBRELLAS, "Umbrellas");
+        builder.add(UmbrellasTags.UMBRELLA_ENCHANTABLE, "Umbrella Enchantable");
+        builder.add(UmbrellasTags.BOOSTS_UMBRELLAS, "Boosts Umbrellas");
+        builder.add(UmbrellasTags.NO_ITEM_REQUIRED, "No Umbrella Pattern Required");
+        builder.add(UmbrellasTags.PRIDE, "Pride Pattern");
+        builder.add(UmbrellasTags.FLOWER, "Flower Pattern");
+        builder.add(UmbrellasTags.CREEPER, "Creeper Pattern");
+        builder.add(UmbrellasTags.SKULL, "Skull Pattern");
+        builder.add(UmbrellasTags.MOJANG, "Thing Pattern");
+        builder.add(UmbrellasTags.GLOBE, "Globe Pattern");
+        builder.add(UmbrellasTags.PIGLIN, "Piglin Pattern");
+        builder.add(UmbrellasTags.FLOW, "Flow Pattern");
+        builder.add(UmbrellasTags.GUSTER, "Guster Pattern");
+        builder.add(UmbrellasTags.FIELD_MASONED, "Field Masoned Pattern");
+        builder.add(UmbrellasTags.BORDURE_INDENTED, "Bordure Indented Pattern");
 
         PneumonoDatagenUtil.generateConfigScreenTranslation(builder, Umbrellas.MOD_ID, "Umbrellas Cleaned");
         PneumonoDatagenUtil.generateConfigTranslations(builder,
@@ -167,7 +181,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
             builder.accept(UmbrellaPatterns.FLOW, "%s Flow");
             builder.accept(UmbrellaPatterns.GUSTER, "%s Guster");
             builder.accept(UmbrellaPatterns.FIELD_MASONED, "%s Field Masoned");
-            builder.accept(UmbrellaPatterns.BORDURE_INDENTED, "%s Indented Border");
+            builder.accept(UmbrellaPatterns.BORDURE_INDENTED, "%s Bordure Indented");
 
             builder.accept(UmbrellaPatterns.ACCENT, "%s Thin Border");
             builder.accept(UmbrellaPatterns.SQUARE_FULL, "%s Square");
