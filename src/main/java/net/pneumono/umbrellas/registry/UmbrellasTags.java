@@ -25,7 +25,7 @@ public class UmbrellasTags {
     }
 
     public static TagKey<UmbrellaPattern> pattern(String name) {
-        return TagKey.of(UmbrellasPatterns.UMBRELLA_PATTERN_KEY, Umbrellas.id(name));
+        return TagKey.of(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, Umbrellas.id(name));
     }
 
     public static void registerUmbrellasTags() {

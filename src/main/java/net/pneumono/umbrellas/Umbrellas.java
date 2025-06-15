@@ -1,11 +1,13 @@
 package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.minecraft.util.Identifier;
 import net.pneumono.pneumonocore.config.BooleanConfiguration;
 import net.pneumono.pneumonocore.config.ConfigEnv;
 import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.pneumonocore.config.EnumConfiguration;
+import net.pneumono.umbrellas.patterns.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
 import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 import net.pneumono.umbrellas.registry.UmbrellaCauldronBehavior;
@@ -24,11 +26,13 @@ public class Umbrellas implements ModInitializer {
 	public void onInitialize() {
 		LOGGER.info("Initialising Umbrellas");
 
+		DynamicRegistries.registerSynced(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellaPattern.CODEC);
+
 		UmbrellasItems.registerUmbrellasItems();
 		UmbrellasBlocks.registerUmbrellasBlocks();
 		UmbrellasTags.registerUmbrellasTags();
 		UmbrellasMisc.registerUmbrellasMisc();
-		UmbrellasPatterns.registerUmbrellasPatterns();
+		UmbrellaPatterns.registerUmbrellasPatterns();
 
 		UmbrellaCauldronBehavior.registerCauldronBehavior();
 	}

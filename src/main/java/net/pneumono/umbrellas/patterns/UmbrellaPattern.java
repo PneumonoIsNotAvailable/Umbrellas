@@ -8,7 +8,7 @@ import net.minecraft.network.codec.PacketCodecs;
 import net.minecraft.registry.entry.RegistryElementCodec;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
-import net.pneumono.umbrellas.registry.UmbrellasPatterns;
+import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 
 public record UmbrellaPattern(Identifier assetId, String translationKey, boolean dyeable) {
     public static final Codec<UmbrellaPattern> CODEC = RecordCodecBuilder.create(
@@ -28,8 +28,8 @@ public record UmbrellaPattern(Identifier assetId, String translationKey, boolean
             UmbrellaPattern::new
     );
 
-    public static final Codec<RegistryEntry<UmbrellaPattern>> ENTRY_CODEC = RegistryElementCodec.of(UmbrellasPatterns.UMBRELLA_PATTERN_KEY, CODEC);
+    public static final Codec<RegistryEntry<UmbrellaPattern>> ENTRY_CODEC = RegistryElementCodec.of(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, CODEC);
     public static final PacketCodec<RegistryByteBuf, RegistryEntry<UmbrellaPattern>> ENTRY_PACKET_CODEC = PacketCodecs.registryEntry(
-            UmbrellasPatterns.UMBRELLA_PATTERN_KEY, PACKET_CODEC
+            UmbrellaPatterns.UMBRELLA_PATTERN_KEY, PACKET_CODEC
     );
 }
