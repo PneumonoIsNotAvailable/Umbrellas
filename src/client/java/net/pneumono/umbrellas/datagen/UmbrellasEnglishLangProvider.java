@@ -25,12 +25,12 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasItems.WHITE_UMBRELLA, "White Umbrella");
         builder.add(UmbrellasItems.ORANGE_UMBRELLA, "Orange Umbrella");
         builder.add(UmbrellasItems.MAGENTA_UMBRELLA, "Magenta Umbrella");
-        builder.add(UmbrellasItems.LIGHT_BLUE_UMBRELLA, "Light_blue Umbrella");
+        builder.add(UmbrellasItems.LIGHT_BLUE_UMBRELLA, "Light Blue Umbrella");
         builder.add(UmbrellasItems.YELLOW_UMBRELLA, "Yellow Umbrella");
         builder.add(UmbrellasItems.LIME_UMBRELLA, "Lime Umbrella");
         builder.add(UmbrellasItems.PINK_UMBRELLA, "Pink Umbrella");
         builder.add(UmbrellasItems.GRAY_UMBRELLA, "Gray Umbrella");
-        builder.add(UmbrellasItems.LIGHT_GRAY_UMBRELLA, "Light_gray Umbrella");
+        builder.add(UmbrellasItems.LIGHT_GRAY_UMBRELLA, "Light Gray Umbrella");
         builder.add(UmbrellasItems.CYAN_UMBRELLA, "Cyan Umbrella");
         builder.add(UmbrellasItems.PURPLE_UMBRELLA, "Purple Umbrella");
         builder.add(UmbrellasItems.BLUE_UMBRELLA, "Blue Umbrella");
