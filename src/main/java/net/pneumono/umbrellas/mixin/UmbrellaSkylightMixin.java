@@ -1,65 +1,17 @@
 package net.pneumono.umbrellas.mixin;
 
-import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
-import net.pneumono.pneumonocore.util.PneumonoMathHelper;
-import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
-import net.pneumono.umbrellas.content.item.UmbrellaItem;
-import net.pneumono.umbrellas.registry.UmbrellasTags;
-import org.jetbrains.annotations.Nullable;
+import net.pneumono.umbrellas.util.UmbrellaUtils;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(World.class)
 public abstract class UmbrellaSkylightMixin implements WorldAccess {
-    @Shadow public abstract @Nullable BlockEntity getBlockEntity(BlockPos pos);
-
     @Override
     public boolean isSkyVisible(BlockPos pos) {
-        return WorldAccess.super.isSkyVisible(pos) && !isUnderUmbrella(pos);
-    }
-
-    @Unique
-    public boolean isUnderUmbrella(BlockPos pos) {
-        int areaWidth = 2;
-        int startY = 0;
-        int endY = 10;
-
-        Box box = new Box(new Vec3d(pos.getX() - areaWidth, pos.getY() + startY, pos.getZ() - areaWidth), new Vec3d(pos.getX() + areaWidth, pos.getY() + endY, pos.getZ() + areaWidth));
-
-        for (int x = -areaWidth; x <= areaWidth; ++x) {
-            for (int y = startY; y <= endY; ++y) {
-                for (int z = -areaWidth; z <= areaWidth; ++z) {
-                    BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
-                    if (getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= 2) {
-                        return true;
-                    }
-                }
-            }
-        }
-
-        for (Entity temp : getOtherEntities(null, box)) {
-            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2) {
-                ItemStack friendMainHandStack = friend.getMainHandStack();
-                if (friendMainHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
-                    UmbrellaItem.damageUmbrella(friendMainHandStack, (World)(Object)this, friend, EquipmentSlot.MAINHAND);
-                    return true;
-                }
-                ItemStack friendOffHandStack = friend.getOffHandStack();
-                if (friendOffHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
-                    UmbrellaItem.damageUmbrella(friendOffHandStack, (World)(Object)this, friend, EquipmentSlot.OFFHAND);
-                    return true;
-                }
-            }
+        if (WorldAccess.super.isSkyVisible(pos)) {
+            return !UmbrellaUtils.isUnderUmbrella((World)(Object)this, pos, true);
         }
         return false;
     }
