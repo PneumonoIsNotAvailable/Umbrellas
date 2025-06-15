@@ -8,19 +8,28 @@ import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
+import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class UmbrellaRenderer {
-    private final UmbrellaModel model;
+    public static final Map<Identifier, SpriteIdentifier> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
+
+    private final UmbrellaModel.Handle handleModel;
+    private final UmbrellaModel.Canopy canopyModel;
 
     public UmbrellaRenderer(LoadedEntityModels models) {
-        this.model = new UmbrellaModel(models.getModelPart(UmbrellasClient.UMBRELLA_MODEL_LAYER));
+        this.handleModel = new UmbrellaModel.Handle(models.getModelPart(UmbrellasClient.UMBRELLA_HANDLE_LAYER));
+        this.canopyModel = new UmbrellaModel.Canopy(models.getModelPart(UmbrellasClient.UMBRELLA_CANOPY_LAYER));
     }
 
     public static SpriteIdentifier getUmbrellaPatternTextureId(RegistryEntry<UmbrellaPattern> pattern) {
-        return UmbrellasClient.UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER::map);
+        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER::map);
     }
 
     public void render(
@@ -35,8 +44,8 @@ public class UmbrellaRenderer {
         matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(rotation));
         matrices.scale(1.0F, -1.0F, -1.0F);
 
-        this.model.render(matrices, UmbrellasClient.UMBRELLA_BASE_BAKER.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid), light, overlay);
-        renderCanopy(matrices, vertexConsumers, light, overlay, glint, false, this.model.getRootPart(), UmbrellasClient.UMBRELLA_BASE_BAKER, baseColor, patterns);
+        this.handleModel.render(matrices, UmbrellasClient.UMBRELLA_BASE.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid), light, overlay);
+        renderCanopy(matrices, vertexConsumers, light, overlay, glint, false, this.canopyModel.getRootPart(), UmbrellasClient.UMBRELLA_BASE, baseColor, patterns);
 
         matrices.pop();
     }
@@ -52,7 +61,13 @@ public class UmbrellaRenderer {
             UmbrellaPatternsComponent patterns
     ) {
         canopy.render(matrices, baseSprite.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid, solid, glint), light, overlay);
-        renderLayer(matrices, vertexConsumers, light, overlay, canopy, UmbrellasClient.UMBRELLA_BASE, baseColor.getEntityColor());
+        renderLayer(
+                matrices, vertexConsumers,
+                light, overlay,
+                canopy,
+                UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.map(Umbrellas.id("base")),
+                baseColor.getEntityColor()
+        );
 
         for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {
             UmbrellaPatternsComponent.Layer layer = patterns.layers().get(i);

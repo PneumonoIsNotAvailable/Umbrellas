@@ -51,7 +51,7 @@ public class LoomUmbrellaRendering {
                         OverlayTexture.DEFAULT_UV,
                         false, true,
                         umbrella,
-                        UmbrellasClient.UMBRELLA_BASE_BAKER,
+                        UmbrellasClient.UMBRELLA_BASE,
                         color,
                         patterns
                 )

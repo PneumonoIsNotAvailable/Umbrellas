@@ -77,7 +77,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
             at = @At("RETURN")
     )
     private void initUmbrellaModel(CallbackInfo ci) {
-        this.umbrella = Objects.requireNonNull(this.client).getLoadedEntityModels().getModelPart(UmbrellasClient.UMBRELLA_MODEL_LAYER);
+        this.umbrella = Objects.requireNonNull(this.client).getLoadedEntityModels().getModelPart(UmbrellasClient.UMBRELLA_CANOPY_LAYER);
     }
 
     @WrapOperation(
