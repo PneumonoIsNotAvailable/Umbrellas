@@ -120,8 +120,45 @@ public class UmbrellasItems {
     }
 
     public static void registerUmbrellasItems() {
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, UMBRELLAS.toArray(Item[]::new)));
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, PATTERNS.toArray(Item[]::new)));
+        Item[] umbrellas = new Item[]{
+                WHITE_UMBRELLA,
+                LIGHT_GRAY_UMBRELLA,
+                GRAY_UMBRELLA,
+                BLACK_UMBRELLA,
+                BROWN_UMBRELLA,
+                RED_UMBRELLA,
+                ORANGE_UMBRELLA,
+                YELLOW_UMBRELLA,
+                LIME_UMBRELLA,
+                GREEN_UMBRELLA,
+                CYAN_UMBRELLA,
+                LIGHT_BLUE_UMBRELLA,
+                BLUE_UMBRELLA,
+                PURPLE_UMBRELLA,
+                MAGENTA_UMBRELLA,
+                PINK_UMBRELLA,
+                ANIMALS_UMBRELLA,
+                AZALEA_UMBRELLA,
+                GALACTIC_UMBRELLA,
+                GOTHIC_UMBRELLA,
+                JELLYFISH_UMBRELLA
+        };
+        Item[] patterns = new Item[]{
+                FIELD_MASONED_UMBRELLA_PATTERN,
+                BORDURE_INDENTED_UMBRELLA_PATTERN,
+                FLOWER_UMBRELLA_PATTERN,
+                CREEPER_UMBRELLA_PATTERN,
+                SKULL_UMBRELLA_PATTERN,
+                MOJANG_UMBRELLA_PATTERN,
+                GLOBE_UMBRELLA_PATTERN,
+                PIGLIN_UMBRELLA_PATTERN,
+                FLOW_UMBRELLA_PATTERN,
+                GUSTER_UMBRELLA_PATTERN,
+                PRIDE_UMBRELLA_PATTERN
+        };
+
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, patterns));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(UMBRELLA_STAND));
 
         Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
@@ -129,10 +166,10 @@ public class UmbrellasItems {
                 .icon(() -> new ItemStack(RED_UMBRELLA))
                 .entries((displayContext, entries) -> {
                     entries.add(UMBRELLA_STAND);
-                    for (Item item : UMBRELLAS) {
+                    for (Item item : umbrellas) {
                         entries.add(item);
                     }
-                    for (Item item : PATTERNS) {
+                    for (Item item : patterns) {
                         entries.add(item);
                     }
                 }).build()
