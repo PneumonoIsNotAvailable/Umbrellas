@@ -108,8 +108,8 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         Slot outputSlot = this.handler.getOutputSlot();
 
         if (!isUsingUmbrellas) {
-            DiffuseLighting.enableGuiDepthLighting();
             if (!(this.handler.getBannerSlot().getStack().getItem() instanceof BannerItem)) {
+                DiffuseLighting.enableGuiDepthLighting();
                 ci.cancel();
             }
             return;
