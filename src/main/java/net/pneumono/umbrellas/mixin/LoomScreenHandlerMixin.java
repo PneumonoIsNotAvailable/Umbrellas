@@ -130,14 +130,17 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
         }
 
         this.bannerPatterns = List.of();
-        if (!inputStack.isEmpty() && !dyeStack.isEmpty()) {
+        if (!inputStack.isEmpty()) {
             this.isUsingUmbrellas = true;
+            boolean hasDye = !dyeStack.isEmpty();
 
             int patternIndex = this.selectedPattern.get();
             boolean indexValid = this.isPatternIndexValid(patternIndex);
 
             List<RegistryEntry<UmbrellaPattern>> oldPatterns = this.umbrellaPatterns;
-            this.umbrellaPatterns = this.getUmbrellaPatternsFor(patternStack);
+            this.umbrellaPatterns = this.getUmbrellaPatternsFor(patternStack).stream().filter(
+                    pattern -> pattern.value().dyeable() == hasDye
+            ).toList();
 
             RegistryEntry<UmbrellaPattern> selectedPattern;
             if (this.umbrellaPatterns.size() == 1) {
@@ -218,9 +221,9 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
         ItemStack inputStack = this.bannerSlot.getStack();
         ItemStack dyeStack = this.dyeSlot.getStack();
         ItemStack empty = ItemStack.EMPTY;
-        if (!inputStack.isEmpty() && !dyeStack.isEmpty()) {
+        if (!inputStack.isEmpty()) {
             empty = inputStack.copyWithCount(1);
-            DyeColor dyeColor = ((DyeItem) dyeStack.getItem()).getColor();
+            DyeColor dyeColor = dyeStack.getItem() instanceof DyeItem dyeItem ? dyeItem.getColor() : DyeColor.WHITE;
             empty.apply(
                     UmbrellasDataComponents.UMBRELLA_PATTERNS,
                     UmbrellaPatternsComponent.DEFAULT,

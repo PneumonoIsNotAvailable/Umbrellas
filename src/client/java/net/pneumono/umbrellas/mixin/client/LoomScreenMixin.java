@@ -217,4 +217,17 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     private boolean slotHasPatternItem(List<RegistryEntry<BannerPattern>> bannerPatterns, Operation<Boolean> original) {
         return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns().isEmpty();
     }
+
+    // ngl scuffed as hell but whatever
+    @WrapOperation(
+            method = "onInventoryChanged",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/item/ItemStack;isEmpty()Z",
+                    ordinal = 2
+            )
+    )
+    private boolean slotHasDyeItem(ItemStack instance, Operation<Boolean> original) {
+        return false;
+    }
 }
