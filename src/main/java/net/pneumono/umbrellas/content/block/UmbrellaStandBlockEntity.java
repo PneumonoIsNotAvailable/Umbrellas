@@ -2,7 +2,6 @@ package net.pneumono.umbrellas.content.block;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.ItemEntity;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
@@ -15,7 +14,6 @@ import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Vec3d;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;
@@ -40,21 +38,6 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
         if (!this.umbrellaStack.isEmpty()) {
             RegistryOps<NbtElement> registryOps = registries.getOps(NbtOps.INSTANCE);
             nbt.put("UmbrellaItem", ItemStack.CODEC, registryOps, this.umbrellaStack);
-        }
-    }
-
-    public void dropUmbrella() {
-        if (this.world != null && !this.world.isClient) {
-            BlockPos blockPos = this.getPos();
-            ItemStack itemStack = this.umbrellaStack;
-            if (!itemStack.isEmpty()) {
-                this.emptyStack();
-                Vec3d vec3d = Vec3d.add(blockPos, 0.5, 1.01, 0.5).addRandom(this.world.random, 0.7F);
-                ItemStack itemStack2 = itemStack.copy();
-                ItemEntity itemEntity = new ItemEntity(this.world, vec3d.getX(), vec3d.getY(), vec3d.getZ(), itemStack2);
-                itemEntity.setToDefaultPickupDelay();
-                this.world.spawnEntity(itemEntity);
-            }
         }
     }
 
