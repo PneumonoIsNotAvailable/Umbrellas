@@ -53,7 +53,7 @@ public abstract class UmbrellaSkylightMixin implements WorldAccess {
             for (int y = startY; y <= endY; ++y) {
                 for (int z = -areaWidth; z <= areaWidth; ++z) {
                     BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
-                    if (getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && PneumonoMathHelper.horizontalDistanceBetween(newPos, pos) <= 2) {
+                    if (getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= 2) {
                         return true;
                     }
                 }
