@@ -20,7 +20,7 @@ public class Umbrellas implements ModInitializer {
 	public static final EnumConfiguration<EnchantmentAbilityType> SLOW_FALLING = new EnumConfiguration<>(MOD_ID, "slow_falling",ConfigEnv.SERVER, EnchantmentAbilityType.ENCHANTED_ONLY);
 	public static final EnumConfiguration<EnchantmentAbilityType> SMOKE_BOOSTING = new EnumConfiguration<>(MOD_ID, "smoke_boosting", ConfigEnv.SERVER, EnchantmentAbilityType.ENCHANTED_ONLY);
 	public static final BooleanConfiguration DURABILITY = new BooleanConfiguration(MOD_ID, "durability", ConfigEnv.SERVER, true);
-	public static final BooleanConfiguration ENCHANTMENT_GLINT = new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, false);
+	public static final BooleanConfiguration ENCHANTMENT_GLINT = new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, true);
 
 	@Override
 	public void onInitialize() {
