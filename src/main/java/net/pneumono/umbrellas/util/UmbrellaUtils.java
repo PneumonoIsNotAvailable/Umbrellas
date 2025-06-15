@@ -31,21 +31,25 @@ public class UmbrellaUtils {
         int startY = 0;
         int endY = 10;
 
-        Box box = new Box(new Vec3d(pos.getX() - areaWidth, pos.getY() + startY, pos.getZ() - areaWidth), new Vec3d(pos.getX() + areaWidth, pos.getY() + endY, pos.getZ() + areaWidth));
-
         for (int x = -areaWidth; x <= areaWidth; ++x) {
             for (int y = startY; y <= endY; ++y) {
                 for (int z = -areaWidth; z <= areaWidth; ++z) {
                     BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
-                    if (world.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= 2) {
+                    if (world.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= areaWidth) {
                         return true;
                     }
                 }
             }
         }
 
+        int entityAreaWidth = 3;
+        Box box = new Box(
+                new Vec3d(pos.getX() - entityAreaWidth, pos.getY() + startY, pos.getZ() - entityAreaWidth),
+                new Vec3d(pos.getX() + entityAreaWidth, pos.getY() + endY, pos.getZ() + entityAreaWidth)
+        );
+
         for (Entity temp : world.getOtherEntities(null, box)) {
-            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2) {
+            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= entityAreaWidth) {
                 ItemStack friendMainHandStack = friend.getMainHandStack();
                 if (friendMainHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
                     if (damageUmbrellas) damageUmbrella(friendMainHandStack, 1, world, friend, EquipmentSlot.MAINHAND);
