@@ -46,7 +46,7 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     public void dropUmbrella() {
         if (this.world != null && !this.world.isClient) {
             BlockPos blockPos = this.getPos();
-            ItemStack itemStack = this.getStack();
+            ItemStack itemStack = this.umbrellaStack;
             if (!itemStack.isEmpty()) {
                 this.emptyStack();
                 Vec3d vec3d = Vec3d.add(blockPos, 0.5, 1.01, 0.5).addRandom(this.world.random, 0.7F);

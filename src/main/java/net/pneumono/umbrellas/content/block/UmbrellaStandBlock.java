@@ -41,6 +41,7 @@ public class UmbrellaStandBlock extends BlockWithEntity {
         if (world.getBlockState(pos.up()).isAir() && world.getBlockState(pos.up(2)).isAir()) {
             if (!world.isClient()) {
                 blockEntity.setStack(itemStack.copyWithCount(1));
+                world.updateListeners(pos, state, state, 0);
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state));
 
                 if (!player.isCreative()) {
