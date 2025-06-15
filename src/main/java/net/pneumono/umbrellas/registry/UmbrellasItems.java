@@ -1,10 +1,7 @@
 package net.pneumono.umbrellas.registry;
 
-import com.mojang.serialization.Codec;
-import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.ComponentType;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -17,7 +14,6 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
-import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,16 +65,6 @@ public class UmbrellasItems {
 
     public static final Item UMBRELLA_STAND = registerItem("umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.UMBRELLA_STAND, settings), new Item.Settings());
 
-    public static final ComponentType<Long> LAST_DAMAGE = registerComponent("last_damage", ComponentType.<Long>builder().codec(Codec.LONG).build());
-    public static final ComponentType<ProvidesUmbrellaPatterns> PROVIDES_UMBRELLA_PATTERNS = registerComponent(
-            "provides_umbrella_patterns",
-            ComponentType.<ProvidesUmbrellaPatterns>builder().codec(ProvidesUmbrellaPatterns.CODEC).build()
-    );
-    public static final ComponentType<UmbrellaPatternsComponent> UMBRELLA_PATTERNS = registerComponent(
-            "umbrella_patterns",
-            ComponentType.<UmbrellaPatternsComponent>builder().codec(UmbrellaPatternsComponent.CODEC).packetCodec(UmbrellaPatternsComponent.PACKET_CODEC).build()
-    );
-
     public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Umbrellas.id(Umbrellas.MOD_ID));
 
     private static PatternableUmbrellaItem registerPatternableUmbrella(DyeColor color) {
@@ -111,7 +97,7 @@ public class UmbrellasItems {
                 name + "_umbrella_pattern",
                 Item::new,
                 new Item.Settings().maxCount(1).rarity(rarity)
-                        .component(PROVIDES_UMBRELLA_PATTERNS, new ProvidesUmbrellaPatterns(
+                        .component(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS, new ProvidesUmbrellaPatterns(
                                 UmbrellasTags.pattern("pattern_item/" + name),
                                 requiresDye
                         ))
@@ -133,14 +119,7 @@ public class UmbrellasItems {
                 .repairable(UmbrellasTags.REPAIRS_UMBRELLAS);
     }
 
-    private static <T> ComponentType<T> registerComponent(String name, ComponentType<T> componentType) {
-        return Registry.register(Registries.DATA_COMPONENT_TYPE, Umbrellas.id(name), componentType);
-    }
-
     public static void registerUmbrellasItems() {
-        ComponentTooltipAppenderRegistry.addFirst(PROVIDES_UMBRELLA_PATTERNS);
-        ComponentTooltipAppenderRegistry.addFirst(UMBRELLA_PATTERNS);
-
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, UMBRELLAS.toArray(Item[]::new)));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, PATTERNS.toArray(Item[]::new)));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(UMBRELLA_STAND));

@@ -35,6 +35,7 @@ public class Umbrellas implements ModInitializer {
 
 		DynamicRegistries.registerSynced(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellaPattern.CODEC);
 
+		UmbrellasDataComponents.registerUmbrellasDataComponents();
 		UmbrellasItems.registerUmbrellasItems();
 		UmbrellasBlocks.registerUmbrellasBlocks();
 		UmbrellasTags.registerUmbrellasTags();

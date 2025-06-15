@@ -21,7 +21,7 @@ import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.patterns.UmbrellaPattern;
-import net.pneumono.umbrellas.registry.UmbrellasItems;
+import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -186,14 +186,14 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         if (outputStack.isEmpty()) {
             this.umbrellaPatterns = null;
         } else {
-            this.umbrellaPatterns = outputStack.getOrDefault(UmbrellasItems.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
+            this.umbrellaPatterns = outputStack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
         }
 
         ItemStack inputStack = this.handler.getBannerSlot().getStack();
         this.isUsingUmbrellas = inputStack.getItem() instanceof PatternableUmbrellaItem;
 
         UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
-                UmbrellasItems.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
+                UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
         );
         this.hasTooManyPatterns = this.hasTooManyPatterns || umbrellaPatternsComponent.layers().size() >= 6;
         if (this.hasTooManyPatterns) {

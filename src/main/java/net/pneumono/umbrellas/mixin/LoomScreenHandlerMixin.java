@@ -21,10 +21,10 @@ import net.minecraft.util.DyeColor;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
 import net.pneumono.umbrellas.patterns.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
-import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
@@ -105,7 +105,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
                     .orElse(ImmutableList.of());
         } else {
             TagKey<UmbrellaPattern> tagKey = stack.getOrDefault(
-                    UmbrellasItems.PROVIDES_UMBRELLA_PATTERNS,
+                    UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS,
                     ProvidesUmbrellaPatterns.DEFAULT
             ).patterns();
             if (tagKey == null) return List.of();
@@ -164,7 +164,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
 
             if (selectedPattern != null) {
                 UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
-                        UmbrellasItems.UMBRELLA_PATTERNS,
+                        UmbrellasDataComponents.UMBRELLA_PATTERNS,
                         UmbrellaPatternsComponent.DEFAULT
                 );
                 boolean tooManyLayers = umbrellaPatternsComponent.layers().size() >= 6;
@@ -210,7 +210,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
             )
     )
     private boolean slotHasPatternItem(ItemStack itemStack, ComponentType<?> componentType, Operation<Boolean> original) {
-        return original.call(itemStack, componentType) || itemStack.contains(UmbrellasItems.PROVIDES_UMBRELLA_PATTERNS);
+        return original.call(itemStack, componentType) || itemStack.contains(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
     }
 
     @Unique
@@ -222,7 +222,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
             empty = inputStack.copyWithCount(1);
             DyeColor dyeColor = ((DyeItem) dyeStack.getItem()).getColor();
             empty.apply(
-                    UmbrellasItems.UMBRELLA_PATTERNS,
+                    UmbrellasDataComponents.UMBRELLA_PATTERNS,
                     UmbrellaPatternsComponent.DEFAULT,
                     component -> new UmbrellaPatternsComponent.Builder().addAll(component).add(pattern, dyeColor).build()
             );
@@ -251,7 +251,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
                 at = @At("RETURN")
         )
         private boolean canInsertWithUmbrella(boolean original, ItemStack stack) {
-            return original || stack.contains(UmbrellasItems.PROVIDES_UMBRELLA_PATTERNS);
+            return original || stack.contains(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
         }
     }
 }

@@ -12,7 +12,7 @@ import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.DyeColor;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
-import net.pneumono.umbrellas.registry.UmbrellasItems;
+import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
@@ -29,7 +29,7 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
     @Nullable
     @Override
     public UmbrellaPatternsComponent getData(ItemStack stack) {
-        return stack.get(UmbrellasItems.UMBRELLA_PATTERNS);
+        return stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
     }
 
     @Override

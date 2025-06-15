@@ -10,7 +10,7 @@ import net.minecraft.util.math.Vec3d;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
-import net.pneumono.umbrellas.registry.UmbrellasItems;
+import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 
 import java.util.Objects;
 
@@ -36,7 +36,7 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
                 lightAbove, overlay,
                 stack.hasGlint(), 0.0F,
                 umbrellaItem.getColor(),
-                stack.getOrDefault(UmbrellasItems.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT)
+                stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT)
         );
 
         matrices.pop();
