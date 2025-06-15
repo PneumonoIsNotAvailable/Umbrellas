@@ -7,6 +7,7 @@ import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKeys;
 import net.pneumono.umbrellas.datagen.*;
 import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 
 public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
     @Override
@@ -21,6 +22,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         ));
         pack.addProvider(UmbrellasItemTagProvider::new);
         pack.addProvider(UmbrellasBlockTagProvider::new);
+        pack.addProvider(UmbrellasPatternTagProvider::new);
         pack.addProvider(UmbrellasRecipeProvider::new);
         pack.addProvider(UmbrellasEnchantmentProvider::new);
         pack.addProvider(UmbrellasAdvancementProvider::new);
@@ -31,5 +33,6 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void buildRegistry(RegistryBuilder registryBuilder) {
         registryBuilder.addRegistry(RegistryKeys.ENCHANTMENT, UmbrellasEnchantmentProvider::bootstrap);
+        registryBuilder.addRegistry(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellasUmbrellaPatternProvider::bootstrap);
     }
 }
