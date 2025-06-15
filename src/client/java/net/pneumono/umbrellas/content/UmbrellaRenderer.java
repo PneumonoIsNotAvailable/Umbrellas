@@ -53,23 +53,25 @@ public class UmbrellaRenderer {
             UmbrellaPatternsComponent patterns
     ) {
         canopy.render(matrices, baseSprite.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid, false, glint), light, overlay);
-        renderLayer(matrices, vertexConsumers, light, overlay, canopy, UmbrellasClient.UMBRELLA_BASE, baseColor);
+        renderLayer(matrices, vertexConsumers, light, overlay, canopy, UmbrellasClient.UMBRELLA_BASE, baseColor.getEntityColor());
 
         for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {
             UmbrellaPatternsComponent.Layer layer = patterns.layers().get(i);
-            SpriteIdentifier spriteIdentifier = getUmbrellaPatternTextureId(layer.pattern());
-            renderLayer(matrices, vertexConsumers, light, overlay, canopy, spriteIdentifier, layer.color());
+            RegistryEntry<UmbrellaPattern> pattern = layer.pattern();
+            SpriteIdentifier spriteIdentifier = getUmbrellaPatternTextureId(pattern);
+
+            renderLayer(matrices, vertexConsumers, light, overlay, canopy, spriteIdentifier, pattern.value().dyeable() ? layer.color().getEntityColor() : -1);
         }
     }
 
     private static void renderLayer(
-            MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canvas, SpriteIdentifier textureId, DyeColor dyeColor
+            MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ModelPart canopy, SpriteIdentifier textureId, int color
     ) {
-        canvas.render(
+        canopy.render(
                 matrices,
                 textureId.getVertexConsumer(vertexConsumers, RenderLayer::getEntityNoOutline),
                 light, overlay,
-                dyeColor.getEntityColor()
+                color
         );
     }
 }
