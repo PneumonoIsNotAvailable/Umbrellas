@@ -17,7 +17,7 @@ import java.util.function.Consumer;
 public record ProvidesUmbrellaPatterns(TagKey<UmbrellaPattern> patterns, boolean requiresDye) implements TooltipAppender {
     public static final Codec<ProvidesUmbrellaPatterns> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             TagKey.codec(UmbrellaPatterns.UMBRELLA_PATTERN_KEY).fieldOf("patterns").forGetter(ProvidesUmbrellaPatterns::patterns),
-            Codec.BOOL.optionalFieldOf("requiresDye", true).forGetter(ProvidesUmbrellaPatterns::requiresDye)
+            Codec.BOOL.optionalFieldOf("requires_dye", true).forGetter(ProvidesUmbrellaPatterns::requiresDye)
     ).apply(builder, ProvidesUmbrellaPatterns::new));
 
     @Override
