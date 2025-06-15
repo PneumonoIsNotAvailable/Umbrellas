@@ -95,7 +95,11 @@ public record UmbrellaPatternsComponent(List<Layer> layers) implements TooltipAp
 
         public MutableText getTooltipText() {
             String string = this.pattern.value().translationKey();
-            return Text.translatable(string + "." + this.color.getId());
+            if (this.pattern.value().dyeable()) {
+                return Text.translatable(string + "." + this.color.getId());
+            } else {
+                return Text.translatable(string);
+            }
         }
     }
 }
