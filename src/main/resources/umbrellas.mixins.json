@@ -1,12 +1,15 @@
 {
-	"required": true,
-	"package": "net.pneumono.umbrellas.mixin",
-	"compatibilityLevel": "JAVA_21",
-	"mixins": [
-		"GlidingMovementMixin",
-		"UmbrellaSkylightMixin"
-	],
-	"injectors": {
-		"defaultRequire": 1
+    "required": true,
+    "package": "net.pneumono.umbrellas.mixin",
+    "compatibilityLevel": "JAVA_21",
+    "mixins": [
+        "GlidingMovementMixin",
+        "LoomScreenHandlerMixin",
+        "LoomScreenHandlerMixin$BannerSlotMixin",
+        "LoomScreenHandlerMixin$PatternSlotMixin",
+        "UmbrellaSkylightMixin"
+    ],
+    "injectors": {
+        "defaultRequire": 1
 	}
 }

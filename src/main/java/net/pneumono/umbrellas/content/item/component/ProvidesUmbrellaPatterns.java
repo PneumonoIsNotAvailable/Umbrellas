@@ -11,10 +11,13 @@ import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.pneumono.umbrellas.patterns.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
+import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.function.Consumer;
 
 public record ProvidesUmbrellaPatterns(TagKey<UmbrellaPattern> patterns, boolean requiresDye) implements TooltipAppender {
+    public static final ProvidesUmbrellaPatterns DEFAULT = new ProvidesUmbrellaPatterns(UmbrellasTags.NO_ITEM_REQUIRED, true);
+
     public static final Codec<ProvidesUmbrellaPatterns> CODEC = RecordCodecBuilder.create(builder -> builder.group(
             TagKey.codec(UmbrellaPatterns.UMBRELLA_PATTERN_KEY).fieldOf("patterns").forGetter(ProvidesUmbrellaPatterns::patterns),
             Codec.BOOL.optionalFieldOf("requires_dye", true).forGetter(ProvidesUmbrellaPatterns::requiresDye)
