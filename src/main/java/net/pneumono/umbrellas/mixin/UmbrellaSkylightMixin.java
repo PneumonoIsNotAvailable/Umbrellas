@@ -35,6 +35,18 @@ public abstract class UmbrellaSkylightMixin implements WorldAccess {
         int endY = 10;
 
         Box box = new Box(new Vec3d(pos.getX() - areaWidth, pos.getY() + startY, pos.getZ() - areaWidth), new Vec3d(pos.getX() + areaWidth, pos.getY() + endY, pos.getZ() + areaWidth));
+
+        for (int x = -areaWidth; x <= areaWidth; ++x) {
+            for (int y = startY; y <= endY; ++y) {
+                for (int z = -areaWidth; z <= areaWidth; ++z) {
+                    BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
+                    if (getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= 2) {
+                        return true;
+                    }
+                }
+            }
+        }
+
         for (Entity temp : getOtherEntities(null, box)) {
             if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= 2) {
                 ItemStack friendMainHandStack = friend.getMainHandStack();
@@ -46,16 +58,6 @@ public abstract class UmbrellaSkylightMixin implements WorldAccess {
                 if (friendOffHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
                     UmbrellaItem.damageUmbrella(friendOffHandStack, (World)(Object)this, friend, EquipmentSlot.OFFHAND);
                     return true;
-                }
-            }
-        }
-        for (int x = -areaWidth; x <= areaWidth; ++x) {
-            for (int y = startY; y <= endY; ++y) {
-                for (int z = -areaWidth; z <= areaWidth; ++z) {
-                    BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
-                    if (getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= 2) {
-                        return true;
-                    }
                 }
             }
         }
