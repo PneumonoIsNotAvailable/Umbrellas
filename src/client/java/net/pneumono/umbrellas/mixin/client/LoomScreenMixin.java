@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
+import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.DiffuseLighting;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.util.math.MatrixStack;
@@ -16,8 +17,10 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.LoomScreenHandler;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
+import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.UmbrellasClient;
+import net.pneumono.umbrellas.content.LoomUmbrellaRendering;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
@@ -30,9 +33,11 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+import java.util.Objects;
 
 @Mixin(LoomScreen.class)
 public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
@@ -47,23 +52,33 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     @Final
     private static Identifier PATTERN_SELECTED_TEXTURE;
     @Shadow
-    @Final
-    private static Identifier PATTERN_HIGHLIGHTED_TEXTURE;
-    @Shadow
-    @Final
-    private static Identifier PATTERN_TEXTURE;
-    @Shadow
     private boolean canApplyDyePattern;
     @Shadow
     private boolean hasTooManyPatterns;
     @Shadow
     private int visibleTopRow;
 
+    @Unique
+    private static final Identifier PATTERN_TEXTURE = Umbrellas.id("pattern");
+    @Unique
+    private static final Identifier PATTERN_HIGHLIGHTED_TEXTURE = Umbrellas.id("pattern_highlighted");
+    @Unique
+    private static final Identifier TEXTURE = Umbrellas.id("textures/gui/loom.png");
+    @Unique
+    private ModelPart umbrella;
     @Nullable
     @Unique
     private UmbrellaPatternsComponent umbrellaPatterns;
     @Unique
     private boolean isUsingUmbrellas = false;
+
+    @Inject(
+            method = "init",
+            at = @At("RETURN")
+    )
+    private void initUmbrellaModel(CallbackInfo ci) {
+        this.umbrella = Objects.requireNonNull(this.client).getLoadedEntityModels().getModelPart(UmbrellasClient.UMBRELLA_MODEL_LAYER);
+    }
 
     @WrapOperation(
             method = "getRows",
@@ -101,21 +116,13 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         }
 
         if (this.umbrellaPatterns != null && !this.hasTooManyPatterns) {
-            /*
-            context.getMatrices().push();
-            context.getMatrices().translate((float)(i + 139), (float)(j + 52), 0.0F);
-            context.getMatrices().scale(24.0F, 24.0F, 1.0F);
-            context.getMatrices().translate(0.5F, 0.0F, 0.5F);
-            float f = 0.6666667F;
-            context.getMatrices().scale(0.6666667F, 0.6666667F, -0.6666667F);
-            DyeColor dyeColor = ((BannerItem)slot4.getStack().getItem()).getColor();
-            context.draw(
-                    vertexConsumers -> BannerBlockEntityRenderer.renderCanvas(
-                            context.getMatrices(), vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV, this.bannerField, ModelBaker.BANNER_BASE, true, dyeColor, this.bannerPatterns
-                    )
+            LoomUmbrellaRendering.drawOutputUmbrella(
+                    context, context.getMatrices(),
+                    this.x, this.y,
+                    this.umbrella,
+                    ((PatternableUmbrellaItem)outputSlot.getStack().getItem()).getColor(),
+                    this.umbrellaPatterns
             );
-            context.getMatrices().pop();
-             */
         } else if (this.hasTooManyPatterns) {
             context.drawGuiTexture(RenderLayer::getGuiTextured, ERROR_TEXTURE, this.x + outputSlot.x - 5, this.y + outputSlot.y - 5, 26, 26);
         }
@@ -157,23 +164,22 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         ci.cancel();
     }
 
+    @ModifyArg(
+            method = "drawBackground",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/gui/DrawContext;drawTexture(Ljava/util/function/Function;Lnet/minecraft/util/Identifier;IIFFIIII)V"
+            ),
+            index = 1
+    )
+    private Identifier useModifiedTextureIfUsingUmbrella(Identifier original) {
+        return this.isUsingUmbrellas ? TEXTURE : original;
+    }
+
     @Unique
     private void drawUmbrella(DrawContext context, RegistryEntry<UmbrellaPattern> pattern, int x, int y) {
-        MatrixStack matrixStack = new MatrixStack();
-        matrixStack.push();
-        matrixStack.translate(x + 0.5F, (float)(y + 16), 0.0F);
-        matrixStack.scale(6.0F, -6.0F, 1.0F);
-        matrixStack.translate(0.5F, 0.0F, 0.0F);
-        matrixStack.translate(0.5F, 0.5F, 0.5F);
-        float f = 0.6666667F;
-        matrixStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
-        UmbrellaPatternsComponent umbrellaPatternsComponent = new UmbrellaPatternsComponent.Builder().add(pattern, DyeColor.WHITE).build();
-        //context.draw(
-        //        vertexConsumers -> BannerBlockEntityRenderer.renderCanvas(
-        //                matrixStack, vertexConsumers, 15728880, OverlayTexture.DEFAULT_UV, this.bannerField, ModelBaker.BANNER_BASE, true, DyeColor.GRAY, umbrellaPatternsComponent
-        //        )
-        //);
-        matrixStack.pop();
+        MatrixStack matrices = new MatrixStack();
+        LoomUmbrellaRendering.drawPatternUmbrella(context, matrices, x, y, this.umbrella, pattern);
         context.draw();
     }
 

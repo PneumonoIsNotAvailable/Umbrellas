@@ -36,7 +36,7 @@ public class UmbrellaRenderer {
         matrices.scale(1.0F, -1.0F, -1.0F);
 
         this.model.render(matrices, UmbrellasClient.UMBRELLA_BASE_BAKER.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid), light, overlay);
-        renderCanopy(matrices, vertexConsumers, light, overlay, glint, this.model.getRootPart(), UmbrellasClient.UMBRELLA_BASE_BAKER, baseColor, patterns);
+        renderCanopy(matrices, vertexConsumers, light, overlay, glint, false, this.model.getRootPart(), UmbrellasClient.UMBRELLA_BASE_BAKER, baseColor, patterns);
 
         matrices.pop();
     }
@@ -45,13 +45,13 @@ public class UmbrellaRenderer {
             MatrixStack matrices,
             VertexConsumerProvider vertexConsumers,
             int light, int overlay,
-            boolean glint,
+            boolean glint, boolean solid,
             ModelPart canopy,
             SpriteIdentifier baseSprite,
             DyeColor baseColor,
             UmbrellaPatternsComponent patterns
     ) {
-        canopy.render(matrices, baseSprite.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid, false, glint), light, overlay);
+        canopy.render(matrices, baseSprite.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid, solid, glint), light, overlay);
         renderLayer(matrices, vertexConsumers, light, overlay, canopy, UmbrellasClient.UMBRELLA_BASE, baseColor.getEntityColor());
 
         for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {

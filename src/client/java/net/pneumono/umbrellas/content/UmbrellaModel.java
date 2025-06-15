@@ -4,8 +4,8 @@ import net.minecraft.client.model.*;
 import net.minecraft.client.render.RenderLayer;
 
 public class UmbrellaModel extends Model {
-    private static final String CANOPY = "canopy";
-    private static final String HANDLE = "handle";
+    public static final String CANOPY = "canopy";
+    public static final String HANDLE = "handle";
 
     public UmbrellaModel(ModelPart root) {
         super(root, RenderLayer::getEntitySolid);
