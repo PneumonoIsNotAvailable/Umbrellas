@@ -30,7 +30,7 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
 
         matrices.push();
 
-        matrices.translate(0.53125, 1.5, 0.53125);
+        matrices.translate(0.03125, 1.0, 0.03125);
         this.renderer.render(
                 matrices, vertexConsumers,
                 lightAbove, overlay,
