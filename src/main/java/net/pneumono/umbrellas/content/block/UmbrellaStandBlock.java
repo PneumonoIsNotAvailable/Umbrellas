@@ -31,6 +31,21 @@ public class UmbrellaStandBlock extends BlockWithEntity {
     }
 
     @Override
+    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
+        if (!(world.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity)) return ActionResult.PASS;
+
+        ItemStack stack = blockEntity.removeStack();
+        if (stack.isEmpty()) return ActionResult.CONSUME;
+
+        if (!player.giveItemStack(stack)) {
+            player.dropItem(stack, false);
+        }
+
+        world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
+        return ActionResult.SUCCESS;
+    }
+
+    @Override
     protected ActionResult onUseWithItem(ItemStack stack, BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
         if (!(world.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity)) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
         if (blockEntity.hasStack()) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
@@ -51,21 +66,6 @@ public class UmbrellaStandBlock extends BlockWithEntity {
             return ActionResult.SUCCESS;
         }
         return ActionResult.FAIL;
-    }
-
-    @Override
-    protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!(world.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity)) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
-
-        ItemStack stack = blockEntity.removeStack();
-        if (stack.isEmpty()) return ActionResult.CONSUME;
-
-        if (!player.giveItemStack(stack)) {
-            player.dropItem(stack, false);
-        }
-
-        world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
-        return ActionResult.SUCCESS;
     }
 
     @Override

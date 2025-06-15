@@ -100,11 +100,6 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     }
 
     @Override
-    public void onBlockReplaced(BlockPos pos, BlockState oldState) {
-        this.dropUmbrella();
-    }
-
-    @Override
     public BlockEntity asBlockEntity() {
         return this;
     }
