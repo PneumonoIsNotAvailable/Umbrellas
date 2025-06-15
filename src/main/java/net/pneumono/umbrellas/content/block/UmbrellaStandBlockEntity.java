@@ -37,9 +37,9 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     @Override
     protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
         super.writeNbt(nbt, registries);
-        if (!this.getStack().isEmpty()) {
+        if (!this.umbrellaStack.isEmpty()) {
             RegistryOps<NbtElement> registryOps = registries.getOps(NbtOps.INSTANCE);
-            nbt.put("UmbrellaItem", ItemStack.CODEC, registryOps, this.getStack());
+            nbt.put("UmbrellaItem", ItemStack.CODEC, registryOps, this.umbrellaStack);
         }
     }
 
@@ -66,6 +66,7 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     @Override
     public void setStack(ItemStack stack) {
         this.umbrellaStack = stack;
+        this.markDirty();
     }
 
     public boolean hasStack() {
@@ -75,6 +76,7 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     public ItemStack removeStack() {
         ItemStack stack = this.umbrellaStack;
         this.umbrellaStack = ItemStack.EMPTY;
+        this.markDirty();
         return stack;
     }
 
