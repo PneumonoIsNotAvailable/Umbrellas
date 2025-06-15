@@ -12,6 +12,7 @@ import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.util.UmbrellaUtils;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -25,22 +26,40 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
 
     @Shadow
     public abstract ItemStack getMainHandStack();
-
-    @Shadow public abstract void remove(RemovalReason reason);
+    @Shadow
+    public abstract ItemStack getOffHandStack();
 
     @Inject(method = "getEffectiveGravity", at = @At("RETURN"), cancellable = true)
     private void applyUmbrellaGravity(CallbackInfoReturnable<Double> info) {
         double gravity = info.getReturnValue();
-        int strength = Umbrellas.SLOW_FALLING.getValue().getStrength(getMainHandStack(), this.getRandom(), UmbrellasMisc.SLOW_FALLING, 0);
+
+        ItemStack stack = getMainHandStack();
+        int strength = getSlowFallingStrength(stack);
+        if (strength == 0) {
+            stack = getOffHandStack();
+            strength = getSlowFallingStrength(stack);
+        }
+
         if (this.getVelocity().y <= 0.0 && strength > 0) {
             gravity = Math.min(gravity, 0.04 - (0.01 * strength));
         }
         info.setReturnValue(gravity);
     }
 
+    @Unique
+    private int getSlowFallingStrength(ItemStack stack) {
+        return Umbrellas.SLOW_FALLING.getValue().getStrength(stack, this.getRandom(), UmbrellasMisc.SLOW_FALLING, 0);
+    }
+
     @Inject(method = "tickMovement", at = @At("HEAD"))
     private void tickSmokeBoost(CallbackInfo ci) {
-        int strength = Umbrellas.SMOKE_BOOSTING.getValue().getStrength(getMainHandStack(), this.getRandom(), UmbrellasMisc.SMOKE_BOOSTING, 0);
+        ItemStack stack = getMainHandStack();
+        int strength = getSmokeBoostingStrength(stack);
+        if (strength == 0) {
+            stack = getOffHandStack();
+            strength = getSmokeBoostingStrength(stack);
+        }
+
         if (strength <= 0) {
             return;
         }
@@ -59,5 +78,10 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
         if (entityVelocity < smokeVelocityCap) {
             addVelocity(0, smokeVelocityBoost, 0);
         }
+    }
+
+    @Unique
+    private int getSmokeBoostingStrength(ItemStack stack) {
+        return Umbrellas.SMOKE_BOOSTING.getValue().getStrength(stack, this.getRandom(), UmbrellasMisc.SMOKE_BOOSTING, 0);
     }
 }
