@@ -13,7 +13,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void onInitializeDataGenerator(FabricDataGenerator fabricDataGenerator) {
         FabricDataGenerator.Pack pack = fabricDataGenerator.createPack();
-        pack.addProvider((output, registriesFuture) -> new UmbrellasUmbrellaPatternProvider(
+        pack.addProvider((output, registriesFuture) -> new UmbrellasPatternProvider(
                 output,
                 registriesFuture,
                 DataOutput.OutputType.DATA_PACK,
@@ -33,6 +33,6 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
     @Override
     public void buildRegistry(RegistryBuilder registryBuilder) {
         registryBuilder.addRegistry(RegistryKeys.ENCHANTMENT, UmbrellasEnchantmentProvider::bootstrap);
-        registryBuilder.addRegistry(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellasUmbrellaPatternProvider::bootstrap);
+        registryBuilder.addRegistry(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellasPatternProvider::bootstrap);
     }
 }

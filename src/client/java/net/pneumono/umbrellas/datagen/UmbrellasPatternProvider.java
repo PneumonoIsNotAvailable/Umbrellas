@@ -13,8 +13,8 @@ import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
-public class UmbrellasUmbrellaPatternProvider extends FabricCodecDataProvider<UmbrellaPattern> {
-    public UmbrellasUmbrellaPatternProvider(
+public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPattern> {
+    public UmbrellasPatternProvider(
             FabricDataOutput dataOutput,
             CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture,
             DataOutput.OutputType outputType,
