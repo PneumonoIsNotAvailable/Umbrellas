@@ -2,7 +2,6 @@ package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.ItemTags;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
@@ -17,10 +16,29 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        FabricTagBuilder umbrellasBuilder = getOrCreateTagBuilder(UmbrellasTags.UMBRELLAS);
-        for (Item item : UmbrellasItems.UMBRELLAS) {
-            umbrellasBuilder.add(item);
-        }
+        getOrCreateTagBuilder(UmbrellasTags.UMBRELLAS).add(
+                UmbrellasItems.WHITE_UMBRELLA,
+                UmbrellasItems.ORANGE_UMBRELLA,
+                UmbrellasItems.MAGENTA_UMBRELLA,
+                UmbrellasItems.LIGHT_BLUE_UMBRELLA,
+                UmbrellasItems.YELLOW_UMBRELLA,
+                UmbrellasItems.LIME_UMBRELLA,
+                UmbrellasItems.PINK_UMBRELLA,
+                UmbrellasItems.GRAY_UMBRELLA,
+                UmbrellasItems.LIGHT_GRAY_UMBRELLA,
+                UmbrellasItems.CYAN_UMBRELLA,
+                UmbrellasItems.PURPLE_UMBRELLA,
+                UmbrellasItems.BLUE_UMBRELLA,
+                UmbrellasItems.BROWN_UMBRELLA,
+                UmbrellasItems.GREEN_UMBRELLA,
+                UmbrellasItems.RED_UMBRELLA,
+                UmbrellasItems.BLACK_UMBRELLA,
+                UmbrellasItems.ANIMALS_UMBRELLA,
+                UmbrellasItems.AZALEA_UMBRELLA,
+                UmbrellasItems.GALACTIC_UMBRELLA,
+                UmbrellasItems.GOTHIC_UMBRELLA,
+                UmbrellasItems.JELLYFISH_UMBRELLA
+        );
 
         getOrCreateTagBuilder(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
 

@@ -43,17 +43,40 @@ public class UmbrellasModelProvider extends FabricModelProvider {
 
     @Override
     public void generateItemModels(ItemModelGenerator generator) {
-        for (PatternableUmbrellaItem umbrella : UmbrellasItems.PATTERNABLE_UMBRELLAS) {
-            registerPatternableUmbrella(generator, umbrella);
-        }
+        registerPatternableUmbrella(generator, UmbrellasItems.WHITE_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.ORANGE_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.MAGENTA_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.LIGHT_BLUE_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.YELLOW_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.LIME_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.PINK_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.GRAY_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.LIGHT_GRAY_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.CYAN_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.PURPLE_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.BLUE_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.BROWN_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.GREEN_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.RED_UMBRELLA);
+        registerPatternableUmbrella(generator, UmbrellasItems.BLACK_UMBRELLA);
 
-        for (Item umbrella : UmbrellasItems.EXTRA_UMBRELLAS) {
-            registerExtraUmbrella(generator, umbrella);
-        }
+        registerExtraUmbrella(generator, UmbrellasItems.ANIMALS_UMBRELLA);
+        registerExtraUmbrella(generator, UmbrellasItems.AZALEA_UMBRELLA);
+        registerExtraUmbrella(generator, UmbrellasItems.GALACTIC_UMBRELLA);
+        registerExtraUmbrella(generator, UmbrellasItems.GOTHIC_UMBRELLA);
+        registerExtraUmbrella(generator, UmbrellasItems.JELLYFISH_UMBRELLA);
 
-        for (Item pattern : UmbrellasItems.PATTERNS) {
-            generator.register(pattern, Models.GENERATED);
-        }
+        generator.register(UmbrellasItems.FLOWER_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.CREEPER_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.SKULL_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.MOJANG_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.FLOW_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.GUSTER_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN, Models.GENERATED);
+        generator.register(UmbrellasItems.PRIDE_UMBRELLA_PATTERN, Models.GENERATED);
     }
 
     public void registerPatternableUmbrella(ItemModelGenerator generator, PatternableUmbrellaItem item) {

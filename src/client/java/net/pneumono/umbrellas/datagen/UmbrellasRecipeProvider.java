@@ -42,19 +42,22 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
 
         @Override
         public void generate() {
-            for (PatternableUmbrellaItem umbrella : UmbrellasItems.PATTERNABLE_UMBRELLAS) {
-                createShaped(RecipeCategory.TOOLS, umbrella)
-                        .pattern("WLW")
-                        .pattern("LSL")
-                        .pattern(" S ")
-                        .input('W', getWool(umbrella.getColor()))
-                        .input('L', Items.LEATHER)
-                        .input('S', Items.STICK)
-                        .group("umbrella")
-                        .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
-                        .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
-                        .offerTo(exporter);
-            }
+            createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.ORANGE_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.MAGENTA_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.LIGHT_BLUE_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.YELLOW_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.LIME_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.PINK_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.GRAY_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.LIGHT_GRAY_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.CYAN_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.PURPLE_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.BLUE_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.BROWN_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.GREEN_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA);
 
             createShaped(RecipeCategory.DECORATIONS, UmbrellasItems.UMBRELLA_STAND)
                     .pattern("P")
@@ -152,6 +155,20 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .input(Items.PAPER)
                     .input(Items.GLOW_INK_SAC)
                     .criterion(hasItem(Items.GLOW_INK_SAC), conditionsFromItem(Items.GLOW_INK_SAC))
+                    .offerTo(exporter);
+        }
+        
+        private void createPatternableUmbrella(PatternableUmbrellaItem umbrella) {
+            createShaped(RecipeCategory.TOOLS, umbrella)
+                    .pattern("WLW")
+                    .pattern("LSL")
+                    .pattern(" S ")
+                    .input('W', getWool(umbrella.getColor()))
+                    .input('L', Items.LEATHER)
+                    .input('S', Items.STICK)
+                    .group("umbrella")
+                    .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
+                    .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
                     .offerTo(exporter);
         }
     }
