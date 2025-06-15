@@ -34,7 +34,7 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
         this.renderer.render(
                 matrices, vertexConsumers,
                 lightAbove, overlay,
-                false, 0.0F,
+                stack.hasGlint(), 0.0F,
                 umbrellaItem.getColor(),
                 stack.getOrDefault(UmbrellasItems.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT)
         );
