@@ -7,7 +7,7 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.DyeColor;
 import net.pneumono.pneumonocore.datagen.PneumonoDatagenUtil;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
 import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 import org.apache.commons.lang3.StringUtils;

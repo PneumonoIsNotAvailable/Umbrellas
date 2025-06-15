@@ -6,7 +6,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
 import net.minecraft.data.DataOutput;
 import net.minecraft.registry.*;
 import net.minecraft.util.Identifier;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 
 import java.util.List;

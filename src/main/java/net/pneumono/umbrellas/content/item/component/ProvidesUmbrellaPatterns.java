@@ -9,7 +9,7 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.registry.tag.TagKey;
 import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 

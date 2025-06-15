@@ -20,7 +20,7 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
 import org.jetbrains.annotations.Nullable;

@@ -23,7 +23,7 @@ import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;

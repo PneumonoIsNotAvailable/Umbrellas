@@ -6,7 +6,7 @@ import net.minecraft.data.DataOutput;
 import net.minecraft.registry.RegistryBuilder;
 import net.minecraft.registry.RegistryKeys;
 import net.pneumono.umbrellas.datagen.*;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 
 public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {

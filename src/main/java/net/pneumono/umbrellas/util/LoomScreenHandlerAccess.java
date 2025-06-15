@@ -1,7 +1,7 @@
 package net.pneumono.umbrellas.util;
 
 import net.minecraft.registry.entry.RegistryEntry;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 import java.util.List;
 

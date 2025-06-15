@@ -5,7 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.tag.TagKey;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 public class UmbrellasTags {
     public static final TagKey<Item> REPAIRS_UMBRELLAS = item("repairs_umbrellas");

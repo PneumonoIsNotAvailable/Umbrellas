@@ -1,4 +1,4 @@
-package net.pneumono.umbrellas.patterns;
+package net.pneumono.umbrellas.content;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;

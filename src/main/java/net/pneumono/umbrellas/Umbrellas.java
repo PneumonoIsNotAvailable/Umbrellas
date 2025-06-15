@@ -7,7 +7,7 @@ import net.pneumono.pneumonocore.config.BooleanConfiguration;
 import net.pneumono.pneumonocore.config.ConfigEnv;
 import net.pneumono.pneumonocore.config.Configs;
 import net.pneumono.pneumonocore.config.EnumConfiguration;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
 import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 import net.pneumono.umbrellas.registry.UmbrellaCauldronBehavior;

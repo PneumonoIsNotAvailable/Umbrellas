@@ -11,7 +11,6 @@ import net.minecraft.util.DyeColor;
 import net.minecraft.util.math.RotationAxis;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
 
 public class UmbrellaRenderer {
     private final UmbrellaModel model;

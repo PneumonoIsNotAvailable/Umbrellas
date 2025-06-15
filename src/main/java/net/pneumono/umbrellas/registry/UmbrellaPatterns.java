@@ -3,7 +3,7 @@ package net.pneumono.umbrellas.registry;
 import net.minecraft.registry.Registry;
 import net.minecraft.registry.RegistryKey;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.patterns.UmbrellaPattern;
+import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 public class UmbrellaPatterns {
     public static final RegistryKey<Registry<UmbrellaPattern>> UMBRELLA_PATTERN_KEY = RegistryKey.ofRegistry(Umbrellas.id("umbrella_pattern"));
