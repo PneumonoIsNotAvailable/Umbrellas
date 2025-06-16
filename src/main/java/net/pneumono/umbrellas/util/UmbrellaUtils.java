@@ -6,6 +6,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -89,7 +90,7 @@ public class UmbrellaUtils {
         for (int i = 0; i <= 19; ++i) {
             BlockPos blockpos = pos.down(i);
             BlockState blockstate = world.getBlockState(blockpos);
-            if (blockstate.isIn(UmbrellasTags.BOOSTS_UMBRELLAS)) {
+            if (blockstate.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(blockstate)) {
                 if (Umbrellas.STRICT_SMOKE_BOOSTING.getValue() && blockstate.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
                     return false;
                 }
@@ -115,5 +116,9 @@ public class UmbrellaUtils {
             }
         }
         return false;
+    }
+
+    private static boolean isNotUnlit(BlockState state) {
+        return !state.isIn(BlockTags.CAMPFIRES) || (state.contains(CampfireBlock.LIT) && state.get(CampfireBlock.LIT));
     }
 }
