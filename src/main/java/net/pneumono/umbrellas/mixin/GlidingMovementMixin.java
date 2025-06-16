@@ -1,5 +1,6 @@
 package net.pneumono.umbrellas.mixin;
 
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import net.minecraft.entity.Attackable;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -16,7 +17,6 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(LivingEntity.class)
 public abstract class GlidingMovementMixin extends Entity implements Attackable {
@@ -29,10 +29,11 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
     @Shadow
     public abstract ItemStack getOffHandStack();
 
-    @Inject(method = "getEffectiveGravity", at = @At("RETURN"), cancellable = true)
-    private void applyUmbrellaGravity(CallbackInfoReturnable<Double> info) {
-        double gravity = info.getReturnValue();
-
+    @ModifyReturnValue(
+            method = "getEffectiveGravity",
+            at = @At("RETURN")
+    )
+    private double applyUmbrellaGravity(double gravity) {
         ItemStack stack = getMainHandStack();
         int strength = getSlowFallingStrength(stack);
         if (strength == 0) {
@@ -43,7 +44,7 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
         if (this.getVelocity().y <= 0.0 && strength > 0) {
             gravity = Math.min(gravity, 0.04 - (0.01 * strength));
         }
-        info.setReturnValue(gravity);
+        return gravity;
     }
 
     @Unique
