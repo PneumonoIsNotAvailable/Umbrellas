@@ -8,7 +8,7 @@
       "type": "minecraft:add",
       "value": {
         "type": "minecraft:linear",
-        "base": 1.0,
+        "base": 3.0,
         "per_level_above_first": 1.0
       }
     }
@@ -17,7 +17,7 @@
     "base": 55,
     "per_level_above_first": 8
   },
-  "max_level": 3,
+  "max_level": 1,
   "min_cost": {
     "base": 5,
     "per_level_above_first": 8

@@ -76,7 +76,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
             itemLookup -> Enchantment.builder(
                     Enchantment.definition(
                             itemLookup.getOrThrow(UmbrellasTags.UMBRELLA_ENCHANTABLE),
-                            3, 3,
+                            3, 1,
                             Enchantment.leveledCost(5, 8),
                             Enchantment.leveledCost(55, 8),
                             3,
@@ -84,7 +84,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
                     )
             ).addNonListEffect(
                     UmbrellasMisc.SMOKE_BOOSTING,
-                    new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(1, 1))
+                    new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(3, 1))
             )
 
     );
