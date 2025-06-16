@@ -2,6 +2,7 @@ package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.block.Blocks;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
@@ -15,8 +16,12 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        FabricTagBuilder umbrellaBoostingBuilder = getOrCreateTagBuilder(UmbrellasTags.BOOSTS_UMBRELLAS);
-        umbrellaBoostingBuilder.forceAddTag(BlockTags.FIRE);
-        umbrellaBoostingBuilder.forceAddTag(BlockTags.CAMPFIRES);
+        getOrCreateTagBuilder(UmbrellasTags.BOOSTS_UMBRELLAS).forceAddTags(
+                BlockTags.FIRE,
+                BlockTags.CAMPFIRES
+        ).add(
+                Blocks.LAVA,
+                Blocks.LAVA_CAULDRON
+        );
     }
 }
