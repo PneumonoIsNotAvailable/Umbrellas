@@ -80,7 +80,10 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasTags.REPAIRS_UMBRELLAS, "Repairs Umbrellas");
         builder.add(UmbrellasTags.UMBRELLAS, "Umbrellas");
         builder.add(UmbrellasTags.UMBRELLA_ENCHANTABLE, "Umbrella Enchantable");
+
         builder.add(UmbrellasTags.BOOSTS_UMBRELLAS, "Boosts Umbrellas");
+        builder.add(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE, "Has Configurable Umbrella Boosting");
+
         builder.add(UmbrellasTags.NO_ITEM_REQUIRED, "No Umbrella Pattern Required");
         builder.add(UmbrellasTags.PRIDE, "Pride Pattern");
         builder.add(UmbrellasTags.FLOWER, "Flower Pattern");
@@ -100,14 +103,19 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 "Slow Falling",
                 "Whether umbrellas grant players slow falling"
         );
+        PneumonoDatagenUtil.generateConfigTranslations(builder,
+                Umbrellas.SMOKE_BOOSTING,
+                "Smoke Boosting",
+                "Whether umbrellas boost players upwards when they are above sources of heat"
+        );
         for (EnchantmentAbilityType type : EnchantmentAbilityType.values()) {
             PneumonoDatagenUtil.generateEnumConfigOptionTranslation(builder, Umbrellas.SLOW_FALLING, type, type.name());
             PneumonoDatagenUtil.generateEnumConfigOptionTranslation(builder, Umbrellas.SMOKE_BOOSTING, type, type.name());
         }
         PneumonoDatagenUtil.generateConfigTranslations(builder,
-                Umbrellas.SMOKE_BOOSTING,
-                "Smoke Boosting",
-                "Whether umbrellas boost players upwards when they are above sources of heat"
+                Umbrellas.STRICT_SMOKE_BOOSTING,
+                "Strict Smoke Boosting",
+                "Whether umbrellas only boost players upwards above campfires and fires. If disabled, players can also boost above lava"
         );
         PneumonoDatagenUtil.generateConfigTranslations(builder,
                 Umbrellas.DURABILITY,

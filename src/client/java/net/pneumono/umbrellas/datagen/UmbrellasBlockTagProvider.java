@@ -23,5 +23,10 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
                 Blocks.LAVA,
                 Blocks.LAVA_CAULDRON
         );
+
+        getOrCreateTagBuilder(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE).add(
+                Blocks.LAVA,
+                Blocks.LAVA_CAULDRON
+        );
     }
 }

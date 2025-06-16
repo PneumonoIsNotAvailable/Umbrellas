@@ -13,6 +13,7 @@ public class UmbrellasTags {
     public static final TagKey<Item> UMBRELLA_ENCHANTABLE = item("enchantable/umbrella");
 
     public static final TagKey<Block> BOOSTS_UMBRELLAS = block("boosts_umbrellas");
+    public static final TagKey<Block> UMBRELLA_BOOSTING_TOGGLEABLE = block("umbrella_boosting_toggleable");
 
     public static final TagKey<UmbrellaPattern> NO_ITEM_REQUIRED = pattern("no_item_required");
     public static final TagKey<UmbrellaPattern> PRIDE = pattern("pattern_item/pride");

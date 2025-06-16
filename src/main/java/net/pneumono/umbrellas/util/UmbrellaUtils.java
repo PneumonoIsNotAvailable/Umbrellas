@@ -90,6 +90,10 @@ public class UmbrellaUtils {
             BlockPos blockpos = pos.down(i);
             BlockState blockstate = world.getBlockState(blockpos);
             if (blockstate.isIn(UmbrellasTags.BOOSTS_UMBRELLAS)) {
+                if (Umbrellas.STRICT_SMOKE_BOOSTING.getValue() && blockstate.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
+                    return false;
+                }
+
                 if (i > 5 && CampfireBlock.isLitCampfire(blockstate) && blockstate.get(CampfireBlock.SIGNAL_FIRE)) {
                     return true;
                 } else {
