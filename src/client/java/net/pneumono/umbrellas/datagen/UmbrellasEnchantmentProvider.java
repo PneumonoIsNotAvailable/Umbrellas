@@ -72,7 +72,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
                     UmbrellasMisc.SLOW_FALLING,
                     new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(1, 1))
             ),
-            UmbrellasMisc.WIND_CATCHING,
+            UmbrellasMisc.BILLOWING,
             itemLookup -> Enchantment.builder(
                     Enchantment.definition(
                             itemLookup.getOrThrow(UmbrellasTags.UMBRELLA_ENCHANTABLE),
@@ -97,7 +97,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
         RegistryEntryLookup<Item> itemLookup = registry.getRegistryLookup(RegistryKeys.ITEM);
 
         registerBootstrapped(registry, UmbrellasMisc.GLIDING, itemLookup);
-        registerBootstrapped(registry, UmbrellasMisc.WIND_CATCHING, itemLookup);
+        registerBootstrapped(registry, UmbrellasMisc.BILLOWING, itemLookup);
     }
 
     private static void registerBootstrapped(Registerable<Enchantment> registry, RegistryKey<Enchantment> key, RegistryEntryLookup<Item> itemLookup) {
@@ -109,7 +109,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
         RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
 
         register(entries, UmbrellasMisc.GLIDING, itemLookup);
-        register(entries, UmbrellasMisc.WIND_CATCHING, itemLookup);
+        register(entries, UmbrellasMisc.BILLOWING, itemLookup);
     }
 
     private void register(Entries entries, RegistryKey<Enchantment> key, RegistryEntryLookup<Item> itemLookup, ResourceCondition... resourceConditions) {

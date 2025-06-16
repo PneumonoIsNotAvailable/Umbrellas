@@ -1,7 +1,7 @@
 {
   "anvil_cost": 3,
   "description": {
-    "translate": "enchantment.umbrellas.wind_catching"
+    "translate": "enchantment.umbrellas.billowing"
   },
   "effects": {
     "umbrellas:smoke_boosting": {

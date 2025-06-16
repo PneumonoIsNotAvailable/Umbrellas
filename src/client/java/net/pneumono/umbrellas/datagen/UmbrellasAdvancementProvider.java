@@ -74,22 +74,22 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .criterion("has_gliding_umbrella", enchantment(enchantmentLookup, UmbrellasMisc.GLIDING))
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_gliding_umbrella");
 
-        ItemStack windCatchingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
-        Optional<RegistryEntry.Reference<Enchantment>> windCatching = registries.getOptionalEntry(UmbrellasMisc.WIND_CATCHING);
-        windCatching.ifPresent(enchantmentReference -> windCatchingEnchanted.addEnchantment(enchantmentReference, 3));
+        ItemStack billowingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
+        Optional<RegistryEntry.Reference<Enchantment>> billowing = registries.getOptionalEntry(UmbrellasMisc.BILLOWING);
+        billowing.ifPresent(enchantmentReference -> billowingEnchanted.addEnchantment(enchantmentReference, 3));
         Advancement.Builder.create().parent(getUmbrellaAdvancement)
                 .display(
-                        windCatchingEnchanted,
-                        Text.translatable("advancements.umbrellas.get_wind_catching_umbrella.name"),
-                        Text.translatable("advancements.umbrellas.get_wind_catching_umbrella.desc"),
+                        billowingEnchanted,
+                        Text.translatable("advancements.umbrellas.get_billowing_umbrella.name"),
+                        Text.translatable("advancements.umbrellas.get_billowing_umbrella.desc"),
                         null,
                         AdvancementFrame.TASK,
                         true,
                         true,
                         false
                 )
-                .criterion("has_wind_catching_umbrella", enchantment(enchantmentLookup, UmbrellasMisc.WIND_CATCHING))
-                .build(consumer, Umbrellas.MOD_ID + ":adventure/get_wind_catching_umbrella");
+                .criterion("has_billowing_umbrella", enchantment(enchantmentLookup, UmbrellasMisc.BILLOWING))
+                .build(consumer, Umbrellas.MOD_ID + ":adventure/get_billowing_umbrella");
     }
 
     private static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantment(RegistryWrapper.Impl<Enchantment> lookup, RegistryKey<Enchantment> enchantment) {

@@ -66,7 +66,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasItems.ITEM_GROUP, "Umbrellas");
 
         builder.add(UmbrellasMisc.GLIDING.getValue().toTranslationKey("enchantment"), "Gliding");
-        builder.add(UmbrellasMisc.WIND_CATCHING.getValue().toTranslationKey("enchantment"), "Wind Catching");
+        builder.add(UmbrellasMisc.BILLOWING.getValue().toTranslationKey("enchantment"), "Billowing");
 
         builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toTranslationKey("stat"), "Umbrellas Cleaned");
 
@@ -74,8 +74,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add("advancements.umbrellas.get_umbrella.desc", "Construct or Find an Umbrella");
         builder.add("advancements.umbrellas.get_gliding_umbrella.name", "I'm Mary Poppins, Y'all!");
         builder.add("advancements.umbrellas.get_gliding_umbrella.desc", "Enchant an Umbrella with Gliding");
-        builder.add("advancements.umbrellas.get_wind_catching_umbrella.name", "I Can See My House From Here!");
-        builder.add("advancements.umbrellas.get_wind_catching_umbrella.desc", "Enchant an Umbrella with Wind Catching");
+        builder.add("advancements.umbrellas.get_billowing_umbrella.name", "I Can See My House From Here!");
+        builder.add("advancements.umbrellas.get_billowing_umbrella.desc", "Enchant an Umbrella with Billowing");
 
         builder.add(UmbrellasTags.REPAIRS_UMBRELLAS, "Repairs Umbrellas");
         builder.add(UmbrellasTags.UMBRELLAS, "Umbrellas");

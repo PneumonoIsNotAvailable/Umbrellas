@@ -1,14 +1,14 @@
 {
   "parent": "umbrellas:adventure/get_umbrella",
   "criteria": {
-    "has_wind_catching_umbrella": {
+    "has_billowing_umbrella": {
       "conditions": {
         "items": [
           {
             "predicates": {
               "minecraft:enchantments": [
                 {
-                  "enchantments": "umbrellas:wind_catching",
+                  "enchantments": "umbrellas:billowing",
                   "levels": {
                     "min": 1
                   }
@@ -23,24 +23,24 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.umbrellas.get_wind_catching_umbrella.desc"
+      "translate": "advancements.umbrellas.get_billowing_umbrella.desc"
     },
     "icon": {
       "components": {
         "minecraft:enchantments": {
-          "umbrellas:wind_catching": 3
+          "umbrellas:billowing": 3
         }
       },
       "count": 1,
       "id": "umbrellas:red_umbrella"
     },
     "title": {
-      "translate": "advancements.umbrellas.get_wind_catching_umbrella.name"
+      "translate": "advancements.umbrellas.get_billowing_umbrella.name"
     }
   },
   "requirements": [
     [
-      "has_wind_catching_umbrella"
+      "has_billowing_umbrella"
     ]
   ],
   "sends_telemetry_event": true

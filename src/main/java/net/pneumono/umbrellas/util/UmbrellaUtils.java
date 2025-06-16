@@ -83,7 +83,7 @@ public class UmbrellaUtils {
     }
 
     /**
-     * Returns whether the position has "smoke" (can be used with Wind Catching enchanted items to boost upwards)
+     * Returns whether the position has "smoke" (can be used with Billowing enchanted items to boost upwards)
      */
     public static boolean isInSmoke(World world, BlockPos pos) {
         for (int i = 0; i <= 19; ++i) {

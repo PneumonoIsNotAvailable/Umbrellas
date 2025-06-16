@@ -24,7 +24,7 @@ import net.pneumono.umbrellas.Umbrellas;
 
 public class UmbrellasMisc {
     public static final RegistryKey<Enchantment> GLIDING = enchantment("gliding");
-    public static final RegistryKey<Enchantment> WIND_CATCHING = enchantment("wind_catching");
+    public static final RegistryKey<Enchantment> BILLOWING = enchantment("billowing");
 
     public static final ComponentType<EnchantmentValueEffect> SLOW_FALLING = registerEnchantmentEffectComponentType(
             "slow_falling", EnchantmentValueEffect.CODEC
