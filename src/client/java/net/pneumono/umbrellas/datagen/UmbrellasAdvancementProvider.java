@@ -20,7 +20,6 @@ import net.minecraft.registry.RegistryEntryLookup;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
@@ -29,7 +28,6 @@ import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -41,7 +39,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
     @Override
     public void generateAdvancement(RegistryWrapper.WrapperLookup registries, Consumer<AdvancementEntry> consumer) {
         RegistryEntryLookup<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
-        RegistryWrapper.Impl<Enchantment> enchantmentLookup = registries.getOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryEntryLookup<Enchantment> enchantmentLookup = registries.getOrThrow(RegistryKeys.ENCHANTMENT);
 
         AdvancementEntry getUmbrellaAdvancement = Advancement.Builder.create().parent(Advancement.Builder.create().build(Identifier.of("adventure/root")))
                 .display(
@@ -58,8 +56,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
 
         ItemStack glidingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
-        Optional<RegistryEntry.Reference<Enchantment>> gliding = registries.getOptionalEntry(UmbrellasMisc.GLIDING);
-        gliding.ifPresent(enchantmentReference -> glidingEnchanted.addEnchantment(enchantmentReference, 3));
+        glidingEnchanted.addEnchantment(registries.getEntryOrThrow(UmbrellasMisc.GLIDING), 3);
         Advancement.Builder.create().parent(getUmbrellaAdvancement)
                 .display(
                         glidingEnchanted,
@@ -75,8 +72,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_gliding_umbrella");
 
         ItemStack billowingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
-        Optional<RegistryEntry.Reference<Enchantment>> billowing = registries.getOptionalEntry(UmbrellasMisc.BILLOWING);
-        billowing.ifPresent(enchantmentReference -> billowingEnchanted.addEnchantment(enchantmentReference, 3));
+        billowingEnchanted.addEnchantment(registries.getEntryOrThrow(UmbrellasMisc.BILLOWING), 3);
         Advancement.Builder.create().parent(getUmbrellaAdvancement)
                 .display(
                         billowingEnchanted,
@@ -92,7 +88,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_billowing_umbrella");
     }
 
-    private static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantment(RegistryWrapper.Impl<Enchantment> lookup, RegistryKey<Enchantment> enchantment) {
+    private static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantment(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment> enchantment) {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().components(
                         ComponentsPredicate.Builder.create().partial(
