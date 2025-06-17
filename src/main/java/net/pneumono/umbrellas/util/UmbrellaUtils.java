@@ -111,16 +111,16 @@ public class UmbrellaUtils {
             boolean intersectsThird = false;
             boolean intersectsFourth = false;
             for (Box collisionBox : collisionBoxes) {
-                if (collisionBox.intersects(new Box(0.375, 0, 0.375, 0.375, 1, 0.375))) {
+                if (collisionBox.intersects(new Box(0.25, 0, 0.25, 0.25, 1, 0.25))) {
                     intersectsFirst = true;
                 }
-                if (collisionBox.intersects(new Box(0.375, 0, 0.625, 0.375, 1, 0.625))) {
+                if (collisionBox.intersects(new Box(0.25, 0, 0.75, 0.25, 1, 0.75))) {
                     intersectsSecond = true;
                 }
-                if (collisionBox.intersects(new Box(0.625, 0, 0.375, 0.625, 1, 0.375))) {
+                if (collisionBox.intersects(new Box(0.75, 0, 0.25, 0.75, 1, 0.25))) {
                     intersectsThird = true;
                 }
-                if (collisionBox.intersects(new Box(0.625, 0, 0.625, 0.625, 1, 0.625))) {
+                if (collisionBox.intersects(new Box(0.75, 0, 0.75, 0.75, 1, 0.75))) {
                     intersectsFourth = true;
                 }
             }
