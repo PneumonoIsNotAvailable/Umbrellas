@@ -86,32 +86,46 @@ public class UmbrellaUtils {
     /**
      * Returns whether the position has "smoke" (can be used with Billowing enchanted items to boost upwards)
      */
-    public static boolean isInSmoke(World world, BlockPos pos) {
-        for (int i = 0; i <= 19; ++i) {
-            BlockPos blockpos = pos.down(i);
-            BlockState blockstate = world.getBlockState(blockpos);
-            if (blockstate.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(blockstate)) {
-                if (Umbrellas.STRICT_SMOKE_BOOSTING.getValue() && blockstate.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
+    public static boolean isInSmoke(World world, BlockPos blockPos) {
+        for (int i = 0; i < 20; ++i) {
+            BlockPos pos = blockPos.down(i);
+            BlockState state = world.getBlockState(pos);
+
+            if (state.isAir() || state.getCollisionShape(world, pos).isEmpty()) continue;
+
+            if (state.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
+                if (Umbrellas.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
                     return false;
                 }
 
-                if (i > 5 && CampfireBlock.isLitCampfire(blockstate) && blockstate.get(CampfireBlock.SIGNAL_FIRE)) {
+                if (i > 5 && CampfireBlock.isLitCampfire(state) && state.get(CampfireBlock.SIGNAL_FIRE)) {
                     return true;
                 } else {
                     return i < 6;
                 }
             }
 
-            List<Box> collisionBoxes = blockstate.getCollisionShape(world, pos).getBoundingBoxes();
-            boolean hasCollision = false;
+            List<Box> collisionBoxes = state.getCollisionShape(world, blockPos).getBoundingBoxes();
+            boolean intersectsFirst = false;
+            boolean intersectsSecond = false;
+            boolean intersectsThird = false;
+            boolean intersectsFourth = false;
             for (Box collisionBox : collisionBoxes) {
+                if (collisionBox.intersects(new Box(0.375, 0, 0.375, 0.375, 1, 0.375))) {
+                    intersectsFirst = true;
+                }
                 if (collisionBox.intersects(new Box(0.375, 0, 0.625, 0.375, 1, 0.625))) {
-                    hasCollision = true;
-                    break;
+                    intersectsSecond = true;
+                }
+                if (collisionBox.intersects(new Box(0.625, 0, 0.375, 0.625, 1, 0.375))) {
+                    intersectsThird = true;
+                }
+                if (collisionBox.intersects(new Box(0.625, 0, 0.625, 0.625, 1, 0.625))) {
+                    intersectsFourth = true;
                 }
             }
 
-            if (hasCollision) {
+            if (intersectsFirst && intersectsSecond && intersectsThird && intersectsFourth) {
                 return false;
             }
         }
