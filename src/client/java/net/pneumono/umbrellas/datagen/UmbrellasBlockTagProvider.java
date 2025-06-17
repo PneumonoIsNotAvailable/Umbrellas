@@ -28,5 +28,16 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
                 Blocks.LAVA,
                 Blocks.LAVA_CAULDRON
         );
+
+        getOrCreateTagBuilder(UmbrellasTags.SMOKE_PASSES_THROUGH).forceAddTags(
+                BlockTags.LEAVES,
+                BlockTags.WALLS
+        ).add(
+                Blocks.COPPER_GRATE,
+                Blocks.EXPOSED_COPPER_GRATE,
+                Blocks.WEATHERED_COPPER_GRATE,
+                Blocks.OXIDIZED_COPPER_GRATE,
+                Blocks.SCAFFOLDING
+        );
     }
 }

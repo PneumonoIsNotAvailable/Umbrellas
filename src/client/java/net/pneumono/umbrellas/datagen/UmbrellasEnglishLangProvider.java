@@ -83,6 +83,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.add(UmbrellasTags.BOOSTS_UMBRELLAS, "Boosts Umbrellas");
         builder.add(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE, "Has Configurable Umbrella Boosting");
+        builder.add(UmbrellasTags.SMOKE_PASSES_THROUGH, "Smoke Passes Through");
 
         builder.add(UmbrellasTags.NO_ITEM_REQUIRED, "No Umbrella Pattern Required");
         builder.add(UmbrellasTags.PRIDE, "Pride Pattern");
