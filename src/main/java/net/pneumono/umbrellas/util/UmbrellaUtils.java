@@ -91,7 +91,7 @@ public class UmbrellaUtils {
             BlockPos pos = blockPos.down(i);
             BlockState state = world.getBlockState(pos);
 
-            if (state.isAir() || state.getCollisionShape(world, pos).isEmpty() || state.isIn(UmbrellasTags.SMOKE_PASSES_THROUGH)) continue;
+            if (state.isAir() || state.isIn(UmbrellasTags.SMOKE_PASSES_THROUGH)) continue;
 
             if (state.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
                 if (Umbrellas.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
@@ -104,6 +104,8 @@ public class UmbrellaUtils {
                     return i < 6;
                 }
             }
+
+            if (state.getCollisionShape(world, pos).isEmpty()) continue;
 
             List<Box> collisionBoxes = state.getCollisionShape(world, blockPos).getBoundingBoxes();
             boolean intersectsFirst = false;
