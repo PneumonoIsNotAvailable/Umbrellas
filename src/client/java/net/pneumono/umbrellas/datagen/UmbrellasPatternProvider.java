@@ -24,7 +24,7 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
         super(dataOutput, registriesFuture, outputType, directoryName, codec);
     }
     
-    private static final List<UmbrellaPattern> PATTERNS = List.of(
+    private static final List<Pattern> PATTERNS = List.of(
             create(UmbrellaPatterns.BASE),
             create(UmbrellaPatterns.SQUARE_BOTTOM_LEFT),
             create(UmbrellaPatterns.SQUARE_BOTTOM_RIGHT),
@@ -129,30 +129,30 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
 
     @Override
     protected void configure(BiConsumer<Identifier, UmbrellaPattern> provider, RegistryWrapper.WrapperLookup lookup) {
-        // assetId() is very questionable here, but it's fine probably
-        for (UmbrellaPattern pattern : PATTERNS) {
-            provider.accept(pattern.assetId(), pattern);
+        for (Pattern pattern : PATTERNS) {
+            provider.accept(pattern.key.getValue(), pattern.pattern);
         }
     }
 
     public static void bootstrap(Registerable<UmbrellaPattern> registry) {
-        // assetId() is very questionable here, but it's fine probably
-        for (UmbrellaPattern pattern : PATTERNS) {
-            registry.register(RegistryKey.of(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, pattern.assetId()), pattern);
+        for (Pattern pattern : PATTERNS) {
+            registry.register(RegistryKey.of(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, pattern.key.getValue()), pattern.pattern);
         }
     }
     
-    private static UmbrellaPattern create(RegistryKey<UmbrellaPattern> key) {
+    private static Pattern create(RegistryKey<UmbrellaPattern> key) {
         return create(key, true);
     }
     
-    private static UmbrellaPattern create(RegistryKey<UmbrellaPattern> key, boolean dyeable) {
+    private static Pattern create(RegistryKey<UmbrellaPattern> key, boolean dyeable) {
         Identifier id = key.getValue();
-        return new UmbrellaPattern(id, id.toTranslationKey("umbrella_pattern"), dyeable);
+        return new Pattern(key, new UmbrellaPattern(id, id.toTranslationKey("umbrella_pattern"), dyeable));
     }
 
     @Override
     public String getName() {
         return "Umbrella Patterns";
     }
+
+    private record Pattern(RegistryKey<UmbrellaPattern> key, UmbrellaPattern pattern) {}
 }
