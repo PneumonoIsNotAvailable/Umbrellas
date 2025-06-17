@@ -41,7 +41,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
     @Override
     public void generateAdvancement(RegistryWrapper.WrapperLookup registries, Consumer<AdvancementEntry> consumer) {
         RegistryEntryLookup<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
-        RegistryWrapper.Impl<Enchantment> enchantmentLookup = registries.getOrThrow(RegistryKeys.ENCHANTMENT);
+        RegistryEntryLookup<Enchantment> enchantmentLookup = registries.getOrThrow(RegistryKeys.ENCHANTMENT);
 
         AdvancementEntry getUmbrellaAdvancement = Advancement.Builder.create().parent(Advancement.Builder.create().build(Identifier.of("adventure/root")))
                 .display(
@@ -92,7 +92,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_billowing_umbrella");
     }
 
-    private static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantment(RegistryWrapper.Impl<Enchantment> lookup, RegistryKey<Enchantment> enchantment) {
+    private static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantment(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment> enchantment) {
         return InventoryChangedCriterion.Conditions.items(
                 ItemPredicate.Builder.create().components(
                         ComponentsPredicate.Builder.create().partial(
