@@ -201,7 +201,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
                 UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
         );
-        this.hasTooManyPatterns = this.hasTooManyPatterns || umbrellaPatternsComponent.layers().size() >= 6;
+        this.hasTooManyPatterns = this.hasTooManyPatterns || umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS;
         if (this.hasTooManyPatterns) {
             this.umbrellaPatterns = null;
         }

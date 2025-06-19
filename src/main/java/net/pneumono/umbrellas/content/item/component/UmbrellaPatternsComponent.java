@@ -26,6 +26,7 @@ import java.util.function.Consumer;
 
 public record UmbrellaPatternsComponent(List<Layer> layers) implements TooltipAppender {
     public static final UmbrellaPatternsComponent DEFAULT = new UmbrellaPatternsComponent(List.of());
+    public static final int MAX_PATTERNS = 8;
     public static final Codec<UmbrellaPatternsComponent> CODEC = Layer.CODEC
             .listOf()
             .xmap(UmbrellaPatternsComponent::new, UmbrellaPatternsComponent::layers);
@@ -39,7 +40,7 @@ public record UmbrellaPatternsComponent(List<Layer> layers) implements TooltipAp
 
     @Override
     public void appendTooltip(Item.TooltipContext context, Consumer<Text> textConsumer, TooltipType type, ComponentsAccess components) {
-        for (int i = 0; i < Math.min(this.layers().size(), 6); i++) {
+        for (int i = 0; i < Math.min(this.layers().size(), MAX_PATTERNS); i++) {
             textConsumer.accept(this.layers().get(i).getTooltipText().formatted(Formatting.GRAY));
         }
     }

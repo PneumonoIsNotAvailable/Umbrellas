@@ -170,7 +170,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
                         UmbrellasDataComponents.UMBRELLA_PATTERNS,
                         UmbrellaPatternsComponent.DEFAULT
                 );
-                boolean tooManyLayers = umbrellaPatternsComponent.layers().size() >= 6;
+                boolean tooManyLayers = umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS;
                 if (tooManyLayers) {
                     this.selectedPattern.set(-1);
                     this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
