@@ -22,6 +22,7 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.LoomUmbrellaRendering;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
+import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -219,7 +220,6 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns().isEmpty();
     }
 
-    // ngl scuffed as hell but whatever
     @WrapOperation(
             method = "onInventoryChanged",
             at = @At(
@@ -229,7 +229,19 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
             )
     )
     private boolean slotHasDyeItem(ItemStack instance, Operation<Boolean> original) {
-        return false;
+        boolean invert = false;
+        if (this.handler.getBannerSlot().getStack().getItem() instanceof PatternableUmbrellaItem) {
+            ProvidesUmbrellaPatterns component = this.handler.getPatternSlot().getStack().get(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+            if (component != null && !component.requiresDye()) {
+                invert = true;
+            }
+        }
+
+        if (invert) {
+            return !original.call(instance);
+        } else {
+            return original.call(instance);
+        }
     }
 
     @WrapOperation(
