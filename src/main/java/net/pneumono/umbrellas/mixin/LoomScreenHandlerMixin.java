@@ -63,9 +63,6 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
     @Shadow
     private List<RegistryEntry<BannerPattern>> bannerPatterns = List.of();
 
-    @Shadow
-    protected abstract boolean isPatternIndexValid(int index);
-
     @Unique
     private List<RegistryEntry<UmbrellaPattern>> umbrellaPatterns = List.of();
     @Unique
@@ -113,6 +110,11 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
         }
     }
 
+    @Unique
+    private boolean isUmbrellaPatternIndexValid(int index) {
+        return index >= 0 && index < this.umbrellaPatterns.size();
+    }
+
     @Inject(
             method = "onContentChanged",
             at = @At("HEAD"),
@@ -135,7 +137,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
             boolean hasDye = !dyeStack.isEmpty();
 
             int patternIndex = this.selectedPattern.get();
-            boolean indexValid = this.isPatternIndexValid(patternIndex);
+            boolean indexValid = this.isUmbrellaPatternIndexValid(patternIndex);
 
             List<RegistryEntry<UmbrellaPattern>> oldPatterns = this.umbrellaPatterns;
             this.umbrellaPatterns = this.getUmbrellaPatternsFor(patternStack).stream().filter(
