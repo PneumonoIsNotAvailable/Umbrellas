@@ -250,7 +250,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
                     value = "FIELD",
                     target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;hasTooManyPatterns:Z",
                     opcode = Opcodes.GETFIELD,
-                    ordinal = 0
+                    ordinal = 1
             )
     )
     private boolean hasTooManyPatterns(LoomScreen instance, Operation<Boolean> original) {
