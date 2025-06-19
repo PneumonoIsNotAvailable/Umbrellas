@@ -27,6 +27,7 @@ import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
 import org.jetbrains.annotations.Nullable;
+import org.objectweb.asm.Opcodes;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -229,5 +230,22 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     private boolean slotHasDyeItem(ItemStack instance, Operation<Boolean> original) {
         return false;
+    }
+
+    @WrapOperation(
+            method = "onInventoryChanged",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;hasTooManyPatterns:Z",
+                    opcode = Opcodes.GETFIELD,
+                    ordinal = 0
+            )
+    )
+    private boolean hasTooManyPatterns(LoomScreen instance, Operation<Boolean> original) {
+        ItemStack inputStack = this.handler.getBannerSlot().getStack();
+        UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
+                UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
+        );
+        return original.call(instance) || umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS;
     }
 }
