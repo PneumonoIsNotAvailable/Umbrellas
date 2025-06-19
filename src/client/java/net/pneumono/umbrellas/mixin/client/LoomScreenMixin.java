@@ -187,37 +187,67 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
 
     @Inject(
             method = "onInventoryChanged",
-            at = @At("RETURN")
+            at = @At("HEAD")
     )
-    private void onInventoryChanged(CallbackInfo ci) {
-        ItemStack outputStack = this.handler.getOutputSlot().getStack();
-        if (outputStack.isEmpty()) {
-            this.umbrellaPatterns = null;
-        } else {
-            this.umbrellaPatterns = outputStack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
-        }
-
+    private void setIsUsingUmbrellas(CallbackInfo ci) {
         ItemStack inputStack = this.handler.getBannerSlot().getStack();
         this.isUsingUmbrellas = inputStack.getItem() instanceof PatternableUmbrellaItem;
+    }
 
-        UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
-                UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
-        );
-        this.hasTooManyPatterns = this.hasTooManyPatterns || umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS;
-        if (this.hasTooManyPatterns) {
-            this.umbrellaPatterns = null;
-        }
+    @Inject(
+            method = "onInventoryChanged",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;bannerPatterns:Lnet/minecraft/component/type/BannerPatternsComponent;",
+                    opcode = Opcodes.PUTFIELD,
+                    ordinal = 0
+            )
+    )
+    private void setUmbrellaPatternsNull1(CallbackInfo ci) {
+        this.umbrellaPatterns = null;
+    }
+
+    @Inject(
+            method = "onInventoryChanged",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;bannerPatterns:Lnet/minecraft/component/type/BannerPatternsComponent;",
+                    opcode = Opcodes.PUTFIELD,
+                    ordinal = 1
+            )
+    )
+    private void setUmbrellaPatternsToOutputPatterns(CallbackInfo ci) {
+        this.umbrellaPatterns = this.handler.getOutputSlot().getStack()
+                .getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
     }
 
     @WrapOperation(
             method = "onInventoryChanged",
             at = @At(
-                    value = "INVOKE",
-                    target = "Ljava/util/List;isEmpty()Z"
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;hasTooManyPatterns:Z",
+                    opcode = Opcodes.PUTFIELD
             )
     )
-    private boolean slotHasPatternItem(List<RegistryEntry<BannerPattern>> bannerPatterns, Operation<Boolean> original) {
-        return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns().isEmpty();
+    private void setHasTooManyPatterns(LoomScreen instance, boolean value, Operation<Void> original) {
+        ItemStack inputStack = this.handler.getBannerSlot().getStack();
+        UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
+                UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
+        );
+        original.call(instance, value || umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS);
+    }
+
+    @Inject(
+            method = "onInventoryChanged",
+            at = @At(
+                    value = "FIELD",
+                    target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;bannerPatterns:Lnet/minecraft/component/type/BannerPatternsComponent;",
+                    opcode = Opcodes.PUTFIELD,
+                    ordinal = 2
+            )
+    )
+    private void setUmbrellaPatternsNull2(CallbackInfo ci) {
+        this.umbrellaPatterns = null;
     }
 
     @WrapOperation(
@@ -230,7 +260,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     private boolean slotHasDyeItem(ItemStack instance, Operation<Boolean> original) {
         boolean invert = false;
-        if (this.handler.getBannerSlot().getStack().getItem() instanceof PatternableUmbrellaItem) {
+        if (this.isUsingUmbrellas) {
             ProvidesUmbrellaPatterns component = this.handler.getPatternSlot().getStack().get(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
             if (component != null && !component.requiresDye()) {
                 invert = true;
@@ -247,17 +277,11 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     @WrapOperation(
             method = "onInventoryChanged",
             at = @At(
-                    value = "FIELD",
-                    target = "Lnet/minecraft/client/gui/screen/ingame/LoomScreen;hasTooManyPatterns:Z",
-                    opcode = Opcodes.GETFIELD,
-                    ordinal = 1
+                    value = "INVOKE",
+                    target = "Ljava/util/List;isEmpty()Z"
             )
     )
-    private boolean hasTooManyPatterns(LoomScreen instance, Operation<Boolean> original) {
-        ItemStack inputStack = this.handler.getBannerSlot().getStack();
-        UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
-                UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
-        );
-        return original.call(instance) || umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS;
+    private boolean hasPatterns(List<RegistryEntry<BannerPattern>> bannerPatterns, Operation<Boolean> original) {
+        return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns().isEmpty();
     }
 }
