@@ -29,20 +29,4 @@ public class UmbrellasClient implements ClientModInitializer {
 
 		SpecialModelTypes.ID_MAPPER.put(Umbrellas.id("umbrella"), UmbrellaModelRenderer.Unbaked.CODEC);
 	}
-
-	/*
-	public static boolean shouldChangeArms(LivingEntity entity, Arm arm) {
-		Arm mainArm = entity.getMainArm();
-		ItemStack stack = mainArm == arm ? entity.getMainHandStack() : entity.getOffHandStack();
-		boolean hasUmbrella = stack.getItem() instanceof UmbrellaItem;
-		float minimumVelocity;
-		if (PneumonoEnchantmentHelper.hasEnchantment(UmbrellasRegistry.GLIDING, stack)) {
-			minimumVelocity = -0.19f;
-		} else {
-			minimumVelocity = -0.8f;
-		}
-
-		return hasUmbrella && entity.getVelocity().getY() < minimumVelocity;
-	}
-	 */
 }
