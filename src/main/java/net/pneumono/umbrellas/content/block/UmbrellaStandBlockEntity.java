@@ -33,7 +33,9 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     @Override
     protected void writeData(WriteView view) {
         super.writeData(view);
-        view.putNullable("UmbrellaItem", ItemStack.CODEC, this.umbrellaStack);
+        if (this.umbrellaStack != null && !this.umbrellaStack.isEmpty()) {
+            view.put("UmbrellaItem", ItemStack.CODEC, this.umbrellaStack);
+        }
     }
 
     @Override
