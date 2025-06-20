@@ -27,6 +27,8 @@ repositories {
 }
 
 loom {
+	accessWidenerPath = file("src/main/resources/umbrellas.accesswidener")
+
     splitEnvironmentSourceSets()
 
 	mods {

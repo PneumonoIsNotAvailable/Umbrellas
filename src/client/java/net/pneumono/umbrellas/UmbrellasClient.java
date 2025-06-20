@@ -2,6 +2,7 @@ package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityModelLayerRegistry;
+import net.fabricmc.fabric.api.client.rendering.v1.SpecialGuiElementRegistry;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.model.EntityModelLayer;
 import net.minecraft.client.render.item.model.special.SpecialModelTypes;
@@ -28,6 +29,8 @@ public class UmbrellasClient implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_CANOPY_LAYER, UmbrellaModel.Canopy::getTexturedModelData);
 
 		SpecialModelTypes.ID_MAPPER.put(Umbrellas.id("umbrella"), UmbrellaModelRenderer.Unbaked.CODEC);
+
+		SpecialGuiElementRegistry.register(LoomUmbrellaRendering.UmbrellaResultGuiElementRenderer::new);
 	}
 
 	/*
