@@ -4,12 +4,15 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
+import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ArmsUtil {
@@ -45,8 +48,9 @@ public class ArmsUtil {
             }
         }
 
-        if (UmbrellaUtils.getSlowFallingStrength(stack, entity.getRandom()) > 0) {
-            if (entity.fallDistance > 1.25) return true;
+        int slowFallStrength = UmbrellaUtils.getSlowFallingStrength(stack, entity.getRandom());
+        if (slowFallStrength > 0) {
+            if (entity.fallDistance > 2.25 - (slowFallStrength * 0.5)) return true;
         }
         if (UmbrellaUtils.getSmokeBoostingStrength(stack, entity.getRandom()) > 0) {
             if (UmbrellaUtils.isInSmoke(world, pos)) return true;
