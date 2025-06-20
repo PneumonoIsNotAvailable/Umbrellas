@@ -1,7 +1,7 @@
 package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.data.tag.SimpleTagProvider;
 import net.minecraft.registry.RegistryWrapper;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
@@ -9,14 +9,14 @@ import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
 
-public class UmbrellasPatternTagProvider extends FabricTagProvider<UmbrellaPattern> {
+public class UmbrellasPatternTagProvider extends SimpleTagProvider<UmbrellaPattern> {
     public UmbrellasPatternTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
         super(output, UmbrellaPatterns.UMBRELLA_PATTERN_KEY, registriesFuture);
     }
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(UmbrellasTags.NO_ITEM_REQUIRED).add(
+        this.builder(UmbrellasTags.NO_ITEM_REQUIRED).add(
                 UmbrellaPatterns.SQUARE_BOTTOM_LEFT,
                 UmbrellaPatterns.SQUARE_BOTTOM_RIGHT,
                 UmbrellaPatterns.SQUARE_TOP_LEFT,
@@ -72,7 +72,7 @@ public class UmbrellasPatternTagProvider extends FabricTagProvider<UmbrellaPatte
                 UmbrellaPatterns.THIRD_VERTICAL,
                 UmbrellaPatterns.THIRD_HORIZONTAL
         );
-        getOrCreateTagBuilder(UmbrellasTags.PRIDE).add(
+        this.builder(UmbrellasTags.PRIDE).add(
                 UmbrellaPatterns.FLAG_AROMANTIC,
                 UmbrellaPatterns.FLAG_ASEXUAL,
                 UmbrellaPatterns.FLAG_BISEXUAL,
@@ -107,15 +107,15 @@ public class UmbrellasPatternTagProvider extends FabricTagProvider<UmbrellaPatte
                 UmbrellaPatterns.HALF_FLAG_RIGHT_PRIDE,
                 UmbrellaPatterns.HALF_FLAG_RIGHT_TRANSGENDER
         );
-        getOrCreateTagBuilder(UmbrellasTags.FLOWER).add(UmbrellaPatterns.FLOWER);
-        getOrCreateTagBuilder(UmbrellasTags.CREEPER).add(UmbrellaPatterns.CREEPER);
-        getOrCreateTagBuilder(UmbrellasTags.SKULL).add(UmbrellaPatterns.SKULL);
-        getOrCreateTagBuilder(UmbrellasTags.MOJANG).add(UmbrellaPatterns.MOJANG);
-        getOrCreateTagBuilder(UmbrellasTags.GLOBE).add(UmbrellaPatterns.GLOBE);
-        getOrCreateTagBuilder(UmbrellasTags.PIGLIN).add(UmbrellaPatterns.PIGLIN);
-        getOrCreateTagBuilder(UmbrellasTags.FLOW).add(UmbrellaPatterns.FLOW);
-        getOrCreateTagBuilder(UmbrellasTags.GUSTER).add(UmbrellaPatterns.GUSTER);
-        getOrCreateTagBuilder(UmbrellasTags.FIELD_MASONED).add(UmbrellaPatterns.FIELD_MASONED);
-        getOrCreateTagBuilder(UmbrellasTags.BORDURE_INDENTED).add(UmbrellaPatterns.BORDURE_INDENTED);
+        this.builder(UmbrellasTags.FLOWER).add(UmbrellaPatterns.FLOWER);
+        this.builder(UmbrellasTags.CREEPER).add(UmbrellaPatterns.CREEPER);
+        this.builder(UmbrellasTags.SKULL).add(UmbrellaPatterns.SKULL);
+        this.builder(UmbrellasTags.MOJANG).add(UmbrellaPatterns.MOJANG);
+        this.builder(UmbrellasTags.GLOBE).add(UmbrellaPatterns.GLOBE);
+        this.builder(UmbrellasTags.PIGLIN).add(UmbrellaPatterns.PIGLIN);
+        this.builder(UmbrellasTags.FLOW).add(UmbrellaPatterns.FLOW);
+        this.builder(UmbrellasTags.GUSTER).add(UmbrellaPatterns.GUSTER);
+        this.builder(UmbrellasTags.FIELD_MASONED).add(UmbrellaPatterns.FIELD_MASONED);
+        this.builder(UmbrellasTags.BORDURE_INDENTED).add(UmbrellaPatterns.BORDURE_INDENTED);
     }
 }

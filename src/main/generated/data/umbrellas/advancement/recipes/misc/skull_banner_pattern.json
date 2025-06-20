@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:skull_banner_pattern"
+        "recipe": "umbrellas:skull_banner_pattern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:skull_banner_pattern"
+      "umbrellas:skull_banner_pattern"
     ]
   }
 }

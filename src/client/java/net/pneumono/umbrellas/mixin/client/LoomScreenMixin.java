@@ -1,52 +1,20 @@
 package net.pneumono.umbrellas.mixin.client;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.DiffuseLighting;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.screen.LoomScreenHandler;
-import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
-import net.minecraft.util.Identifier;
-import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.UmbrellasClient;
-import net.pneumono.umbrellas.content.LoomUmbrellaRendering;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
-import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
-import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
-import net.pneumono.umbrellas.content.UmbrellaPattern;
-import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
-import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
-import org.jetbrains.annotations.Nullable;
-import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Shadow;
-import org.spongepowered.asm.mixin.Unique;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.ModifyArg;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-
-import java.util.List;
-import java.util.Objects;
 
 @Mixin(LoomScreen.class)
 public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     public LoomScreenMixin(LoomScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
-
+    // WHYYYYYY MOJANGGGGG
+    // I updated this like 10s ago
+/*
     @Shadow
     @Final
     private static Identifier ERROR_TEXTURE;
@@ -283,5 +251,5 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     private boolean hasPatterns(List<RegistryEntry<BannerPattern>> bannerPatterns, Operation<Boolean> original) {
         return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns().isEmpty();
-    }
+    }*/
 }

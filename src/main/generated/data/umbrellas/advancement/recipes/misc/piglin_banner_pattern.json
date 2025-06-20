@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:piglin_banner_pattern"
+        "recipe": "umbrellas:piglin_banner_pattern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:piglin_banner_pattern"
+      "umbrellas:piglin_banner_pattern"
     ]
   }
 }

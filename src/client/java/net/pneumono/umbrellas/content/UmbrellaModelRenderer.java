@@ -14,8 +14,10 @@ import net.minecraft.util.DyeColor;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3f;
 
 import java.util.Objects;
+import java.util.Set;
 
 public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatternsComponent> {
     private final UmbrellaRenderer renderer;
@@ -52,6 +54,11 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
                 this.baseColor,
                 Objects.requireNonNullElse(data, UmbrellaPatternsComponent.DEFAULT)
         );
+    }
+
+    @Override
+    public void collectVertices(Set<Vector3f> vertices) {
+        // No idea what this does
     }
 
     @Environment(EnvType.CLIENT)

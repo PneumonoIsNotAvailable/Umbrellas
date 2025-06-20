@@ -11,7 +11,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
-import net.pneumono.pneumonocore.util.PneumonoMathHelper;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -50,7 +49,7 @@ public class UmbrellaUtils {
         );
 
         for (Entity temp : world.getOtherEntities(null, box)) {
-            if (temp instanceof LivingEntity friend && PneumonoMathHelper.horizontalDistanceBetween(friend.getBlockPos(), pos) <= entityAreaWidth) {
+            if (temp instanceof LivingEntity friend && friend.getBlockPos().getSquaredDistance(pos) <= entityAreaWidth) {
                 ItemStack friendMainHandStack = friend.getMainHandStack();
                 if (friendMainHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
                     if (damageUmbrellas) damageUmbrella(friendMainHandStack, 1, world, friend, EquipmentSlot.MAINHAND);

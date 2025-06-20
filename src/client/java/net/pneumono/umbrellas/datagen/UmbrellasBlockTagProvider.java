@@ -16,21 +16,23 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(UmbrellasTags.BOOSTS_UMBRELLAS).forceAddTags(
-                BlockTags.FIRE,
+        valueLookupBuilder(UmbrellasTags.BOOSTS_UMBRELLAS).forceAddTag(
+                BlockTags.FIRE
+        ).forceAddTag(
                 BlockTags.CAMPFIRES
         ).add(
                 Blocks.LAVA,
                 Blocks.LAVA_CAULDRON
         );
 
-        getOrCreateTagBuilder(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE).add(
+        valueLookupBuilder(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE).add(
                 Blocks.LAVA,
                 Blocks.LAVA_CAULDRON
         );
 
-        getOrCreateTagBuilder(UmbrellasTags.SMOKE_PASSES_THROUGH).forceAddTags(
-                BlockTags.LEAVES,
+        valueLookupBuilder(UmbrellasTags.SMOKE_PASSES_THROUGH).forceAddTag(
+                BlockTags.LEAVES
+        ).forceAddTag(
                 BlockTags.WALLS
         ).add(
                 Blocks.COPPER_GRATE,

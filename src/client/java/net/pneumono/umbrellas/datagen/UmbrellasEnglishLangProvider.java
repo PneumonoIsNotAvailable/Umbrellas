@@ -4,12 +4,12 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.DyeColor;
-import net.pneumono.pneumonocore.datagen.PneumonoDatagenUtil;
+import net.pneumono.pneumonocore.datagen.PneumonoCoreTranslationBuilder;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
-import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.util.BiConsumer;
 
@@ -21,7 +21,9 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
     }
 
     @Override
-    public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder builder) {
+    public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+        UmbrellasTranslationBuilder builder = new UmbrellasTranslationBuilder(translationBuilder);
+
         builder.add(UmbrellasItems.WHITE_UMBRELLA, "White Umbrella");
         builder.add(UmbrellasItems.ORANGE_UMBRELLA, "Orange Umbrella");
         builder.add(UmbrellasItems.MAGENTA_UMBRELLA, "Magenta Umbrella");
@@ -63,7 +65,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasItems.UMBRELLA_STAND, "Umbrella Stand");
         builder.add(UmbrellasBlocks.UMBRELLA_STAND, "Umbrella Stand");
 
-        builder.add(UmbrellasItems.ITEM_GROUP, "Umbrellas");
+        builder.addItemGroup(UmbrellasItems.ITEM_GROUP, "Umbrellas");
 
         builder.add(UmbrellasMisc.GLIDING.getValue().toTranslationKey("enchantment"), "Gliding");
         builder.add(UmbrellasMisc.BILLOWING.getValue().toTranslationKey("enchantment"), "Billowing");
@@ -98,39 +100,37 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasTags.FIELD_MASONED, "Field Masoned Pattern");
         builder.add(UmbrellasTags.BORDURE_INDENTED, "Bordure Indented Pattern");
 
-        PneumonoDatagenUtil.generateConfigScreenTranslation(builder, Umbrellas.MOD_ID, "Umbrellas Cleaned");
-        PneumonoDatagenUtil.generateConfigTranslations(builder,
+        builder.addConfigScreenTitle(Umbrellas.MOD_ID, "Umbrellas Cleaned");
+        builder.addEnumConfig(
                 Umbrellas.SLOW_FALLING,
                 "Slow Falling",
-                "Whether umbrellas grant players slow falling"
+                "Whether umbrellas grant players slow falling",
+                "ALWAYS", "ENCHANTED_ONLY", "NEVER"
         );
-        PneumonoDatagenUtil.generateConfigTranslations(builder,
+        builder.addEnumConfig(
                 Umbrellas.SMOKE_BOOSTING,
                 "Smoke Boosting",
-                "Whether umbrellas boost players upwards when they are above sources of heat"
+                "Whether umbrellas boost players upwards when they are above sources of heat",
+                "ALWAYS", "ENCHANTED_ONLY", "NEVER"
         );
-        for (EnchantmentAbilityType type : EnchantmentAbilityType.values()) {
-            PneumonoDatagenUtil.generateEnumConfigOptionTranslation(builder, Umbrellas.SLOW_FALLING, type, type.name());
-            PneumonoDatagenUtil.generateEnumConfigOptionTranslation(builder, Umbrellas.SMOKE_BOOSTING, type, type.name());
-        }
-        PneumonoDatagenUtil.generateConfigTranslations(builder,
+        builder.addConfig(
                 Umbrellas.STRICT_SMOKE_BOOSTING,
                 "Strict Smoke Boosting",
                 "Whether umbrellas only boost players upwards above campfires and fires. If disabled, players can also boost above lava"
         );
-        PneumonoDatagenUtil.generateConfigTranslations(builder,
+        builder.addConfig(
                 Umbrellas.DURABILITY,
                 "Durability",
                 "Whether umbrellas have limited durability"
         );
-        PneumonoDatagenUtil.generateConfigTranslations(builder,
+        builder.addConfig(
                 Umbrellas.ENCHANTMENT_GLINT,
                 "Enchantment Glint",
                 "Whether enchantment glint is visible on enchanted umbrellas"
         );
     }
 
-    private void generateUmbrellaPatternTranslations(TranslationBuilder translationBuilder) {
+    private void generateUmbrellaPatternTranslations(UmbrellasTranslationBuilder translationBuilder) {
         for (DyeColor color : DyeColor.values()) {
             String colorId = color.getId();
             String colorName = StringUtils.capitalize(colorId);
@@ -246,5 +246,16 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.accept(UmbrellaPatterns.HALF_FLAG_RIGHT_PANSEXUAL, "Right Pansexual Half-Flag");
         builder.accept(UmbrellaPatterns.HALF_FLAG_RIGHT_PRIDE, "Right Pride Half-Flag");
         builder.accept(UmbrellaPatterns.HALF_FLAG_RIGHT_TRANSGENDER, "Right Transgender Half-Flag");
+    }
+
+    // Forgot to add this method to PneumonoCore... I'm not the smartest huh
+    private static class UmbrellasTranslationBuilder extends PneumonoCoreTranslationBuilder {
+        public UmbrellasTranslationBuilder(TranslationBuilder builder) {
+            super(builder);
+        }
+
+        public void add(TagKey<?> key, String value) {
+            this.add(key.getTranslationKey(), value);
+        }
     }
 }

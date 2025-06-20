@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "minecraft:guster_banner_pattern"
+        "recipe": "umbrellas:guster_banner_pattern"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -26,7 +26,7 @@
   ],
   "rewards": {
     "recipes": [
-      "minecraft:guster_banner_pattern"
+      "umbrellas:guster_banner_pattern"
     ]
   }
 }

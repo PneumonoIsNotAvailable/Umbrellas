@@ -6,13 +6,12 @@ import net.minecraft.inventory.Inventory;
 import net.minecraft.inventory.SingleStackInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.nbt.NbtElement;
-import net.minecraft.nbt.NbtOps;
 import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
-import net.minecraft.registry.RegistryOps;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.storage.ReadView;
+import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
@@ -26,19 +25,15 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     }
 
     @Override
-    protected void readNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.readNbt(nbt, registries);
-        RegistryOps<NbtElement> registryOps = registries.getOps(NbtOps.INSTANCE);
-        this.umbrellaStack = nbt.get("UmbrellaItem", ItemStack.CODEC, registryOps).orElse(ItemStack.EMPTY);
+    protected void readData(ReadView view) {
+        super.readData(view);
+        this.umbrellaStack = view.read("UmbrellaItem", ItemStack.CODEC).orElse(ItemStack.EMPTY);
     }
 
     @Override
-    protected void writeNbt(NbtCompound nbt, RegistryWrapper.WrapperLookup registries) {
-        super.writeNbt(nbt, registries);
-        if (!this.umbrellaStack.isEmpty()) {
-            RegistryOps<NbtElement> registryOps = registries.getOps(NbtOps.INSTANCE);
-            nbt.put("UmbrellaItem", ItemStack.CODEC, registryOps, this.umbrellaStack);
-        }
+    protected void writeData(WriteView view) {
+        super.writeData(view);
+        view.putNullable("UmbrellaItem", ItemStack.CODEC, this.umbrellaStack);
     }
 
     @Override

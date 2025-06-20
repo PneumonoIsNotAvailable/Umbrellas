@@ -16,7 +16,7 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(UmbrellasTags.UMBRELLAS).add(
+        valueLookupBuilder(UmbrellasTags.UMBRELLAS).add(
                 UmbrellasItems.WHITE_UMBRELLA,
                 UmbrellasItems.ORANGE_UMBRELLA,
                 UmbrellasItems.MAGENTA_UMBRELLA,
@@ -40,8 +40,8 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
                 UmbrellasItems.JELLYFISH_UMBRELLA
         );
 
-        getOrCreateTagBuilder(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
+        valueLookupBuilder(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
 
-        getOrCreateTagBuilder(ItemTags.DURABILITY_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
+        valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
     }
 }
