@@ -39,7 +39,12 @@ public abstract class GlidingMovementMixin extends Entity implements Attackable 
         }
 
         if (this.getVelocity().y <= 0.0 && strength > 0) {
-            gravity = Math.min(gravity, 0.04 - (0.01 * strength));
+            gravity = Math.min(
+                    gravity,
+                    0.04 - 0.01 * (
+                            (4F * strength * strength * strength) / ((strength * strength * strength) + 2.24F)
+                    )
+            );
         }
         return gravity;
     }
