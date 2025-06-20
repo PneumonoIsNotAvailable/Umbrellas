@@ -4,15 +4,12 @@ import net.minecraft.block.BlockState;
 import net.minecraft.client.model.ModelPart;
 import net.minecraft.client.render.entity.state.BipedEntityRenderState;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Arm;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
-import java.util.function.Function;
 import java.util.function.Predicate;
 
 public class ArmsUtil {
@@ -34,28 +31,29 @@ public class ArmsUtil {
         return false;
     }
 
-    public static boolean shouldAdjustArm(Arm arm, LivingEntity entity) {
+    public static boolean shouldAdjustArm(Arm arm, LivingEntity entity, UmbrellaHoldingEntityRenderState state) {
         ItemStack stack = entity.getStackInArm(arm);
         if (!stack.isIn(UmbrellasTags.UMBRELLAS)) return false;
+        if (shouldAdjustArm(arm, state) && (entity.getVelocity().y > 0.1 || entity.getVelocity().y < -0.1)) return true;
 
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();
 
-        for (int i = 0; i < 2; ++i) {
-            BlockState state = world.getBlockState(pos.down(i));
-            if (!state.getCollisionShape(world, pos).isEmpty()) {
+        for (int i = 0; i < 4; ++i) {
+            BlockState blockState = world.getBlockState(pos.down(i));
+            if (!blockState.getCollisionShape(world, pos).isEmpty()) {
                 return false;
             }
         }
 
         int slowFallStrength = UmbrellaUtils.getSlowFallingStrength(stack, entity.getRandom());
         if (slowFallStrength > 0) {
-            if (entity.fallDistance > 2.25 - (slowFallStrength * 0.5)) return true;
+            if (entity.fallDistance > Math.max(1.25 - (slowFallStrength * 0.25), 0)) return true;
         }
         if (UmbrellaUtils.getSmokeBoostingStrength(stack, entity.getRandom()) > 0) {
             if (UmbrellaUtils.isInSmoke(world, pos)) return true;
         }
-        return entity.fallDistance > 2.25;
+        return entity.fallDistance > 1.25;
     }
 
     public static boolean shouldAdjustArm(Arm arm, UmbrellaHoldingEntityRenderState state) {

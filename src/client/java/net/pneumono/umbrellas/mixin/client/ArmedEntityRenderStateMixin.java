@@ -25,8 +25,8 @@ public abstract class ArmedEntityRenderStateMixin implements UmbrellaHoldingEnti
     )
     private static void updateRenderStateWithUmbrella(LivingEntity entity, ArmedEntityRenderState state, ItemModelManager itemModelManager, CallbackInfo ci) {
         if (!(state instanceof UmbrellaHoldingEntityRenderState umbrellaState)) return;
-        umbrellaState.umbrellas$setShouldAdjustArm(false, ArmsUtil.shouldAdjustArm(Arm.LEFT, entity));
-        umbrellaState.umbrellas$setShouldAdjustArm(true, ArmsUtil.shouldAdjustArm(Arm.RIGHT, entity));
+        umbrellaState.umbrellas$setShouldAdjustArm(false, ArmsUtil.shouldAdjustArm(Arm.LEFT, entity, umbrellaState));
+        umbrellaState.umbrellas$setShouldAdjustArm(true, ArmsUtil.shouldAdjustArm(Arm.RIGHT, entity, umbrellaState));
     }
 
     @Override
