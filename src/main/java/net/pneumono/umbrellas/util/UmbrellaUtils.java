@@ -10,10 +10,12 @@ import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
+import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.List;
@@ -135,5 +137,27 @@ public class UmbrellaUtils {
 
     private static boolean isNotUnlit(BlockState state) {
         return !state.isIn(BlockTags.CAMPFIRES) || (state.contains(CampfireBlock.LIT) && state.get(CampfireBlock.LIT));
+    }
+
+    /**
+     * Depending on what the {@link Umbrellas#SLOW_FALLING} config is set to, returns the "strength" of an Umbrella's slow falling.<p>
+     * When set to {@link EnchantmentAbilityType#ALWAYS}, returns 3.<p>
+     * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns the sum of the levels of all slow falling enchantments.
+     * (Usually, this is just the Gliding level)<p>
+     * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
+     */
+    public static int getSlowFallingStrength(ItemStack stack, Random random) {
+        return Umbrellas.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasMisc.SLOW_FALLING, 0);
+    }
+
+    /**
+     * Depending on what the {@link Umbrellas#SMOKE_BOOSTING} config is set to, returns the "strength" of an Umbrella's smoke boosting.<p>
+     * When set to {@link EnchantmentAbilityType#ALWAYS}, returns 3.<p>
+     * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns the sum of the levels of all smoke boosting enchantments.
+     * (Usually, this is just the Billowing level)<p>
+     * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
+     */
+    public static int getSmokeBoostingStrength(ItemStack stack, Random random) {
+        return Umbrellas.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 0);
     }
 }
