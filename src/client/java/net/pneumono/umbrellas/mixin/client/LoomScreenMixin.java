@@ -7,8 +7,6 @@ import net.minecraft.client.gl.RenderPipelines;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.gui.screen.ingame.HandledScreen;
 import net.minecraft.client.gui.screen.ingame.LoomScreen;
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.texture.Sprite;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.BannerItem;
 import net.minecraft.item.ItemStack;
@@ -18,10 +16,8 @@ import net.minecraft.screen.slot.Slot;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.LoomUmbrellaRendering;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
-import net.pneumono.umbrellas.content.UmbrellaRenderer;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
@@ -39,7 +35,6 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
-import java.util.Objects;
 
 @Mixin(LoomScreen.class)
 public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
@@ -66,21 +61,11 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     private static final Identifier PATTERN_HIGHLIGHTED_TEXTURE = Umbrellas.id("pattern_highlighted");
     @Unique
     private static final Identifier TEXTURE = Umbrellas.id("textures/gui/loom.png");
-    @Unique
-    private ModelPart umbrella;
     @Nullable
     @Unique
     private UmbrellaPatternsComponent umbrellaPatterns;
     @Unique
     private boolean isUsingUmbrellas = false;
-
-    @Inject(
-            method = "init",
-            at = @At("RETURN")
-    )
-    private void initUmbrellaModel(CallbackInfo ci) {
-        this.umbrella = Objects.requireNonNull(this.client).getLoadedEntityModels().getModelPart(UmbrellasClient.UMBRELLA_CANOPY_LAYER);
-    }
 
     @WrapOperation(
             method = "getRows",
@@ -118,16 +103,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         }
 
         if (this.umbrellaPatterns != null && !this.hasTooManyPatterns) {
-            context.state.addSpecialElement(new LoomUmbrellaRendering.ResultGuiElementRenderState(
-                    this.umbrella,
-                    ((PatternableUmbrellaItem)outputSlot.getStack().getItem()).getColor(),
-                    this.umbrellaPatterns,
-                    this.x + 141,
-                    this.y + 8,
-                    this.x + 141 + 20,
-                    this.y + 8 + 40,
-                    context.scissorStack.peekLast()
-            ));
+            LoomUmbrellaRendering.drawResultUmbrella(context, x + 135, y + 12, outputSlot.getStack());
         } else if (this.hasTooManyPatterns) {
             context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ERROR_TEXTURE, this.x + outputSlot.x - 5, this.y + outputSlot.y - 5, 26, 26);
         }
@@ -158,7 +134,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
                     }
 
                     context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, texture, newX, newY, 14, 14);
-                    LoomUmbrellaRendering.drawPatternUmbrella(context, newX, newY, UmbrellaRenderer.getUmbrellaPatternTextureId(list.get(index)).getSprite());
+                    LoomUmbrellaRendering.drawPatternUmbrella(context, newX, newY, list.get(index));
                 }
             }
         }
