@@ -16,7 +16,7 @@
   "configs.umbrellas.elytra_smoke_boosting.tooltip": "Whether Elytra are able to boost upwards in smoke without the use of a Billowing Umbrella",
   "configs.umbrellas.enchantment_glint": "Enchantment Glint",
   "configs.umbrellas.enchantment_glint.tooltip": "Whether enchantment glint is visible on enchanted umbrellas",
-  "configs.umbrellas.screen_title": "Umbrellas Cleaned",
+  "configs.umbrellas.screen_title": "Umbrellas Configs",
   "configs.umbrellas.slow_falling": "Slow Falling",
   "configs.umbrellas.slow_falling.always": "ALWAYS",
   "configs.umbrellas.slow_falling.enchanted_only": "ENCHANTED_ONLY",

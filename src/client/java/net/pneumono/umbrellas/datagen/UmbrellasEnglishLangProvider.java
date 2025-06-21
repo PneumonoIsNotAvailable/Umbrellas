@@ -101,7 +101,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasTags.FIELD_MASONED, "Field Masoned Pattern");
         builder.add(UmbrellasTags.BORDURE_INDENTED, "Bordure Indented Pattern");
 
-        builder.addConfigScreenTitle(Umbrellas.MOD_ID, "Umbrellas Cleaned");
+        builder.addConfigScreenTitle(Umbrellas.MOD_ID, "Umbrellas Configs");
         builder.addEnumConfig(
                 UmbrellasConfig.SLOW_FALLING,
                 "Slow Falling",
