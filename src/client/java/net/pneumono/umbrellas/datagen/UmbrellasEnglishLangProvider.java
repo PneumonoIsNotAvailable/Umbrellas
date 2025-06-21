@@ -11,9 +11,9 @@ import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.BiConsumer;
 
 import java.util.concurrent.CompletableFuture;
+import java.util.function.BiConsumer;
 
 public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
     public UmbrellasEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
@@ -144,8 +144,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
             String colorId = color.getId();
             String colorName = StringUtils.capitalize(colorId);
 
-            BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = (umbrellaPattern, string) ->
-                    translationBuilder.add(umbrellaPattern.getValue().toTranslationKey("umbrella_pattern", colorId), String.format(string, colorName));
+            BiConsumer<RegistryKey<UmbrellaPattern>, String> baseBuilder = translationBuilder.createBuilder(pattern -> pattern.getValue().toTranslationKey("umbrella_pattern", colorId));
+            BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = (pattern, string) -> baseBuilder.accept(pattern, String.format(string, colorName));
 
             // These aren't consistent with vanilla's heraldry stuff, because I think it's too confusing for the average player (and a pain to learn for me)
             // I'll probably add a builtin resource pack to make it more consistent in the future
@@ -217,8 +217,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
             builder.accept(UmbrellaPatterns.THIRD_HORIZONTAL, "%s Horizontal Third");
         }
 
-        BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = (umbrellaPattern, string) ->
-                translationBuilder.add(umbrellaPattern.getValue().toTranslationKey("umbrella_pattern"), string);
+        BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = translationBuilder.createBuilder(pattern -> pattern.getValue().toTranslationKey("umbrella_pattern"));
 
         builder.accept(UmbrellaPatterns.FLAG_AROMANTIC, "Aromantic Flag");
         builder.accept(UmbrellaPatterns.FLAG_ASEXUAL, "Asexual Flag");
