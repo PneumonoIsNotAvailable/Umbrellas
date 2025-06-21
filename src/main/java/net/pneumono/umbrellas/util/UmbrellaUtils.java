@@ -207,22 +207,32 @@ public class UmbrellaUtils {
     }
 
     public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
-        if (!(
-                UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom()) ||
-                UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom()) ||
-                (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isGliding())
-        )) {
-            return;
+        boolean usingMainHand = false;
+        boolean usingItem = false;
+        boolean shouldTick = false;
+        if (UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom())) {
+            usingMainHand = true;
+            usingItem = true;
+            shouldTick = true;
+        } else if (UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom())) {
+            usingItem = true;
+            shouldTick = true;
+        } else if (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isGliding()) {
+            shouldTick = true;
         }
+
+        if (!shouldTick) return;
 
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();
         int heightInSmoke = UmbrellaUtils.getHeightInSmoke(world, pos);
-        if (heightInSmoke < 0) {
+        if (heightInSmoke == -1) {
             return;
         }
 
-        if (heightInSmoke >= 19 && entity instanceof ServerPlayerEntity serverPlayer) UmbrellasMisc.SMOKE_BOOST_CRITERION.trigger(serverPlayer);
+        if (usingItem && entity instanceof ServerPlayerEntity serverPlayer) {
+            UmbrellasMisc.SMOKE_BOOST_CRITERION.trigger(serverPlayer, usingMainHand ? mainhand : offhand, heightInSmoke);
+        }
 
         double entityVelocity = entity.getVelocity().getY() * 100;
         boolean isGliding = entity instanceof LivingEntity living && living.isGliding();

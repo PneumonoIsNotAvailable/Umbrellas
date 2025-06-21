@@ -3,21 +3,14 @@ package net.pneumono.umbrellas.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancement.Advancement;
-import net.minecraft.advancement.AdvancementCriterion;
 import net.minecraft.advancement.AdvancementEntry;
 import net.minecraft.advancement.AdvancementFrame;
 import net.minecraft.advancement.criterion.InventoryChangedCriterion;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.predicate.NumberRange;
-import net.minecraft.predicate.component.ComponentPredicateTypes;
-import net.minecraft.predicate.component.ComponentsPredicate;
-import net.minecraft.predicate.item.EnchantmentPredicate;
-import net.minecraft.predicate.item.EnchantmentsPredicate;
 import net.minecraft.predicate.item.ItemPredicate;
 import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
@@ -27,11 +20,8 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
-import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
-import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -88,7 +78,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         true,
                         false
                 )
-                .criterion("used_billowing_umbrella", UmbrellasMisc.SMOKE_BOOST_CRITERION.create(new SmokeBoostCriterion.Conditions(Optional.empty())))
+                .criterion("used_billowing_umbrella", SmokeBoostCriterion.Conditions.minHeight(19))
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/use_billowing_umbrella");
     }
 }
