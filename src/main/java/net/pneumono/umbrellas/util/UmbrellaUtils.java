@@ -179,12 +179,13 @@ public class UmbrellaUtils {
     }
 
     public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
-        boolean canBoost = UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom());
-        if (!canBoost) {
-            canBoost = UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom());
+        if (!(
+                UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom()) ||
+                UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom()) ||
+                (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isGliding())
+        )) {
+            return;
         }
-
-        if (!canBoost) return;
 
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();

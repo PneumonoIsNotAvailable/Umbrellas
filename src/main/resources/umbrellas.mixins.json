@@ -3,10 +3,11 @@
     "package": "net.pneumono.umbrellas.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "UmbrellaMovementMixin",
+        "FireworkRocketItemMixin",
         "LoomScreenHandlerMixin",
         "LoomScreenHandlerMixin$BannerSlotMixin",
         "LoomScreenHandlerMixin$PatternSlotMixin",
+        "UmbrellaMovementMixin",
         "UmbrellaSkylightMixin"
     ],
     "injectors": {

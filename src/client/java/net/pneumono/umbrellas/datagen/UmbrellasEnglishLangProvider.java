@@ -125,6 +125,16 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 "Whether umbrellas have limited durability"
         );
         builder.addConfig(
+                UmbrellasConfig.DISABLE_FIREWORK_BOOSTING,
+                "Disable Firework Boosting",
+                "Whether Fireworks can be used to boost Elytra. This can be disabled in favor of using Campfires and a Billowing Umbrella"
+        );
+        builder.addConfig(
+                UmbrellasConfig.ELYTRA_SMOKE_BOOSTING,
+                "Elytra Smoke Boosting",
+                "Whether Elytra are able to boost upwards in smoke without the use of a Billowing Umbrella"
+        );
+        builder.addConfig(
                 UmbrellasConfig.ENCHANTMENT_GLINT,
                 "Enchantment Glint",
                 "Whether enchantment glint is visible on enchanted umbrellas"

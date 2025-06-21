@@ -13,6 +13,8 @@ public class UmbrellasConfig {
     public static final EnumConfiguration<EnchantmentAbilityType> SMOKE_BOOSTING = new EnumConfiguration<>(MOD_ID, "smoke_boosting", ConfigEnv.SERVER, EnchantmentAbilityType.ENCHANTED_ONLY);
     public static final BooleanConfiguration STRICT_SMOKE_BOOSTING = new BooleanConfiguration(MOD_ID, "strict_smoke_boosting", ConfigEnv.SERVER, false);
     public static final BooleanConfiguration DURABILITY = new BooleanConfiguration(MOD_ID, "durability", ConfigEnv.SERVER, true);
+    public static final BooleanConfiguration DISABLE_FIREWORK_BOOSTING = new BooleanConfiguration(MOD_ID, "disable_firework_boosting", ConfigEnv.SERVER, false);
+    public static final BooleanConfiguration ELYTRA_SMOKE_BOOSTING = new BooleanConfiguration(MOD_ID, "elytra_smoke_boosting", ConfigEnv.SERVER, false);
     public static final BooleanConfiguration ENCHANTMENT_GLINT = new BooleanConfiguration(MOD_ID, "enchantment_glint", ConfigEnv.CLIENT, true);
 
     public static void registerUmbrellasConfigs() {
@@ -21,6 +23,8 @@ public class UmbrellasConfig {
                 SMOKE_BOOSTING,
                 STRICT_SMOKE_BOOSTING,
                 DURABILITY,
+                DISABLE_FIREWORK_BOOSTING,
+                ELYTRA_SMOKE_BOOSTING,
                 ENCHANTMENT_GLINT
         );
     }
