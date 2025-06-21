@@ -23,7 +23,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.umbrellas.get_billowing_umbrella.desc"
+      "translate": "advancements.umbrellas.get_billowing_umbrella.description"
     },
     "icon": {
       "components": {

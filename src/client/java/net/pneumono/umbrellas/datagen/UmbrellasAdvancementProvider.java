@@ -45,7 +45,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .display(
                         UmbrellasItems.RED_UMBRELLA,
                         Text.translatable("advancements.umbrellas.get_umbrella.name"),
-                        Text.translatable("advancements.umbrellas.get_umbrella.desc"),
+                        Text.translatable("advancements.umbrellas.get_umbrella.description"),
                         null,
                         AdvancementFrame.TASK,
                         true,
@@ -61,7 +61,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .display(
                         glidingEnchanted,
                         Text.translatable("advancements.umbrellas.get_gliding_umbrella.name"),
-                        Text.translatable("advancements.umbrellas.get_gliding_umbrella.desc"),
+                        Text.translatable("advancements.umbrellas.get_gliding_umbrella.description"),
                         null,
                         AdvancementFrame.TASK,
                         true,
@@ -77,7 +77,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .display(
                         billowingEnchanted,
                         Text.translatable("advancements.umbrellas.get_billowing_umbrella.name"),
-                        Text.translatable("advancements.umbrellas.get_billowing_umbrella.desc"),
+                        Text.translatable("advancements.umbrellas.get_billowing_umbrella.description"),
                         null,
                         AdvancementFrame.TASK,
                         true,

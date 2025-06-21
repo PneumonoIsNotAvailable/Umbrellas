@@ -14,7 +14,7 @@
   },
   "display": {
     "description": {
-      "translate": "advancements.umbrellas.get_umbrella.desc"
+      "translate": "advancements.umbrellas.get_umbrella.description"
     },
     "icon": {
       "count": 1,
