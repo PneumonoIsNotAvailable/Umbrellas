@@ -168,11 +168,23 @@ public class UmbrellaUtils {
     }
 
     /**
+     * Calls {@link UmbrellaUtils#getSlowFallingStrength(ItemStack, Random)} for {@code first}, and if that returns {@code 0}, calls it for {@code second} instead;
+     * @see UmbrellaUtils#getSlowFallingStrength(ItemStack, Random)
+     */
+    public static int getSlowFallingStrength(ItemStack first, ItemStack second, Random random) {
+        int strength = UmbrellaUtils.getSlowFallingStrength(first, random);
+        if (strength == 0) {
+            strength = UmbrellaUtils.getSlowFallingStrength(second, random);
+        }
+        return strength;
+    }
+
+    /**
      * Depending on what the {@link UmbrellasConfig#SLOW_FALLING} config is set to, returns the "strength" of an Umbrella's slow falling.<p>
-     * When set to {@link EnchantmentAbilityType#ALWAYS}, returns 3.<p>
+     * When set to {@link EnchantmentAbilityType#ALWAYS}, returns {@code 3}.<p>
      * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns the sum of the levels of all slow falling enchantments.
      * (Usually, this is just the Gliding level)<p>
-     * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
+     * When set to {@link EnchantmentAbilityType#NEVER}, returns {@code 0}.<p>
      */
     public static int getSlowFallingStrength(ItemStack stack, Random random) {
         return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasEnchantments.SLOW_FALLING, 3, 0);
@@ -190,10 +202,7 @@ public class UmbrellaUtils {
     }
 
     public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
-        int strength = UmbrellaUtils.getSlowFallingStrength(mainhand, entity.getRandom());
-        if (strength == 0) {
-            strength = UmbrellaUtils.getSlowFallingStrength(offhand, entity.getRandom());
-        }
+        int strength = getSlowFallingStrength(mainhand, offhand, entity.getRandom());
 
         if (strength > 0 && entity.getVelocity().getY() <= 0.0) {
             return Math.min(
