@@ -42,7 +42,7 @@
 		"minecraft": "~1.21.6",
 		"java": ">=21",
 		"fabric-api": "*",
-		"pneumonocore": ">=1.1.13"
+		"pneumonocore": ">=1.1.14"
 	},
 	"suggests": {
 		"modmenu": "*"
