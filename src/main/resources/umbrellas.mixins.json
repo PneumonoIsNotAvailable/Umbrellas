@@ -3,7 +3,7 @@
     "package": "net.pneumono.umbrellas.mixin",
     "compatibilityLevel": "JAVA_21",
     "mixins": [
-        "GlidingMovementMixin",
+        "UmbrellaMovementMixin",
         "LoomScreenHandlerMixin",
         "LoomScreenHandlerMixin$BannerSlotMixin",
         "LoomScreenHandlerMixin$PatternSlotMixin",

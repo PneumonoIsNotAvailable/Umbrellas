@@ -160,4 +160,47 @@ public class UmbrellaUtils {
     public static int getSmokeBoostingStrength(ItemStack stack, Random random) {
         return Umbrellas.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 0);
     }
+
+    public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
+        int strength = UmbrellaUtils.getSlowFallingStrength(mainhand, entity.getRandom());
+        if (strength == 0) {
+            strength = UmbrellaUtils.getSlowFallingStrength(offhand, entity.getRandom());
+        }
+
+        if (entity.getVelocity().getY() <= 0.0 && strength > 0) {
+            return Math.min(
+                    baseGravity,
+                    0.04 - 0.01 * (
+                            (4F * strength * strength * strength) / ((strength * strength * strength) + 2.24F)
+                    )
+            );
+        }
+        return baseGravity;
+    }
+
+    public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
+        int strength = UmbrellaUtils.getSmokeBoostingStrength(mainhand, entity.getRandom());
+        if (strength == 0) {
+            strength = UmbrellaUtils.getSmokeBoostingStrength(offhand, entity.getRandom());
+        }
+
+        if (strength <= 0) {
+            return;
+        }
+
+        World world = entity.getWorld();
+        BlockPos pos = entity.getBlockPos();
+        if (!UmbrellaUtils.isInSmoke(world, pos)) {
+            return;
+        }
+
+        double entityVelocity = entity.getVelocity().getY();
+
+        double smokeVelocityCap = 0.1 * (Math.pow(2, strength - 1));
+        double smokeVelocityBoost = 0.01 * (strength + 8);
+
+        if (entityVelocity < smokeVelocityCap) {
+            entity.addVelocity(0, smokeVelocityBoost, 0);
+        }
+    }
 }
