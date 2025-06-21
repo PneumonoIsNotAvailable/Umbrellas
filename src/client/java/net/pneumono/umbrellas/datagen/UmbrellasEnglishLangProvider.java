@@ -102,13 +102,13 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 UmbrellasConfig.SLOW_FALLING,
                 "Slow Falling",
                 "Whether umbrellas grant players slow falling",
-                "ALWAYS", "ENCHANTED_ONLY", "NEVER"
+                "Always", "Enchanted Only", "Never"
         );
         builder.addEnumConfig(
                 UmbrellasConfig.SMOKE_BOOSTING,
                 "Smoke Boosting",
                 "Whether umbrellas boost players upwards when they are above sources of heat",
-                "ALWAYS", "ENCHANTED_ONLY", "NEVER"
+                "Always", "Enchanted Only", "Never"
         );
         builder.addConfig(
                 UmbrellasConfig.STRICT_SMOKE_BOOSTING,
