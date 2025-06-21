@@ -194,13 +194,16 @@ public class UmbrellaUtils {
             return;
         }
 
-        double entityVelocity = entity.getVelocity().getY();
+        double entityVelocity = entity.getVelocity().getY() * 100;
+        boolean isGliding = entity instanceof LivingEntity living && living.isGliding();
 
-        double smokeVelocityCap = 0.1 * (Math.pow(2, strength - 1));
-        double smokeVelocityBoost = 0.01 * (strength + 8);
+        double smokeVelocityBoost = 0.01 * (
+                Math.min(
+                        Math.pow((isGliding ? 20 : 2.5), -(entityVelocity - 8))
+                        , 100
+                ) + 8
+        );
 
-        if (entityVelocity < smokeVelocityCap) {
-            entity.addVelocity(0, smokeVelocityBoost, 0);
-        }
+        entity.addVelocity(0, smokeVelocityBoost, 0);
     }
 }
