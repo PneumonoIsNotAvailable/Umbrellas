@@ -198,8 +198,8 @@ public class UmbrellaUtils {
 
         double smokeVelocityBoost = 0.01 * (
                 Math.min(
-                        Math.pow((isGliding ? 20 : 2.5), -(entityVelocity - 8))
-                        , 100
+                        Math.pow((isGliding ? 20 : 2.5), -(entityVelocity - 8)),
+                        (isGliding ? 100 : 20)
                 ) + 8
         );
 
