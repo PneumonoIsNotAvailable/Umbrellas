@@ -8,6 +8,7 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.DyeColor;
 import net.pneumono.pneumonocore.datagen.PneumonoCoreTranslationBuilder;
 import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
 import org.apache.commons.lang3.StringUtils;
@@ -102,29 +103,29 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.addConfigScreenTitle(Umbrellas.MOD_ID, "Umbrellas Cleaned");
         builder.addEnumConfig(
-                Umbrellas.SLOW_FALLING,
+                UmbrellasConfig.SLOW_FALLING,
                 "Slow Falling",
                 "Whether umbrellas grant players slow falling",
                 "ALWAYS", "ENCHANTED_ONLY", "NEVER"
         );
         builder.addEnumConfig(
-                Umbrellas.SMOKE_BOOSTING,
+                UmbrellasConfig.SMOKE_BOOSTING,
                 "Smoke Boosting",
                 "Whether umbrellas boost players upwards when they are above sources of heat",
                 "ALWAYS", "ENCHANTED_ONLY", "NEVER"
         );
         builder.addConfig(
-                Umbrellas.STRICT_SMOKE_BOOSTING,
+                UmbrellasConfig.STRICT_SMOKE_BOOSTING,
                 "Strict Smoke Boosting",
                 "Whether umbrellas only boost players upwards above campfires and fires. If disabled, players can also boost above lava"
         );
         builder.addConfig(
-                Umbrellas.DURABILITY,
+                UmbrellasConfig.DURABILITY,
                 "Durability",
                 "Whether umbrellas have limited durability"
         );
         builder.addConfig(
-                Umbrellas.ENCHANTMENT_GLINT,
+                UmbrellasConfig.ENCHANTMENT_GLINT,
                 "Enchantment Glint",
                 "Whether enchantment glint is visible on enchanted umbrellas"
         );

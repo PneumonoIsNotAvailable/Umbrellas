@@ -6,6 +6,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
 import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 
 public class UmbrellaItem extends Item {
@@ -15,7 +16,7 @@ public class UmbrellaItem extends Item {
 
     @Override
     public boolean hasGlint(ItemStack stack) {
-        return super.hasGlint(stack) && Umbrellas.ENCHANTMENT_GLINT.getValue();
+        return super.hasGlint(stack) && UmbrellasConfig.ENCHANTMENT_GLINT.getValue();
     }
 
     @Override

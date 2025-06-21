@@ -13,6 +13,7 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasMisc;
@@ -68,10 +69,10 @@ public class UmbrellaUtils {
     }
 
     /**
-     * Damages item stacks if {@link Umbrellas#DURABILITY} is enabled, with a 20 tick cooldown.<p>
+     * Damages item stacks if {@link UmbrellasConfig#DURABILITY} is enabled, with a 20 tick cooldown.<p>
      */
     public static void damageUmbrella(ItemStack stack, int amount, World world, LivingEntity entity, EquipmentSlot slot) {
-        if (!Umbrellas.DURABILITY.getValue()) return;
+        if (!UmbrellasConfig.DURABILITY.getValue()) return;
 
         long time = world.getTime();
 
@@ -95,7 +96,7 @@ public class UmbrellaUtils {
             if (state.isAir() || state.isIn(UmbrellasTags.SMOKE_PASSES_THROUGH)) continue;
 
             if (state.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
-                if (Umbrellas.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
+                if (UmbrellasConfig.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
                     return false;
                 }
 
@@ -140,25 +141,25 @@ public class UmbrellaUtils {
     }
 
     /**
-     * Depending on what the {@link Umbrellas#SLOW_FALLING} config is set to, returns the "strength" of an Umbrella's slow falling.<p>
+     * Depending on what the {@link UmbrellasConfig#SLOW_FALLING} config is set to, returns the "strength" of an Umbrella's slow falling.<p>
      * When set to {@link EnchantmentAbilityType#ALWAYS}, returns 3.<p>
      * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns the sum of the levels of all slow falling enchantments.
      * (Usually, this is just the Gliding level)<p>
      * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
      */
     public static int getSlowFallingStrength(ItemStack stack, Random random) {
-        return Umbrellas.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasMisc.SLOW_FALLING, 0);
+        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasMisc.SLOW_FALLING, 0);
     }
 
     /**
-     * Depending on what the {@link Umbrellas#SMOKE_BOOSTING} config is set to, returns the "strength" of an Umbrella's smoke boosting.<p>
+     * Depending on what the {@link UmbrellasConfig#SMOKE_BOOSTING} config is set to, returns the "strength" of an Umbrella's smoke boosting.<p>
      * When set to {@link EnchantmentAbilityType#ALWAYS}, returns 3.<p>
      * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns the sum of the levels of all smoke boosting enchantments.
      * (Usually, this is just the Billowing level)<p>
      * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
      */
     public static int getSmokeBoostingStrength(ItemStack stack, Random random) {
-        return Umbrellas.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 0);
+        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 0);
     }
 
     public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
