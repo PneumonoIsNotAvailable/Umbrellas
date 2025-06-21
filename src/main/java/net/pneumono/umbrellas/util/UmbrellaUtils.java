@@ -263,10 +263,19 @@ public class UmbrellaUtils {
                 !entity.isOnGround()
                 && !(entity instanceof LivingEntity living && living.isGliding())
                 && entity.getVelocity().y < -0.1
-                && getSlowFallingStrength(mainhand, offhand, entity.getRandom()) > 0
+                && entity instanceof PlayerEntity player
         ) {
-            if (entity instanceof PlayerEntity player) {
-                player.incrementStat(UmbrellasMisc.TIME_UMBRELLA_GLIDING);
+            boolean usingMainHand = true;
+            int strength = getSlowFallingStrength(mainhand, player.getRandom());
+            if (strength == 0) {
+                usingMainHand = false;
+                strength = getSlowFallingStrength(offhand, player.getRandom());
+            }
+            if (strength == 0) return;
+
+            player.incrementStat(UmbrellasMisc.TIME_UMBRELLA_GLIDING);
+            if (player instanceof ServerPlayerEntity serverPlayer) {
+                UmbrellasMisc.TIME_GLIDING_CRITERION.trigger(serverPlayer, usingMainHand ? mainhand : offhand, entity.fallDistance);
             }
         }
     }

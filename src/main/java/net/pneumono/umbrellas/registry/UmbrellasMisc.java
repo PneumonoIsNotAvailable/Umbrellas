@@ -17,9 +17,11 @@ import net.minecraft.village.TradeOffers;
 import net.minecraft.village.VillagerProfession;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
+import net.pneumono.umbrellas.content.TimeGlidingCriterion;
 
 public class UmbrellasMisc {
     public static final SmokeBoostCriterion SMOKE_BOOST_CRITERION = registerCriterion("smoke_boost", new SmokeBoostCriterion());
+    public static final TimeGlidingCriterion TIME_GLIDING_CRITERION = registerCriterion("time_gliding", new TimeGlidingCriterion());
 
     public static final Identifier CLEAN_UMBRELLA = registerStat("clean_umbrella", StatFormatter.DEFAULT);
     public static final Identifier TIME_UMBRELLA_GLIDING = registerStat("time_umbrella_gliding", StatFormatter.TIME);
