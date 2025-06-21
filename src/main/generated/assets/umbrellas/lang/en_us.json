@@ -6,6 +6,8 @@
   "advancements.umbrellas.get_umbrella.desc": "Construct or Find an Umbrella",
   "advancements.umbrellas.get_umbrella.name": "Rain, Rain, go Away",
   "block.umbrellas.umbrella_stand": "Umbrella Stand",
+  "configs.category.umbrellas.elytra_changes": "Elytra Changes",
+  "configs.category.umbrellas.umbrellas": "Umbrellas",
   "configs.umbrellas.disable_firework_boosting": "Disable Firework Boosting",
   "configs.umbrellas.disable_firework_boosting.tooltip": "Whether Fireworks can be used to boost Elytra. This can be disabled in favor of using Campfires and a Billowing Umbrella",
   "configs.umbrellas.durability": "Durability",

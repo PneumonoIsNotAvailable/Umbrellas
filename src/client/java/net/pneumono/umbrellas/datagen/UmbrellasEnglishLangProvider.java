@@ -139,6 +139,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 "Enchantment Glint",
                 "Whether enchantment glint is visible on enchanted umbrellas"
         );
+        builder.add("configs.category.umbrellas.umbrellas", "Umbrellas");
+        builder.add("configs.category.umbrellas.elytra_changes", "Elytra Changes");
     }
 
     private void generateUmbrellaPatternTranslations(UmbrellasTranslationBuilder translationBuilder) {

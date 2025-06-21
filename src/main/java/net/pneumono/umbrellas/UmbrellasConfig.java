@@ -1,9 +1,6 @@
 package net.pneumono.umbrellas;
 
-import net.pneumono.pneumonocore.config.BooleanConfiguration;
-import net.pneumono.pneumonocore.config.ConfigEnv;
-import net.pneumono.pneumonocore.config.Configs;
-import net.pneumono.pneumonocore.config.EnumConfiguration;
+import net.pneumono.pneumonocore.config.*;
 import net.pneumono.umbrellas.util.EnchantmentAbilityType;
 
 public class UmbrellasConfig {
@@ -26,6 +23,19 @@ public class UmbrellasConfig {
                 DISABLE_FIREWORK_BOOSTING,
                 ELYTRA_SMOKE_BOOSTING,
                 ENCHANTMENT_GLINT
+        );
+        Configs.registerCategories(MOD_ID,
+                new ConfigCategory(MOD_ID, "umbrellas",
+                        SLOW_FALLING,
+                        SMOKE_BOOSTING,
+                        STRICT_SMOKE_BOOSTING,
+                        DURABILITY,
+                        ENCHANTMENT_GLINT
+                ),
+                new ConfigCategory(MOD_ID, "elytra_changes",
+                        DISABLE_FIREWORK_BOOSTING,
+                        ELYTRA_SMOKE_BOOSTING
+                )
         );
     }
 }
