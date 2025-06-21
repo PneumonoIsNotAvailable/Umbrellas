@@ -20,7 +20,6 @@ import net.minecraft.predicate.entity.DamageSourcePredicate;
 import net.minecraft.registry.*;
 import net.minecraft.registry.tag.DamageTypeTags;
 import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
-import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.Map;
