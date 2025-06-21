@@ -23,8 +23,8 @@ import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
-import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.List;
@@ -56,7 +56,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
 
         ItemStack glidingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
-        glidingEnchanted.addEnchantment(registries.getEntryOrThrow(UmbrellasMisc.GLIDING), 3);
+        glidingEnchanted.addEnchantment(registries.getEntryOrThrow(UmbrellasEnchantments.GLIDING), 3);
         Advancement.Builder.create().parent(getUmbrellaAdvancement)
                 .display(
                         glidingEnchanted,
@@ -68,11 +68,11 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         true,
                         false
                 )
-                .criterion("has_gliding_umbrella", enchantment(enchantmentLookup, UmbrellasMisc.GLIDING))
+                .criterion("has_gliding_umbrella", enchantment(enchantmentLookup, UmbrellasEnchantments.GLIDING))
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_gliding_umbrella");
 
         ItemStack billowingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
-        billowingEnchanted.addEnchantment(registries.getEntryOrThrow(UmbrellasMisc.BILLOWING), 3);
+        billowingEnchanted.addEnchantment(registries.getEntryOrThrow(UmbrellasEnchantments.BILLOWING), 3);
         Advancement.Builder.create().parent(getUmbrellaAdvancement)
                 .display(
                         billowingEnchanted,
@@ -84,7 +84,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         true,
                         false
                 )
-                .criterion("has_billowing_umbrella", enchantment(enchantmentLookup, UmbrellasMisc.BILLOWING))
+                .criterion("has_billowing_umbrella", enchantment(enchantmentLookup, UmbrellasEnchantments.BILLOWING))
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_billowing_umbrella");
     }
 

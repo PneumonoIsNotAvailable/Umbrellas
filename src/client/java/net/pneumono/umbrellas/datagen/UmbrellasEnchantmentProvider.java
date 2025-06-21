@@ -19,6 +19,7 @@ import net.minecraft.predicate.TagPredicate;
 import net.minecraft.predicate.entity.DamageSourcePredicate;
 import net.minecraft.registry.*;
 import net.minecraft.registry.tag.DamageTypeTags;
+import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
@@ -28,7 +29,7 @@ import java.util.function.Function;
 
 public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider {
     public static final Map<RegistryKey<Enchantment>, Function<RegistryEntryLookup<Item>, Enchantment.Builder>> ENCHANTMENT_BUILDERS = Map.of(
-            UmbrellasMisc.GLIDING,
+            UmbrellasEnchantments.GLIDING,
             itemLookup -> Enchantment.builder(
                     Enchantment.definition(
                             itemLookup.getOrThrow(UmbrellasTags.UMBRELLA_ENCHANTABLE),
@@ -69,10 +70,10 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
                             )
                     )
             ).addNonListEffect(
-                    UmbrellasMisc.SLOW_FALLING,
+                    UmbrellasEnchantments.SLOW_FALLING,
                     new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(1, 1))
             ),
-            UmbrellasMisc.BILLOWING,
+            UmbrellasEnchantments.BILLOWING,
             itemLookup -> Enchantment.builder(
                     Enchantment.definition(
                             itemLookup.getOrThrow(UmbrellasTags.UMBRELLA_ENCHANTABLE),
@@ -83,7 +84,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
                             AttributeModifierSlot.HAND
                     )
             ).addNonListEffect(
-                    UmbrellasMisc.SMOKE_BOOSTING,
+                    UmbrellasEnchantments.SMOKE_BOOSTING,
                     new AddEnchantmentEffect(EnchantmentLevelBasedValue.linear(3, 1))
             )
 
@@ -96,8 +97,8 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
     public static void bootstrap(Registerable<Enchantment> registry) {
         RegistryEntryLookup<Item> itemLookup = registry.getRegistryLookup(RegistryKeys.ITEM);
 
-        registerBootstrapped(registry, UmbrellasMisc.GLIDING, itemLookup);
-        registerBootstrapped(registry, UmbrellasMisc.BILLOWING, itemLookup);
+        registerBootstrapped(registry, UmbrellasEnchantments.GLIDING, itemLookup);
+        registerBootstrapped(registry, UmbrellasEnchantments.BILLOWING, itemLookup);
     }
 
     private static void registerBootstrapped(Registerable<Enchantment> registry, RegistryKey<Enchantment> key, RegistryEntryLookup<Item> itemLookup) {
@@ -108,8 +109,8 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
     protected void configure(RegistryWrapper.WrapperLookup registries, Entries entries) {
         RegistryWrapper.Impl<Item> itemLookup = registries.getOrThrow(RegistryKeys.ITEM);
 
-        register(entries, UmbrellasMisc.GLIDING, itemLookup);
-        register(entries, UmbrellasMisc.BILLOWING, itemLookup);
+        register(entries, UmbrellasEnchantments.GLIDING, itemLookup);
+        register(entries, UmbrellasEnchantments.BILLOWING, itemLookup);
     }
 
     private void register(Entries entries, RegistryKey<Enchantment> key, RegistryEntryLookup<Item> itemLookup, ResourceCondition... resourceConditions) {

@@ -22,6 +22,7 @@ public class Umbrellas implements ModInitializer {
 
 		UmbrellasDataComponents.registerUmbrellasDataComponents();
 		UmbrellasItems.registerUmbrellasItems();
+		UmbrellasEnchantments.registerUmbrellasEnchantments();
 		UmbrellasBlocks.registerUmbrellasBlocks();
 		UmbrellasTags.registerUmbrellasTags();
 		UmbrellasMisc.registerUmbrellasMisc();

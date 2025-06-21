@@ -67,8 +67,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.addItemGroup(UmbrellasItems.ITEM_GROUP, "Umbrellas");
 
-        builder.add(UmbrellasMisc.GLIDING.getValue().toTranslationKey("enchantment"), "Gliding");
-        builder.add(UmbrellasMisc.BILLOWING.getValue().toTranslationKey("enchantment"), "Billowing");
+        builder.add(UmbrellasEnchantments.GLIDING.getValue().toTranslationKey("enchantment"), "Gliding");
+        builder.add(UmbrellasEnchantments.BILLOWING.getValue().toTranslationKey("enchantment"), "Billowing");
 
         builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toTranslationKey("stat"), "Umbrellas Cleaned");
 

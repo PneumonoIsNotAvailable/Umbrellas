@@ -15,7 +15,7 @@ import net.minecraft.world.World;
 import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
-import net.pneumono.umbrellas.registry.UmbrellasMisc;
+import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.List;
@@ -147,7 +147,7 @@ public class UmbrellaUtils {
      * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
      */
     public static int getSlowFallingStrength(ItemStack stack, Random random) {
-        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasMisc.SLOW_FALLING, 3, 0);
+        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasEnchantments.SLOW_FALLING, 3, 0);
     }
 
     /**
@@ -158,7 +158,7 @@ public class UmbrellaUtils {
      * When set to {@link EnchantmentAbilityType#NEVER}, returns false.<p>
      */
     public static boolean hasSmokeBoosting(ItemStack stack, Random random) {
-        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 1, 0) > 0;
+        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasEnchantments.SMOKE_BOOSTING, 1, 0) > 0;
     }
 
     public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
