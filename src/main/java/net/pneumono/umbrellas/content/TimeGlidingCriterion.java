@@ -40,16 +40,6 @@ public class TimeGlidingCriterion extends AbstractCriterion<TimeGlidingCriterion
             return UmbrellasMisc.TIME_GLIDING_CRITERION.create(new TimeGlidingCriterion.Conditions(Optional.empty(), Optional.empty(), NumberRange.DoubleRange.ANY));
         }
 
-        @SuppressWarnings("unused")
-        public static AdvancementCriterion<TimeGlidingCriterion.Conditions> playerPredicate(LootContextPredicate playerPredicate) {
-            return UmbrellasMisc.TIME_GLIDING_CRITERION.create(new TimeGlidingCriterion.Conditions(Optional.of(playerPredicate), Optional.empty(), NumberRange.DoubleRange.ANY));
-        }
-
-        @SuppressWarnings("unused")
-        public static AdvancementCriterion<TimeGlidingCriterion.Conditions> itemPredicate(ItemPredicate itemPredicate) {
-            return UmbrellasMisc.TIME_GLIDING_CRITERION.create(new TimeGlidingCriterion.Conditions(Optional.empty(), Optional.of(itemPredicate), NumberRange.DoubleRange.ANY));
-        }
-
         public static AdvancementCriterion<TimeGlidingCriterion.Conditions> height(NumberRange.DoubleRange range) {
             return UmbrellasMisc.TIME_GLIDING_CRITERION.create(new TimeGlidingCriterion.Conditions(Optional.empty(), Optional.empty(), range));
         }

@@ -16,7 +16,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(HeldItemFeatureRenderer.class)
 public abstract class HeldItemFeatureRendererMixin {
-    @Inject(method = "renderItem", at = @At(value = "INVOKE", target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"))
+    @Inject(
+            method = "renderItem",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/client/util/math/MatrixStack;translate(FFF)V"
+            )
+    )
     public void adjustMatrixForUmbrella(ArmedEntityRenderState entityState, ItemRenderState itemState, Arm arm, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, CallbackInfo ci) {
         if (entityState instanceof UmbrellaHoldingEntityRenderState umbrellaState && ArmsUtil.shouldAdjustArm(arm, umbrellaState)) {
             matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(200));

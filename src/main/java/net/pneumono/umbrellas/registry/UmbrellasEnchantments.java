@@ -1,6 +1,5 @@
 package net.pneumono.umbrellas.registry;
 
-import com.mojang.serialization.Codec;
 import net.minecraft.component.ComponentType;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.effect.EnchantmentValueEffect;
@@ -16,10 +15,10 @@ public class UmbrellasEnchantments {
     public static final RegistryKey<Enchantment> BILLOWING = enchantment("billowing");
 
     public static final ComponentType<EnchantmentValueEffect> SLOW_FALLING = registerEnchantmentEffectComponentType(
-            "slow_falling", EnchantmentValueEffect.CODEC
+            "slow_falling"
     );
     public static final ComponentType<EnchantmentValueEffect> SMOKE_BOOSTING = registerEnchantmentEffectComponentType(
-            "smoke_boosting", EnchantmentValueEffect.CODEC
+            "smoke_boosting"
     );
 
     private static RegistryKey<Enchantment> enchantment(String path) {
@@ -27,8 +26,8 @@ public class UmbrellasEnchantments {
         return RegistryKey.of(RegistryKeys.ENCHANTMENT, id);
     }
 
-    private static <T> ComponentType<T> registerEnchantmentEffectComponentType(String name, Codec<T> codec) {
-        return Registry.register(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, Umbrellas.id(name), ComponentType.<T>builder().codec(codec).build());
+    private static ComponentType<EnchantmentValueEffect> registerEnchantmentEffectComponentType(String name) {
+        return Registry.register(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, Umbrellas.id(name), ComponentType.<EnchantmentValueEffect>builder().codec(EnchantmentValueEffect.CODEC).build());
     }
 
     public static void registerUmbrellasEnchantments() {

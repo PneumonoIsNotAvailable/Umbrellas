@@ -33,7 +33,10 @@ public abstract class UmbrellaMovementMixin extends Entity implements Attackable
         return UmbrellaUtils.getEffectiveGravityWithUmbrellas(this, getMainHandStack(), getOffHandStack(), gravity);
     }
 
-    @Inject(method = "tickMovement", at = @At("HEAD"))
+    @Inject(
+            method = "tickMovement",
+            at = @At("HEAD")
+    )
     private void tickUmbrellaMovement(CallbackInfo ci) {
         UmbrellaUtils.tickSmokeBoost(this, getMainHandStack(), getOffHandStack());
         UmbrellaUtils.tickGlidingStats(this, getMainHandStack(), getOffHandStack());

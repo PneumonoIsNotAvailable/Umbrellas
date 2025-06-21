@@ -107,35 +107,35 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
         } else if (this.hasTooManyPatterns) {
             context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, ERROR_TEXTURE, this.x + outputSlot.x - 5, this.y + outputSlot.y - 5, 26, 26);
         }
-        if (this.canApplyDyePattern) {
-            int x = this.x + 60;
-            int y = this.y + 13;
-            List<RegistryEntry<UmbrellaPattern>> list = ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns();
 
-            loop:
-            for (int i = 0; i < 4; i++) {
-                for (int j = 0; j < 4; j++) {
-                    int row = i + this.visibleTopRow;
-                    int index = row * 4 + j;
-                    if (index >= list.size()) {
-                        break loop;
-                    }
+        if (!this.canApplyDyePattern) return;
+        int x = this.x + 60;
+        int y = this.y + 13;
+        List<RegistryEntry<UmbrellaPattern>> list = ((LoomScreenHandlerAccess)this.handler).umbrellas$getUmbrellaPatterns();
 
-                    int newX = x + j * 14;
-                    int newY = y + i * 14;
-                    boolean isHighlighted = mouseX >= newX && mouseY >= newY && mouseX < newX + 14 && mouseY < newY + 14;
-                    Identifier texture;
-                    if (index == this.handler.getSelectedPattern()) {
-                        texture = PATTERN_SELECTED_TEXTURE;
-                    } else if (isHighlighted) {
-                        texture = PATTERN_HIGHLIGHTED_TEXTURE;
-                    } else {
-                        texture = PATTERN_TEXTURE;
-                    }
-
-                    context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, texture, newX, newY, 14, 14);
-                    LoomUmbrellaRendering.drawPatternUmbrella(context, newX, newY, list.get(index));
+        loop:
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                int row = i + this.visibleTopRow;
+                int index = row * 4 + j;
+                if (index >= list.size()) {
+                    break loop;
                 }
+
+                int newX = x + j * 14;
+                int newY = y + i * 14;
+                boolean isHighlighted = mouseX >= newX && mouseY >= newY && mouseX < newX + 14 && mouseY < newY + 14;
+                Identifier texture;
+                if (index == this.handler.getSelectedPattern()) {
+                    texture = PATTERN_SELECTED_TEXTURE;
+                } else if (isHighlighted) {
+                    texture = PATTERN_HIGHLIGHTED_TEXTURE;
+                } else {
+                    texture = PATTERN_TEXTURE;
+                }
+
+                context.drawGuiTexture(RenderPipelines.GUI_TEXTURED, texture, newX, newY, 14, 14);
+                LoomUmbrellaRendering.drawPatternUmbrella(context, newX, newY, list.get(index));
             }
         }
 

@@ -40,16 +40,6 @@ public class SmokeBoostCriterion extends AbstractCriterion<SmokeBoostCriterion.C
             return UmbrellasMisc.SMOKE_BOOST_CRITERION.create(new Conditions(Optional.empty(), Optional.empty(), NumberRange.IntRange.ANY));
         }
 
-        @SuppressWarnings("unused")
-        public static AdvancementCriterion<Conditions> playerPredicate(LootContextPredicate playerPredicate) {
-            return UmbrellasMisc.SMOKE_BOOST_CRITERION.create(new Conditions(Optional.of(playerPredicate), Optional.empty(), NumberRange.IntRange.ANY));
-        }
-
-        @SuppressWarnings("unused")
-        public static AdvancementCriterion<Conditions> itemPredicate(ItemPredicate itemPredicate) {
-            return UmbrellasMisc.SMOKE_BOOST_CRITERION.create(new Conditions(Optional.empty(), Optional.of(itemPredicate), NumberRange.IntRange.ANY));
-        }
-
         public static AdvancementCriterion<Conditions> height(NumberRange.IntRange range) {
             return UmbrellasMisc.SMOKE_BOOST_CRITERION.create(new Conditions(Optional.empty(), Optional.empty(), range));
         }

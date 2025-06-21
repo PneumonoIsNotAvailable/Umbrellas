@@ -5,7 +5,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.Hand;
-import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 

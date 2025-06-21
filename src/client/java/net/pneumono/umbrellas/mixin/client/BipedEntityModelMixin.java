@@ -18,12 +18,20 @@ public abstract class BipedEntityModelMixin {
     @Shadow
     public @Final ModelPart leftArm;
 
-    @Inject(method = "positionLeftArm", at = @At("HEAD"), cancellable = true)
+    @Inject(
+            method = "positionLeftArm",
+            at = @At("HEAD"),
+            cancellable = true
+    )
     public void leftArmUmbrella(BipedEntityRenderState state, BipedEntityModel.ArmPose armPose, CallbackInfo ci) {
         if (ArmsUtil.positionLeftArm(this.leftArm, state)) ci.cancel();
     }
 
-    @Inject(method = "positionRightArm", at = @At("HEAD"), cancellable = true)
+    @Inject(
+            method = "positionRightArm",
+            at = @At("HEAD"),
+            cancellable = true
+    )
     public void rightArmUmbrella(BipedEntityRenderState state, BipedEntityModel.ArmPose armPose, CallbackInfo ci) {
         if (ArmsUtil.positionRightArm(this.rightArm, state)) ci.cancel();
     }

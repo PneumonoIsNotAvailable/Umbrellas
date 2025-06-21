@@ -42,11 +42,11 @@ public class UmbrellasItems {
 
     // Most of these extra umbrellas are custom designs from a previous version of the mod used on a private server.
     // I figured it would be better to put them in the public mod than simply let these go to waste, so here they are!
-    public static final Item ANIMALS_UMBRELLA = registerExtraUmbrella("animals", Rarity.UNCOMMON);
-    public static final Item AZALEA_UMBRELLA = registerExtraUmbrella("azalea", Rarity.UNCOMMON);
-    public static final Item GALACTIC_UMBRELLA = registerExtraUmbrella("galactic", Rarity.UNCOMMON);
-    public static final Item GOTHIC_UMBRELLA = registerExtraUmbrella("gothic", Rarity.UNCOMMON);
-    public static final Item JELLYFISH_UMBRELLA = registerExtraUmbrella("jellyfish", Rarity.UNCOMMON);
+    public static final Item ANIMALS_UMBRELLA = registerExtraUmbrella("animals");
+    public static final Item AZALEA_UMBRELLA = registerExtraUmbrella("azalea");
+    public static final Item GALACTIC_UMBRELLA = registerExtraUmbrella("galactic");
+    public static final Item GOTHIC_UMBRELLA = registerExtraUmbrella("gothic");
+    public static final Item JELLYFISH_UMBRELLA = registerExtraUmbrella("jellyfish");
 
     public static final Item FLOWER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("flower", Rarity.COMMON);
     public static final Item CREEPER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("creeper", Rarity.UNCOMMON);
@@ -68,8 +68,8 @@ public class UmbrellasItems {
         return registerUmbrella(color.getId(), settings -> new PatternableUmbrellaItem(settings, color), Rarity.COMMON);
     }
 
-    private static UmbrellaItem registerExtraUmbrella(String name, Rarity rarity) {
-        return registerUmbrella(name, UmbrellaItem::new, rarity);
+    private static UmbrellaItem registerExtraUmbrella(String name) {
+        return registerUmbrella(name, UmbrellaItem::new, Rarity.UNCOMMON);
     }
 
     private static <T extends UmbrellaItem> T registerUmbrella(String name, Function<Item.Settings, T> factory, Rarity rarity) {

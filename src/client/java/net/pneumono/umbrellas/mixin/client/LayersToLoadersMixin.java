@@ -23,7 +23,10 @@ public abstract class LayersToLoadersMixin {
     @Final
     private static Map<Identifier, Identifier> LAYERS_TO_LOADERS;
 
-    @Inject(method = "<clinit>", at = @At("TAIL"))
+    @Inject(
+            method = "<clinit>",
+            at = @At("TAIL")
+    )
     private static void umbrellaPattern(CallbackInfo callbackInfo) {
         LAYERS_TO_LOADERS = new HashMap<>(LAYERS_TO_LOADERS);
         LAYERS_TO_LOADERS.put(UmbrellasClient.UMBRELLA_PATTERNS_ATLAS_TEXTURE, Umbrellas.id("umbrella_patterns"));
