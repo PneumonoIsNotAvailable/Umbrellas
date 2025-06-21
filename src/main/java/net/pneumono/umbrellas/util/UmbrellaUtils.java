@@ -100,7 +100,7 @@ public class UmbrellaUtils {
      * This method checks an additional 2 blocks below where {@link UmbrellaUtils#isInSmoke(World, BlockPos)} checks.
      */
     public static boolean isVisuallyInSmoke(World world, BlockPos blockPos) {
-        return getHeightInSmoke(world, blockPos, 2) > 0;
+        return getHeightInSmoke(world, blockPos, 2, false) > 0;
     }
 
     /**
@@ -108,22 +108,23 @@ public class UmbrellaUtils {
      * Returns {@code -1} if the player is not in a smoke column.
      */
     public static int getHeightInSmoke(World world, BlockPos blockPos) {
-        return getHeightInSmoke(world, blockPos, 0);
+        return getHeightInSmoke(world, blockPos, 0, false);
     }
 
     /**
      * Returns how high up the player is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).<p>
      * Returns {@code -1} if the player is not in a smoke column.<p>
      * Checks a number of blocks equal to {@code lenience} further than by default.
+     * Will only accept blocks in
      */
-    public static int getHeightInSmoke(World world, BlockPos blockPos, int lenience) {
+    public static int getHeightInSmoke(World world, BlockPos blockPos, int lenience, boolean usingElytra) {
         for (int i = 0; i < 20 + lenience; ++i) {
             BlockPos pos = blockPos.down(i);
             BlockState state = world.getBlockState(pos);
 
             if (state.isAir() || state.isIn(UmbrellasTags.SMOKE_PASSES_THROUGH)) continue;
 
-            if (state.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
+            if (state.isIn(usingElytra ? UmbrellasTags.BOOSTS_ELYTRA : UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
                 if (UmbrellasConfig.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
                     return -1;
                 }
@@ -218,14 +219,14 @@ public class UmbrellaUtils {
 
     public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
         boolean usingMainHand = false;
-        boolean usingItem = false;
+        boolean usingUmbrella = false;
         boolean shouldTick = false;
         if (UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom())) {
             usingMainHand = true;
-            usingItem = true;
+            usingUmbrella = true;
             shouldTick = true;
         } else if (UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom())) {
-            usingItem = true;
+            usingUmbrella = true;
             shouldTick = true;
         } else if (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isGliding()) {
             shouldTick = true;
@@ -235,12 +236,12 @@ public class UmbrellaUtils {
 
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();
-        int heightInSmoke = UmbrellaUtils.getHeightInSmoke(world, pos);
+        int heightInSmoke = UmbrellaUtils.getHeightInSmoke(world, pos, 0, !usingUmbrella);
         if (heightInSmoke == -1) {
             return;
         }
 
-        if (usingItem && entity instanceof ServerPlayerEntity serverPlayer) {
+        if (usingUmbrella && entity instanceof ServerPlayerEntity serverPlayer) {
             UmbrellasMisc.SMOKE_BOOST_CRITERION.trigger(serverPlayer, usingMainHand ? mainhand : offhand, heightInSmoke);
         }
 

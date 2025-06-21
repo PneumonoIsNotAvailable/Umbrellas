@@ -26,6 +26,10 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
                 Blocks.LAVA_CAULDRON
         );
 
+        valueLookupBuilder(UmbrellasTags.BOOSTS_ELYTRA).forceAddTag(
+                BlockTags.CAMPFIRES
+        );
+
         valueLookupBuilder(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE).add(
                 Blocks.LAVA,
                 Blocks.LAVA_CAULDRON

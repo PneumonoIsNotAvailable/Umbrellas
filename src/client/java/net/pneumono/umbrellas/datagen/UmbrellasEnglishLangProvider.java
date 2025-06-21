@@ -82,6 +82,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasTags.UMBRELLA_ENCHANTABLE, "Umbrella Enchantable");
 
         builder.add(UmbrellasTags.BOOSTS_UMBRELLAS, "Boosts Umbrellas");
+        builder.add(UmbrellasTags.BOOSTS_ELYTRA, "Boosts Elytra");
         builder.add(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE, "Has Configurable Umbrella Boosting");
         builder.add(UmbrellasTags.SMOKE_PASSES_THROUGH, "Smoke Passes Through");
 
