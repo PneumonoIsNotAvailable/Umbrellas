@@ -5,6 +5,7 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.block.Blocks;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.registry.tag.BlockTags;
+import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
@@ -40,6 +41,10 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
                 Blocks.WEATHERED_COPPER_GRATE,
                 Blocks.OXIDIZED_COPPER_GRATE,
                 Blocks.SCAFFOLDING
+        );
+
+        valueLookupBuilder(BlockTags.AXE_MINEABLE).add(
+                UmbrellasBlocks.UMBRELLA_STAND
         );
     }
 }
