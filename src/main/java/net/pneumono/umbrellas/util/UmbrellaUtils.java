@@ -5,6 +5,7 @@ import net.minecraft.block.CampfireBlock;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -254,5 +255,18 @@ public class UmbrellaUtils {
         );
 
         entity.addVelocity(0, smokeVelocityBoost, 0);
+    }
+
+    public static void tickGlidingStats(Entity entity, ItemStack mainhand, ItemStack offhand) {
+        if (
+                !entity.isOnGround()
+                && !(entity instanceof LivingEntity living && living.isGliding())
+                && entity.getVelocity().y < -0.1
+                && getSlowFallingStrength(mainhand, offhand, entity.getRandom()) > 0
+        ) {
+            if (entity instanceof PlayerEntity player) {
+                player.incrementStat(UmbrellasMisc.TIME_UMBRELLA_GLIDING);
+            }
+        }
     }
 }

@@ -34,7 +34,8 @@ public abstract class UmbrellaMovementMixin extends Entity implements Attackable
     }
 
     @Inject(method = "tickMovement", at = @At("HEAD"))
-    private void tickSmokeBoost(CallbackInfo ci) {
+    private void tickUmbrellaMovement(CallbackInfo ci) {
         UmbrellaUtils.tickSmokeBoost(this, getMainHandStack(), getOffHandStack());
+        UmbrellaUtils.tickGlidingStats(this, getMainHandStack(), getOffHandStack());
     }
 }

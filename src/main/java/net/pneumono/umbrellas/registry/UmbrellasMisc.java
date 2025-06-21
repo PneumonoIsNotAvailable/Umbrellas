@@ -21,16 +21,18 @@ import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 public class UmbrellasMisc {
     public static final SmokeBoostCriterion SMOKE_BOOST_CRITERION = registerCriterion("smoke_boost", new SmokeBoostCriterion());
 
-    public static final Identifier CLEAN_UMBRELLA = registerStat(Identifier.of(Umbrellas.MOD_ID, "clean_umbrella"));
-
-    private static Identifier registerStat(Identifier name) {
-        Registry.register(Registries.CUSTOM_STAT, name.getPath(), name);
-        Stats.CUSTOM.getOrCreateStat(name, StatFormatter.DEFAULT);
-        return name;
-    }
+    public static final Identifier CLEAN_UMBRELLA = registerStat("clean_umbrella", StatFormatter.DEFAULT);
+    public static final Identifier TIME_UMBRELLA_GLIDING = registerStat("time_umbrella_gliding", StatFormatter.TIME);
 
     private static <T extends AbstractCriterion<?>> T registerCriterion(String name, T criterion) {
         return Registry.register(Registries.CRITERION, Umbrellas.id(name), criterion);
+    }
+
+    private static Identifier registerStat(String name, StatFormatter format) {
+        Identifier id = Umbrellas.id(name);
+        Registry.register(Registries.CUSTOM_STAT, name, id);
+        Stats.CUSTOM.getOrCreateStat(id, format);
+        return id;
     }
 
     public static void registerUmbrellasMisc() {
