@@ -51,7 +51,7 @@ public class ArmsUtil {
             if (entity.fallDistance > Math.max(1.25 - (slowFallStrength * 0.25), 0)) return true;
         }
         if (UmbrellaUtils.hasSmokeBoosting(stack, entity.getRandom())) {
-            if (UmbrellaUtils.isInSmoke(world, pos)) return true;
+            if (UmbrellaUtils.isVisuallyInSmoke(world, pos)) return true;
         }
         return entity.fallDistance > 1.25;
     }

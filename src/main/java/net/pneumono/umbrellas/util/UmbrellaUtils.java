@@ -86,15 +86,37 @@ public class UmbrellaUtils {
         }
     }
 
+    /**
+     * Returns whether the position is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).
+     */
+    @SuppressWarnings("unused")
     public static boolean isInSmoke(World world, BlockPos blockPos) {
         return getHeightInSmoke(world, blockPos) > 0;
     }
 
     /**
-     * Returns whether the position has "smoke" (can be used with Billowing enchanted items to boost upwards)
+     * Returns whether the position is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).<p>
+     * This method checks an additional 2 blocks below where {@link UmbrellaUtils#isInSmoke(World, BlockPos)} checks.
+     */
+    public static boolean isVisuallyInSmoke(World world, BlockPos blockPos) {
+        return getHeightInSmoke(world, blockPos, 2) > 0;
+    }
+
+    /**
+     * Returns how high up the player is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).<p>
+     * Returns {@code -1} if the player is not in a smoke column.
      */
     public static int getHeightInSmoke(World world, BlockPos blockPos) {
-        for (int i = 0; i < 20; ++i) {
+        return getHeightInSmoke(world, blockPos, 0);
+    }
+
+    /**
+     * Returns how high up the player is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).<p>
+     * Returns {@code -1} if the player is not in a smoke column.<p>
+     * Checks a number of blocks equal to {@code lenience} further than by default.
+     */
+    public static int getHeightInSmoke(World world, BlockPos blockPos, int lenience) {
+        for (int i = 0; i < 20 + lenience; ++i) {
             BlockPos pos = blockPos.down(i);
             BlockState state = world.getBlockState(pos);
 
