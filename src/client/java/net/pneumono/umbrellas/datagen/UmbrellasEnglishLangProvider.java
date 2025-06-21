@@ -4,7 +4,6 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.DyeColor;
 import net.pneumono.pneumonocore.datagen.PneumonoCoreTranslationBuilder;
 import net.pneumono.umbrellas.Umbrellas;
@@ -23,7 +22,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-        UmbrellasTranslationBuilder builder = new UmbrellasTranslationBuilder(translationBuilder);
+        PneumonoCoreTranslationBuilder builder = new PneumonoCoreTranslationBuilder(translationBuilder);
 
         builder.add(UmbrellasItems.WHITE_UMBRELLA, "White Umbrella");
         builder.add(UmbrellasItems.ORANGE_UMBRELLA, "Orange Umbrella");
@@ -143,7 +142,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add("configs.category.umbrellas.elytra_changes", "Elytra Changes");
     }
 
-    private void generateUmbrellaPatternTranslations(UmbrellasTranslationBuilder translationBuilder) {
+    private void generateUmbrellaPatternTranslations(PneumonoCoreTranslationBuilder translationBuilder) {
         for (DyeColor color : DyeColor.values()) {
             String colorId = color.getId();
             String colorName = StringUtils.capitalize(colorId);
@@ -259,16 +258,5 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.accept(UmbrellaPatterns.HALF_FLAG_RIGHT_PANSEXUAL, "Right Pansexual Half-Flag");
         builder.accept(UmbrellaPatterns.HALF_FLAG_RIGHT_PRIDE, "Right Pride Half-Flag");
         builder.accept(UmbrellaPatterns.HALF_FLAG_RIGHT_TRANSGENDER, "Right Transgender Half-Flag");
-    }
-
-    // Forgot to add this method to PneumonoCore... I'm not the smartest huh
-    private static class UmbrellasTranslationBuilder extends PneumonoCoreTranslationBuilder {
-        public UmbrellasTranslationBuilder(TranslationBuilder builder) {
-            super(builder);
-        }
-
-        public void add(TagKey<?> key, String value) {
-            this.add(key.getTranslationKey(), value);
-        }
     }
 }
