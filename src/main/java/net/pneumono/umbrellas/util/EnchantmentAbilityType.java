@@ -19,9 +19,9 @@ public enum EnchantmentAbilityType {
     ENCHANTED_ONLY,
     NEVER;
 
-    public int getStrength(ItemStack stack, Random random, ComponentType<EnchantmentValueEffect> type, int baseValue) {
+    public int getStrength(ItemStack stack, Random random, ComponentType<EnchantmentValueEffect> type, int alwaysValue, int baseValue) {
         return switch (this) {
-            case ALWAYS -> stack.isIn(UmbrellasTags.UMBRELLAS) ? 3 : getStrengthFromEnchantment(stack, random, type, baseValue);
+            case ALWAYS -> stack.isIn(UmbrellasTags.UMBRELLAS) ? alwaysValue : getStrengthFromEnchantment(stack, random, type, baseValue);
             case ENCHANTED_ONLY -> getStrengthFromEnchantment(stack, random, type, baseValue);
             case NEVER -> 0;
         };

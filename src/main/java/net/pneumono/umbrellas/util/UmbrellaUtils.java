@@ -12,7 +12,6 @@ import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
-import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -148,18 +147,18 @@ public class UmbrellaUtils {
      * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
      */
     public static int getSlowFallingStrength(ItemStack stack, Random random) {
-        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasMisc.SLOW_FALLING, 0);
+        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasMisc.SLOW_FALLING, 3, 0);
     }
 
     /**
-     * Depending on what the {@link UmbrellasConfig#SMOKE_BOOSTING} config is set to, returns the "strength" of an Umbrella's smoke boosting.<p>
-     * When set to {@link EnchantmentAbilityType#ALWAYS}, returns 3.<p>
-     * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns the sum of the levels of all smoke boosting enchantments.
-     * (Usually, this is just the Billowing level)<p>
-     * When set to {@link EnchantmentAbilityType#NEVER}, returns 0.<p>
+     * Depending on what the {@link UmbrellasConfig#SMOKE_BOOSTING} config is set to, returns whether an Umbrella can use smoke boosting.<p>
+     * When set to {@link EnchantmentAbilityType#ALWAYS}, returns true.<p>
+     * When set to {@link EnchantmentAbilityType#ENCHANTED_ONLY}, returns whether the item has a smoke boosting enchantment.
+     * (Usually, this is just Billowing)<p>
+     * When set to {@link EnchantmentAbilityType#NEVER}, returns false.<p>
      */
-    public static int getSmokeBoostingStrength(ItemStack stack, Random random) {
-        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 0);
+    public static boolean hasSmokeBoosting(ItemStack stack, Random random) {
+        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasMisc.SMOKE_BOOSTING, 1, 0) > 0;
     }
 
     public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
@@ -168,7 +167,7 @@ public class UmbrellaUtils {
             strength = UmbrellaUtils.getSlowFallingStrength(offhand, entity.getRandom());
         }
 
-        if (entity.getVelocity().getY() <= 0.0 && strength > 0) {
+        if (strength > 0 && entity.getVelocity().getY() <= 0.0) {
             return Math.min(
                     baseGravity,
                     0.04 - 0.01 * (
@@ -180,14 +179,12 @@ public class UmbrellaUtils {
     }
 
     public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
-        int strength = UmbrellaUtils.getSmokeBoostingStrength(mainhand, entity.getRandom());
-        if (strength == 0) {
-            strength = UmbrellaUtils.getSmokeBoostingStrength(offhand, entity.getRandom());
+        boolean canBoost = UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom());
+        if (!canBoost) {
+            canBoost = UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom());
         }
 
-        if (strength <= 0) {
-            return;
-        }
+        if (!canBoost) return;
 
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();
