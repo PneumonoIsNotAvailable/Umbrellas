@@ -1,10 +1,10 @@
 {
-  "advancements.umbrellas.get_billowing_umbrella.description": "Enchant an Umbrella with Billowing",
-  "advancements.umbrellas.get_billowing_umbrella.name": "I Can See My House From Here!",
   "advancements.umbrellas.get_gliding_umbrella.description": "Enchant an Umbrella with Gliding",
   "advancements.umbrellas.get_gliding_umbrella.name": "I'm Mary Poppins, Y'all!",
   "advancements.umbrellas.get_umbrella.description": "Construct or Find an Umbrella",
   "advancements.umbrellas.get_umbrella.name": "Rain, Rain, go Away",
+  "advancements.umbrellas.use_billowing_umbrella.description": "Float up 20 blocks using an Umbrella enchanted with Billowing",
+  "advancements.umbrellas.use_billowing_umbrella.name": "I Can See My House From Here!",
   "block.umbrellas.umbrella_stand": "Umbrella Stand",
   "configs.category.umbrellas.elytra_changes": "Elytra Changes",
   "configs.category.umbrellas.umbrellas": "Umbrellas",

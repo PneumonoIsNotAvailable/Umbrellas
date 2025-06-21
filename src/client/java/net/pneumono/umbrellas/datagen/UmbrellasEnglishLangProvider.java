@@ -74,7 +74,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.addAdvancement(Umbrellas.id("get_umbrella"), "Rain, Rain, go Away", "Construct or Find an Umbrella");
         builder.addAdvancement(Umbrellas.id("get_gliding_umbrella"), "I'm Mary Poppins, Y'all!", "Enchant an Umbrella with Gliding");
-        builder.addAdvancement(Umbrellas.id("get_billowing_umbrella"), "I Can See My House From Here!", "Enchant an Umbrella with Billowing");
+        builder.addAdvancement(Umbrellas.id("use_billowing_umbrella"), "I Can See My House From Here!", "Float up 20 blocks using an Umbrella enchanted with Billowing");
 
         builder.add(UmbrellasTags.REPAIRS_UMBRELLAS, "Repairs Umbrellas");
         builder.add(UmbrellasTags.UMBRELLAS, "Umbrellas");

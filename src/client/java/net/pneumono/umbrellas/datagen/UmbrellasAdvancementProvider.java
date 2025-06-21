@@ -22,12 +22,16 @@ import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
+import net.pneumono.pneumonocore.datagen.DatagenUtils;
 import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
+import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
@@ -68,7 +72,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         true,
                         false
                 )
-                .criterion("has_gliding_umbrella", enchantment(enchantmentLookup, UmbrellasEnchantments.GLIDING))
+                .criterion("has_gliding_umbrella", DatagenUtils.enchantmentCriterion(enchantmentLookup, UmbrellasEnchantments.GLIDING))
                 .build(consumer, Umbrellas.MOD_ID + ":adventure/get_gliding_umbrella");
 
         ItemStack billowingEnchanted = UmbrellasItems.RED_UMBRELLA.getDefaultStack();
@@ -76,26 +80,15 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
         Advancement.Builder.create().parent(getUmbrellaAdvancement)
                 .display(
                         billowingEnchanted,
-                        Text.translatable("advancements.umbrellas.get_billowing_umbrella.name"),
-                        Text.translatable("advancements.umbrellas.get_billowing_umbrella.description"),
+                        Text.translatable("advancements.umbrellas.use_billowing_umbrella.name"),
+                        Text.translatable("advancements.umbrellas.use_billowing_umbrella.description"),
                         null,
                         AdvancementFrame.TASK,
                         true,
                         true,
                         false
                 )
-                .criterion("has_billowing_umbrella", enchantment(enchantmentLookup, UmbrellasEnchantments.BILLOWING))
-                .build(consumer, Umbrellas.MOD_ID + ":adventure/get_billowing_umbrella");
-    }
-
-    private static AdvancementCriterion<InventoryChangedCriterion.Conditions> enchantment(RegistryEntryLookup<Enchantment> lookup, RegistryKey<Enchantment> enchantment) {
-        return InventoryChangedCriterion.Conditions.items(
-                ItemPredicate.Builder.create().components(
-                        ComponentsPredicate.Builder.create().partial(
-                                ComponentPredicateTypes.ENCHANTMENTS,
-                                EnchantmentsPredicate.enchantments(List.of(new EnchantmentPredicate(lookup.getOrThrow(enchantment), NumberRange.IntRange.atLeast(1))))
-                        ).build()
-                )
-        );
+                .criterion("used_billowing_umbrella", UmbrellasMisc.SMOKE_BOOST_CRITERION.create(new SmokeBoostCriterion.Conditions(Optional.empty())))
+                .build(consumer, Umbrellas.MOD_ID + ":adventure/use_billowing_umbrella");
     }
 }

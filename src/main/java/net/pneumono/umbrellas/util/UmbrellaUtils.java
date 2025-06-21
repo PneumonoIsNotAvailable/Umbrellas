@@ -7,6 +7,7 @@ import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.tag.BlockTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
@@ -16,6 +17,7 @@ import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
+import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.List;
@@ -84,10 +86,14 @@ public class UmbrellaUtils {
         }
     }
 
+    public static boolean isInSmoke(World world, BlockPos blockPos) {
+        return getHeightInSmoke(world, blockPos) > 0;
+    }
+
     /**
      * Returns whether the position has "smoke" (can be used with Billowing enchanted items to boost upwards)
      */
-    public static boolean isInSmoke(World world, BlockPos blockPos) {
+    public static int getHeightInSmoke(World world, BlockPos blockPos) {
         for (int i = 0; i < 20; ++i) {
             BlockPos pos = blockPos.down(i);
             BlockState state = world.getBlockState(pos);
@@ -96,13 +102,13 @@ public class UmbrellaUtils {
 
             if (state.isIn(UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
                 if (UmbrellasConfig.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
-                    return false;
+                    return -1;
                 }
 
                 if (i > 5 && CampfireBlock.isLitCampfire(state) && state.get(CampfireBlock.SIGNAL_FIRE)) {
-                    return true;
+                    return i;
                 } else {
-                    return i < 6;
+                    return i < 6 ? i : -1;
                 }
             }
 
@@ -129,10 +135,10 @@ public class UmbrellaUtils {
             }
 
             if (intersectsFirst && intersectsSecond && intersectsThird && intersectsFourth) {
-                return false;
+                return -1;
             }
         }
-        return false;
+        return -1;
     }
 
     private static boolean isNotUnlit(BlockState state) {
@@ -189,9 +195,12 @@ public class UmbrellaUtils {
 
         World world = entity.getWorld();
         BlockPos pos = entity.getBlockPos();
-        if (!UmbrellaUtils.isInSmoke(world, pos)) {
+        int heightInSmoke = UmbrellaUtils.getHeightInSmoke(world, pos);
+        if (heightInSmoke < 0) {
             return;
         }
+
+        if (heightInSmoke >= 19 && entity instanceof ServerPlayerEntity serverPlayer) UmbrellasMisc.SMOKE_BOOST_CRITERION.trigger(serverPlayer);
 
         double entityVelocity = entity.getVelocity().getY() * 100;
         boolean isGliding = entity instanceof LivingEntity living && living.isGliding();
