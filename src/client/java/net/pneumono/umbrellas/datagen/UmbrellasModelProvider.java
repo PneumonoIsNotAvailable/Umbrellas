@@ -24,7 +24,18 @@ public class UmbrellasModelProvider extends FabricModelProvider {
 
     @Override
     public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        registerUmbrellaStand(generator, UmbrellasBlocks.UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.OAK_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.SPRUCE_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.BIRCH_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.ACACIA_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.WARPED_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.MANGROVE_UMBRELLA_STAND);
+        registerUmbrellaStand(generator, UmbrellasBlocks.BAMBOO_UMBRELLA_STAND);
     }
 
     private void registerUmbrellaStand(BlockStateModelGenerator generator, Block block) {

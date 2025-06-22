@@ -8,7 +8,6 @@ import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Pair;
 import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
@@ -59,14 +58,18 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA);
             createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA);
 
-            createShaped(RecipeCategory.DECORATIONS, UmbrellasItems.UMBRELLA_STAND)
-                    .pattern("P")
-                    .pattern("S")
-                    .pattern("P")
-                    .input('P', ItemTags.PLANKS)
-                    .input('S', Items.STICK)
-                    .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
-                    .offerTo(exporter);
+            createUmbrellaStand(UmbrellasItems.OAK_UMBRELLA_STAND, Items.OAK_PLANKS);
+            createUmbrellaStand(UmbrellasItems.SPRUCE_UMBRELLA_STAND, Items.SPRUCE_PLANKS);
+            createUmbrellaStand(UmbrellasItems.BIRCH_UMBRELLA_STAND, Items.BIRCH_PLANKS);
+            createUmbrellaStand(UmbrellasItems.ACACIA_UMBRELLA_STAND, Items.ACACIA_PLANKS);
+            createUmbrellaStand(UmbrellasItems.CHERRY_UMBRELLA_STAND, Items.CHERRY_PLANKS);
+            createUmbrellaStand(UmbrellasItems.JUNGLE_UMBRELLA_STAND, Items.JUNGLE_PLANKS);
+            createUmbrellaStand(UmbrellasItems.DARK_OAK_UMBRELLA_STAND, Items.DARK_OAK_PLANKS);
+            createUmbrellaStand(UmbrellasItems.PALE_OAK_UMBRELLA_STAND, Items.PALE_OAK_PLANKS);
+            createUmbrellaStand(UmbrellasItems.CRIMSON_UMBRELLA_STAND, Items.CRIMSON_PLANKS);
+            createUmbrellaStand(UmbrellasItems.WARPED_UMBRELLA_STAND, Items.WARPED_PLANKS);
+            createUmbrellaStand(UmbrellasItems.MANGROVE_UMBRELLA_STAND, Items.MANGROVE_PLANKS);
+            createUmbrellaStand(UmbrellasItems.BAMBOO_UMBRELLA_STAND, Items.BAMBOO_PLANKS);
 
             createShaped(RecipeCategory.TOOLS, UmbrellasItems.ANIMALS_UMBRELLA)
                     .pattern("RAR")
@@ -169,6 +172,18 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .group("umbrella")
                     .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
                     .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
+                    .offerTo(exporter);
+        }
+
+        private void createUmbrellaStand(Item stand, Item planks) {
+            createShaped(RecipeCategory.DECORATIONS, stand)
+                    .pattern("P")
+                    .pattern("S")
+                    .pattern("P")
+                    .input('P', planks)
+                    .input('S', Items.STICK)
+                    .group("umbrella_stand")
+                    .criterion(hasItem(planks), conditionsFromItem(planks))
                     .offerTo(exporter);
         }
     }

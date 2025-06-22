@@ -1,8 +1,9 @@
 {
   "type": "minecraft:crafting_shaped",
   "category": "misc",
+  "group": "umbrella_stand",
   "key": {
-    "P": "#minecraft:planks",
+    "P": "minecraft:oak_planks",
     "S": "minecraft:stick"
   },
   "pattern": [
@@ -12,6 +13,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "umbrellas:umbrella_stand"
+    "id": "umbrellas:oak_umbrella_stand"
   }
 }

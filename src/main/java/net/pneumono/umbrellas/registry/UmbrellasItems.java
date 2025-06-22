@@ -60,7 +60,18 @@ public class UmbrellasItems {
     public static final Item BORDURE_INDENTED_UMBRELLA_PATTERN = registerUmbrellaPatternItem("bordure_indented", Rarity.COMMON);
     public static final Item PRIDE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("pride", Rarity.EPIC, false);
 
-    public static final Item UMBRELLA_STAND = registerItem("umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item OAK_UMBRELLA_STAND = registerItem("oak_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.OAK_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item SPRUCE_UMBRELLA_STAND = registerItem("spruce_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.SPRUCE_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item BIRCH_UMBRELLA_STAND = registerItem("birch_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.BIRCH_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item ACACIA_UMBRELLA_STAND = registerItem("acacia_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.ACACIA_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item CHERRY_UMBRELLA_STAND = registerItem("cherry_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.CHERRY_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item JUNGLE_UMBRELLA_STAND = registerItem("jungle_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.JUNGLE_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item DARK_OAK_UMBRELLA_STAND = registerItem("dark_oak_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item PALE_OAK_UMBRELLA_STAND = registerItem("pale_oak_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item CRIMSON_UMBRELLA_STAND = registerItem("crimson_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.CRIMSON_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item WARPED_UMBRELLA_STAND = registerItem("warped_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.WARPED_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item MANGROVE_UMBRELLA_STAND = registerItem("mangrove_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.MANGROVE_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item BAMBOO_UMBRELLA_STAND = registerItem("bamboo_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.BAMBOO_UMBRELLA_STAND, settings), new Item.Settings());
 
     public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Umbrellas.id(Umbrellas.MOD_ID));
 
@@ -145,20 +156,36 @@ public class UmbrellasItems {
                 GUSTER_UMBRELLA_PATTERN,
                 PRIDE_UMBRELLA_PATTERN
         };
+        Item[] stands = new Item[]{
+                OAK_UMBRELLA_STAND,
+                BIRCH_UMBRELLA_STAND,
+                SPRUCE_UMBRELLA_STAND,
+                ACACIA_UMBRELLA_STAND,
+                CHERRY_UMBRELLA_STAND,
+                JUNGLE_UMBRELLA_STAND,
+                DARK_OAK_UMBRELLA_STAND,
+                PALE_OAK_UMBRELLA_STAND,
+                CRIMSON_UMBRELLA_STAND,
+                WARPED_UMBRELLA_STAND,
+                MANGROVE_UMBRELLA_STAND,
+                BAMBOO_UMBRELLA_STAND
+        };
 
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, patterns));
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.add(UMBRELLA_STAND));
+        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.addBefore(Items.OAK_SIGN, stands));
 
         Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
                 .displayName(Text.translatable(ITEM_GROUP.getValue().toTranslationKey("itemGroup")))
                 .icon(() -> new ItemStack(RED_UMBRELLA))
                 .entries((displayContext, entries) -> {
-                    entries.add(UMBRELLA_STAND);
                     for (Item item : umbrellas) {
                         entries.add(item);
                     }
                     for (Item item : patterns) {
+                        entries.add(item);
+                    }
+                    for (Item item : stands) {
                         entries.add(item);
                     }
                 }).build()

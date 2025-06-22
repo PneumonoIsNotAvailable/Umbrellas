@@ -48,7 +48,18 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
         );
 
         valueLookupBuilder(BlockTags.AXE_MINEABLE).add(
-                UmbrellasBlocks.UMBRELLA_STAND
+                UmbrellasBlocks.OAK_UMBRELLA_STAND,
+                UmbrellasBlocks.SPRUCE_UMBRELLA_STAND,
+                UmbrellasBlocks.BIRCH_UMBRELLA_STAND,
+                UmbrellasBlocks.ACACIA_UMBRELLA_STAND,
+                UmbrellasBlocks.CHERRY_UMBRELLA_STAND,
+                UmbrellasBlocks.JUNGLE_UMBRELLA_STAND,
+                UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND,
+                UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND,
+                UmbrellasBlocks.CRIMSON_UMBRELLA_STAND,
+                UmbrellasBlocks.WARPED_UMBRELLA_STAND,
+                UmbrellasBlocks.MANGROVE_UMBRELLA_STAND,
+                UmbrellasBlocks.BAMBOO_UMBRELLA_STAND
         );
     }
 }
