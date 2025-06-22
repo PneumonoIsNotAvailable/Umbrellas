@@ -15,6 +15,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 public class UmbrellaStandBlock extends BlockWithEntity {
@@ -32,10 +33,10 @@ public class UmbrellaStandBlock extends BlockWithEntity {
 
     @Override
     protected ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, BlockHitResult hit) {
-        if (!(world.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity)) return ActionResult.PASS;
+        if (!(world.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity) || !player.getMainHandStack().isEmpty()) return ActionResult.PASS;
 
         ItemStack stack = blockEntity.removeStack();
-        if (stack.isEmpty()) return ActionResult.CONSUME;
+        if (stack.isEmpty()) return ActionResult.PASS;
 
         if (!player.giveItemStack(stack)) {
             player.dropItem(stack, false);
@@ -51,7 +52,7 @@ public class UmbrellaStandBlock extends BlockWithEntity {
         if (blockEntity.hasStack()) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
 
         ItemStack itemStack = player.getStackInHand(hand);
-        if (!itemStack.isIn(UmbrellasTags.UMBRELLAS)) return ActionResult.PASS_TO_DEFAULT_BLOCK_ACTION;
+        if (!itemStack.isIn(UmbrellasTags.UMBRELLAS)) return ActionResult.PASS;
 
         if (world.getBlockState(pos.up()).isAir() && world.getBlockState(pos.up(2)).isAir()) {
             if (!world.isClient()) {
