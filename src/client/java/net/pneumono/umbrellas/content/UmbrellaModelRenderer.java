@@ -58,7 +58,7 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
 
     @Override
     public void collectVertices(Set<Vector3f> vertices) {
-        // No idea what this does
+        this.renderer.collectVertices(vertices);
     }
 
     @Environment(EnvType.CLIENT)

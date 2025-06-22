@@ -13,9 +13,11 @@ import net.minecraft.util.math.RotationAxis;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 public class UmbrellaRenderer {
     public static final Map<Identifier, SpriteIdentifier> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
@@ -87,5 +89,12 @@ public class UmbrellaRenderer {
                 light, overlay,
                 color
         );
+    }
+
+    public void collectVertices(Set<Vector3f> vertices) {
+        MatrixStack matrixStack = new MatrixStack();
+        matrixStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
+        this.handleModel.getRootPart().collectVertices(matrixStack, vertices);
+        this.canopyModel.getRootPart().collectVertices(matrixStack, vertices);
     }
 }
