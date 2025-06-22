@@ -8,9 +8,16 @@
 		"Pneumono_"
 	],
 	"contact": {
-		"homepage": "https://github.com/PneumonoIsNotAvailable/Umbrellas",
+		"homepage": "https://modrinth.com/mod/pneumono_umbrellas",
 		"sources": "https://github.com/PneumonoIsNotAvailable/Umbrellas",
 		"issues": "https://github.com/PneumonoIsNotAvailable/Umbrellas/issues"
+	},
+	"custom": {
+		"modmenu": {
+			"links": {
+				"modmenu.modrinth": "https://modrinth.com/mod/pneumono_umbrellas"
+			}
+		}
 	},
 	"license": "MIT",
 	"icon": "assets/umbrellas/icon.png",
