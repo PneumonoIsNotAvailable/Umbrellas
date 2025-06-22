@@ -6,6 +6,7 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.ItemScatterer;
@@ -15,6 +16,7 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
+import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 public class UmbrellaStandBlock extends BlockWithEntity {
@@ -41,6 +43,7 @@ public class UmbrellaStandBlock extends BlockWithEntity {
             player.dropItem(stack, false);
         }
 
+        world.playSound(null, pos, UmbrellasMisc.UMBRELLA_STAND_PICKUP_SOUND, SoundCategory.BLOCKS);
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
         return ActionResult.SUCCESS;
     }
@@ -56,7 +59,9 @@ public class UmbrellaStandBlock extends BlockWithEntity {
         if (world.getBlockState(pos.up()).isAir() && world.getBlockState(pos.up(2)).isAir()) {
             if (!world.isClient()) {
                 blockEntity.setStack(itemStack.copyWithCount(1));
+
                 world.updateListeners(pos, state, state, 0);
+                world.playSound(null, pos, UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND, SoundCategory.BLOCKS);
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state));
 
                 if (!player.isCreative()) {

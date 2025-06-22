@@ -10,6 +10,7 @@ import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.StatFormatter;
 import net.minecraft.stat.Stats;
 import net.minecraft.util.Identifier;
@@ -26,6 +27,9 @@ public class UmbrellasMisc {
     public static final Identifier CLEAN_UMBRELLA = registerStat("clean_umbrella", StatFormatter.DEFAULT);
     public static final Identifier TIME_UMBRELLA_GLIDING = registerStat("time_umbrella_gliding", StatFormatter.TIME);
 
+    public static final SoundEvent UMBRELLA_STAND_INSERT_SOUND = registerSoundEvent("block.umbrella_stand.insert");
+    public static final SoundEvent UMBRELLA_STAND_PICKUP_SOUND = registerSoundEvent("block.umbrella_stand.pickup");
+
     private static <T extends AbstractCriterion<?>> T registerCriterion(String name, T criterion) {
         return Registry.register(Registries.CRITERION, Umbrellas.id(name), criterion);
     }
@@ -35,6 +39,11 @@ public class UmbrellasMisc {
         Registry.register(Registries.CUSTOM_STAT, name, id);
         Stats.CUSTOM.getOrCreateStat(id, format);
         return id;
+    }
+
+    private static SoundEvent registerSoundEvent(String name) {
+        Identifier id = Umbrellas.id(name);
+        return Registry.register(Registries.SOUND_EVENT, id, SoundEvent.of(id));
     }
 
     public static void registerUmbrellasMisc() {

@@ -90,6 +90,8 @@
   "itemGroup.umbrellas.umbrellas": "Umbrellas",
   "stat.umbrellas.clean_umbrella": "Umbrellas Cleaned",
   "stat.umbrellas.time_umbrella_gliding": "Time Spent Gliding with Umbrella",
+  "subtitles.umbrellas.block.umbrella_stand.insert": "Umbrella placed",
+  "subtitles.umbrellas.block.umbrella_stand.pickup": "Umbrella taken",
   "tag.block.umbrellas.boosts_elytra": "Boosts Elytra",
   "tag.block.umbrellas.boosts_umbrellas": "Boosts Umbrellas",
   "tag.block.umbrellas.smoke_passes_through": "Smoke Passes Through",
