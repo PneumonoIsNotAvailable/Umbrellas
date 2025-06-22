@@ -15,7 +15,6 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
-import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 public class UmbrellaStandBlock extends BlockWithEntity {
