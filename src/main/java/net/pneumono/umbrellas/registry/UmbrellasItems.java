@@ -120,6 +120,8 @@ public class UmbrellasItems {
     }
 
     public static void registerUmbrellasItems() {
+        Registries.ITEM.addAlias(Umbrellas.id("umbrella"), Umbrellas.id("white_umbrella"));
+
         Item[] umbrellas = new Item[]{
                 WHITE_UMBRELLA,
                 LIGHT_GRAY_UMBRELLA,
