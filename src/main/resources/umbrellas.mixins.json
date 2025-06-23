@@ -7,7 +7,7 @@
         "LoomScreenHandlerMixin",
         "LoomScreenHandlerMixin$BannerSlotMixin",
         "LoomScreenHandlerMixin$PatternSlotMixin",
-        "UmbrellaMovementMixin",
+        "LivingEntityMixin",
         "UmbrellaSkylightMixin"
     ],
     "injectors": {

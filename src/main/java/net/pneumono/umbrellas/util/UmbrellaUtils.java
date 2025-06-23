@@ -217,6 +217,23 @@ public class UmbrellaUtils {
         return baseGravity;
     }
 
+    public static float getUmbrellaFallDamageMultiplier(LivingEntity entity) {
+        int strength = getSlowFallingStrength(entity.getMainHandStack(), entity.getOffHandStack(), entity.getRandom());
+        if (strength == 0) return 1;
+
+        switch (strength) {
+            case 1 -> {
+                return 0.666667F;
+            }
+            case 2 -> {
+                return 0.333333F;
+            }
+            default -> {
+                return 0;
+            }
+        }
+    }
+
     public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
         boolean usingMainHand = false;
         boolean usingUmbrella = false;
