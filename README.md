@@ -7,6 +7,8 @@ Adds Umbrellas to stylishly protect you from the elements!
 The main purpose of Umbrellas is to protect any hydro/heliophobic players in the [Origins Mod](https://modrinth.com/project/3BeIrqZR), but Origins isn't a required dependency,
 and the mod has been coded to block all sky/rain checks from any mod for maximum compatibility.
 
+The mod has a lot of customization options for umbrellas, as well as two new mobility-based enchantments.
+
 ### Features
 
 Umbrellas shield you from any sky or rain-related effects, for example zombies burning in the daylight, or players playing as Enderians with the Origins mod.
