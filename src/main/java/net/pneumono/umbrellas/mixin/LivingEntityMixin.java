@@ -10,7 +10,6 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.util.UmbrellaUtils;
 import org.spongepowered.asm.mixin.Mixin;
