@@ -1,5 +1,6 @@
 package net.pneumono.umbrellas.registry;
 
+import net.fabricmc.fabric.api.loot.v3.FabricLootTableBuilder;
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.advancement.criterion.AbstractCriterion;
@@ -52,6 +53,22 @@ public class UmbrellasMisc {
                 LootPool.Builder pool = LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
                         .with(EmptyEntry.builder().weight(11))
                         .with(ItemEntry.builder(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN).weight(1));
+                tableBuilder.pool(pool);
+            }
+        });
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (LootTables.TRIAL_CHAMBERS_REWARD_OMINOUS_UNIQUE_CHEST.equals(key) && source.isBuiltin()) {
+                LootPool.Builder pool = LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
+                        .with(EmptyEntry.builder().weight(11))
+                        .with(ItemEntry.builder(UmbrellasItems.FLOW_UMBRELLA_PATTERN).weight(1));
+                tableBuilder.pool(pool);
+            }
+        });
+        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+            if (LootTables.TRIAL_CHAMBERS_REWARD_UNIQUE_CHEST.equals(key) && source.isBuiltin()) {
+                LootPool.Builder pool = LootPool.builder().rolls(ConstantLootNumberProvider.create(1.0f))
+                        .with(EmptyEntry.builder().weight(11))
+                        .with(ItemEntry.builder(UmbrellasItems.GUSTER_UMBRELLA_PATTERN).weight(1));
                 tableBuilder.pool(pool);
             }
         });
