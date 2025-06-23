@@ -2,6 +2,8 @@ package net.pneumono.umbrellas.registry;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.item.*;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
@@ -190,6 +192,14 @@ public class UmbrellasItems {
                     for (Item item : stands) {
                         entries.add(item);
                     }
+                    displayContext.lookup().getOptional(RegistryKeys.ENCHANTMENT).ifPresent(registryWrapper -> {
+                        entries.add(EnchantmentHelper.getEnchantedBookWith(
+                                new EnchantmentLevelEntry(registryWrapper.getOrThrow(UmbrellasEnchantments.GLIDING), 3)
+                        ));
+                        entries.add(EnchantmentHelper.getEnchantedBookWith(
+                                new EnchantmentLevelEntry(registryWrapper.getOrThrow(UmbrellasEnchantments.BILLOWING), 1)
+                        ));
+                    });
                 }).build()
         );
     }
