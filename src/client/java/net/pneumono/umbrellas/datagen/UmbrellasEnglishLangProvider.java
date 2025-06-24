@@ -52,7 +52,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasItems.SKULL_UMBRELLA_PATTERN, "Skull Umbrella Pattern");
         builder.add(UmbrellasItems.MOJANG_UMBRELLA_PATTERN, "Thing Umbrella Pattern");
         builder.add(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, "Globe Umbrella Pattern");
-        builder.add(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, "Piglin Umbrella Pattern");
+        builder.add(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, "Snout Umbrella Pattern");
         builder.add(UmbrellasItems.FLOW_UMBRELLA_PATTERN, "Flow Umbrella Pattern");
         builder.add(UmbrellasItems.GUSTER_UMBRELLA_PATTERN, "Guster Umbrella Pattern");
         builder.add(UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN, "Field Masoned Umbrella Pattern");
@@ -118,7 +118,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasTags.SKULL, "Skull Pattern");
         builder.add(UmbrellasTags.MOJANG, "Thing Pattern");
         builder.add(UmbrellasTags.GLOBE, "Globe Pattern");
-        builder.add(UmbrellasTags.PIGLIN, "Piglin Pattern");
+        builder.add(UmbrellasTags.PIGLIN, "Snout Pattern");
         builder.add(UmbrellasTags.FLOW, "Flow Pattern");
         builder.add(UmbrellasTags.GUSTER, "Guster Pattern");
         builder.add(UmbrellasTags.FIELD_MASONED, "Field Masoned Pattern");
