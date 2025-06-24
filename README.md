@@ -2,6 +2,8 @@
 
 [Modrinth Page](https://modrinth.com/project/dgTb67Ox)
 
+![A wooden board with displaying all of the Umbrella Patterns](images/display.png)
+
 Adds Umbrellas to stylishly protect you from the elements!
 
 The main purpose of Umbrellas is to protect any hydro/heliophobic players in the [Origins Mod](https://modrinth.com/project/3BeIrqZR), but Origins isn't a required dependency,
@@ -25,5 +27,7 @@ See [the wiki](https://github.com/PneumonoIsNotAvailable/Umbrellas/wiki) for mor
 ### Dependencies
 
 Umbrellas depends on my core mod, [PneumonoCore](https://modrinth.com/project/ZLKQjA7t), however this is included in the mod and does not need to be downloaded separately.
+
+![A villager taking shelter from the rain under an Umbrella](images/rain.png)
 
 [Download on Modrinth](https://modrinth.com/project/dgTb67Ox)
