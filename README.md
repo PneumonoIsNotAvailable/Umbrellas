@@ -2,7 +2,7 @@
 
 [Modrinth Page](https://modrinth.com/project/dgTb67Ox)
 
-![A wooden board with displaying all of the Umbrella Patterns](images/display.png)
+![A wooden board displaying all of the Umbrella Patterns](images/display.png)
 
 Adds Umbrellas to stylishly protect you from the elements!
 
