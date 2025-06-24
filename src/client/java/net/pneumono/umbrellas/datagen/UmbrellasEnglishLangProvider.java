@@ -10,7 +10,6 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -169,7 +168,24 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
     private void generateUmbrellaPatternTranslations(PneumonoCoreTranslationBuilder translationBuilder) {
         for (DyeColor color : DyeColor.values()) {
             String colorId = color.getId();
-            String colorName = StringUtils.capitalize(colorId);
+            String colorName = switch (color) {
+                case WHITE -> "White";
+                case ORANGE -> "Orange";
+                case MAGENTA -> "Magenta";
+                case LIGHT_BLUE -> "Light Blue";
+                case YELLOW -> "Yellow";
+                case LIME -> "Lime";
+                case PINK -> "Pink";
+                case GRAY -> "Gray";
+                case LIGHT_GRAY -> "Light Gray";
+                case CYAN -> "Cyan";
+                case PURPLE -> "Purple";
+                case BLUE -> "Blue";
+                case BROWN -> "Brown";
+                case GREEN -> "Green";
+                case RED -> "Red";
+                case BLACK -> "Black";
+            };
 
             BiConsumer<RegistryKey<UmbrellaPattern>, String> baseBuilder = translationBuilder.createBuilder(pattern -> pattern.getValue().toTranslationKey("umbrella_pattern", colorId));
             BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = (pattern, string) -> baseBuilder.accept(pattern, String.format(string, colorName));
