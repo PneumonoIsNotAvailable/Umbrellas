@@ -4,6 +4,7 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.data.recipe.RecipeExporter;
 import net.minecraft.data.recipe.RecipeGenerator;
+import net.minecraft.item.DyeItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -14,6 +15,7 @@ import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
@@ -57,6 +59,26 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             createPatternableUmbrella(UmbrellasItems.GREEN_UMBRELLA);
             createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA);
             createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA);
+
+            List<Item> umbrellas = List.of(
+                    UmbrellasItems.WHITE_UMBRELLA,
+                    UmbrellasItems.ORANGE_UMBRELLA,
+                    UmbrellasItems.MAGENTA_UMBRELLA,
+                    UmbrellasItems.LIGHT_BLUE_UMBRELLA,
+                    UmbrellasItems.YELLOW_UMBRELLA,
+                    UmbrellasItems.LIME_UMBRELLA,
+                    UmbrellasItems.PINK_UMBRELLA,
+                    UmbrellasItems.GRAY_UMBRELLA,
+                    UmbrellasItems.LIGHT_GRAY_UMBRELLA,
+                    UmbrellasItems.CYAN_UMBRELLA,
+                    UmbrellasItems.PURPLE_UMBRELLA,
+                    UmbrellasItems.BLUE_UMBRELLA,
+                    UmbrellasItems.BROWN_UMBRELLA,
+                    UmbrellasItems.GREEN_UMBRELLA,
+                    UmbrellasItems.RED_UMBRELLA,
+                    UmbrellasItems.BLACK_UMBRELLA
+            );
+            offerDyeableRecipes(Arrays.stream(DyeColor.values()).map(color -> (Item)DyeItem.byColor(color)).toList(), umbrellas, "umbrella_dye", RecipeCategory.TOOLS);
 
             createUmbrellaStand(UmbrellasItems.OAK_UMBRELLA_STAND, Items.OAK_PLANKS);
             createUmbrellaStand(UmbrellasItems.SPRUCE_UMBRELLA_STAND, Items.SPRUCE_PLANKS);
