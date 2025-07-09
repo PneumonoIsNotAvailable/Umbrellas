@@ -94,8 +94,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toTranslationKey("stat"), "Umbrellas Cleaned");
         builder.add(UmbrellasMisc.TIME_UMBRELLA_GLIDING.toTranslationKey("stat"), "Time Spent Gliding with Umbrella");
 
-        translationBuilder.add(UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND, "Umbrella placed");
-        translationBuilder.add(UmbrellasMisc.UMBRELLA_STAND_PICKUP_SOUND, "Umbrella taken");
+        builder.add(UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND, "Umbrella placed");
+        builder.add(UmbrellasMisc.UMBRELLA_STAND_PICKUP_SOUND, "Umbrella taken");
 
         builder.addAdvancement(Umbrellas.id("get_umbrella"), "Rain, Rain, go Away", "Craft or Find an Umbrella");
         builder.addAdvancement(Umbrellas.id("use_gliding_umbrella"), "I'm Mary Poppins, Y'all!", "Glide downwards 20 blocks with an Umbrella");
