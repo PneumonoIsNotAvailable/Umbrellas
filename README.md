@@ -26,7 +26,7 @@ See [the wiki](https://github.com/PneumonoIsNotAvailable/Umbrellas/wiki) for mor
 
 ### Dependencies
 
-Umbrellas depends on my core mod, [PneumonoCore](https://modrinth.com/project/ZLKQjA7t), however this is included in the mod and does not need to be downloaded separately.
+Umbrellas depends on my core mod, [PneumonoCore](https://modrinth.com/project/ZLKQjA7t).
 
 ![A villager taking shelter from the rain under an Umbrella](images/rain.png)
 
