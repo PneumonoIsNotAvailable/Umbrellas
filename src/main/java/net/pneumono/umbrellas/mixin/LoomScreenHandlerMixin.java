@@ -4,6 +4,7 @@ import com.google.common.collect.ImmutableList;
 import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.block.entity.BannerPattern;
 import net.minecraft.component.ComponentType;
 import net.minecraft.entity.player.PlayerEntity;
@@ -18,7 +19,6 @@ import net.minecraft.registry.tag.TagKey;
 import net.minecraft.screen.*;
 import net.minecraft.screen.slot.Slot;
 import net.minecraft.util.DyeColor;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -125,7 +125,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
         ItemStack dyeStack = this.dyeSlot.getStack();
         ItemStack patternStack = this.patternSlot.getStack();
 
-        if (!(inputStack.getItem() instanceof PatternableUmbrellaItem)) {
+        if (!(inputStack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS))) {
             this.isUsingUmbrellas = false;
             this.umbrellaPatterns = List.of();
             return;
@@ -203,8 +203,8 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
             method = "quickMove",
             constant = @Constant(classValue = BannerItem.class)
     )
-    private boolean slotHasBannerOrUmbrella(Object object, Operation<Boolean> original) {
-        return original.call(object) || object instanceof PatternableUmbrellaItem;
+    private boolean slotHasBannerOrUmbrella(Object object, Operation<Boolean> original, @Local(ordinal = 1) ItemStack stack) {
+        return original.call(object) || stack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS);
     }
 
     @WrapOperation(
@@ -229,7 +229,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
             empty.apply(
                     UmbrellasDataComponents.UMBRELLA_PATTERNS,
                     UmbrellaPatternsComponent.DEFAULT,
-                    component -> new UmbrellaPatternsComponent.Builder().addAll(component).add(pattern, dyeColor).build()
+                    component -> new UmbrellaPatternsComponent.Builder().copy(component).add(pattern, dyeColor).build()
             );
         }
 
@@ -245,7 +245,7 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
                 at = @At("RETURN")
         )
         private boolean canInsertWithUmbrella(boolean original, ItemStack stack) {
-            return original || stack.getItem() instanceof PatternableUmbrellaItem;
+            return original || stack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS);
         }
     }
 

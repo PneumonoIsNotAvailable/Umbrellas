@@ -11,7 +11,6 @@ import net.minecraft.recipe.book.RecipeCategory;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Pair;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
@@ -43,22 +42,22 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
 
         @Override
         public void generate() {
-            createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.ORANGE_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.MAGENTA_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.LIGHT_BLUE_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.YELLOW_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.LIME_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.PINK_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.GRAY_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.LIGHT_GRAY_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.CYAN_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.PURPLE_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.BLUE_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.BROWN_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.GREEN_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA);
-            createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA);
+            createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA, Items.WHITE_WOOL);
+            createPatternableUmbrella(UmbrellasItems.ORANGE_UMBRELLA, Items.ORANGE_WOOL);
+            createPatternableUmbrella(UmbrellasItems.MAGENTA_UMBRELLA, Items.MAGENTA_WOOL);
+            createPatternableUmbrella(UmbrellasItems.LIGHT_BLUE_UMBRELLA, Items.LIGHT_BLUE_WOOL);
+            createPatternableUmbrella(UmbrellasItems.YELLOW_UMBRELLA, Items.YELLOW_WOOL);
+            createPatternableUmbrella(UmbrellasItems.LIME_UMBRELLA, Items.LIME_WOOL);
+            createPatternableUmbrella(UmbrellasItems.PINK_UMBRELLA, Items.PINK_WOOL);
+            createPatternableUmbrella(UmbrellasItems.GRAY_UMBRELLA, Items.GRAY_WOOL);
+            createPatternableUmbrella(UmbrellasItems.LIGHT_GRAY_UMBRELLA, Items.LIGHT_GRAY_WOOL);
+            createPatternableUmbrella(UmbrellasItems.CYAN_UMBRELLA, Items.CYAN_WOOL);
+            createPatternableUmbrella(UmbrellasItems.PURPLE_UMBRELLA, Items.PURPLE_WOOL);
+            createPatternableUmbrella(UmbrellasItems.BLUE_UMBRELLA, Items.BLUE_WOOL);
+            createPatternableUmbrella(UmbrellasItems.BROWN_UMBRELLA, Items.BROWN_WOOL);
+            createPatternableUmbrella(UmbrellasItems.GREEN_UMBRELLA, Items.GREEN_WOOL);
+            createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA, Items.RED_WOOL);
+            createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA, Items.BLACK_WOOL);
 
             List<Item> umbrellas = List.of(
                     UmbrellasItems.WHITE_UMBRELLA,
@@ -183,12 +182,12 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .offerTo(exporter);
         }
         
-        private void createPatternableUmbrella(PatternableUmbrellaItem umbrella) {
+        private void createPatternableUmbrella(Item umbrella, Item wool) {
             createShaped(RecipeCategory.TOOLS, umbrella)
                     .pattern("WLW")
                     .pattern("LSL")
                     .pattern(" S ")
-                    .input('W', getWool(umbrella.getColor()))
+                    .input('W', wool)
                     .input('L', Items.LEATHER)
                     .input('S', Items.STICK)
                     .group("umbrella")
@@ -208,26 +207,5 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .criterion(hasItem(planks), conditionsFromItem(planks))
                     .offerTo(exporter);
         }
-    }
-
-    private static Item getWool(DyeColor color) {
-        return switch (color) {
-            case WHITE -> Items.WHITE_WOOL;
-            case ORANGE -> Items.ORANGE_WOOL;
-            case MAGENTA -> Items.MAGENTA_WOOL;
-            case LIGHT_BLUE -> Items.LIGHT_BLUE_WOOL;
-            case YELLOW -> Items.YELLOW_WOOL;
-            case LIME -> Items.LIME_WOOL;
-            case PINK -> Items.PINK_WOOL;
-            case GRAY -> Items.GRAY_WOOL;
-            case LIGHT_GRAY -> Items.LIGHT_GRAY_WOOL;
-            case CYAN -> Items.CYAN_WOOL;
-            case BLUE -> Items.BLUE_WOOL;
-            case BROWN -> Items.BROWN_WOOL;
-            case GREEN -> Items.GREEN_WOOL;
-            case RED -> Items.RED_WOOL;
-            case BLACK -> Items.BLACK_WOOL;
-            case PURPLE -> Items.PURPLE_WOOL;
-        };
     }
 }

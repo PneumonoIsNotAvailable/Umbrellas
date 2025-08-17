@@ -9,7 +9,6 @@ import net.minecraft.item.Item;
 import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.UmbrellaModelRenderer;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 
@@ -90,8 +89,8 @@ public class UmbrellasModelProvider extends FabricModelProvider {
         generator.register(UmbrellasItems.PRIDE_UMBRELLA_PATTERN, Models.GENERATED);
     }
 
-    public void registerPatternableUmbrella(ItemModelGenerator generator, PatternableUmbrellaItem item) {
-        ItemModel.Unbaked unbaked = ItemModels.special(ModelIds.getItemModelId(item), new UmbrellaModelRenderer.Unbaked(item.getColor()));
+    public void registerPatternableUmbrella(ItemModelGenerator generator, Item item) {
+        ItemModel.Unbaked unbaked = ItemModels.special(ModelIds.getItemModelId(item), new UmbrellaModelRenderer.Unbaked());
         generator.output.accept(item, unbaked);
         generator.upload(item, TEMPLATE_UMBRELLA);
     }

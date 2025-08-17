@@ -10,32 +10,31 @@ import net.minecraft.item.tooltip.TooltipType;
 import net.minecraft.network.RegistryByteBuf;
 import net.minecraft.network.codec.PacketCodec;
 import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Formatting;
-import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.function.Consumer;
 
-public record UmbrellaPatternsComponent(List<Layer> layers) implements TooltipAppender {
-    public static final UmbrellaPatternsComponent DEFAULT = new UmbrellaPatternsComponent(List.of());
+public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) implements TooltipAppender {
+    public static final UmbrellaPatternsComponent DEFAULT = new UmbrellaPatternsComponent(DyeColor.GRAY, List.of());
     public static final int MAX_PATTERNS = 8;
-    public static final Codec<UmbrellaPatternsComponent> CODEC = Layer.CODEC
-            .listOf()
-            .xmap(UmbrellaPatternsComponent::new, UmbrellaPatternsComponent::layers);
-    public static final PacketCodec<RegistryByteBuf, UmbrellaPatternsComponent> PACKET_CODEC = Layer.PACKET_CODEC
-            .collect(PacketCodecs.toList())
-            .xmap(UmbrellaPatternsComponent::new, UmbrellaPatternsComponent::layers);
+    public static final Codec<UmbrellaPatternsComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+            DyeColor.CODEC.fieldOf("baseColor").forGetter(UmbrellaPatternsComponent::baseColor),
+            Layer.CODEC.listOf().fieldOf("layers").forGetter(UmbrellaPatternsComponent::layers)
+    ).apply(instance, UmbrellaPatternsComponent::new));
+    public static final PacketCodec<RegistryByteBuf, UmbrellaPatternsComponent> PACKET_CODEC = PacketCodec.tuple(
+            DyeColor.PACKET_CODEC, UmbrellaPatternsComponent::baseColor,
+            Layer.PACKET_CODEC.collect(PacketCodecs.toList()), UmbrellaPatternsComponent::layers,
+            UmbrellaPatternsComponent::new
+    );
 
     public UmbrellaPatternsComponent withoutTopLayer() {
-        return new UmbrellaPatternsComponent(List.copyOf(this.layers.subList(0, this.layers.size() - 1)));
+        return new UmbrellaPatternsComponent(this.baseColor, List.copyOf(this.layers.subList(0, this.layers.size() - 1)));
     }
 
     @Override
@@ -46,18 +45,8 @@ public record UmbrellaPatternsComponent(List<Layer> layers) implements TooltipAp
     }
 
     public static class Builder {
+        private DyeColor baseColor = DEFAULT.baseColor();
         private final ImmutableList.Builder<Layer> entries = ImmutableList.builder();
-
-        @Deprecated
-        public UmbrellaPatternsComponent.Builder add(RegistryEntryLookup<UmbrellaPattern> patternLookup, RegistryKey<UmbrellaPattern> pattern, DyeColor color) {
-            Optional<RegistryEntry.Reference<UmbrellaPattern>> optional = patternLookup.getOptional(pattern);
-            if (optional.isEmpty()) {
-                Umbrellas.LOGGER.warn("Unable to find umbrella pattern with id: '{}'", pattern.getValue());
-                return this;
-            } else {
-                return this.add(optional.get(), color);
-            }
-        }
 
         public UmbrellaPatternsComponent.Builder add(RegistryEntry<UmbrellaPattern> pattern, DyeColor color) {
             return this.add(new Layer(pattern, color));
@@ -68,13 +57,14 @@ public record UmbrellaPatternsComponent(List<Layer> layers) implements TooltipAp
             return this;
         }
 
-        public UmbrellaPatternsComponent.Builder addAll(UmbrellaPatternsComponent patterns) {
+        public UmbrellaPatternsComponent.Builder copy(UmbrellaPatternsComponent patterns) {
+            this.baseColor = patterns.baseColor;
             this.entries.addAll(patterns.layers);
             return this;
         }
 
         public UmbrellaPatternsComponent build() {
-            return new UmbrellaPatternsComponent(this.entries.build());
+            return new UmbrellaPatternsComponent(this.baseColor, this.entries.build());
         }
     }
 

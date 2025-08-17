@@ -13,9 +13,9 @@ import net.minecraft.text.Text;
 import net.minecraft.util.DyeColor;
 import net.minecraft.util.Rarity;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
+import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,22 +25,22 @@ public class UmbrellasItems {
     public static final List<Item> UMBRELLAS = new ArrayList<>();
     private static final int MAX_UMBRELLA_DAMAGE = 600;
 
-    public static final PatternableUmbrellaItem WHITE_UMBRELLA = registerPatternableUmbrella(DyeColor.WHITE);
-    public static final PatternableUmbrellaItem ORANGE_UMBRELLA = registerPatternableUmbrella(DyeColor.ORANGE);
-    public static final PatternableUmbrellaItem MAGENTA_UMBRELLA = registerPatternableUmbrella(DyeColor.MAGENTA);
-    public static final PatternableUmbrellaItem LIGHT_BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_BLUE);
-    public static final PatternableUmbrellaItem YELLOW_UMBRELLA = registerPatternableUmbrella(DyeColor.YELLOW);
-    public static final PatternableUmbrellaItem LIME_UMBRELLA = registerPatternableUmbrella(DyeColor.LIME);
-    public static final PatternableUmbrellaItem PINK_UMBRELLA = registerPatternableUmbrella(DyeColor.PINK);
-    public static final PatternableUmbrellaItem GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.GRAY);
-    public static final PatternableUmbrellaItem LIGHT_GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_GRAY);
-    public static final PatternableUmbrellaItem CYAN_UMBRELLA = registerPatternableUmbrella(DyeColor.CYAN);
-    public static final PatternableUmbrellaItem PURPLE_UMBRELLA = registerPatternableUmbrella(DyeColor.PURPLE);
-    public static final PatternableUmbrellaItem BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.BLUE);
-    public static final PatternableUmbrellaItem BROWN_UMBRELLA = registerPatternableUmbrella(DyeColor.BROWN);
-    public static final PatternableUmbrellaItem GREEN_UMBRELLA = registerPatternableUmbrella(DyeColor.GREEN);
-    public static final PatternableUmbrellaItem RED_UMBRELLA = registerPatternableUmbrella(DyeColor.RED);
-    public static final PatternableUmbrellaItem BLACK_UMBRELLA = registerPatternableUmbrella(DyeColor.BLACK);
+    public static final UmbrellaItem WHITE_UMBRELLA = registerPatternableUmbrella(DyeColor.WHITE);
+    public static final UmbrellaItem ORANGE_UMBRELLA = registerPatternableUmbrella(DyeColor.ORANGE);
+    public static final UmbrellaItem MAGENTA_UMBRELLA = registerPatternableUmbrella(DyeColor.MAGENTA);
+    public static final UmbrellaItem LIGHT_BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_BLUE);
+    public static final UmbrellaItem YELLOW_UMBRELLA = registerPatternableUmbrella(DyeColor.YELLOW);
+    public static final UmbrellaItem LIME_UMBRELLA = registerPatternableUmbrella(DyeColor.LIME);
+    public static final UmbrellaItem PINK_UMBRELLA = registerPatternableUmbrella(DyeColor.PINK);
+    public static final UmbrellaItem GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.GRAY);
+    public static final UmbrellaItem LIGHT_GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_GRAY);
+    public static final UmbrellaItem CYAN_UMBRELLA = registerPatternableUmbrella(DyeColor.CYAN);
+    public static final UmbrellaItem PURPLE_UMBRELLA = registerPatternableUmbrella(DyeColor.PURPLE);
+    public static final UmbrellaItem BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.BLUE);
+    public static final UmbrellaItem BROWN_UMBRELLA = registerPatternableUmbrella(DyeColor.BROWN);
+    public static final UmbrellaItem GREEN_UMBRELLA = registerPatternableUmbrella(DyeColor.GREEN);
+    public static final UmbrellaItem RED_UMBRELLA = registerPatternableUmbrella(DyeColor.RED);
+    public static final UmbrellaItem BLACK_UMBRELLA = registerPatternableUmbrella(DyeColor.BLACK);
 
     // Most of these extra umbrellas are custom designs from a previous version of the mod used on a private server.
     // I figured it would be better to put them in the public mod than simply let these go to waste, so here they are!
@@ -77,8 +77,11 @@ public class UmbrellasItems {
 
     public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Umbrellas.id(Umbrellas.MOD_ID));
 
-    private static PatternableUmbrellaItem registerPatternableUmbrella(DyeColor color) {
-        return registerUmbrella(color.getId(), settings -> new PatternableUmbrellaItem(settings, color), Rarity.COMMON);
+    private static UmbrellaItem registerPatternableUmbrella(DyeColor color) {
+        return registerUmbrella(color.getId(), settings -> new UmbrellaItem(settings.component(
+                UmbrellasDataComponents.UMBRELLA_PATTERNS,
+                new UmbrellaPatternsComponent(color, List.of())
+        )), Rarity.COMMON);
     }
 
     private static UmbrellaItem registerExtraUmbrella(String name) {

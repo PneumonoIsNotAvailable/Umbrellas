@@ -7,7 +7,6 @@ import net.minecraft.client.render.entity.model.LoadedEntityModels;
 import net.minecraft.client.util.SpriteIdentifier;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.DyeColor;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.math.RotationAxis;
 import net.pneumono.umbrellas.Umbrellas;
@@ -39,7 +38,6 @@ public class UmbrellaRenderer {
             VertexConsumerProvider vertexConsumers,
             int light, int overlay, boolean glint,
             float rotation,
-            DyeColor baseColor,
             UmbrellaPatternsComponent patterns
     ) {
         matrices.push();
@@ -47,7 +45,7 @@ public class UmbrellaRenderer {
         matrices.scale(1.0F, -1.0F, -1.0F);
 
         this.handleModel.render(matrices, UmbrellasClient.UMBRELLA_BASE.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid), light, overlay);
-        renderCanopy(matrices, vertexConsumers, light, overlay, glint, false, this.canopyModel.getRootPart(), UmbrellasClient.UMBRELLA_BASE, baseColor, patterns);
+        renderCanopy(matrices, vertexConsumers, light, overlay, glint, false, this.canopyModel.getRootPart(), UmbrellasClient.UMBRELLA_BASE, patterns);
 
         matrices.pop();
     }
@@ -59,7 +57,6 @@ public class UmbrellaRenderer {
             boolean glint, boolean solid,
             ModelPart canopy,
             SpriteIdentifier baseSprite,
-            DyeColor baseColor,
             UmbrellaPatternsComponent patterns
     ) {
         canopy.render(matrices, baseSprite.getVertexConsumer(vertexConsumers, RenderLayer::getEntitySolid, solid, glint), light, overlay);
@@ -68,7 +65,7 @@ public class UmbrellaRenderer {
                 light, overlay,
                 canopy,
                 UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.map(Umbrellas.id("base")),
-                baseColor.getEntityColor()
+                patterns.baseColor().getEntityColor()
         );
 
         for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {

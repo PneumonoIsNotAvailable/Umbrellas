@@ -18,10 +18,10 @@ import net.minecraft.util.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.LoomUmbrellaRendering;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
+import net.pneumono.umbrellas.registry.UmbrellasTags;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
@@ -160,7 +160,7 @@ public abstract class LoomScreenMixin extends HandledScreen<LoomScreenHandler> {
     )
     private void setIsUsingUmbrellas(CallbackInfo ci) {
         ItemStack inputStack = this.handler.getBannerSlot().getStack();
-        this.isUsingUmbrellas = inputStack.getItem() instanceof PatternableUmbrellaItem;
+        this.isUsingUmbrellas = inputStack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS);
     }
 
     @Inject(

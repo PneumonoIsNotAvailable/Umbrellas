@@ -1,7 +1,6 @@
 package net.pneumono.umbrellas.content;
 
 import com.mojang.serialization.MapCodec;
-import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -10,7 +9,6 @@ import net.minecraft.client.render.item.model.special.SpecialModelRenderer;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.DyeColor;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import org.jetbrains.annotations.Nullable;
@@ -21,11 +19,9 @@ import java.util.Set;
 
 public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatternsComponent> {
     private final UmbrellaRenderer renderer;
-    private final DyeColor baseColor;
 
-    public UmbrellaModelRenderer(DyeColor baseColor, UmbrellaRenderer renderer) {
+    public UmbrellaModelRenderer(UmbrellaRenderer renderer) {
         this.renderer = renderer;
-        this.baseColor = baseColor;
     }
 
     @Nullable
@@ -51,7 +47,6 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
                 overlay,
                 glint,
                 0.0F,
-                this.baseColor,
                 Objects.requireNonNullElse(data, UmbrellaPatternsComponent.DEFAULT)
         );
     }
@@ -62,11 +57,9 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
     }
 
     @Environment(EnvType.CLIENT)
-    public record Unbaked(DyeColor baseColor) implements SpecialModelRenderer.Unbaked {
-        public static final MapCodec<UmbrellaModelRenderer.Unbaked> CODEC = RecordCodecBuilder.mapCodec(
-                instance -> instance.group(DyeColor.CODEC.fieldOf("color").forGetter(UmbrellaModelRenderer.Unbaked::baseColor))
-                        .apply(instance, UmbrellaModelRenderer.Unbaked::new)
-        );
+    public static class Unbaked implements SpecialModelRenderer.Unbaked {
+        public static final Unbaked INSTANCE = new Unbaked();
+        public static final MapCodec<UmbrellaModelRenderer.Unbaked> CODEC = MapCodec.unit(INSTANCE);
 
         @Override
         public MapCodec<UmbrellaModelRenderer.Unbaked> getCodec() {
@@ -75,7 +68,7 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
 
         @Override
         public SpecialModelRenderer<?> bake(LoadedEntityModels entityModels) {
-            return new UmbrellaModelRenderer(this.baseColor, new UmbrellaRenderer(entityModels));
+            return new UmbrellaModelRenderer(new UmbrellaRenderer(entityModels));
         }
     }
 }

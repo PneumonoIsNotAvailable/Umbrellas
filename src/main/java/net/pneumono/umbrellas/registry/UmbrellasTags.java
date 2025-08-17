@@ -10,6 +10,8 @@ import net.pneumono.umbrellas.content.UmbrellaPattern;
 public class UmbrellasTags {
     public static final TagKey<Item> REPAIRS_UMBRELLAS = item("repairs_umbrellas");
     public static final TagKey<Item> UMBRELLAS = item("umbrellas");
+    public static final TagKey<Item> PATTERNABLE_UMBRELLAS = item("patternable_umbrellas");
+    public static final TagKey<Item> EXTRA_UMBRELLAS = item("extra_umbrellas");
     public static final TagKey<Item> UMBRELLA_ENCHANTABLE = item("enchantable/umbrella");
 
     public static final TagKey<Block> BOOSTS_UMBRELLAS = block("boosts_umbrellas");

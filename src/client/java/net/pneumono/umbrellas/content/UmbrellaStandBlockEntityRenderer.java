@@ -11,7 +11,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
@@ -34,20 +33,19 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
 
         matrices.push();
         matrices.translate(0.03125, 1.0, 0.03125);
-        if (stack.getItem() instanceof PatternableUmbrellaItem umbrellaItem) {
-            renderPatternable(matrices, vertexConsumers, lightAbove, overlay, stack, umbrellaItem);
+        if (stack.getComponents().contains(UmbrellasDataComponents.UMBRELLA_PATTERNS)) {
+            renderPatternable(matrices, vertexConsumers, lightAbove, overlay, stack);
         } else {
             renderNonPatternable(matrices, vertexConsumers, lightAbove, overlay, stack, entity.getWorld());
         }
         matrices.pop();
     }
 
-    private void renderPatternable(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ItemStack stack, PatternableUmbrellaItem umbrellaItem) {
+    private void renderPatternable(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ItemStack stack) {
         this.renderer.render(
                 matrices, vertexConsumers,
                 light, overlay,
                 stack.hasGlint(), 0.0F,
-                umbrellaItem.getColor(),
                 stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT)
         );
     }

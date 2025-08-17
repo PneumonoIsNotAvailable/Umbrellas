@@ -8,7 +8,6 @@ import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.DyeColor;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
-import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import org.joml.Matrix3x2fStack;
@@ -25,8 +24,8 @@ public class LoomUmbrellaRendering {
         matrices.translate(x, y);
         matrices.scale(32F / TEXTURE_SIZE);
 
-        DyeColor baseColor = stack.getItem() instanceof PatternableUmbrellaItem umbrella ? umbrella.getColor() : DyeColor.GRAY;
         UmbrellaPatternsComponent component = stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
+        DyeColor baseColor = component.baseColor();
 
         List<Layer> layers = new ArrayList<>();
         layers.add(new Layer(UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.map(Umbrellas.id("base")).getSprite(), baseColor.getEntityColor()));

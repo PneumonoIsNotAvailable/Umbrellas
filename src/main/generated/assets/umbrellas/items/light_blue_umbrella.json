@@ -3,8 +3,7 @@
     "type": "minecraft:special",
     "base": "umbrellas:item/light_blue_umbrella",
     "model": {
-      "type": "umbrellas:umbrella",
-      "color": "light_blue"
+      "type": "umbrellas:umbrella"
     }
   }
 }
