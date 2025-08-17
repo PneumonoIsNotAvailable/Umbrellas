@@ -9,7 +9,6 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.world.ServerWorld;
-import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -26,7 +25,6 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldView;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.tick.ScheduledTickView;
-import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,7 +61,6 @@ public class UmbrellaStandBlock extends BlockWithEntity implements Waterloggable
             player.dropItem(stack, false);
         }
 
-        world.playSound(null, pos, UmbrellasMisc.UMBRELLA_STAND_PICKUP_SOUND, SoundCategory.BLOCKS);
         world.emitGameEvent(player, GameEvent.BLOCK_CHANGE, pos);
         return ActionResult.SUCCESS;
     }
@@ -79,9 +76,6 @@ public class UmbrellaStandBlock extends BlockWithEntity implements Waterloggable
         if (world.getBlockState(pos.up()).isAir() && world.getBlockState(pos.up(2)).isAir()) {
             if (!world.isClient()) {
                 blockEntity.setStack(itemStack.copyWithCount(1));
-
-                world.updateListeners(pos, state, state, 0);
-                world.playSound(null, pos, UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND, SoundCategory.BLOCKS);
                 world.emitGameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Emitter.of(player, state));
 
                 if (!player.isCreative()) {

@@ -1,5 +1,6 @@
 package net.pneumono.umbrellas.content.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.inventory.Inventory;
@@ -10,10 +11,15 @@ import net.minecraft.network.listener.ClientPlayPacketListener;
 import net.minecraft.network.packet.Packet;
 import net.minecraft.network.packet.s2c.play.BlockEntityUpdateS2CPacket;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvent;
 import net.minecraft.storage.ReadView;
 import net.minecraft.storage.WriteView;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
+import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;
 
@@ -47,6 +53,7 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
     public void setStack(ItemStack stack) {
         this.umbrellaStack = stack;
         this.markDirty();
+        this.updateClients(stack.isEmpty());
     }
 
     public boolean hasStack() {
@@ -55,9 +62,25 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements SingleStack
 
     public ItemStack removeStack() {
         ItemStack stack = this.umbrellaStack;
-        this.umbrellaStack = ItemStack.EMPTY;
-        this.markDirty();
+        setStack(ItemStack.EMPTY);
         return stack;
+    }
+
+    @Override
+    public ItemStack decreaseStack(int count) {
+        ItemStack stack = SingleStackBlockEntityInventory.super.decreaseStack(count);
+        updateClients(true);
+        return stack;
+    }
+
+    public void updateClients(boolean pickup) {
+        World world = this.getWorld();
+        if (world != null) {
+            getWorld().updateListeners(getPos(), getCachedState(), getCachedState(), Block.NOTIFY_ALL);
+            SoundEvent sound = pickup ? UmbrellasMisc.UMBRELLA_STAND_PICKUP_SOUND : UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND;
+            getWorld().playSound(null, getPos(), sound, SoundCategory.BLOCKS);
+            getWorld().emitGameEvent(GameEvent.BLOCK_CHANGE, getPos(), GameEvent.Emitter.of(getCachedState()));
+        }
     }
 
     @Override
