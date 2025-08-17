@@ -8,8 +8,10 @@ import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.item.ItemDisplayContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.RotationAxis;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.pneumono.umbrellas.content.block.UmbrellaStandBlock;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -32,6 +34,10 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
         int lightAbove = WorldRenderer.getLightmapCoordinates(Objects.requireNonNull(entity.getWorld()), entity.getPos().up(2));
 
         matrices.push();
+        matrices.translate(0.5, 0.0, 0.5);
+        float g = entity.getCachedState().get(UmbrellaStandBlock.FACING).getPositiveHorizontalDegrees();
+        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-g));
+        matrices.translate(-0.5, 0.0, -0.5);
         matrices.translate(0.03125, 1.0, 0.03125);
         if (stack.getComponents().contains(UmbrellasDataComponents.UMBRELLA_PATTERNS)) {
             renderPatternable(matrices, vertexConsumers, lightAbove, overlay, stack);
