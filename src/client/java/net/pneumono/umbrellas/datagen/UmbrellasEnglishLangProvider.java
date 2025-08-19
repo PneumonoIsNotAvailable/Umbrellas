@@ -21,7 +21,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
     @Override
     public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
-        PneumonoCoreTranslationBuilder builder = new PneumonoCoreTranslationBuilder(translationBuilder);
+        PneumonoCoreTranslationBuilder builder = new PneumonoCoreTranslationBuilder(translationBuilder, Umbrellas.MOD_ID);
 
         builder.add(UmbrellasItems.WHITE_UMBRELLA, "White Umbrella");
         builder.add(UmbrellasItems.ORANGE_UMBRELLA, "Orange Umbrella");
@@ -113,7 +113,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasTags.FIELD_MASONED, "Field Masoned Pattern");
         builder.add(UmbrellasTags.BORDURE_INDENTED, "Bordure Indented Pattern");
 
-        builder.addConfigScreenTitle(Umbrellas.MOD_ID, "Umbrellas Configs");
+        builder.addConfigScreenTitle("Umbrellas Configs");
         builder.addEnumConfig(
                 UmbrellasConfig.SLOW_FALLING,
                 "Slow Falling",
