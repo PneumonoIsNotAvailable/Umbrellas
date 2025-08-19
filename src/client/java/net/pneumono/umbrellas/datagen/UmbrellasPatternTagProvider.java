@@ -14,6 +14,7 @@ public class UmbrellasPatternTagProvider extends SimpleTagProvider<UmbrellaPatte
         super(output, UmbrellaPatterns.UMBRELLA_PATTERN_KEY, registriesFuture);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
         this.builder(UmbrellasTags.NO_ITEM_REQUIRED).add(
