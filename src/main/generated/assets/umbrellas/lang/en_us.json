@@ -85,6 +85,8 @@
   "tag.block.umbrellas.smoke_passes_through": "Smoke Passes Through",
   "tag.block.umbrellas.umbrella_boosting_toggleable": "Has Configurable Umbrella Boosting",
   "tag.item.umbrellas.enchantable.umbrella": "Umbrella Enchantable",
+  "tag.item.umbrellas.extra_umbrellas": "Extra Umbrellas",
+  "tag.item.umbrellas.patternable_umbrellas": "Patternable Umbrellas",
   "tag.item.umbrellas.repairs_umbrellas": "Repairs Umbrellas",
   "tag.item.umbrellas.umbrellas": "Umbrellas",
   "tag.umbrellas.umbrella_pattern.umbrellas.no_item_required": "No Umbrella Pattern Required",

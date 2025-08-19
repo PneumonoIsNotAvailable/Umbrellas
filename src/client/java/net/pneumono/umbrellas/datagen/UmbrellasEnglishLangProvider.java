@@ -91,6 +91,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.add(UmbrellasTags.REPAIRS_UMBRELLAS, "Repairs Umbrellas");
         builder.add(UmbrellasTags.UMBRELLAS, "Umbrellas");
+        builder.add(UmbrellasTags.PATTERNABLE_UMBRELLAS, "Patternable Umbrellas");
+        builder.add(UmbrellasTags.EXTRA_UMBRELLAS, "Extra Umbrellas");
         builder.add(UmbrellasTags.UMBRELLA_ENCHANTABLE, "Umbrella Enchantable");
 
         builder.add(UmbrellasTags.BOOSTS_UMBRELLAS, "Boosts Umbrellas");
