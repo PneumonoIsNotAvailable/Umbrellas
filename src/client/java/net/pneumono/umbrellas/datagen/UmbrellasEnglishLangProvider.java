@@ -61,18 +61,6 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add("item.umbrellas.umbrella_pattern.no_dye", "Does not require Dye");
         generateUmbrellaPatternTranslations(builder);
 
-        builder.add(UmbrellasItems.OAK_UMBRELLA_STAND, "Oak Umbrella Stand");
-        builder.add(UmbrellasItems.SPRUCE_UMBRELLA_STAND, "Spruce Umbrella Stand");
-        builder.add(UmbrellasItems.BIRCH_UMBRELLA_STAND, "Birch Umbrella Stand");
-        builder.add(UmbrellasItems.ACACIA_UMBRELLA_STAND, "Acacia Umbrella Stand");
-        builder.add(UmbrellasItems.CHERRY_UMBRELLA_STAND, "Cherry Umbrella Stand");
-        builder.add(UmbrellasItems.JUNGLE_UMBRELLA_STAND, "Jungle Umbrella Stand");
-        builder.add(UmbrellasItems.DARK_OAK_UMBRELLA_STAND, "Dark Oak Umbrella Stand");
-        builder.add(UmbrellasItems.PALE_OAK_UMBRELLA_STAND, "Pale Oak Umbrella Stand");
-        builder.add(UmbrellasItems.CRIMSON_UMBRELLA_STAND, "Crimson Umbrella Stand");
-        builder.add(UmbrellasItems.WARPED_UMBRELLA_STAND, "Warped Umbrella Stand");
-        builder.add(UmbrellasItems.MANGROVE_UMBRELLA_STAND, "Mangrove Umbrella Stand");
-        builder.add(UmbrellasItems.BAMBOO_UMBRELLA_STAND, "Bamboo Umbrella Stand");
         builder.add(UmbrellasBlocks.OAK_UMBRELLA_STAND, "Oak Umbrella Stand");
         builder.add(UmbrellasBlocks.SPRUCE_UMBRELLA_STAND, "Spruce Umbrella Stand");
         builder.add(UmbrellasBlocks.BIRCH_UMBRELLA_STAND, "Birch Umbrella Stand");

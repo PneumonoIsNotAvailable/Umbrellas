@@ -2,6 +2,7 @@ package net.pneumono.umbrellas.registry;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentLevelEntry;
 import net.minecraft.item.*;
@@ -62,18 +63,18 @@ public class UmbrellasItems {
     public static final Item BORDURE_INDENTED_UMBRELLA_PATTERN = registerUmbrellaPatternItem("bordure_indented", Rarity.COMMON);
     public static final Item PRIDE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("pride", Rarity.EPIC, false);
 
-    public static final Item OAK_UMBRELLA_STAND = registerItem("oak_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.OAK_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item SPRUCE_UMBRELLA_STAND = registerItem("spruce_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.SPRUCE_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item BIRCH_UMBRELLA_STAND = registerItem("birch_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.BIRCH_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item ACACIA_UMBRELLA_STAND = registerItem("acacia_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.ACACIA_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item CHERRY_UMBRELLA_STAND = registerItem("cherry_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.CHERRY_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item JUNGLE_UMBRELLA_STAND = registerItem("jungle_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.JUNGLE_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item DARK_OAK_UMBRELLA_STAND = registerItem("dark_oak_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item PALE_OAK_UMBRELLA_STAND = registerItem("pale_oak_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item CRIMSON_UMBRELLA_STAND = registerItem("crimson_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.CRIMSON_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item WARPED_UMBRELLA_STAND = registerItem("warped_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.WARPED_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item MANGROVE_UMBRELLA_STAND = registerItem("mangrove_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.MANGROVE_UMBRELLA_STAND, settings), new Item.Settings());
-    public static final Item BAMBOO_UMBRELLA_STAND = registerItem("bamboo_umbrella_stand", settings -> new BlockItem(UmbrellasBlocks.BAMBOO_UMBRELLA_STAND, settings), new Item.Settings());
+    public static final Item OAK_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.OAK_UMBRELLA_STAND);
+    public static final Item SPRUCE_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.SPRUCE_UMBRELLA_STAND);
+    public static final Item BIRCH_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.BIRCH_UMBRELLA_STAND);
+    public static final Item ACACIA_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.ACACIA_UMBRELLA_STAND);
+    public static final Item CHERRY_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
+    public static final Item JUNGLE_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
+    public static final Item DARK_OAK_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
+    public static final Item PALE_OAK_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
+    public static final Item CRIMSON_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
+    public static final Item WARPED_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.WARPED_UMBRELLA_STAND);
+    public static final Item MANGROVE_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.MANGROVE_UMBRELLA_STAND);
+    public static final Item BAMBOO_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.BAMBOO_UMBRELLA_STAND);
 
     public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Umbrellas.id(Umbrellas.MOD_ID));
 
@@ -108,6 +109,15 @@ public class UmbrellasItems {
                                 UmbrellasTags.pattern("pattern_item/" + name),
                                 requiresDye
                         ))
+        );
+    }
+
+    @SuppressWarnings("deprecation")
+    private static BlockItem registerBlockItem(Block block) {
+        return registerItem(
+                block.getRegistryEntry().registryKey().getValue().getPath(),
+                settings -> new BlockItem(block, settings),
+                new Item.Settings().useBlockPrefixedTranslationKey()
         );
     }
 
