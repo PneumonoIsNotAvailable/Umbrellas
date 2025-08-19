@@ -1,6 +1,7 @@
 package net.pneumono.umbrellas.content.item.component;
 
 import com.google.common.collect.ImmutableList;
+import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.component.ComponentsAccess;
@@ -23,10 +24,16 @@ import java.util.function.Consumer;
 public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) implements TooltipAppender {
     public static final UmbrellaPatternsComponent DEFAULT = new UmbrellaPatternsComponent(DyeColor.GRAY, List.of());
     public static final int MAX_PATTERNS = 8;
-    public static final Codec<UmbrellaPatternsComponent> CODEC = RecordCodecBuilder.create(instance -> instance.group(
+    public static final Codec<UmbrellaPatternsComponent> MAIN_CODEC = RecordCodecBuilder.create(instance -> instance.group(
             DyeColor.CODEC.fieldOf("baseColor").forGetter(UmbrellaPatternsComponent::baseColor),
             Layer.CODEC.listOf().fieldOf("layers").forGetter(UmbrellaPatternsComponent::layers)
     ).apply(instance, UmbrellaPatternsComponent::new));
+    public static final Codec<UmbrellaPatternsComponent> COMPAT_CODEC = Layer.CODEC.listOf().xmap(layerList -> new UmbrellaPatternsComponent(DyeColor.WHITE, layerList), UmbrellaPatternsComponent::layers);
+    public static final Codec<UmbrellaPatternsComponent> CODEC = Codec.either(MAIN_CODEC, COMPAT_CODEC).xmap(either -> {
+        if (either.left().isPresent()) return either.left().get();
+        if (either.right().isPresent()) return either.right().get();
+        return null;
+    }, Either::left);
     public static final PacketCodec<RegistryByteBuf, UmbrellaPatternsComponent> PACKET_CODEC = PacketCodec.tuple(
             DyeColor.PACKET_CODEC, UmbrellaPatternsComponent::baseColor,
             Layer.PACKET_CODEC.collect(PacketCodecs.toList()), UmbrellaPatternsComponent::layers,
