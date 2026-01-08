@@ -4,9 +4,9 @@
     "compatibilityLevel": "JAVA_21",
     "client": [
         "ArmedEntityRenderStateMixin",
-        "BipedEntityModelMixin",
-        "HeldItemFeatureRendererMixin",
-        "LayersToLoadersMixin",
+        "HumanoidModelMixin",
+        "ItemInHandLayerMixin",
+        "ModelManagerMixin",
         "LoomScreenMixin"
     ],
     "injectors": {

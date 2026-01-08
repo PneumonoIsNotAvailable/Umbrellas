@@ -53,7 +53,7 @@ fabricApi {
 dependencies {
 	// To change the versions see the gradle.properties file
 	minecraft("com.mojang:minecraft:${stonecutter.current.version}")
-	mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
+	mappings(loom.officialMojangMappings())
 	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
 	// Fabric API

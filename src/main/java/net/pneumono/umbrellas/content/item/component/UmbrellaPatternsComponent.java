@@ -4,24 +4,24 @@ import com.google.common.collect.ImmutableList;
 import com.mojang.datafixers.util.Either;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentsAccess;
-import net.minecraft.item.Item;
-import net.minecraft.item.tooltip.TooltipAppender;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.network.RegistryByteBuf;
-import net.minecraft.network.codec.PacketCodec;
-import net.minecraft.network.codec.PacketCodecs;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.Holder;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.MutableComponent;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 import java.util.List;
 import java.util.function.Consumer;
 
-public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) implements TooltipAppender {
+public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) implements TooltipProvider {
     public static final UmbrellaPatternsComponent DEFAULT = new UmbrellaPatternsComponent(DyeColor.GRAY, List.of());
     public static final int MAX_PATTERNS = 8;
     public static final Codec<UmbrellaPatternsComponent> MAIN_CODEC = RecordCodecBuilder.create(instance -> instance.group(
@@ -34,9 +34,9 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
         if (either.right().isPresent()) return either.right().get();
         return null;
     }, Either::left);
-    public static final PacketCodec<RegistryByteBuf, UmbrellaPatternsComponent> PACKET_CODEC = PacketCodec.tuple(
-            DyeColor.PACKET_CODEC, UmbrellaPatternsComponent::baseColor,
-            Layer.PACKET_CODEC.collect(PacketCodecs.toList()), UmbrellaPatternsComponent::layers,
+    public static final StreamCodec<RegistryFriendlyByteBuf, UmbrellaPatternsComponent> STREAM_CODEC = StreamCodec.composite(
+            DyeColor.STREAM_CODEC, UmbrellaPatternsComponent::baseColor,
+            Layer.STREAM_CODEC.apply(ByteBufCodecs.list()), UmbrellaPatternsComponent::layers,
             UmbrellaPatternsComponent::new
     );
 
@@ -45,9 +45,9 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
     }
 
     @Override
-    public void appendTooltip(Item.TooltipContext context, Consumer<Text> textConsumer, TooltipType type, ComponentsAccess components) {
+    public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag flag, DataComponentGetter getter) {
         for (int i = 0; i < Math.min(this.layers().size(), MAX_PATTERNS); i++) {
-            textConsumer.accept(this.layers().get(i).getTooltipText().formatted(Formatting.GRAY));
+            textConsumer.accept(this.layers().get(i).getTooltipText().withStyle(ChatFormatting.GRAY));
         }
     }
 
@@ -55,7 +55,7 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
         private DyeColor baseColor = DEFAULT.baseColor();
         private final ImmutableList.Builder<Layer> entries = ImmutableList.builder();
 
-        public UmbrellaPatternsComponent.Builder add(RegistryEntry<UmbrellaPattern> pattern, DyeColor color) {
+        public UmbrellaPatternsComponent.Builder add(Holder<UmbrellaPattern> pattern, DyeColor color) {
             return this.add(new Layer(pattern, color));
         }
 
@@ -75,7 +75,7 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
         }
     }
 
-    public record Layer(RegistryEntry<UmbrellaPattern> pattern, DyeColor color) {
+    public record Layer(Holder<UmbrellaPattern> pattern, DyeColor color) {
         public static final Codec<Layer> CODEC = RecordCodecBuilder.create(
                 instance -> instance.group(
                                 UmbrellaPattern.ENTRY_CODEC.fieldOf("pattern").forGetter(Layer::pattern),
@@ -83,20 +83,20 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
                         )
                         .apply(instance, Layer::new)
         );
-        public static final PacketCodec<RegistryByteBuf, Layer> PACKET_CODEC = PacketCodec.tuple(
+        public static final StreamCodec<RegistryFriendlyByteBuf, Layer> STREAM_CODEC = StreamCodec.composite(
                 UmbrellaPattern.ENTRY_PACKET_CODEC,
                 Layer::pattern,
-                DyeColor.PACKET_CODEC,
+                DyeColor.STREAM_CODEC,
                 Layer::color,
                 Layer::new
         );
 
-        public MutableText getTooltipText() {
+        public MutableComponent getTooltipText() {
             String string = this.pattern.value().translationKey();
             if (this.pattern.value().dyeable()) {
-                return Text.translatable(string + "." + this.color.getId());
+                return Component.translatable(string + "." + this.color.getId());
             } else {
-                return Text.translatable(string);
+                return Component.translatable(string);
             }
         }
     }

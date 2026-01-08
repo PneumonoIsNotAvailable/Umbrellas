@@ -1,7 +1,7 @@
 package net.pneumono.umbrellas.mixin.client;
 
-import net.minecraft.client.render.model.BakedModelManager;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.resources.model.ModelManager;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import org.spongepowered.asm.mixin.Final;
@@ -15,20 +15,20 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import java.util.HashMap;
 import java.util.Map;
 
-@Mixin(BakedModelManager.class)
+@Mixin(ModelManager.class)
 @SuppressWarnings("unused")
-public abstract class LayersToLoadersMixin {
+public abstract class ModelManagerMixin {
     @Shadow
     @Mutable
     @Final
-    private static Map<Identifier, Identifier> LAYERS_TO_LOADERS;
+    private static Map<ResourceLocation, ResourceLocation> VANILLA_ATLASES;
 
     @Inject(
             method = "<clinit>",
             at = @At("TAIL")
     )
     private static void umbrellaPattern(CallbackInfo callbackInfo) {
-        LAYERS_TO_LOADERS = new HashMap<>(LAYERS_TO_LOADERS);
-        LAYERS_TO_LOADERS.put(UmbrellasClient.UMBRELLA_PATTERNS_ATLAS_TEXTURE, Umbrellas.id("umbrella_patterns"));
+        VANILLA_ATLASES = new HashMap<>(VANILLA_ATLASES);
+        VANILLA_ATLASES.put(UmbrellasClient.UMBRELLA_PATTERNS_ATLAS_TEXTURE, Umbrellas.id("umbrella_patterns"));
     }
 }

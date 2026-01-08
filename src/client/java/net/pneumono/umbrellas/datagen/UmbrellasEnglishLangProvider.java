@@ -2,9 +2,9 @@ package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.DyeColor;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.DyeColor;
 import net.pneumono.pneumonocore.datagen.PneumonoCoreTranslationBuilder;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasConfig;
@@ -15,12 +15,12 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
-    public UmbrellasEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-        super(dataOutput, registryLookup);
+    public UmbrellasEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> provider) {
+        super(dataOutput, provider);
     }
 
     @Override
-    public void generateTranslations(RegistryWrapper.WrapperLookup registryLookup, TranslationBuilder translationBuilder) {
+    public void generateTranslations(HolderLookup.Provider provider, TranslationBuilder translationBuilder) {
         PneumonoCoreTranslationBuilder builder = new PneumonoCoreTranslationBuilder(translationBuilder, Umbrellas.MOD_ID);
 
         builder.add(UmbrellasItems.WHITE_UMBRELLA, "White Umbrella");
@@ -74,13 +74,13 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasBlocks.MANGROVE_UMBRELLA_STAND, "Mangrove Umbrella Stand");
         builder.add(UmbrellasBlocks.BAMBOO_UMBRELLA_STAND, "Bamboo Umbrella Stand");
 
-        builder.addItemGroup(UmbrellasItems.ITEM_GROUP, "Umbrellas");
+        builder.addItemGroup(UmbrellasItems.CREATIVE_MODE_TAB, "Umbrellas");
 
-        builder.add(UmbrellasEnchantments.GLIDING.getValue().toTranslationKey("enchantment"), "Gliding");
-        builder.add(UmbrellasEnchantments.BILLOWING.getValue().toTranslationKey("enchantment"), "Billowing");
+        builder.add(UmbrellasEnchantments.GLIDING.location().toLanguageKey("enchantment"), "Gliding");
+        builder.add(UmbrellasEnchantments.BILLOWING.location().toLanguageKey("enchantment"), "Billowing");
 
-        builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toTranslationKey("stat"), "Umbrellas Cleaned");
-        builder.add(UmbrellasMisc.TIME_UMBRELLA_GLIDING.toTranslationKey("stat"), "Time Spent Gliding with Umbrella");
+        builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toLanguageKey("stat"), "Umbrellas Cleaned");
+        builder.add(UmbrellasMisc.TIME_UMBRELLA_GLIDING.toLanguageKey("stat"), "Time Spent Gliding with Umbrella");
 
         builder.add(UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND, "Umbrella placed");
         builder.add(UmbrellasMisc.UMBRELLA_STAND_PICKUP_SOUND, "Umbrella taken");
@@ -157,7 +157,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
     private void generateUmbrellaPatternTranslations(PneumonoCoreTranslationBuilder translationBuilder) {
         for (DyeColor color : DyeColor.values()) {
-            String colorId = color.getId();
+            String colorId = color.getSerializedName();
             String colorName = switch (color) {
                 case WHITE -> "White";
                 case ORANGE -> "Orange";
@@ -177,8 +177,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 case BLACK -> "Black";
             };
 
-            BiConsumer<RegistryKey<UmbrellaPattern>, String> baseBuilder = translationBuilder.createBuilder(pattern -> pattern.getValue().toTranslationKey("umbrella_pattern", colorId));
-            BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = (pattern, string) -> baseBuilder.accept(pattern, String.format(string, colorName));
+            BiConsumer<ResourceKey<UmbrellaPattern>, String> baseBuilder = translationBuilder.createBuilder(pattern -> pattern.location().toLanguageKey("umbrella_pattern", colorId));
+            BiConsumer<ResourceKey<UmbrellaPattern>, String> builder = (pattern, string) -> baseBuilder.accept(pattern, String.format(string, colorName));
 
             // These aren't consistent with vanilla's heraldry stuff, because I think it's too confusing for the average player (and a pain to learn for me)
             // I'll probably add a builtin resource pack to make it more consistent in the future
@@ -250,7 +250,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
             builder.accept(UmbrellaPatterns.THIRD_HORIZONTAL, "%s Horizontal Third");
         }
 
-        BiConsumer<RegistryKey<UmbrellaPattern>, String> builder = translationBuilder.createBuilder(pattern -> pattern.getValue().toTranslationKey("umbrella_pattern"));
+        BiConsumer<ResourceKey<UmbrellaPattern>, String> builder = translationBuilder.createBuilder(pattern -> pattern.location().toLanguageKey("umbrella_pattern"));
 
         builder.accept(UmbrellaPatterns.FLAG_AROMANTIC, "Aromantic Flag");
         builder.accept(UmbrellaPatterns.FLAG_ASEXUAL, "Asexual Flag");

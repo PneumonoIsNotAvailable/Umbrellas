@@ -1,22 +1,22 @@
 package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.data.tag.SimpleTagProvider;
-import net.minecraft.registry.RegistryWrapper;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.minecraft.core.HolderLookup;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
 
-public class UmbrellasPatternTagProvider extends SimpleTagProvider<UmbrellaPattern> {
-    public UmbrellasPatternTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+public class UmbrellasPatternTagProvider extends FabricTagProvider<UmbrellaPattern> {
+    public UmbrellasPatternTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, UmbrellaPatterns.UMBRELLA_PATTERN_KEY, registriesFuture);
     }
 
     @SuppressWarnings("unchecked")
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.Provider provider) {
         this.builder(UmbrellasTags.NO_ITEM_REQUIRED).add(
                 UmbrellaPatterns.SQUARE_BOTTOM_LEFT,
                 UmbrellaPatterns.SQUARE_BOTTOM_RIGHT,

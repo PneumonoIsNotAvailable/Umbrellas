@@ -2,9 +2,9 @@ package net.pneumono.umbrellas;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.minecraft.data.DataOutput;
-import net.minecraft.registry.RegistryBuilder;
-import net.minecraft.registry.RegistryKeys;
+import net.minecraft.core.RegistrySetBuilder;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.data.PackOutput;
 import net.pneumono.umbrellas.datagen.*;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
@@ -16,7 +16,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider((output, registriesFuture) -> new UmbrellasPatternProvider(
                 output,
                 registriesFuture,
-                DataOutput.OutputType.DATA_PACK,
+                PackOutput.Target.DATA_PACK,
                 "umbrellas/umbrella_pattern",
                 UmbrellaPattern.CODEC
         ));
@@ -32,8 +32,8 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
     }
 
     @Override
-    public void buildRegistry(RegistryBuilder registryBuilder) {
-        registryBuilder.addRegistry(RegistryKeys.ENCHANTMENT, UmbrellasEnchantmentProvider::bootstrap);
-        registryBuilder.addRegistry(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellasPatternProvider::bootstrap);
+    public void buildRegistry(RegistrySetBuilder registryBuilder) {
+        registryBuilder.add(Registries.ENCHANTMENT, UmbrellasEnchantmentProvider::bootstrap);
+        registryBuilder.add(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellasPatternProvider::bootstrap);
     }
 }

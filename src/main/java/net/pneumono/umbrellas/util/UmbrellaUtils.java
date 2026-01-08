@@ -1,19 +1,19 @@
 package net.pneumono.umbrellas.util;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.CampfireBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.tag.BlockTags;
-import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Box;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.random.Random;
-import net.minecraft.world.World;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.tags.BlockTags;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.CampfireBlock;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
+import net.minecraft.world.phys.Vec3;
 import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -31,7 +31,7 @@ public class UmbrellaUtils {
      * The shelter radius around umbrellas is intentionally much larger than expected,
      * because otherwise fitting under there (especially when moving with another player) would be really annoying.<p>
      */
-    public static boolean isUnderUmbrella(World world, BlockPos pos, boolean damageUmbrellas) {
+    public static boolean isUnderUmbrella(Level level, BlockPos pos, boolean damageUmbrellas) {
         int areaWidth = 2;
         int startY = 0;
         int endY = 10;
@@ -40,7 +40,7 @@ public class UmbrellaUtils {
             for (int y = startY; y <= endY; ++y) {
                 for (int z = -areaWidth; z <= areaWidth; ++z) {
                     BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
-                    if (world.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.getSquaredDistance(pos) <= areaWidth) {
+                    if (level.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.distSqr(pos) <= areaWidth) {
                         return true;
                     }
                 }
@@ -48,21 +48,21 @@ public class UmbrellaUtils {
         }
 
         int entityAreaWidth = 3;
-        Box box = new Box(
-                new Vec3d(pos.getX() - entityAreaWidth, pos.getY() + startY, pos.getZ() - entityAreaWidth),
-                new Vec3d(pos.getX() + entityAreaWidth, pos.getY() + endY, pos.getZ() + entityAreaWidth)
+        AABB box = new AABB(
+                new Vec3(pos.getX() - entityAreaWidth, pos.getY() + startY, pos.getZ() - entityAreaWidth),
+                new Vec3(pos.getX() + entityAreaWidth, pos.getY() + endY, pos.getZ() + entityAreaWidth)
         );
 
-        for (Entity temp : world.getOtherEntities(null, box)) {
-            if (temp instanceof LivingEntity friend && friend.getBlockPos().getSquaredDistance(pos) <= entityAreaWidth) {
-                ItemStack friendMainHandStack = friend.getMainHandStack();
-                if (friendMainHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
-                    if (damageUmbrellas) damageUmbrella(friendMainHandStack, 1, world, friend, EquipmentSlot.MAINHAND);
+        for (Entity temp : level.getEntities(null, box)) {
+            if (temp instanceof LivingEntity friend && friend.getOnPos().distSqr(pos) <= entityAreaWidth) {
+                ItemStack friendMainHandStack = friend.getMainHandItem();
+                if (friendMainHandStack.is(UmbrellasTags.UMBRELLAS)) {
+                    if (damageUmbrellas) damageUmbrella(friendMainHandStack, 1, level, friend, EquipmentSlot.MAINHAND);
                     return true;
                 }
-                ItemStack friendOffHandStack = friend.getOffHandStack();
-                if (friendOffHandStack.isIn(UmbrellasTags.UMBRELLAS)) {
-                    if (damageUmbrellas) damageUmbrella(friendOffHandStack, 1, world, friend, EquipmentSlot.OFFHAND);
+                ItemStack friendOffHandStack = friend.getOffhandItem();
+                if (friendOffHandStack.is(UmbrellasTags.UMBRELLAS)) {
+                    if (damageUmbrellas) damageUmbrella(friendOffHandStack, 1, level, friend, EquipmentSlot.OFFHAND);
                     return true;
                 }
             }
@@ -73,17 +73,17 @@ public class UmbrellaUtils {
     /**
      * Damages item stacks if {@link UmbrellasConfig#DURABILITY} is enabled, with a 20 tick cooldown.<p>
      */
-    public static void damageUmbrella(ItemStack stack, int amount, World world, LivingEntity entity, EquipmentSlot slot) {
+    public static void damageUmbrella(ItemStack stack, int amount, Level level, LivingEntity entity, EquipmentSlot slot) {
         if (!UmbrellasConfig.DURABILITY.getValue()) return;
 
-        long time = world.getTime();
+        long time = level.getGameTime();
 
         if (
-                !stack.contains(UmbrellasDataComponents.LAST_DAMAGE)
+                !stack.has(UmbrellasDataComponents.LAST_DAMAGE)
                 || stack.getOrDefault(UmbrellasDataComponents.LAST_DAMAGE, time) + 20 <= time
         ) {
             stack.set(UmbrellasDataComponents.LAST_DAMAGE, time);
-            stack.damage(amount, entity, slot);
+            stack.hurtAndBreak(amount, entity, slot);
         }
     }
 
@@ -91,24 +91,24 @@ public class UmbrellaUtils {
      * Returns whether the position is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).
      */
     @SuppressWarnings("unused")
-    public static boolean isInSmoke(World world, BlockPos blockPos) {
-        return getHeightInSmoke(world, blockPos) > 0;
+    public static boolean isInSmoke(Level level, BlockPos blockPos) {
+        return getHeightInSmoke(level, blockPos) > 0;
     }
 
     /**
      * Returns whether the position is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).<p>
-     * This method checks an additional 2 blocks below where {@link UmbrellaUtils#isInSmoke(World, BlockPos)} checks.
+     * This method checks an additional 2 blocks below where {@link UmbrellaUtils#isInSmoke(Level, BlockPos)} checks.
      */
-    public static boolean isVisuallyInSmoke(World world, BlockPos blockPos) {
-        return getHeightInSmoke(world, blockPos, 2, false) > 0;
+    public static boolean isVisuallyInSmoke(Level level, BlockPos blockPos) {
+        return getHeightInSmoke(level, blockPos, 2, false) > 0;
     }
 
     /**
      * Returns how high up the player is in a "smoke column" (can be used with Billowing enchanted items to boost upwards).<p>
      * Returns {@code -1} if the player is not in a smoke column.
      */
-    public static int getHeightInSmoke(World world, BlockPos blockPos) {
-        return getHeightInSmoke(world, blockPos, 0, false);
+    public static int getHeightInSmoke(Level level, BlockPos blockPos) {
+        return getHeightInSmoke(level, blockPos, 0, false);
     }
 
     /**
@@ -117,43 +117,43 @@ public class UmbrellaUtils {
      * Checks a number of blocks equal to {@code lenience} further than by default.
      * Will only accept blocks in
      */
-    public static int getHeightInSmoke(World world, BlockPos blockPos, int lenience, boolean usingElytra) {
+    public static int getHeightInSmoke(Level level, BlockPos blockPos, int lenience, boolean usingElytra) {
         for (int i = 0; i < 20 + lenience; ++i) {
-            BlockPos pos = blockPos.down(i);
-            BlockState state = world.getBlockState(pos);
+            BlockPos pos = blockPos.below(i);
+            BlockState state = level.getBlockState(pos);
 
-            if (state.isAir() || state.isIn(UmbrellasTags.SMOKE_PASSES_THROUGH)) continue;
+            if (state.isAir() || state.is(UmbrellasTags.SMOKE_PASSES_THROUGH)) continue;
 
-            if (state.isIn(usingElytra ? UmbrellasTags.BOOSTS_ELYTRA : UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
-                if (UmbrellasConfig.STRICT_SMOKE_BOOSTING.getValue() && state.isIn(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
+            if (state.is(usingElytra ? UmbrellasTags.BOOSTS_ELYTRA : UmbrellasTags.BOOSTS_UMBRELLAS) && isNotUnlit(state)) {
+                if (UmbrellasConfig.STRICT_SMOKE_BOOSTING.getValue() && state.is(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE)) {
                     return -1;
                 }
 
-                if (i > 5 && CampfireBlock.isLitCampfire(state) && state.get(CampfireBlock.SIGNAL_FIRE)) {
+                if (i > 5 && CampfireBlock.isLitCampfire(state) && state.getValue(CampfireBlock.SIGNAL_FIRE)) {
                     return i;
                 } else {
                     return i < 6 ? i : -1;
                 }
             }
 
-            if (state.getCollisionShape(world, pos).isEmpty()) continue;
+            if (state.getCollisionShape(level, pos).isEmpty()) continue;
 
-            List<Box> collisionBoxes = state.getCollisionShape(world, blockPos).getBoundingBoxes();
+            List<AABB> collisionBoxes = state.getCollisionShape(level, blockPos).toAabbs();
             boolean intersectsFirst = false;
             boolean intersectsSecond = false;
             boolean intersectsThird = false;
             boolean intersectsFourth = false;
-            for (Box collisionBox : collisionBoxes) {
-                if (collisionBox.intersects(new Box(0.25, 0, 0.25, 0.25, 1, 0.25))) {
+            for (AABB collisionBox : collisionBoxes) {
+                if (collisionBox.intersects(new AABB(0.25, 0, 0.25, 0.25, 1, 0.25))) {
                     intersectsFirst = true;
                 }
-                if (collisionBox.intersects(new Box(0.25, 0, 0.75, 0.25, 1, 0.75))) {
+                if (collisionBox.intersects(new AABB(0.25, 0, 0.75, 0.25, 1, 0.75))) {
                     intersectsSecond = true;
                 }
-                if (collisionBox.intersects(new Box(0.75, 0, 0.25, 0.75, 1, 0.25))) {
+                if (collisionBox.intersects(new AABB(0.75, 0, 0.25, 0.75, 1, 0.25))) {
                     intersectsThird = true;
                 }
-                if (collisionBox.intersects(new Box(0.75, 0, 0.75, 0.75, 1, 0.75))) {
+                if (collisionBox.intersects(new AABB(0.75, 0, 0.75, 0.75, 1, 0.75))) {
                     intersectsFourth = true;
                 }
             }
@@ -166,14 +166,14 @@ public class UmbrellaUtils {
     }
 
     private static boolean isNotUnlit(BlockState state) {
-        return !state.isIn(BlockTags.CAMPFIRES) || (state.contains(CampfireBlock.LIT) && state.get(CampfireBlock.LIT));
+        return !state.is(BlockTags.CAMPFIRES) || (state.hasProperty(CampfireBlock.LIT) && state.getValue(CampfireBlock.LIT));
     }
 
     /**
-     * Calls {@link UmbrellaUtils#getSlowFallingStrength(ItemStack, Random)} for {@code first}, and if that returns {@code 0}, calls it for {@code second} instead;
-     * @see UmbrellaUtils#getSlowFallingStrength(ItemStack, Random)
+     * Calls {@link UmbrellaUtils#getSlowFallingStrength(ItemStack, RandomSource)} for {@code first}, and if that returns {@code 0}, calls it for {@code second} instead;
+     * @see UmbrellaUtils#getSlowFallingStrength(ItemStack, RandomSource)
      */
-    public static int getSlowFallingStrength(ItemStack first, ItemStack second, Random random) {
+    public static int getSlowFallingStrength(ItemStack first, ItemStack second, RandomSource random) {
         int strength = UmbrellaUtils.getSlowFallingStrength(first, random);
         if (strength == 0) {
             strength = UmbrellaUtils.getSlowFallingStrength(second, random);
@@ -188,7 +188,7 @@ public class UmbrellaUtils {
      * (Usually, this is just the Gliding level)<p>
      * When set to {@link EnchantmentAbilityType#NEVER}, returns {@code 0}.<p>
      */
-    public static int getSlowFallingStrength(ItemStack stack, Random random) {
+    public static int getSlowFallingStrength(ItemStack stack, RandomSource random) {
         return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasEnchantments.SLOW_FALLING, 3, 0);
     }
 
@@ -199,14 +199,14 @@ public class UmbrellaUtils {
      * (Usually, this is just Billowing)<p>
      * When set to {@link EnchantmentAbilityType#NEVER}, returns false.<p>
      */
-    public static boolean hasSmokeBoosting(ItemStack stack, Random random) {
+    public static boolean hasSmokeBoosting(ItemStack stack, RandomSource random) {
         return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasEnchantments.SMOKE_BOOSTING, 1, 0) > 0;
     }
 
     public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
         int strength = getSlowFallingStrength(mainhand, offhand, entity.getRandom());
 
-        if (strength > 0 && entity.getVelocity().getY() <= 0.0) {
+        if (strength > 0 && entity.getDeltaMovement().y() <= 0.0) {
             return Math.min(
                     baseGravity,
                     0.04 - 0.01 * (
@@ -218,7 +218,7 @@ public class UmbrellaUtils {
     }
 
     public static float getUmbrellaFallDamageMultiplier(LivingEntity entity) {
-        int strength = getSlowFallingStrength(entity.getMainHandStack(), entity.getOffHandStack(), entity.getRandom());
+        int strength = getSlowFallingStrength(entity.getMainHandItem(), entity.getOffhandItem(), entity.getRandom());
         if (strength == 0) return 1;
 
         switch (strength) {
@@ -245,25 +245,25 @@ public class UmbrellaUtils {
         } else if (UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom())) {
             usingUmbrella = true;
             shouldTick = true;
-        } else if (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isGliding()) {
+        } else if (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isFallFlying()) {
             shouldTick = true;
         }
 
         if (!shouldTick) return;
 
-        World world = entity.getWorld();
-        BlockPos pos = entity.getBlockPos();
-        int heightInSmoke = UmbrellaUtils.getHeightInSmoke(world, pos, 0, !usingUmbrella);
+        Level level = entity.level();
+        BlockPos pos = entity.getOnPos();
+        int heightInSmoke = UmbrellaUtils.getHeightInSmoke(level, pos, 0, !usingUmbrella);
         if (heightInSmoke == -1) {
             return;
         }
 
-        if (usingUmbrella && entity instanceof ServerPlayerEntity serverPlayer) {
+        if (usingUmbrella && entity instanceof ServerPlayer serverPlayer) {
             UmbrellasMisc.SMOKE_BOOST_CRITERION.trigger(serverPlayer, usingMainHand ? mainhand : offhand, heightInSmoke);
         }
 
-        double entityVelocity = entity.getVelocity().getY() * 100;
-        boolean isGliding = entity instanceof LivingEntity living && living.isGliding();
+        double entityVelocity = entity.getDeltaMovement().y() * 100;
+        boolean isGliding = entity instanceof LivingEntity living && living.isFallFlying();
 
         double smokeVelocityBoost = 0.01 * (
                 Math.min(
@@ -272,15 +272,15 @@ public class UmbrellaUtils {
                 ) + 8
         );
 
-        entity.addVelocity(0, smokeVelocityBoost, 0);
+        entity.push(0, smokeVelocityBoost, 0);
     }
 
     public static void tickGlidingStats(Entity entity, ItemStack mainhand, ItemStack offhand) {
         if (
-                !entity.isOnGround()
-                && !(entity instanceof LivingEntity living && living.isGliding())
-                && entity.getVelocity().y < -0.1
-                && entity instanceof PlayerEntity player
+                !entity.onGround()
+                && !(entity instanceof LivingEntity living && living.isFallFlying())
+                && entity.getDeltaMovement().y() < -0.1
+                && entity instanceof Player player
         ) {
             boolean usingMainHand = true;
             int strength = getSlowFallingStrength(mainhand, player.getRandom());
@@ -290,8 +290,8 @@ public class UmbrellaUtils {
             }
             if (strength == 0) return;
 
-            player.incrementStat(UmbrellasMisc.TIME_UMBRELLA_GLIDING);
-            if (player instanceof ServerPlayerEntity serverPlayer) {
+            player.awardStat(UmbrellasMisc.TIME_UMBRELLA_GLIDING);
+            if (player instanceof ServerPlayer serverPlayer) {
                 UmbrellasMisc.TIME_GLIDING_CRITERION.trigger(serverPlayer, usingMainHand ? mainhand : offhand, entity.fallDistance);
             }
         }

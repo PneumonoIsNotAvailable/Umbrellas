@@ -2,20 +2,20 @@ package net.pneumono.umbrellas.content.item.component;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.component.ComponentsAccess;
-import net.minecraft.item.Item;
-import net.minecraft.item.tooltip.TooltipAppender;
-import net.minecraft.item.tooltip.TooltipType;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.text.Text;
-import net.minecraft.util.Formatting;
+import net.minecraft.ChatFormatting;
+import net.minecraft.core.component.DataComponentGetter;
+import net.minecraft.network.chat.Component;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipProvider;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.function.Consumer;
 
-public record ProvidesUmbrellaPatterns(TagKey<UmbrellaPattern> patterns, boolean requiresDye) implements TooltipAppender {
+public record ProvidesUmbrellaPatterns(TagKey<UmbrellaPattern> patterns, boolean requiresDye) implements TooltipProvider {
     public static final ProvidesUmbrellaPatterns DEFAULT = new ProvidesUmbrellaPatterns(UmbrellasTags.NO_ITEM_REQUIRED, true);
 
     public static final Codec<ProvidesUmbrellaPatterns> CODEC = RecordCodecBuilder.create(builder -> builder.group(
@@ -24,9 +24,9 @@ public record ProvidesUmbrellaPatterns(TagKey<UmbrellaPattern> patterns, boolean
     ).apply(builder, ProvidesUmbrellaPatterns::new));
 
     @Override
-    public void appendTooltip(Item.TooltipContext context, Consumer<Text> textConsumer, TooltipType type, ComponentsAccess components) {
+    public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag flag, DataComponentGetter getter) {
         if (!this.requiresDye) {
-            textConsumer.accept(Text.translatable("item.umbrellas.umbrella_pattern.no_dye").formatted(Formatting.GRAY));
+            textConsumer.accept(Component.translatable("item.umbrellas.umbrella_pattern.no_dye").withStyle(ChatFormatting.GRAY));
         }
     }
 }

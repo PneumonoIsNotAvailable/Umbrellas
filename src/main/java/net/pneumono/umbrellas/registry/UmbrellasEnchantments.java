@@ -1,33 +1,33 @@
 package net.pneumono.umbrellas.registry;
 
-import net.minecraft.component.ComponentType;
-import net.minecraft.enchantment.Enchantment;
-import net.minecraft.enchantment.effect.EnchantmentValueEffect;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.enchantment.Enchantment;
+import net.minecraft.world.item.enchantment.effects.EnchantmentValueEffect;
 import net.pneumono.umbrellas.Umbrellas;
 
 public class UmbrellasEnchantments {
-    public static final RegistryKey<Enchantment> GLIDING = enchantment("gliding");
-    public static final RegistryKey<Enchantment> BILLOWING = enchantment("billowing");
+    public static final ResourceKey<Enchantment> GLIDING = enchantment("gliding");
+    public static final ResourceKey<Enchantment> BILLOWING = enchantment("billowing");
 
-    public static final ComponentType<EnchantmentValueEffect> SLOW_FALLING = registerEnchantmentEffectComponentType(
+    public static final DataComponentType<EnchantmentValueEffect> SLOW_FALLING = registerEnchantmentEffectComponentType(
             "slow_falling"
     );
-    public static final ComponentType<EnchantmentValueEffect> SMOKE_BOOSTING = registerEnchantmentEffectComponentType(
+    public static final DataComponentType<EnchantmentValueEffect> SMOKE_BOOSTING = registerEnchantmentEffectComponentType(
             "smoke_boosting"
     );
 
-    private static RegistryKey<Enchantment> enchantment(String path) {
-        Identifier id = Umbrellas.id(path);
-        return RegistryKey.of(RegistryKeys.ENCHANTMENT, id);
+    private static ResourceKey<Enchantment> enchantment(String path) {
+        ResourceLocation id = Umbrellas.id(path);
+        return ResourceKey.create(Registries.ENCHANTMENT, id);
     }
 
-    private static ComponentType<EnchantmentValueEffect> registerEnchantmentEffectComponentType(String name) {
-        return Registry.register(Registries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, Umbrellas.id(name), ComponentType.<EnchantmentValueEffect>builder().codec(EnchantmentValueEffect.CODEC).build());
+    private static DataComponentType<EnchantmentValueEffect> registerEnchantmentEffectComponentType(String name) {
+        return Registry.register(BuiltInRegistries.ENCHANTMENT_EFFECT_COMPONENT_TYPE, Umbrellas.id(name), DataComponentType.<EnchantmentValueEffect>builder().persistent(EnchantmentValueEffect.CODEC).build());
     }
 
     public static void registerUmbrellasEnchantments() {

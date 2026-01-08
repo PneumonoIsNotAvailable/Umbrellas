@@ -1,10 +1,10 @@
 package net.pneumono.umbrellas.util;
 
-import net.minecraft.registry.entry.RegistryEntry;
+import net.minecraft.core.Holder;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 import java.util.List;
 
 public interface LoomScreenHandlerAccess {
-    List<RegistryEntry<UmbrellaPattern>> umbrellas$getUmbrellaPatterns();
+    List<Holder<UmbrellaPattern>> umbrellas$getUmbrellaPatterns();
 }

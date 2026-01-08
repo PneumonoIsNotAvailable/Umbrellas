@@ -2,17 +2,15 @@ package net.pneumono.umbrellas.registry;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.block.Block;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentLevelEntry;
-import net.minecraft.item.*;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.EnchantmentInstance;
+import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
@@ -76,10 +74,10 @@ public class UmbrellasItems {
     public static final Item MANGROVE_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.MANGROVE_UMBRELLA_STAND);
     public static final Item BAMBOO_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.BAMBOO_UMBRELLA_STAND);
 
-    public static final RegistryKey<ItemGroup> ITEM_GROUP = RegistryKey.of(RegistryKeys.ITEM_GROUP, Umbrellas.id(Umbrellas.MOD_ID));
+    public static final ResourceKey<CreativeModeTab> CREATIVE_MODE_TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Umbrellas.id(Umbrellas.MOD_ID));
 
     private static UmbrellaItem registerPatternableUmbrella(DyeColor color) {
-        return registerUmbrella(color.getId(), settings -> new UmbrellaItem(settings.component(
+        return registerUmbrella(color.getName(), settings -> new UmbrellaItem(settings.component(
                 UmbrellasDataComponents.UMBRELLA_PATTERNS,
                 new UmbrellaPatternsComponent(color, List.of())
         )), Rarity.COMMON);
@@ -89,11 +87,11 @@ public class UmbrellasItems {
         return registerUmbrella(name, UmbrellaItem::new, Rarity.UNCOMMON);
     }
 
-    private static <T extends UmbrellaItem> T registerUmbrella(String name, Function<Item.Settings, T> factory, Rarity rarity) {
-        Item.Settings settings = createDefaultUmbrellaSettings();
-        if (rarity != Rarity.COMMON) settings.rarity(rarity);
+    private static <T extends UmbrellaItem> T registerUmbrella(String name, Function<Item.Properties, T> factory, Rarity rarity) {
+        Item.Properties properties = createDefaultUmbrellaSettings();
+        if (rarity != Rarity.COMMON) properties.rarity(rarity);
 
-        return registerItem(name + "_umbrella", factory, settings);
+        return registerItem(name + "_umbrella", factory, properties);
     }
 
     private static Item registerUmbrellaPatternItem(String name, Rarity rarity) {
@@ -104,7 +102,7 @@ public class UmbrellasItems {
         return registerItem(
                 name + "_umbrella_pattern",
                 Item::new,
-                new Item.Settings().maxCount(1).rarity(rarity)
+                new Item.Properties().stacksTo(1).rarity(rarity)
                         .component(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS, new ProvidesUmbrellaPatterns(
                                 UmbrellasTags.pattern("pattern_item/" + name),
                                 requiresDye
@@ -115,27 +113,27 @@ public class UmbrellasItems {
     @SuppressWarnings("deprecation")
     private static BlockItem registerBlockItem(Block block) {
         return registerItem(
-                block.getRegistryEntry().registryKey().getValue().getPath(),
+                block.builtInRegistryHolder().key().location().getPath(),
                 settings -> new BlockItem(block, settings),
-                new Item.Settings().useBlockPrefixedTranslationKey()
+                new Item.Properties().useBlockDescriptionPrefix()
         );
     }
 
-    protected static <T extends Item> T registerItem(String name, Function<Item.Settings, T> factory, Item.Settings settings) {
-        RegistryKey<Item> key = RegistryKey.of(RegistryKeys.ITEM, Umbrellas.id(name));
-        return Registry.register(Registries.ITEM, key, factory.apply(settings.registryKey(key)));
+    protected static <T extends Item> T registerItem(String name, Function<Item.Properties, T> factory, Item.Properties settings) {
+        ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Umbrellas.id(name));
+        return Registry.register(BuiltInRegistries.ITEM, key, factory.apply(settings.setId(key)));
     }
 
-    private static Item.Settings createDefaultUmbrellaSettings() {
-        return new Item.Settings()
-                .maxCount(1)
-                .maxDamage(MAX_UMBRELLA_DAMAGE)
+    private static Item.Properties createDefaultUmbrellaSettings() {
+        return new Item.Properties()
+                .stacksTo(1)
+                .durability(MAX_UMBRELLA_DAMAGE)
                 .enchantable(15)
                 .repairable(UmbrellasTags.REPAIRS_UMBRELLAS);
     }
 
     public static void registerUmbrellasItems() {
-        Registries.ITEM.addAlias(Umbrellas.id("umbrella"), Umbrellas.id("white_umbrella"));
+        BuiltInRegistries.ITEM.addAlias(Umbrellas.id("umbrella"), Umbrellas.id("white_umbrella"));
 
         Item[] umbrellas = new Item[]{
                 WHITE_UMBRELLA,
@@ -188,29 +186,29 @@ public class UmbrellasItems {
                 BAMBOO_UMBRELLA_STAND
         };
 
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.TOOLS).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, patterns));
-        ItemGroupEvents.modifyEntriesEvent(ItemGroups.FUNCTIONAL).register(content -> content.addBefore(Items.OAK_SIGN, stands));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, patterns));
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(content -> content.addBefore(Items.OAK_SIGN, stands));
 
-        Registry.register(Registries.ITEM_GROUP, ITEM_GROUP, FabricItemGroup.builder()
-                .displayName(Text.translatable(ITEM_GROUP.getValue().toTranslationKey("itemGroup")))
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_MODE_TAB, FabricItemGroup.builder()
+                .title(Component.translatable(CREATIVE_MODE_TAB.location().toLanguageKey("itemGroup")))
                 .icon(() -> new ItemStack(RED_UMBRELLA))
-                .entries((displayContext, entries) -> {
+                .displayItems((displayContext, entries) -> {
                     for (Item item : umbrellas) {
-                        entries.add(item);
+                        entries.accept(item);
                     }
                     for (Item item : patterns) {
-                        entries.add(item);
+                        entries.accept(item);
                     }
                     for (Item item : stands) {
-                        entries.add(item);
+                        entries.accept(item);
                     }
-                    displayContext.lookup().getOptional(RegistryKeys.ENCHANTMENT).ifPresent(registryWrapper -> {
-                        entries.add(EnchantmentHelper.getEnchantedBookWith(
-                                new EnchantmentLevelEntry(registryWrapper.getOrThrow(UmbrellasEnchantments.GLIDING), 3)
+                    displayContext.holders().lookup(Registries.ENCHANTMENT).ifPresent(registryWrapper -> {
+                        entries.accept(EnchantmentHelper.createBook(
+                                new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.GLIDING), 3)
                         ));
-                        entries.add(EnchantmentHelper.getEnchantedBookWith(
-                                new EnchantmentLevelEntry(registryWrapper.getOrThrow(UmbrellasEnchantments.BILLOWING), 1)
+                        entries.accept(EnchantmentHelper.createBook(
+                                new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.BILLOWING), 1)
                         ));
                     });
                 }).build()

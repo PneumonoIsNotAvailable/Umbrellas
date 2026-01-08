@@ -3,11 +3,14 @@ package net.pneumono.umbrellas.datagen;
 import com.mojang.serialization.Codec;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
-import net.minecraft.data.DataOutput;
-import net.minecraft.registry.*;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.PackOutput;
+import net.minecraft.data.worldgen.BootstrapContext;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -16,8 +19,8 @@ import java.util.function.BiConsumer;
 public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPattern> {
     public UmbrellasPatternProvider(
             FabricDataOutput dataOutput,
-            CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture,
-            DataOutput.OutputType outputType,
+            CompletableFuture<HolderLookup.Provider> registriesFuture,
+            PackOutput.Target outputType,
             String directoryName,
             Codec<UmbrellaPattern> codec
     ) {
@@ -128,31 +131,31 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
     );
 
     @Override
-    protected void configure(BiConsumer<Identifier, UmbrellaPattern> provider, RegistryWrapper.WrapperLookup lookup) {
+    protected void configure(BiConsumer<ResourceLocation, UmbrellaPattern> provider, HolderLookup.Provider lookup) {
         for (Pattern pattern : PATTERNS) {
-            provider.accept(pattern.key.getValue(), pattern.pattern);
+            provider.accept(pattern.key.location(), pattern.pattern);
         }
     }
 
-    public static void bootstrap(Registerable<UmbrellaPattern> registry) {
+    public static void bootstrap(BootstrapContext<UmbrellaPattern> context) {
         for (Pattern pattern : PATTERNS) {
-            registry.register(RegistryKey.of(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, pattern.key.getValue()), pattern.pattern);
+            context.register(ResourceKey.create(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, pattern.key.location()), pattern.pattern);
         }
     }
     
-    private static Pattern create(RegistryKey<UmbrellaPattern> key) {
+    private static Pattern create(ResourceKey<UmbrellaPattern> key) {
         return create(key, true);
     }
     
-    private static Pattern create(RegistryKey<UmbrellaPattern> key, boolean dyeable) {
-        Identifier id = key.getValue();
-        return new Pattern(key, new UmbrellaPattern(id, id.toTranslationKey("umbrella_pattern"), dyeable));
+    private static Pattern create(ResourceKey<UmbrellaPattern> key, boolean dyeable) {
+        ResourceLocation id = key.location();
+        return new Pattern(key, new UmbrellaPattern(id, id.toLanguageKey("umbrella_pattern"), dyeable));
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Umbrella Patterns";
     }
 
-    private record Pattern(RegistryKey<UmbrellaPattern> key, UmbrellaPattern pattern) {}
+    private record Pattern(ResourceKey<UmbrellaPattern> key, UmbrellaPattern pattern) {}
 }

@@ -2,20 +2,20 @@ package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.ItemTags;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.tags.ItemTags;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
 
 public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider {
-    public UmbrellasItemTagProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> completableFuture) {
+    public UmbrellasItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
         super(output, completableFuture);
     }
 
     @Override
-    protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+    protected void addTags(HolderLookup.Provider provider) {
         valueLookupBuilder(UmbrellasTags.PATTERNABLE_UMBRELLAS).add(
                 UmbrellasItems.WHITE_UMBRELLA,
                 UmbrellasItems.ORANGE_UMBRELLA,

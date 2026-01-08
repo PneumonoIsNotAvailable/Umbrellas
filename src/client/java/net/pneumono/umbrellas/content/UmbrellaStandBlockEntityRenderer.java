@@ -1,16 +1,16 @@
 package net.pneumono.umbrellas.content;
 
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.WorldRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRenderer;
-import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.RotationAxis;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.World;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.math.Axis;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.LevelRenderer;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.Vec3;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlock;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
@@ -22,48 +22,48 @@ import java.util.Objects;
 public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<UmbrellaStandBlockEntity> {
     private final UmbrellaRenderer renderer;
 
-    public UmbrellaStandBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
-        this.renderer = new UmbrellaRenderer(context.getLoadedEntityModels());
+    public UmbrellaStandBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
+        this.renderer = new UmbrellaRenderer(context.getModelSet());
     }
 
     @Override
-    public void render(UmbrellaStandBlockEntity entity, float tickProgress, MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, Vec3d cameraPos) {
-        ItemStack stack = entity.getStack();
-        if (stack.isEmpty() || !stack.isIn(UmbrellasTags.UMBRELLAS)) return;
+    public void render(UmbrellaStandBlockEntity entity, float tickProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, Vec3 vec3) {
+        ItemStack stack = entity.getTheItem();
+        if (stack.isEmpty() || !stack.is(UmbrellasTags.UMBRELLAS)) return;
 
-        int lightAbove = WorldRenderer.getLightmapCoordinates(Objects.requireNonNull(entity.getWorld()), entity.getPos().up(2));
+        int lightAbove = LevelRenderer.getLightColor(Objects.requireNonNull(entity.getLevel()), entity.getBlockPos().above(2));
 
-        matrices.push();
-        matrices.translate(0.5, 0.0, 0.5);
-        float g = entity.getCachedState().get(UmbrellaStandBlock.FACING).getPositiveHorizontalDegrees();
-        matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(-g));
-        matrices.translate(-0.5, 0.0, -0.5);
-        matrices.translate(0.03125, 1.0, 0.03125);
-        if (stack.getComponents().contains(UmbrellasDataComponents.UMBRELLA_PATTERNS)) {
-            renderPatternable(matrices, vertexConsumers, lightAbove, overlay, stack);
+        poseStack.pushPose();
+        poseStack.translate(0.5, 0.0, 0.5);
+        float g = entity.getBlockState().getValue(UmbrellaStandBlock.FACING).toYRot();
+        poseStack.mulPose(Axis.YP.rotationDegrees(-g));
+        poseStack.translate(-0.5, 0.0, -0.5);
+        poseStack.translate(0.03125, 1.0, 0.03125);
+        if (stack.getComponents().has(UmbrellasDataComponents.UMBRELLA_PATTERNS)) {
+            renderPatternable(poseStack, multiBufferSource, lightAbove, overlay, stack);
         } else {
-            renderNonPatternable(matrices, vertexConsumers, lightAbove, overlay, stack, entity.getWorld());
+            renderNonPatternable(poseStack, multiBufferSource, lightAbove, overlay, stack, entity.getLevel());
         }
-        matrices.pop();
+        poseStack.popPose();
     }
 
-    private void renderPatternable(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ItemStack stack) {
+    private void renderPatternable(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, ItemStack stack) {
         this.renderer.render(
-                matrices, vertexConsumers,
+                poseStack, multiBufferSource,
                 light, overlay,
-                stack.hasGlint(), 0.0F,
+                stack.hasFoil(), 0.0F,
                 stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT)
         );
     }
 
-    private void renderNonPatternable(MatrixStack matrices, VertexConsumerProvider vertexConsumers, int light, int overlay, ItemStack stack, World world) {
-        matrices.translate(0.5, 0.5, 0.5);
-        MinecraftClient.getInstance().getItemRenderer().renderItem(
+    private void renderNonPatternable(PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, ItemStack stack, Level level) {
+        poseStack.translate(0.5, 0.5, 0.5);
+        Minecraft.getInstance().getItemRenderer().renderStatic(
                 stack,
                 ItemDisplayContext.NONE,
                 light, overlay,
-                matrices, vertexConsumers,
-                world, 0
+                poseStack, multiBufferSource,
+                level, 0
         );
     }
 }

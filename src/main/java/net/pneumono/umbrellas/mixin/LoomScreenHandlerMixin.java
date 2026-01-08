@@ -5,20 +5,19 @@ import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
-import net.minecraft.block.entity.BannerPattern;
-import net.minecraft.component.ComponentType;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
-import net.minecraft.inventory.Inventory;
-import net.minecraft.item.BannerItem;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.RegistryEntryLookup;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.registry.tag.TagKey;
-import net.minecraft.screen.*;
-import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.DyeColor;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.Container;
+import net.minecraft.world.entity.player.Inventory;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.inventory.*;
+import net.minecraft.world.item.BannerItem;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.entity.BannerPattern;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
@@ -39,15 +38,15 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
-@Mixin(LoomScreenHandler.class)
-public abstract class LoomScreenHandlerMixin extends ScreenHandler implements LoomScreenHandlerAccess {
-    protected LoomScreenHandlerMixin(@Nullable ScreenHandlerType<?> type, int syncId) {
+@Mixin(LoomMenu.class)
+public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu implements LoomScreenHandlerAccess {
+    protected LoomScreenHandlerMixin(@Nullable MenuType<?> type, int syncId) {
         super(type, syncId);
     }
 
     @Shadow
     @Final
-    Property selectedPattern;
+    DataSlot selectedBannerPatternIndex;
     @Final
     @Shadow
     Slot bannerSlot;
@@ -59,45 +58,45 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
     private Slot patternSlot;
     @Shadow
     @Final
-    private Slot outputSlot;
+    private Slot resultSlot;
     @Shadow
-    private List<RegistryEntry<BannerPattern>> bannerPatterns = List.of();
+    private List<Holder<BannerPattern>> selectablePatterns = List.of();
 
     @Unique
-    private List<RegistryEntry<UmbrellaPattern>> umbrellaPatterns = List.of();
+    private List<Holder<UmbrellaPattern>> selectableUmbrellaPatterns = List.of();
     @Unique
-    private RegistryEntryLookup<UmbrellaPattern> umbrellaPatternLookup;
+    private Registry<UmbrellaPattern> umbrellaPatternLookup;
     @Unique
     private boolean isUsingUmbrellas = false;
 
     @Inject(
-            method = "<init>(ILnet/minecraft/entity/player/PlayerInventory;Lnet/minecraft/screen/ScreenHandlerContext;)V",
+            method = "<init>(ILnet/minecraft/world/entity/player/Inventory;Lnet/minecraft/world/inventory/ContainerLevelAccess;)V",
             at = @At("RETURN")
     )
-    private void setUmbrellaPatternLookup(int syncId, PlayerInventory playerInventory, ScreenHandlerContext context, CallbackInfo ci) {
-        this.umbrellaPatternLookup = playerInventory.player.getRegistryManager().getOrThrow(UmbrellaPatterns.UMBRELLA_PATTERN_KEY);
+    private void setUmbrellaPatternLookup(int syncId, Inventory inventory, ContainerLevelAccess access, CallbackInfo ci) {
+        this.umbrellaPatternLookup = inventory.player.registryAccess().lookupOrThrow(UmbrellaPatterns.UMBRELLA_PATTERN_KEY);
     }
 
     @Inject(
-            method = "onButtonClick",
+            method = "clickMenuButton",
             at = @At("HEAD"),
             cancellable = true
     )
-    private void onButtonClick(PlayerEntity player, int id, CallbackInfoReturnable<Boolean> cir) {
+    private void onButtonClick(Player player, int id, CallbackInfoReturnable<Boolean> cir) {
         if (!this.isUsingUmbrellas) return;
 
-        if (id >= 0 && id < this.umbrellaPatterns.size()) {
-            this.selectedPattern.set(id);
-            this.updateOutputSlot(this.umbrellaPatterns.get(id));
+        if (id >= 0 && id < this.selectableUmbrellaPatterns.size()) {
+            this.selectedBannerPatternIndex.set(id);
+            this.setupResultSlot(this.selectableUmbrellaPatterns.get(id));
             cir.setReturnValue(true);
         }
     }
 
     @Unique
-    private List<RegistryEntry<UmbrellaPattern>> getUmbrellaPatternsFor(ItemStack stack) {
+    private List<Holder<UmbrellaPattern>> getSelectablePatterns(ItemStack stack) {
         if (stack.isEmpty()) {
             return this.umbrellaPatternLookup
-                    .getOptional(UmbrellasTags.NO_ITEM_REQUIRED)
+                    .get(UmbrellasTags.NO_ITEM_REQUIRED)
                     .map(ImmutableList::copyOf)
                     .orElse(ImmutableList.of());
         } else {
@@ -106,64 +105,67 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
                     ProvidesUmbrellaPatterns.DEFAULT
             ).patterns();
             if (tagKey == null) return List.of();
-            return this.umbrellaPatternLookup.getOptional(tagKey).map(ImmutableList::copyOf).orElse(ImmutableList.of());
+            return this.umbrellaPatternLookup
+                    .get(tagKey)
+                    .map(ImmutableList::copyOf)
+                    .orElse(ImmutableList.of());
         }
     }
 
     @Unique
     private boolean isUmbrellaPatternIndexValid(int index) {
-        return index >= 0 && index < this.umbrellaPatterns.size();
+        return index >= 0 && index < this.selectableUmbrellaPatterns.size();
     }
 
     @Inject(
-            method = "onContentChanged",
+            method = "slotsChanged",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void onContentChanged(Inventory inventory, CallbackInfo ci) {
-        ItemStack inputStack = this.bannerSlot.getStack();
-        ItemStack dyeStack = this.dyeSlot.getStack();
-        ItemStack patternStack = this.patternSlot.getStack();
+    public void slotsChanged(Container container, CallbackInfo ci) {
+        ItemStack inputStack = this.bannerSlot.getItem();
+        ItemStack dyeStack = this.dyeSlot.getItem();
+        ItemStack patternStack = this.patternSlot.getItem();
 
-        if (!(inputStack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS))) {
+        if (!(inputStack.is(UmbrellasTags.PATTERNABLE_UMBRELLAS))) {
             this.isUsingUmbrellas = false;
-            this.umbrellaPatterns = List.of();
+            this.selectableUmbrellaPatterns = List.of();
             return;
         }
 
-        this.bannerPatterns = List.of();
+        this.selectablePatterns = List.of();
         if (!inputStack.isEmpty()) {
             this.isUsingUmbrellas = true;
             boolean hasDye = !dyeStack.isEmpty();
 
-            int patternIndex = this.selectedPattern.get();
+            int patternIndex = this.selectedBannerPatternIndex.get();
             boolean indexValid = this.isUmbrellaPatternIndexValid(patternIndex);
 
-            List<RegistryEntry<UmbrellaPattern>> oldPatterns = this.umbrellaPatterns;
-            this.umbrellaPatterns = this.getUmbrellaPatternsFor(patternStack).stream().filter(
+            List<Holder<UmbrellaPattern>> oldPatterns = this.selectableUmbrellaPatterns;
+            this.selectableUmbrellaPatterns = this.getSelectablePatterns(patternStack).stream().filter(
                     pattern -> pattern.value().dyeable() == hasDye
             ).toList();
 
-            RegistryEntry<UmbrellaPattern> selectedPattern;
-            if (this.umbrellaPatterns.size() == 1) {
-                this.selectedPattern.set(0);
-                selectedPattern = this.umbrellaPatterns.getFirst();
+            Holder<UmbrellaPattern> selectedPattern;
+            if (this.selectableUmbrellaPatterns.size() == 1) {
+                this.selectedBannerPatternIndex.set(0);
+                selectedPattern = this.selectableUmbrellaPatterns.getFirst();
 
             } else if (!indexValid) {
-                this.selectedPattern.set(-1);
+                this.selectedBannerPatternIndex.set(-1);
                 selectedPattern = null;
 
             } else {
-                RegistryEntry<UmbrellaPattern> possiblePattern = oldPatterns.get(patternIndex);
-                int indexOfPossible = this.umbrellaPatterns.indexOf(possiblePattern);
+                Holder<UmbrellaPattern> possiblePattern = oldPatterns.get(patternIndex);
+                int indexOfPossible = this.selectableUmbrellaPatterns.indexOf(possiblePattern);
 
                 if (indexOfPossible != -1) {
                     selectedPattern = possiblePattern;
-                    this.selectedPattern.set(indexOfPossible);
+                    this.selectedBannerPatternIndex.set(indexOfPossible);
 
                 } else {
                     selectedPattern = null;
-                    this.selectedPattern.set(-1);
+                    this.selectedBannerPatternIndex.set(-1);
                 }
             }
 
@@ -174,89 +176,89 @@ public abstract class LoomScreenHandlerMixin extends ScreenHandler implements Lo
                 );
                 boolean tooManyLayers = umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS;
                 if (tooManyLayers) {
-                    this.selectedPattern.set(-1);
-                    this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
+                    this.selectedBannerPatternIndex.set(-1);
+                    this.resultSlot.setByPlayer(ItemStack.EMPTY);
                 } else {
-                    this.updateOutputSlot(selectedPattern);
+                    this.setupResultSlot(selectedPattern);
                 }
             } else {
-                this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
+                this.resultSlot.setByPlayer(ItemStack.EMPTY);
             }
 
-            this.sendContentUpdates();
+            this.broadcastChanges();
         } else {
-            this.outputSlot.setStackNoCallbacks(ItemStack.EMPTY);
+            this.resultSlot.setByPlayer(ItemStack.EMPTY);
             this.isUsingUmbrellas = false;
-            this.umbrellaPatterns = List.of();
-            this.selectedPattern.set(-1);
+            this.selectableUmbrellaPatterns = List.of();
+            this.selectedBannerPatternIndex.set(-1);
         }
 
         ci.cancel();
     }
 
     @Override
-    public List<RegistryEntry<UmbrellaPattern>> umbrellas$getUmbrellaPatterns() {
-        return umbrellaPatterns;
+    public List<Holder<UmbrellaPattern>> umbrellas$getUmbrellaPatterns() {
+        return selectableUmbrellaPatterns;
     }
 
     @WrapOperation(
-            method = "quickMove",
+            method = "quickMoveStack",
             constant = @Constant(classValue = BannerItem.class)
     )
     private boolean slotHasBannerOrUmbrella(Object object, Operation<Boolean> original, @Local(ordinal = 1) ItemStack stack) {
-        return original.call(object) || stack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS);
+        return original.call(object) || stack.is(UmbrellasTags.PATTERNABLE_UMBRELLAS);
     }
 
     @WrapOperation(
-            method = "quickMove",
+            method = "quickMoveStack",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/item/ItemStack;contains(Lnet/minecraft/component/ComponentType;)Z"
+                    target = "Lnet/minecraft/world/item/ItemStack;has(Lnet/minecraft/core/component/DataComponentType;)Z"
             )
     )
-    private boolean slotHasPatternItem(ItemStack itemStack, ComponentType<?> componentType, Operation<Boolean> original) {
-        return original.call(itemStack, componentType) || itemStack.contains(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+    private boolean slotHasPatternItem(ItemStack itemStack, DataComponentType<?> componentType, Operation<Boolean> original) {
+        return original.call(itemStack, componentType) || itemStack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
     }
 
     @Unique
-    private void updateOutputSlot(RegistryEntry<UmbrellaPattern> pattern) {
-        ItemStack inputStack = this.bannerSlot.getStack();
-        ItemStack dyeStack = this.dyeSlot.getStack();
+    private void setupResultSlot(Holder<UmbrellaPattern> pattern) {
+        ItemStack inputStack = this.bannerSlot.getItem();
+        ItemStack dyeStack = this.dyeSlot.getItem();
         ItemStack empty = ItemStack.EMPTY;
         if (!inputStack.isEmpty()) {
             empty = inputStack.copyWithCount(1);
-            DyeColor dyeColor = dyeStack.getItem() instanceof DyeItem dyeItem ? dyeItem.getColor() : DyeColor.WHITE;
-            empty.apply(
+            DyeColor dyeColor = dyeStack.getItem() instanceof DyeItem dyeItem ? dyeItem.getDyeColor() : DyeColor.WHITE;
+            empty.update(
                     UmbrellasDataComponents.UMBRELLA_PATTERNS,
                     UmbrellaPatternsComponent.DEFAULT,
                     component -> new UmbrellaPatternsComponent.Builder().copy(component).add(pattern, dyeColor).build()
             );
         }
 
-        if (!ItemStack.areEqual(empty, this.outputSlot.getStack())) {
-            this.outputSlot.setStackNoCallbacks(empty);
+        if (!ItemStack.isSameItemSameComponents(empty, this.resultSlot.getItem())) {
+            this.resultSlot.setByPlayer(empty);
         }
     }
 
-    @Mixin(targets = "net/minecraft/screen/LoomScreenHandler$3")
+    @Mixin(targets = "net/minecraft/world/inventory/LoomMenu$3")
     public static abstract class BannerSlotMixin {
         @ModifyReturnValue(
-                method = "canInsert(Lnet/minecraft/item/ItemStack;)Z",
+                method = "mayPlace",
                 at = @At("RETURN")
         )
         private boolean canInsertWithUmbrella(boolean original, ItemStack stack) {
-            return original || stack.isIn(UmbrellasTags.PATTERNABLE_UMBRELLAS);
+            return original || stack.is(UmbrellasTags.PATTERNABLE_UMBRELLAS);
         }
     }
 
-    @Mixin(targets = "net/minecraft/screen/LoomScreenHandler$5")
+    @Mixin(targets = "net/minecraft/world/inventory/LoomMenu$5")
     public static abstract class PatternSlotMixin {
         @ModifyReturnValue(
-                method = "canInsert(Lnet/minecraft/item/ItemStack;)Z",
+                method = "mayPlace",
                 at = @At("RETURN")
         )
         private boolean canInsertWithUmbrella(boolean original, ItemStack stack) {
-            return original || stack.contains(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+            return original || stack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
         }
     }
 }

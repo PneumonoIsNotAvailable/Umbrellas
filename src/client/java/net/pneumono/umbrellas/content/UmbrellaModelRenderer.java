@@ -1,16 +1,17 @@
 package net.pneumono.umbrellas.content;
 
+import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.client.render.VertexConsumerProvider;
-import net.minecraft.client.render.entity.model.LoadedEntityModels;
-import net.minecraft.client.render.item.model.special.SpecialModelRenderer;
-import net.minecraft.client.util.math.MatrixStack;
-import net.minecraft.item.ItemDisplayContext;
-import net.minecraft.item.ItemStack;
+import net.minecraft.client.model.geom.EntityModelSet;
+import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Vector3f;
 
@@ -26,7 +27,7 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
 
     @Nullable
     @Override
-    public UmbrellaPatternsComponent getData(ItemStack stack) {
+    public UmbrellaPatternsComponent extractArgument(ItemStack stack) {
         return stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
     }
 
@@ -34,15 +35,15 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
     public void render(
             @Nullable UmbrellaPatternsComponent data,
             ItemDisplayContext displayContext,
-            MatrixStack matrices,
-            VertexConsumerProvider vertexConsumers,
+            PoseStack poseStack,
+            MultiBufferSource multiBufferSource,
             int light,
             int overlay,
             boolean glint
     ) {
         this.renderer.render(
-                matrices,
-                vertexConsumers,
+                poseStack,
+                multiBufferSource,
                 light,
                 overlay,
                 glint,
@@ -52,8 +53,8 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
     }
 
     @Override
-    public void collectVertices(Set<Vector3f> vertices) {
-        this.renderer.collectVertices(vertices);
+    public void getExtents(Set<Vector3f> vertices) {
+        this.renderer.getExtentsForGui(vertices);
     }
 
     @Environment(EnvType.CLIENT)
@@ -62,12 +63,12 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
         public static final MapCodec<UmbrellaModelRenderer.Unbaked> CODEC = MapCodec.unit(INSTANCE);
 
         @Override
-        public MapCodec<UmbrellaModelRenderer.Unbaked> getCodec() {
+        public @NotNull MapCodec<UmbrellaModelRenderer.Unbaked> type() {
             return CODEC;
         }
 
         @Override
-        public SpecialModelRenderer<?> bake(LoadedEntityModels entityModels) {
+        public SpecialModelRenderer<?> bake(EntityModelSet entityModels) {
             return new UmbrellaModelRenderer(new UmbrellaRenderer(entityModels));
         }
     }

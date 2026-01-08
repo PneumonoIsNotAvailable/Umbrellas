@@ -1,9 +1,9 @@
 package net.pneumono.umbrellas.registry;
 
-import net.minecraft.block.Block;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.tag.TagKey;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 
@@ -33,15 +33,15 @@ public class UmbrellasTags {
     public static final TagKey<UmbrellaPattern> BORDURE_INDENTED = pattern("pattern_item/bordure_indented");
 
     public static TagKey<Item> item(String name) {
-        return TagKey.of(RegistryKeys.ITEM, Umbrellas.id(name));
+        return TagKey.create(Registries.ITEM, Umbrellas.id(name));
     }
 
     public static TagKey<Block> block(String name) {
-        return TagKey.of(RegistryKeys.BLOCK, Umbrellas.id(name));
+        return TagKey.create(Registries.BLOCK, Umbrellas.id(name));
     }
 
     public static TagKey<UmbrellaPattern> pattern(String name) {
-        return TagKey.of(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, Umbrellas.id(name));
+        return TagKey.create(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, Umbrellas.id(name));
     }
 
     public static void registerUmbrellasTags() {

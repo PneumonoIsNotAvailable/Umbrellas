@@ -2,11 +2,13 @@ package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.block.Block;
-import net.minecraft.client.data.*;
-import net.minecraft.client.render.item.model.ItemModel;
-import net.minecraft.item.Item;
-import net.minecraft.util.Identifier;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.UmbrellaModelRenderer;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
@@ -19,83 +21,81 @@ public class UmbrellasModelProvider extends FabricModelProvider {
         super(output);
     }
 
-    private static final Model TEMPLATE_UMBRELLA_STAND = new Model(Optional.of(Umbrellas.id("block/template_umbrella_stand")), Optional.empty(), TextureKey.TEXTURE);
+    private static final ModelTemplate TEMPLATE_UMBRELLA_STAND = new ModelTemplate(Optional.of(Umbrellas.id("block/template_umbrella_stand")), Optional.empty(), TextureSlot.TEXTURE);
 
     @Override
-    public void generateBlockStateModels(BlockStateModelGenerator generator) {
-        registerUmbrellaStand(generator, UmbrellasBlocks.OAK_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.SPRUCE_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.BIRCH_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.ACACIA_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.WARPED_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.MANGROVE_UMBRELLA_STAND);
-        registerUmbrellaStand(generator, UmbrellasBlocks.BAMBOO_UMBRELLA_STAND);
+    public void generateBlockStateModels(BlockModelGenerators generators) {
+        registerUmbrellaStand(generators, UmbrellasBlocks.OAK_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.SPRUCE_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.BIRCH_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.ACACIA_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.WARPED_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.MANGROVE_UMBRELLA_STAND);
+        registerUmbrellaStand(generators, UmbrellasBlocks.BAMBOO_UMBRELLA_STAND);
     }
 
-    private void registerUmbrellaStand(BlockStateModelGenerator generator, Block block) {
-        TextureMap textureMap = TextureMap.texture(block);
-        Identifier modelId = TEMPLATE_UMBRELLA_STAND.upload(block, textureMap, generator.modelCollector);
-        generator.blockStateCollector.accept(BlockStateModelGenerator.createSingletonBlockState(
+    private void registerUmbrellaStand(BlockModelGenerators generators, Block block) {
+        TextureMapping textureMap = TextureMapping.defaultTexture(block);
+        ResourceLocation modelId = TEMPLATE_UMBRELLA_STAND.create(block, textureMap, generators.modelOutput);
+        generators.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(
                 block,
-                BlockStateModelGenerator.createWeightedVariant(
-                        modelId
-                ))
+                BlockModelGenerators.plainVariant(modelId))
         );
-        generator.registerParentedItemModel(block, modelId);
+        generators.registerSimpleItemModel(block, modelId);
     }
 
-    private static final Model TEMPLATE_UMBRELLA = new Model(Optional.of(Umbrellas.id("item/template_umbrella")), Optional.empty());
+    private static final ModelTemplate TEMPLATE_UMBRELLA = new ModelTemplate(Optional.of(Umbrellas.id("item/template_umbrella")), Optional.empty());
 
     @Override
-    public void generateItemModels(ItemModelGenerator generator) {
-        registerPatternableUmbrella(generator, UmbrellasItems.WHITE_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.ORANGE_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.MAGENTA_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.LIGHT_BLUE_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.YELLOW_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.LIME_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.PINK_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.GRAY_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.LIGHT_GRAY_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.CYAN_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.PURPLE_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.BLUE_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.BROWN_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.GREEN_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.RED_UMBRELLA);
-        registerPatternableUmbrella(generator, UmbrellasItems.BLACK_UMBRELLA);
+    public void generateItemModels(ItemModelGenerators generators) {
+        registerPatternableUmbrella(generators, UmbrellasItems.WHITE_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.ORANGE_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.MAGENTA_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.LIGHT_BLUE_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.YELLOW_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.LIME_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.PINK_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.GRAY_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.LIGHT_GRAY_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.CYAN_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.PURPLE_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.BLUE_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.BROWN_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.GREEN_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.RED_UMBRELLA);
+        registerPatternableUmbrella(generators, UmbrellasItems.BLACK_UMBRELLA);
 
-        registerExtraUmbrella(generator, UmbrellasItems.ANIMALS_UMBRELLA);
-        registerExtraUmbrella(generator, UmbrellasItems.AZALEA_UMBRELLA);
-        registerExtraUmbrella(generator, UmbrellasItems.GALACTIC_UMBRELLA);
-        registerExtraUmbrella(generator, UmbrellasItems.GOTHIC_UMBRELLA);
-        registerExtraUmbrella(generator, UmbrellasItems.JELLYFISH_UMBRELLA);
+        registerExtraUmbrella(generators, UmbrellasItems.ANIMALS_UMBRELLA);
+        registerExtraUmbrella(generators, UmbrellasItems.AZALEA_UMBRELLA);
+        registerExtraUmbrella(generators, UmbrellasItems.GALACTIC_UMBRELLA);
+        registerExtraUmbrella(generators, UmbrellasItems.GOTHIC_UMBRELLA);
+        registerExtraUmbrella(generators, UmbrellasItems.JELLYFISH_UMBRELLA);
 
-        generator.register(UmbrellasItems.FLOWER_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.CREEPER_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.SKULL_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.MOJANG_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.FLOW_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.GUSTER_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN, Models.GENERATED);
-        generator.register(UmbrellasItems.PRIDE_UMBRELLA_PATTERN, Models.GENERATED);
+        generators.generateFlatItem(UmbrellasItems.FLOWER_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.CREEPER_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.SKULL_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.MOJANG_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.FLOW_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.GUSTER_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        generators.generateFlatItem(UmbrellasItems.PRIDE_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
     }
 
-    public void registerPatternableUmbrella(ItemModelGenerator generator, Item item) {
-        ItemModel.Unbaked unbaked = ItemModels.special(ModelIds.getItemModelId(item), new UmbrellaModelRenderer.Unbaked());
-        generator.output.accept(item, unbaked);
-        generator.upload(item, TEMPLATE_UMBRELLA);
+    public void registerPatternableUmbrella(ItemModelGenerators generators, Item item) {
+        ItemModel.Unbaked unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(item), new UmbrellaModelRenderer.Unbaked());
+        generators.itemModelOutput.accept(item, unbaked);
+        generators.generateFlatItem(item, TEMPLATE_UMBRELLA);
     }
 
-    public void registerExtraUmbrella(ItemModelGenerator generator, Item item) {
-        generator.output.accept(item, ItemModels.basic(ModelIds.getItemModelId(item)));
+    public void registerExtraUmbrella(ItemModelGenerators generators, Item item) {
+        generators.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(item)));
     }
 }

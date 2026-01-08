@@ -1,47 +1,48 @@
 package net.pneumono.umbrellas.datagen;
 
+import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
-import net.minecraft.data.recipe.RecipeExporter;
-import net.minecraft.data.recipe.RecipeGenerator;
-import net.minecraft.item.DyeItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.Items;
-import net.minecraft.recipe.book.RecipeCategory;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.DyeColor;
-import net.minecraft.util.Pair;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.data.recipes.RecipeCategory;
+import net.minecraft.data.recipes.RecipeOutput;
+import net.minecraft.data.recipes.RecipeProvider;
+import net.minecraft.world.item.DyeColor;
+import net.minecraft.world.item.DyeItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
 public class UmbrellasRecipeProvider extends FabricRecipeProvider {
-    public UmbrellasRecipeProvider(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+    public UmbrellasRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
     @Override
-    protected RecipeGenerator getRecipeGenerator(RegistryWrapper.WrapperLookup registryLookup, RecipeExporter exporter) {
-        return new UmbrellasRecipeGenerator(registryLookup, exporter);
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
+        return new UmbrellasRecipeGenerator(provider, output);
     }
 
     @Override
-    public String getName() {
+    public @NotNull String getName() {
         return "Recipes";
     }
 
-    private static class UmbrellasRecipeGenerator extends RecipeGenerator {
+    private static class UmbrellasRecipeGenerator extends RecipeProvider {
         private static final String HAS_UMBRELLA = "has_umbrella";
 
-        protected UmbrellasRecipeGenerator(RegistryWrapper.WrapperLookup registries, RecipeExporter exporter) {
-            super(registries, exporter);
+        protected UmbrellasRecipeGenerator(HolderLookup.Provider provider, RecipeOutput output) {
+            super(provider, output);
         }
 
         @Override
-        public void generate() {
+        public void buildRecipes() {
             createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA, Items.WHITE_WOOL);
             createPatternableUmbrella(UmbrellasItems.ORANGE_UMBRELLA, Items.ORANGE_WOOL);
             createPatternableUmbrella(UmbrellasItems.MAGENTA_UMBRELLA, Items.MAGENTA_WOOL);
@@ -77,7 +78,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     UmbrellasItems.RED_UMBRELLA,
                     UmbrellasItems.BLACK_UMBRELLA
             );
-            offerDyeableRecipes(Arrays.stream(DyeColor.values()).map(color -> (Item)DyeItem.byColor(color)).toList(), umbrellas, "umbrella_dye", RecipeCategory.TOOLS);
+            colorItemWithDye(Arrays.stream(DyeColor.values()).map(color -> (Item) DyeItem.byColor(color)).toList(), umbrellas, "umbrella_dye", RecipeCategory.TOOLS);
 
             createUmbrellaStand(UmbrellasItems.OAK_UMBRELLA_STAND, Items.OAK_PLANKS);
             createUmbrellaStand(UmbrellasItems.SPRUCE_UMBRELLA_STAND, Items.SPRUCE_PLANKS);
@@ -92,61 +93,61 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             createUmbrellaStand(UmbrellasItems.MANGROVE_UMBRELLA_STAND, Items.MANGROVE_PLANKS);
             createUmbrellaStand(UmbrellasItems.BAMBOO_UMBRELLA_STAND, Items.BAMBOO_PLANKS);
 
-            createShaped(RecipeCategory.TOOLS, UmbrellasItems.ANIMALS_UMBRELLA)
+            shaped(RecipeCategory.TOOLS, UmbrellasItems.ANIMALS_UMBRELLA)
                     .pattern("RAR")
                     .pattern("RUR")
                     .pattern(" S ")
-                    .input('R', Items.RED_WOOL)
-                    .input('A', Items.AXOLOTL_BUCKET)
-                    .input('U', UmbrellasTags.UMBRELLAS)
-                    .input('S', Items.STICK)
+                    .define('R', Items.RED_WOOL)
+                    .define('A', Items.AXOLOTL_BUCKET)
+                    .define('U', UmbrellasTags.UMBRELLAS)
+                    .define('S', Items.STICK)
                     .group("extra_umbrellas")
-                    .criterion(HAS_UMBRELLA, conditionsFromTag(UmbrellasTags.UMBRELLAS))
-                    .offerTo(exporter);
-            createShaped(RecipeCategory.TOOLS, UmbrellasItems.AZALEA_UMBRELLA)
+                    .unlockedBy(HAS_UMBRELLA, has(UmbrellasTags.UMBRELLAS))
+                    .save(output);
+            shaped(RecipeCategory.TOOLS, UmbrellasItems.AZALEA_UMBRELLA)
                     .pattern("MFM")
                     .pattern("MUM")
                     .pattern(" S ")
-                    .input('M', Items.MOSS_BLOCK)
-                    .input('F', Items.FLOWERING_AZALEA)
-                    .input('U', UmbrellasTags.UMBRELLAS)
-                    .input('S', Items.STICK)
+                    .define('M', Items.MOSS_BLOCK)
+                    .define('F', Items.FLOWERING_AZALEA)
+                    .define('U', UmbrellasTags.UMBRELLAS)
+                    .define('S', Items.STICK)
                     .group("extra_umbrellas")
-                    .criterion(HAS_UMBRELLA, conditionsFromTag(UmbrellasTags.UMBRELLAS))
-                    .offerTo(exporter);
-            createShaped(RecipeCategory.TOOLS, UmbrellasItems.GALACTIC_UMBRELLA)
+                    .unlockedBy(HAS_UMBRELLA, has(UmbrellasTags.UMBRELLAS))
+                    .save(output);
+            shaped(RecipeCategory.TOOLS, UmbrellasItems.GALACTIC_UMBRELLA)
                     .pattern("PEP")
                     .pattern("PUP")
                     .pattern(" S ")
-                    .input('P', Items.PURPLE_WOOL)
-                    .input('E', Items.ENDER_PEARL)
-                    .input('U', UmbrellasTags.UMBRELLAS)
-                    .input('S', Items.STICK)
+                    .define('P', Items.PURPLE_WOOL)
+                    .define('E', Items.ENDER_PEARL)
+                    .define('U', UmbrellasTags.UMBRELLAS)
+                    .define('S', Items.STICK)
                     .group("extra_umbrellas")
-                    .criterion(HAS_UMBRELLA, conditionsFromTag(UmbrellasTags.UMBRELLAS))
-                    .offerTo(exporter);
-            createShaped(RecipeCategory.TOOLS, UmbrellasItems.GOTHIC_UMBRELLA)
+                    .unlockedBy(HAS_UMBRELLA, has(UmbrellasTags.UMBRELLAS))
+                    .save(output);
+            shaped(RecipeCategory.TOOLS, UmbrellasItems.GOTHIC_UMBRELLA)
                     .pattern("BIB")
                     .pattern("BUB")
                     .pattern(" S ")
-                    .input('B', Items.BLACK_WOOL)
-                    .input('I', Items.IRON_INGOT)
-                    .input('U', UmbrellasTags.UMBRELLAS)
-                    .input('S', Items.STICK)
+                    .define('B', Items.BLACK_WOOL)
+                    .define('I', Items.IRON_INGOT)
+                    .define('U', UmbrellasTags.UMBRELLAS)
+                    .define('S', Items.STICK)
                     .group("extra_umbrellas")
-                    .criterion(HAS_UMBRELLA, conditionsFromTag(UmbrellasTags.UMBRELLAS))
-                    .offerTo(exporter);
-            createShaped(RecipeCategory.TOOLS, UmbrellasItems.JELLYFISH_UMBRELLA)
+                    .unlockedBy(HAS_UMBRELLA, has(UmbrellasTags.UMBRELLAS))
+                    .save(output);
+            shaped(RecipeCategory.TOOLS, UmbrellasItems.JELLYFISH_UMBRELLA)
                     .pattern("LKL")
                     .pattern("LUL")
                     .pattern(" S ")
-                    .input('L', Items.LIGHT_BLUE_STAINED_GLASS)
-                    .input('K', Items.KELP)
-                    .input('U', UmbrellasTags.UMBRELLAS)
-                    .input('S', Items.STICK)
+                    .define('L', Items.LIGHT_BLUE_STAINED_GLASS)
+                    .define('K', Items.KELP)
+                    .define('U', UmbrellasTags.UMBRELLAS)
+                    .define('S', Items.STICK)
                     .group("extra_umbrellas")
-                    .criterion(HAS_UMBRELLA, conditionsFromTag(UmbrellasTags.UMBRELLAS))
-                    .offerTo(exporter);
+                    .unlockedBy(HAS_UMBRELLA, has(UmbrellasTags.UMBRELLAS))
+                    .save(output);
 
             List<Pair<Item, Item>> patterns = List.of(
                     new Pair<>(Items.GLOBE_BANNER_PATTERN, UmbrellasItems.GLOBE_UMBRELLA_PATTERN),
@@ -162,50 +163,50 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             );
 
             for (Pair<Item, Item> pair : patterns) {
-                createShapeless(RecipeCategory.MISC, pair.getRight())
-                        .input(pair.getLeft())
-                        .criterion(hasItem(pair.getLeft()), conditionsFromItem(pair.getLeft()))
+                shapeless(RecipeCategory.MISC, pair.getSecond())
+                        .requires(pair.getFirst())
+                        .unlockedBy(getItemName(pair.getFirst()), has(pair.getFirst()))
                         .group("banner_to_umbrella")
-                        .offerTo(exporter);
+                        .save(output);
 
-                createShapeless(RecipeCategory.MISC, pair.getLeft())
-                        .input(pair.getRight())
-                        .criterion(hasItem(pair.getRight()), conditionsFromItem(pair.getRight()))
+                shapeless(RecipeCategory.MISC, pair.getFirst())
+                        .requires(pair.getSecond())
+                        .unlockedBy(getItemName(pair.getSecond()), has(pair.getSecond()))
                         .group("umbrella_to_banner")
-                        .offerTo(exporter);
+                        .save(output);
             }
 
-            createShapeless(RecipeCategory.MISC, UmbrellasItems.PRIDE_UMBRELLA_PATTERN)
-                    .input(Items.PAPER)
-                    .input(Items.GLOW_INK_SAC)
-                    .criterion(hasItem(Items.GLOW_INK_SAC), conditionsFromItem(Items.GLOW_INK_SAC))
-                    .offerTo(exporter);
+            shapeless(RecipeCategory.MISC, UmbrellasItems.PRIDE_UMBRELLA_PATTERN)
+                    .requires(Items.PAPER)
+                    .requires(Items.GLOW_INK_SAC)
+                    .unlockedBy(getItemName(Items.GLOW_INK_SAC), has(Items.GLOW_INK_SAC))
+                    .save(output);
         }
         
         private void createPatternableUmbrella(Item umbrella, Item wool) {
-            createShaped(RecipeCategory.TOOLS, umbrella)
+            shaped(RecipeCategory.TOOLS, umbrella)
                     .pattern("WLW")
                     .pattern("LSL")
                     .pattern(" S ")
-                    .input('W', wool)
-                    .input('L', Items.LEATHER)
-                    .input('S', Items.STICK)
+                    .define('W', wool)
+                    .define('L', Items.LEATHER)
+                    .define('S', Items.STICK)
                     .group("umbrella")
-                    .criterion(hasItem(Items.LEATHER), conditionsFromItem(Items.LEATHER))
-                    .criterion(hasItem(Items.STICK), conditionsFromItem(Items.STICK))
-                    .offerTo(exporter);
+                    .unlockedBy(getItemName(Items.LEATHER), has(Items.LEATHER))
+                    .unlockedBy(getItemName(Items.STICK), has(Items.STICK))
+                    .save(output);
         }
 
         private void createUmbrellaStand(Item stand, Item planks) {
-            createShaped(RecipeCategory.DECORATIONS, stand)
+            shaped(RecipeCategory.DECORATIONS, stand)
                     .pattern("P")
                     .pattern("S")
                     .pattern("P")
-                    .input('P', planks)
-                    .input('S', Items.STICK)
+                    .define('P', planks)
+                    .define('S', Items.STICK)
                     .group("umbrella_stand")
-                    .criterion(hasItem(planks), conditionsFromItem(planks))
-                    .offerTo(exporter);
+                    .unlockedBy(getItemName(planks), has(planks))
+                    .save(output);
         }
     }
 }

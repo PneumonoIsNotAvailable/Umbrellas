@@ -2,10 +2,10 @@ package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
-import net.minecraft.util.Identifier;
+import net.minecraft.resources.ResourceLocation;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
-import net.pneumono.umbrellas.registry.UmbrellaCauldronBehavior;
+import net.pneumono.umbrellas.registry.UmbrellaCauldronInteraction;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -28,10 +28,10 @@ public class Umbrellas implements ModInitializer {
 		UmbrellasMisc.registerUmbrellasMisc();
 		UmbrellaPatterns.registerUmbrellasPatterns();
 
-		UmbrellaCauldronBehavior.registerCauldronBehavior();
+		UmbrellaCauldronInteraction.registerCauldronBehavior();
 	}
 
-	public static Identifier id(String path) {
-		return Identifier.of(MOD_ID, path);
+	public static ResourceLocation id(String path) {
+		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

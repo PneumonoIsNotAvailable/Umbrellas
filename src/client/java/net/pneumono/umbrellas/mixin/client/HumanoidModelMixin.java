@@ -1,8 +1,8 @@
 package net.pneumono.umbrellas.mixin.client;
 
-import net.minecraft.client.model.ModelPart;
-import net.minecraft.client.render.entity.model.BipedEntityModel;
-import net.minecraft.client.render.entity.state.BipedEntityRenderState;
+import net.minecraft.client.model.HumanoidModel;
+import net.minecraft.client.model.geom.ModelPart;
+import net.minecraft.client.renderer.entity.state.HumanoidRenderState;
 import net.pneumono.umbrellas.util.ArmsUtil;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -11,28 +11,28 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-@Mixin(BipedEntityModel.class)
-public abstract class BipedEntityModelMixin {
+@Mixin(HumanoidModel.class)
+public abstract class HumanoidModelMixin {
     @Shadow
     public @Final ModelPart rightArm;
     @Shadow
     public @Final ModelPart leftArm;
 
     @Inject(
-            method = "positionLeftArm",
+            method = "poseLeftArm",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void leftArmUmbrella(BipedEntityRenderState state, BipedEntityModel.ArmPose armPose, CallbackInfo ci) {
+    public void leftArmUmbrella(HumanoidRenderState state, HumanoidModel.ArmPose armPose, CallbackInfo ci) {
         if (ArmsUtil.positionLeftArm(this.leftArm, state)) ci.cancel();
     }
 
     @Inject(
-            method = "positionRightArm",
+            method = "poseRightArm",
             at = @At("HEAD"),
             cancellable = true
     )
-    public void rightArmUmbrella(BipedEntityRenderState state, BipedEntityModel.ArmPose armPose, CallbackInfo ci) {
+    public void rightArmUmbrella(HumanoidRenderState state, HumanoidModel.ArmPose armPose, CallbackInfo ci) {
         if (ArmsUtil.positionRightArm(this.rightArm, state)) ci.cancel();
     }
 }
