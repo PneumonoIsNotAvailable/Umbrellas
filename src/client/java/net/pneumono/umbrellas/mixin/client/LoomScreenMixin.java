@@ -76,7 +76,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     )
     private int getRows(List<Holder<BannerPattern>> instance, Operation<Integer> original) {
         if (this.isUsingUmbrellas) {
-            return ((LoomScreenHandlerAccess)this.menu).umbrellas$getUmbrellaPatterns().size();
+            return ((LoomScreenHandlerAccess)this.menu).getUmbrellaPatterns().size();
         } else {
             return original.call(instance);
         }
@@ -114,7 +114,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
         if (!this.displayPatterns) return;
         int offX = x + 60;
         int offY = y + 13;
-        List<Holder<UmbrellaPattern>> list = ((LoomScreenHandlerAccess)this.menu).umbrellas$getUmbrellaPatterns();
+        List<Holder<UmbrellaPattern>> list = ((LoomScreenHandlerAccess)this.menu).getUmbrellaPatterns();
 
         loop:
         for (int i = 0; i < 4; i++) {
@@ -149,7 +149,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             method = "renderBg",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
             ),
             index = 1
     )
@@ -254,6 +254,6 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             )
     )
     private boolean hasPatterns(List<Holder<BannerPattern>> bannerPatterns, Operation<Boolean> original) {
-        return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.menu).umbrellas$getUmbrellaPatterns().isEmpty();
+        return original.call(bannerPatterns) && ((LoomScreenHandlerAccess)this.menu).getUmbrellaPatterns().isEmpty();
     }
 }

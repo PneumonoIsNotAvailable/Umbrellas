@@ -67,29 +67,29 @@ public class LoomUmbrellaRendering {
         float width = sprite.getU1() - sprite.getU0();
         float height = sprite.getV1() - sprite.getV0();
 
-        int u1 = (int) (sprite.getU0() + width * 21F / 128F);
-        int u2 = (int) (u1 + width * 21F / 128F);
+        float u1 = sprite.getU0() + width * 21F / 128F;
+        float u2 = u1 + width * 21F / 128F;
 
-        int v1 = (int) (sprite.getV0() + height * 0F / 128F);
-        int v2 = (int) (v1 + height * 21F / 128F);
+        float v1 = sprite.getV0() + height * 0F / 128F;
+        float v2 = v1 + height * 21F / 128;
 
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), 0, 21, 0, 21, u1, u2, v1, v2, color);
+        graphics.innerBlit(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), 0, 21, 0, 21, u1, u2, v1, v2, color);
 
-        u1 = (int) (sprite.getU0() + width * 19F / 128F);
-        u2 = (int) (u1 + width * 19F / 128F);
+        u1 = sprite.getU0() + width * 19F / 128F;
+        u2 = u1 + width * 19F / 128F;
 
-        v1 = (int) (sprite.getV0() + height * 24F / 128F);
-        v2 = (int) (v1 + height * 19F / 128F);
+        v1 = sprite.getV0() + height * 24F / 128F;
+        v2 = v1 + height * 19F / 128F;
 
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), 1, 20, 1, 20, u1, u2, v1, v2, color);
+        graphics.innerBlit(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), 1, 20, 1, 20, u1, u2, v1, v2, color);
 
-        u1 = (int) (sprite.getU0() + width * 15F / 128F);
-        u2 = (int) (u1 + width * 15F / 128F);
+        u1 = sprite.getU0() + width * 15F / 128F;
+        u2 = u1 + width * 15F / 128F;
 
-        v1 = (int) (sprite.getV0() + height * 46F / 128F);
-        v2 = (int) (v1 + height * 15F / 128F);
+        v1 = sprite.getV0() + height * 46F / 128F;
+        v2 = v1 + height * 15F / 128F;
 
-        graphics.blitSprite(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), 3, 18, 3, 18, u1, u2, v1, v2, color);
+        graphics.innerBlit(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), 3, 18, 3, 18, u1, u2, v1, v2, color);
 
         matrices.popMatrix();
     }

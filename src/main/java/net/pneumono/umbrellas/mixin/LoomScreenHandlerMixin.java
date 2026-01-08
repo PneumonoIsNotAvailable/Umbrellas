@@ -196,8 +196,10 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
         ci.cancel();
     }
 
+    @SuppressWarnings("AddedMixinMembersNamePattern")
+    @Unique
     @Override
-    public List<Holder<UmbrellaPattern>> umbrellas$getUmbrellaPatterns() {
+    public List<Holder<UmbrellaPattern>> getUmbrellaPatterns() {
         return selectableUmbrellaPatterns;
     }
 

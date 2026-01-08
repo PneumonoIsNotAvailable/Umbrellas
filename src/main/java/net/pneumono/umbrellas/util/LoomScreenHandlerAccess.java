@@ -6,5 +6,5 @@ import net.pneumono.umbrellas.content.UmbrellaPattern;
 import java.util.List;
 
 public interface LoomScreenHandlerAccess {
-    List<Holder<UmbrellaPattern>> umbrellas$getUmbrellaPatterns();
+    List<Holder<UmbrellaPattern>> getUmbrellaPatterns();
 }

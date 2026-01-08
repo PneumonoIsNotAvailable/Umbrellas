@@ -94,7 +94,7 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
         public MutableComponent getTooltipText() {
             String string = this.pattern.value().translationKey();
             if (this.pattern.value().dyeable()) {
-                return Component.translatable(string + "." + this.color.getId());
+                return Component.translatable(string + "." + this.color.getName());
             } else {
                 return Component.translatable(string);
             }
