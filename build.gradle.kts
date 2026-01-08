@@ -3,12 +3,13 @@ plugins {
 	id("maven-publish")
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_21
-java.targetCompatibility = JavaVersion.VERSION_21
+val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
+	JavaVersion.VERSION_21 else JavaVersion.VERSION_17
+java.targetCompatibility = javaVersion
+java.sourceCompatibility = javaVersion
 
-version = "${project.property("mod_version")}"
-
-base.archivesName.set(project.property("archives_base_name") as String)
+base.archivesName.set(project.property("mod_id") as String)
+version = "${project.property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
 
 repositories {
 	// Mod Menu
@@ -26,7 +27,8 @@ repositories {
 }
 
 loom {
-	accessWidenerPath = file("src/main/resources/umbrellas.accesswidener")
+	val awFile = rootProject.file("src/main/resources/umbrellas.accesswidener")
+	accessWidenerPath = sc.process(awFile, "build/processed.aw")
 
     splitEnvironmentSourceSets()
 
@@ -35,6 +37,10 @@ loom {
 			sourceSet(sourceSets["main"])
 			sourceSet(sourceSets["client"])
 		}
+	}
+
+	runConfigs.all {
+		ideConfigGenerated(true)
 	}
 }
 
@@ -46,7 +52,7 @@ fabricApi {
 
 dependencies {
 	// To change the versions see the gradle.properties file
-	minecraft("com.mojang:minecraft:${property("minecraft_version")}")
+	minecraft("com.mojang:minecraft:${stonecutter.current.version}")
 	mappings("net.fabricmc:yarn:${property("yarn_mappings")}:v2")
 	modImplementation("net.fabricmc:fabric-loader:${property("loader_version")}")
 
@@ -63,18 +69,23 @@ dependencies {
 tasks {
 	processResources {
 		inputs.property("version", project.property("mod_version"))
+		inputs.property("min_supported", project.property("min_supported_version"))
+		inputs.property("max_supported", project.property("max_supported_version"))
 
 		filesMatching("fabric.mod.json") {
 			expand(
 				mutableMapOf(
-					"version" to project.property("mod_version")
+					"version" to project.property("mod_version"),
+					"min_supported" to project.property("min_supported_version"),
+					"max_supported" to project.property("max_supported_version")
 				)
 			)
 		}
 	}
 
 	withType<JavaCompile> {
-		options.release.set(21)
+		val java = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) 21 else 17
+		options.release.set(java)
 	}
 
 	java {
