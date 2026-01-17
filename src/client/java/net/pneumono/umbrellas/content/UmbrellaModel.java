@@ -12,7 +12,7 @@ import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 //?} else {
 /*import net.minecraft.client.renderer.RenderType;
- *///?}
+*///?}
 
 //? if >=1.21.9 {
 import net.minecraft.util.Unit;
@@ -23,7 +23,7 @@ public abstract class UmbrellaModel extends /*? if >=1.21.9 {*/Model<Unit>/*?} e
     public static final String CANOPY = "canopy";
 
     public UmbrellaModel(ModelPart root) {
-        super(root, /* if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/);
+        super(root, /*? if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/);
     }
 
     public static class Handle extends UmbrellaModel {

@@ -18,7 +18,7 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
 
-//?} if >=1.21.11 {
+//? if >=1.21.11 {
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.npc.villager.VillagerTrades;
 //?} else {

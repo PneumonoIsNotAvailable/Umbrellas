@@ -71,7 +71,7 @@ public class UmbrellaRenderer {
         Material material = UmbrellasClient.UMBRELLA_BASE;
         collector.submitModel(
                 this.handleModel, Unit.INSTANCE, poseStack,
-                material.renderType(/* if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
+                material.renderType(/*? if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
                 light, overlay, -1,
                 materialSet.get(material), 0,
                 crumblingOverlay
@@ -91,7 +91,7 @@ public class UmbrellaRenderer {
     ) {
         collector.submitModel(
                 this.canopyModel, Unit.INSTANCE, poseStack,
-                material.renderType(/* if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
+                material.renderType(/*? if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
                 light, overlay, -1,
                 this.materialSet.get(material), 0,
                 crumblingOverlay
@@ -126,7 +126,7 @@ public class UmbrellaRenderer {
     ) {
         collector.submitModel(
                 this.canopyModel, Unit.INSTANCE, poseStack,
-                material.renderType(/* if >=1.21.11 {*/RenderTypes::entityNoOutline/*?} else {*//*RenderType::entityNoOutline*//*?}*/),
+                material.renderType(/*? if >=1.21.11 {*/RenderTypes::entityNoOutline/*?} else {*//*RenderType::entityNoOutline*//*?}*/),
                 light, overlay, color, this.materialSet.get(material), 0, crumblingOverlay
         );
     }
