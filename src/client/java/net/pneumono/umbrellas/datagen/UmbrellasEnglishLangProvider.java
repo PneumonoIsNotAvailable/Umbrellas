@@ -10,6 +10,7 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
+import net.pneumono.umbrellas.util.VersionUtil;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
@@ -76,8 +77,8 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.addItemGroup(UmbrellasItems.CREATIVE_MODE_TAB, "Umbrellas");
 
-        builder.add(UmbrellasEnchantments.GLIDING.location().toLanguageKey("enchantment"), "Gliding");
-        builder.add(UmbrellasEnchantments.BILLOWING.location().toLanguageKey("enchantment"), "Billowing");
+        builder.add(VersionUtil.identifier(UmbrellasEnchantments.GLIDING).toLanguageKey("enchantment"), "Gliding");
+        builder.add(VersionUtil.identifier(UmbrellasEnchantments.BILLOWING).toLanguageKey("enchantment"), "Billowing");
 
         builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toLanguageKey("stat"), "Umbrellas Cleaned");
         builder.add(UmbrellasMisc.TIME_UMBRELLA_GLIDING.toLanguageKey("stat"), "Time Spent Gliding with Umbrella");
@@ -177,7 +178,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 case BLACK -> "Black";
             };
 
-            BiConsumer<ResourceKey<UmbrellaPattern>, String> baseBuilder = translationBuilder.createBuilder(pattern -> pattern.location().toLanguageKey("umbrella_pattern", colorId));
+            BiConsumer<ResourceKey<UmbrellaPattern>, String> baseBuilder = translationBuilder.createBuilder(pattern -> VersionUtil.identifier(pattern).toLanguageKey("umbrella_pattern", colorId));
             BiConsumer<ResourceKey<UmbrellaPattern>, String> builder = (pattern, string) -> baseBuilder.accept(pattern, String.format(string, colorName));
 
             // These aren't consistent with vanilla's heraldry stuff, because I think it's too confusing for the average player (and a pain to learn for me)
@@ -250,7 +251,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
             builder.accept(UmbrellaPatterns.THIRD_HORIZONTAL, "%s Horizontal Third");
         }
 
-        BiConsumer<ResourceKey<UmbrellaPattern>, String> builder = translationBuilder.createBuilder(pattern -> pattern.location().toLanguageKey("umbrella_pattern"));
+        BiConsumer<ResourceKey<UmbrellaPattern>, String> builder = translationBuilder.createBuilder(pattern -> VersionUtil.identifier(pattern).toLanguageKey("umbrella_pattern"));
 
         builder.accept(UmbrellaPatterns.FLAG_AROMANTIC, "Aromantic Flag");
         builder.accept(UmbrellaPatterns.FLAG_ASEXUAL, "Asexual Flag");

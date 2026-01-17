@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 //?} else {
 /*import net.minecraft.client.resources.model.ModelManager;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import java.util.HashMap;
 import java.util.Map;
 *///?}
@@ -46,7 +46,7 @@ public abstract class UmbrellaAtlasMixin {
     /*@Shadow
     @Mutable
     @Final
-    private static Map<ResourceLocation, ResourceLocation> VANILLA_ATLASES;
+    private static Map<Identifier, Identifier> VANILLA_ATLASES;
 
     @Inject(
             method = "<clinit>",

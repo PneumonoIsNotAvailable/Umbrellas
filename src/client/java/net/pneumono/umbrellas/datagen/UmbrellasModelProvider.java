@@ -6,7 +6,7 @@ import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
 import net.minecraft.client.data.models.model.*;
 import net.minecraft.client.renderer.item.ItemModel;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
@@ -41,7 +41,7 @@ public class UmbrellasModelProvider extends FabricModelProvider {
 
     private void registerUmbrellaStand(BlockModelGenerators generators, Block block) {
         TextureMapping textureMap = TextureMapping.defaultTexture(block);
-        ResourceLocation modelId = TEMPLATE_UMBRELLA_STAND.create(block, textureMap, generators.modelOutput);
+        Identifier modelId = TEMPLATE_UMBRELLA_STAND.create(block, textureMap, generators.modelOutput);
         generators.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(
                 block,
                 BlockModelGenerators.plainVariant(modelId))

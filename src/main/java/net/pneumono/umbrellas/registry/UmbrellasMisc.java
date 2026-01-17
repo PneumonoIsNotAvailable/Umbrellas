@@ -5,12 +5,10 @@ import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.stats.StatFormatter;
 import net.minecraft.stats.Stats;
-import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
@@ -20,12 +18,20 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
 
+//?} if >=1.21.11 {
+import net.minecraft.world.entity.npc.villager.VillagerProfession;
+import net.minecraft.world.entity.npc.villager.VillagerTrades;
+//?} else {
+/*import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+*///?}
+
 public class UmbrellasMisc {
     public static final SmokeBoostCriterion SMOKE_BOOST_CRITERION = registerCriterion("smoke_boost", new SmokeBoostCriterion());
     public static final TimeGlidingCriterion TIME_GLIDING_CRITERION = registerCriterion("time_gliding", new TimeGlidingCriterion());
 
-    public static final ResourceLocation CLEAN_UMBRELLA = registerStat("clean_umbrella", StatFormatter.DEFAULT);
-    public static final ResourceLocation TIME_UMBRELLA_GLIDING = registerStat("time_umbrella_gliding", StatFormatter.TIME);
+    public static final Identifier CLEAN_UMBRELLA = registerStat("clean_umbrella", StatFormatter.DEFAULT);
+    public static final Identifier TIME_UMBRELLA_GLIDING = registerStat("time_umbrella_gliding", StatFormatter.TIME);
 
     public static final SoundEvent UMBRELLA_STAND_INSERT_SOUND = registerSoundEvent("block.umbrella_stand.insert");
     public static final SoundEvent UMBRELLA_STAND_PICKUP_SOUND = registerSoundEvent("block.umbrella_stand.pickup");
@@ -34,15 +40,15 @@ public class UmbrellasMisc {
         return Registry.register(BuiltInRegistries.TRIGGER_TYPES, Umbrellas.id(name), criterion);
     }
 
-    private static ResourceLocation registerStat(String name, StatFormatter format) {
-        ResourceLocation id = Umbrellas.id(name);
+    private static Identifier registerStat(String name, StatFormatter format) {
+        Identifier id = Umbrellas.id(name);
         Registry.register(BuiltInRegistries.CUSTOM_STAT, name, id);
         Stats.CUSTOM.get(id, format);
         return id;
     }
 
     private static SoundEvent registerSoundEvent(String name) {
-        ResourceLocation id = Umbrellas.id(name);
+        Identifier id = Umbrellas.id(name);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, id, SoundEvent.createVariableRangeEvent(id));
     }
 

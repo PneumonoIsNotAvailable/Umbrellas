@@ -6,6 +6,7 @@ import net.minecraft.client.renderer.entity.layers.ItemInHandLayer;
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
 import net.minecraft.world.entity.HumanoidArm;
+import net.minecraft.world.item.ItemStack;
 import net.pneumono.umbrellas.util.ArmsUtil;
 import net.pneumono.umbrellas.util.UmbrellaHoldingEntityRenderState;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,7 +30,9 @@ public abstract class ItemInHandLayerMixin {
             )
     )
     public void adjustMatrixForUmbrella(
-            ArmedEntityRenderState entityState, ItemStackRenderState itemState, HumanoidArm arm, PoseStack poseStack,
+            ArmedEntityRenderState entityState,
+            ItemStackRenderState itemState/*? if >=1.21.11 {*/, ItemStack stack/*?}*/,
+            HumanoidArm arm, PoseStack poseStack,
             /*? if >=1.21.9 {*/SubmitNodeCollector submitNodeCollector/*?} else {*//*MultiBufferSource multiBufferSource*//*?}*/,
             int light, CallbackInfo ci
     ) {

@@ -3,10 +3,9 @@ package net.pneumono.umbrellas.content;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
@@ -15,6 +14,13 @@ import org.joml.Vector3f;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.Consumer;
+
+//? if >=1.21.11 {
+import net.minecraft.client.renderer.rendertype.RenderTypes;
+//?} else {
+/*import net.minecraft.client.renderer.RenderType;
+*///?}
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -22,13 +28,14 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
+import org.joml.Vector3fc;
 //?} else {
 /*import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
 *///?}
 
 public class UmbrellaRenderer {
-    public static final Map<ResourceLocation, Material> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
+    public static final Map<Identifier, Material> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
 
     //? if >=1.21.9
     private final MaterialSet materialSet;
@@ -64,7 +71,7 @@ public class UmbrellaRenderer {
         Material material = UmbrellasClient.UMBRELLA_BASE;
         collector.submitModel(
                 this.handleModel, Unit.INSTANCE, poseStack,
-                material.renderType(RenderType::entitySolid),
+                material.renderType(/* if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
                 light, overlay, -1,
                 materialSet.get(material), 0,
                 crumblingOverlay
@@ -84,7 +91,7 @@ public class UmbrellaRenderer {
     ) {
         collector.submitModel(
                 this.canopyModel, Unit.INSTANCE, poseStack,
-                material.renderType(RenderType::entitySolid),
+                material.renderType(/* if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
                 light, overlay, -1,
                 this.materialSet.get(material), 0,
                 crumblingOverlay
@@ -118,7 +125,8 @@ public class UmbrellaRenderer {
             @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
     ) {
         collector.submitModel(
-                this.canopyModel, Unit.INSTANCE, poseStack, material.renderType(RenderType::entityNoOutline),
+                this.canopyModel, Unit.INSTANCE, poseStack,
+                material.renderType(/* if >=1.21.11 {*/RenderTypes::entityNoOutline/*?} else {*//*RenderType::entityNoOutline*//*?}*/),
                 light, overlay, color, this.materialSet.get(material), 0, crumblingOverlay
         );
     }
@@ -180,10 +188,10 @@ public class UmbrellaRenderer {
     }
     *///?}
 
-    public void getExtentsForGui(Set<Vector3f> vertices) {
+    public void getExtentsForGui(/*? if >=1.21.11 {*/Consumer<Vector3fc> consumer/*?} else {*//*Set<Vector3f> vertices*//*?}*/) {
         PoseStack poseStack = new PoseStack();
         poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
-        this.handleModel.root().getExtentsForGui(poseStack, vertices);
-        this.canopyModel.root().getExtentsForGui(poseStack, vertices);
+        this.handleModel.root().getExtentsForGui(poseStack, consumer);
+        this.canopyModel.root().getExtentsForGui(poseStack, consumer);
     }
 }

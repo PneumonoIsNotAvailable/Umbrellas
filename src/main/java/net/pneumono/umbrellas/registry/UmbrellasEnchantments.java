@@ -5,7 +5,7 @@ import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.effects.EnchantmentValueEffect;
 import net.pneumono.umbrellas.Umbrellas;
@@ -22,7 +22,7 @@ public class UmbrellasEnchantments {
     );
 
     private static ResourceKey<Enchantment> enchantment(String path) {
-        ResourceLocation id = Umbrellas.id(path);
+        Identifier id = Umbrellas.id(path);
         return ResourceKey.create(Registries.ENCHANTMENT, id);
     }
 

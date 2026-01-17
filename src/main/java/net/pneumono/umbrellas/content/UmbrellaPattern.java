@@ -7,19 +7,19 @@ import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 
-public record UmbrellaPattern(ResourceLocation assetId, String translationKey, boolean dyeable) {
+public record UmbrellaPattern(Identifier assetId, String translationKey, boolean dyeable) {
     public static final Codec<UmbrellaPattern> CODEC = RecordCodecBuilder.create(
             instance -> instance.group(
-                    ResourceLocation.CODEC.fieldOf("asset_id").forGetter(UmbrellaPattern::assetId),
+                    Identifier.CODEC.fieldOf("asset_id").forGetter(UmbrellaPattern::assetId),
                     Codec.STRING.fieldOf("translation_key").forGetter(UmbrellaPattern::translationKey),
                     Codec.BOOL.fieldOf("dyeable").forGetter(UmbrellaPattern::dyeable)
             ).apply(instance, UmbrellaPattern::new)
     );
     public static final StreamCodec<RegistryFriendlyByteBuf, UmbrellaPattern> PACKET_CODEC = StreamCodec.composite(
-            ResourceLocation.STREAM_CODEC,
+            Identifier.STREAM_CODEC,
             UmbrellaPattern::assetId,
             ByteBufCodecs.STRING_UTF8,
             UmbrellaPattern::translationKey,

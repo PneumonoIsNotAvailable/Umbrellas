@@ -15,6 +15,7 @@ import net.minecraft.world.item.enchantment.LevelBasedValue;
 import net.minecraft.world.item.enchantment.effects.AddValue;
 import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
+import net.pneumono.umbrellas.util.VersionUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
@@ -66,7 +67,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
     }
 
     private static void registerBootstrapped(BootstrapContext<Enchantment> registry, ResourceKey<Enchantment> key, HolderGetter<Item> itemLookup) {
-        registry.register(key, ENCHANTMENT_BUILDERS.get(key).apply(itemLookup).build(key.location()));
+        registry.register(key, ENCHANTMENT_BUILDERS.get(key).apply(itemLookup).build(VersionUtil.identifier(key)));
     }
 
     @Override
@@ -78,7 +79,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
     }
 
     private void register(Entries entries, ResourceKey<Enchantment> key, HolderLookup<Item> itemLookup, ResourceCondition... resourceConditions) {
-        entries.add(key, ENCHANTMENT_BUILDERS.get(key).apply(itemLookup).build(key.location()), resourceConditions);
+        entries.add(key, ENCHANTMENT_BUILDERS.get(key).apply(itemLookup).build(VersionUtil.identifier(key)), resourceConditions);
     }
 
     @Override

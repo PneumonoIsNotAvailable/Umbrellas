@@ -23,7 +23,7 @@ public abstract class HumanoidModelMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void leftArmUmbrella(HumanoidRenderState state, HumanoidModel.ArmPose armPose, CallbackInfo ci) {
+    public void leftArmUmbrella(HumanoidRenderState state/*? if <1.21.11 {*//*, HumanoidModel.ArmPose armPose*//*?}*/, CallbackInfo ci) {
         if (ArmsUtil.positionLeftArm(this.leftArm, state)) ci.cancel();
     }
 
@@ -32,7 +32,7 @@ public abstract class HumanoidModelMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void rightArmUmbrella(HumanoidRenderState state, HumanoidModel.ArmPose armPose, CallbackInfo ci) {
+    public void rightArmUmbrella(HumanoidRenderState state/*? if <1.21.11 {*//*, HumanoidModel.ArmPose armPose*//*?}*/, CallbackInfo ci) {
         if (ArmsUtil.positionRightArm(this.rightArm, state)) ci.cancel();
     }
 }

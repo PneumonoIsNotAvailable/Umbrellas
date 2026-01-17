@@ -15,6 +15,7 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import net.pneumono.umbrellas.util.VersionUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,7 +114,7 @@ public class UmbrellasItems {
     @SuppressWarnings("deprecation")
     private static BlockItem registerBlockItem(Block block) {
         return registerItem(
-                block.builtInRegistryHolder().key().location().getPath(),
+                VersionUtil.identifier(block.builtInRegistryHolder().key()).getPath(),
                 settings -> new BlockItem(block, settings),
                 new Item.Properties().useBlockDescriptionPrefix()
         );
@@ -191,7 +192,7 @@ public class UmbrellasItems {
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(content -> content.addBefore(Items.OAK_SIGN, stands));
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_MODE_TAB, FabricItemGroup.builder()
-                .title(Component.translatable(CREATIVE_MODE_TAB.location().toLanguageKey("itemGroup")))
+                .title(Component.translatable(VersionUtil.identifier(CREATIVE_MODE_TAB).toLanguageKey("itemGroup")))
                 .icon(() -> new ItemStack(RED_UMBRELLA))
                 .displayItems((displayContext, entries) -> {
                     for (Item item : umbrellas) {

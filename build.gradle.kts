@@ -99,6 +99,14 @@ tasks {
 	}
 }
 
+stonecutter {
+	replacements.string {
+		direction = eval(current.version, ">=1.21.11")
+		replace("ResourceLocation", "Identifier")
+		replace("critereon", "criterion")
+	}
+}
+
 // configure the maven publication
 publishing {
 	publications {

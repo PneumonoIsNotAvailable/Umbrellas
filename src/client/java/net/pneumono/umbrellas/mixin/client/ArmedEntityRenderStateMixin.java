@@ -23,7 +23,7 @@ public abstract class ArmedEntityRenderStateMixin implements UmbrellaHoldingEnti
             method = "extractArmedEntityRenderState",
             at = @At("RETURN")
     )
-    private static void updateRenderStateWithUmbrella(LivingEntity entity, ArmedEntityRenderState state, ItemModelResolver itemModelResolver, CallbackInfo ci) {
+    private static void updateRenderStateWithUmbrella(LivingEntity entity, ArmedEntityRenderState state, ItemModelResolver itemModelResolver/*? if >=1.21.11 {*/, float f/*?}*/, CallbackInfo ci) {
         if (!(state instanceof UmbrellaHoldingEntityRenderState umbrellaState)) return;
         umbrellaState.umbrellas$setShouldAdjustArm(false, ArmsUtil.shouldAdjustArm(HumanoidArm.LEFT, entity, umbrellaState));
         umbrellaState.umbrellas$setShouldAdjustArm(true, ArmsUtil.shouldAdjustArm(HumanoidArm.RIGHT, entity, umbrellaState));

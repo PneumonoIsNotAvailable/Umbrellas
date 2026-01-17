@@ -8,7 +8,7 @@ import net.minecraft.client.gui.screens.inventory.LoomScreen;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.LoomMenu;
 import net.minecraft.world.inventory.Slot;
@@ -44,10 +44,10 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
 
     @Shadow
     @Final
-    private static ResourceLocation ERROR_SPRITE;
+    private static Identifier ERROR_SPRITE;
     @Shadow
     @Final
-    private static ResourceLocation PATTERN_SELECTED_SPRITE;
+    private static Identifier PATTERN_SELECTED_SPRITE;
     @Shadow
     private boolean displayPatterns;
     @Shadow
@@ -56,11 +56,11 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     private int startRow;
 
     @Unique
-    private static final ResourceLocation PATTERN_SPRITE = Umbrellas.id("pattern");
+    private static final Identifier PATTERN_SPRITE = Umbrellas.id("pattern");
     @Unique
-    private static final ResourceLocation PATTERN_HIGHLIGHTED_SPRITE = Umbrellas.id("pattern_highlighted");
+    private static final Identifier PATTERN_HIGHLIGHTED_SPRITE = Umbrellas.id("pattern_highlighted");
     @Unique
-    private static final ResourceLocation SPRITE = Umbrellas.id("textures/gui/loom.png");
+    private static final Identifier SPRITE = Umbrellas.id("textures/gui/loom.png");
     @Nullable
     @Unique
     private UmbrellaPatternsComponent umbrellaPatterns;
@@ -87,7 +87,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             at = @At(
                     value = "INVOKE",
                     shift = At.Shift.AFTER,
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
                     ordinal = 3
             ),
             cancellable = true
@@ -128,7 +128,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                 int newX = offX + j * 14;
                 int newY = offY + i * 14;
                 boolean isHighlighted = mouseX >= newX && mouseY >= newY && mouseX < newX + 14 && mouseY < newY + 14;
-                ResourceLocation texture;
+                Identifier texture;
                 if (index == this.menu.getSelectedBannerPatternIndex()) {
                     texture = PATTERN_SELECTED_SPRITE;
                 } else if (isHighlighted) {
@@ -149,11 +149,11 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             method = "renderBg",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/ResourceLocation;IIFFIIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
             ),
             index = 1
     )
-    private ResourceLocation useModifiedTextureIfUsingUmbrella(ResourceLocation original) {
+    private Identifier useModifiedTextureIfUsingUmbrella(Identifier original) {
         return this.isUsingUmbrellas ? SPRITE : original;
     }
 

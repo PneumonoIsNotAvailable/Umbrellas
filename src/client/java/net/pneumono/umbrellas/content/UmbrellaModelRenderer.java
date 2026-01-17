@@ -15,9 +15,11 @@ import org.joml.Vector3f;
 
 import java.util.Objects;
 import java.util.Set;
+import java.util.function.Consumer;
 
 //? if >=1.21.9 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import org.joml.Vector3fc;
 //?} else {
 /*import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -50,6 +52,7 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
                 poseStack, collector, light, overlay, 0.0F, null
         );
     }
+
     //?} else {
     /*@Override
     public void render(
@@ -73,10 +76,17 @@ public class UmbrellaModelRenderer implements SpecialModelRenderer<UmbrellaPatte
     }
     *///?}
 
+    //? if >=1.21.11 {
     @Override
+    public void getExtents(Consumer<Vector3fc> consumer) {
+        this.renderer.getExtentsForGui(consumer);
+    }
+    //?} else {
+    /*@Override
     public void getExtents(Set<Vector3f> vertices) {
         this.renderer.getExtentsForGui(vertices);
     }
+    *///?}
 
     @Environment(EnvType.CLIENT)
     public static class Unbaked implements SpecialModelRenderer.Unbaked {

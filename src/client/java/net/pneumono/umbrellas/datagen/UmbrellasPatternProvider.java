@@ -7,9 +7,10 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
 import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
+import net.pneumono.umbrellas.util.VersionUtil;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
@@ -131,15 +132,15 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
     );
 
     @Override
-    protected void configure(BiConsumer<ResourceLocation, UmbrellaPattern> provider, HolderLookup.Provider lookup) {
+    protected void configure(BiConsumer<Identifier, UmbrellaPattern> provider, HolderLookup.Provider lookup) {
         for (Pattern pattern : PATTERNS) {
-            provider.accept(pattern.key.location(), pattern.pattern);
+            provider.accept(VersionUtil.identifier(pattern.key), pattern.pattern);
         }
     }
 
     public static void bootstrap(BootstrapContext<UmbrellaPattern> context) {
         for (Pattern pattern : PATTERNS) {
-            context.register(ResourceKey.create(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, pattern.key.location()), pattern.pattern);
+            context.register(ResourceKey.create(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, VersionUtil.identifier(pattern.key)), pattern.pattern);
         }
     }
     
@@ -148,7 +149,7 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
     }
     
     private static Pattern create(ResourceKey<UmbrellaPattern> key, boolean dyeable) {
-        ResourceLocation id = key.location();
+        Identifier id = VersionUtil.identifier(key);
         return new Pattern(key, new UmbrellaPattern(id, id.toLanguageKey("umbrella_pattern"), dyeable));
     }
 

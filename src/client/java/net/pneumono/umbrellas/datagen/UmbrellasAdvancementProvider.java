@@ -5,12 +5,12 @@ import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.advancements.AdvancementType;
-import net.minecraft.advancements.critereon.InventoryChangeTrigger;
-import net.minecraft.advancements.critereon.ItemPredicate;
+import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.pneumono.umbrellas.Umbrellas;
@@ -32,7 +32,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
     public void generateAdvancement(HolderLookup.Provider provider, Consumer<AdvancementHolder> consumer) {
         HolderLookup.RegistryLookup<Item> itemLookup = provider.lookupOrThrow(Registries.ITEM);
 
-        AdvancementHolder getUmbrellaAdvancement = Advancement.Builder.advancement().parent(Advancement.Builder.advancement().build(ResourceLocation.withDefaultNamespace("adventure/root")))
+        AdvancementHolder getUmbrellaAdvancement = Advancement.Builder.advancement().parent(Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("adventure/root")))
                 .display(
                         UmbrellasItems.RED_UMBRELLA,
                         Component.translatable("advancements.umbrellas.get_umbrella.name"),
