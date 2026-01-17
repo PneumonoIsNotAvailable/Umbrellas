@@ -9,7 +9,11 @@ import net.minecraft.client.model.geom.builders.MeshDefinition;
 import net.minecraft.client.model.geom.builders.PartDefinition;
 import net.minecraft.client.renderer.RenderType;
 
-public abstract class UmbrellaModel extends Model {
+//? if >=1.21.9 {
+import net.minecraft.util.Unit;
+//?}
+
+public abstract class UmbrellaModel extends /*? if >=1.21.9 {*/Model<Unit>/*?} else {*//*Model*//*?}*/ {
     public static final String HANDLE = "handle";
     public static final String CANOPY = "canopy";
 
@@ -55,5 +59,4 @@ public abstract class UmbrellaModel extends Model {
             return LayerDefinition.create(meshDefinition, 128, 128);
         }
     }
-
 }

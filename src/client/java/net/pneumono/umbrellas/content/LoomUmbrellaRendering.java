@@ -3,6 +3,7 @@ package net.pneumono.umbrellas.content;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -28,16 +29,16 @@ public class LoomUmbrellaRendering {
         DyeColor baseColor = component.baseColor();
 
         List<Layer> layers = new ArrayList<>();
-        layers.add(new Layer(UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")).sprite(), baseColor.getTextureDiffuseColor()));
-        layers.addAll(getLayers(component));
+        layers.add(new Layer(graphics, UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")), baseColor.getTextureDiffuseColor()));
+        layers.addAll(getLayers(graphics, component));
 
         draw2DUmbrellaCanopy(graphics, layers.toArray(Layer[]::new));
 
         matrices.popMatrix();
     }
 
-    public static List<Layer> getLayers(UmbrellaPatternsComponent component) {
-        return component.layers().stream().map(layer -> new Layer(UmbrellaRenderer.getUmbrellaPatternTextureId(layer.pattern()).sprite(), layer.color().getTextureDiffuseColor())).toList();
+    public static List<Layer> getLayers(GuiGraphics graphics, UmbrellaPatternsComponent component) {
+        return component.layers().stream().map(layer -> new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(layer.pattern()), layer.color().getTextureDiffuseColor())).toList();
     }
 
     public static void drawPatternUmbrella(GuiGraphics graphics, int x, int y, Holder<UmbrellaPattern> pattern) {
@@ -47,8 +48,8 @@ public class LoomUmbrellaRendering {
         matrices.scale(10F / TEXTURE_SIZE);
 
         draw2DUmbrellaCanopy(graphics,
-                new Layer(UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")).sprite(), DyeColor.GRAY.getTextureDiffuseColor()),
-                new Layer(UmbrellaRenderer.getUmbrellaPatternTextureId(pattern).sprite(), DyeColor.WHITE.getTextureDiffuseColor())
+                new Layer(graphics, UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")), DyeColor.GRAY.getTextureDiffuseColor()),
+                new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(pattern), DyeColor.WHITE.getTextureDiffuseColor())
         );
 
         matrices.popMatrix();
@@ -94,5 +95,15 @@ public class LoomUmbrellaRendering {
         matrices.popMatrix();
     }
 
-    public record Layer(TextureAtlasSprite sprite, int color) { }
+    public record Layer(TextureAtlasSprite sprite, int color) {
+        //? if >=1.21.9 {
+        public Layer(GuiGraphics graphics, Material material, int color) {
+            this(graphics.getSprite(material), color);
+        }
+        //?} else {
+        /*public Layer(GuiGraphics graphics, Material material, int color) {
+            this(material.sprite(), color);
+        }
+        *///?}
+    }
 }

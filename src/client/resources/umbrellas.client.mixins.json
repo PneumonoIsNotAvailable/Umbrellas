@@ -6,7 +6,7 @@
         "ArmedEntityRenderStateMixin",
         "HumanoidModelMixin",
         "ItemInHandLayerMixin",
-        "ModelManagerMixin",
+        "UmbrellaAtlasMixin",
         "LoomScreenMixin"
     ],
     "injectors": {

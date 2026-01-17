@@ -106,7 +106,7 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
     }
 
     @Override
-    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos) {
+    protected int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos /*? if >=1.21.9 {*/, Direction direction/*?}*/) {
         return level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity ? blockEntity.getComparatorOutput() : 0;
     }
 
