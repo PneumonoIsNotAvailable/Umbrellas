@@ -8,6 +8,9 @@ val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
 java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
+val awFile = if (stonecutter.eval(stonecutter.current.version, ">=1.21.11"))
+	"1.21.11.accesswidener" else "1.21.accesswidener"
+
 base.archivesName.set(project.property("mod_id") as String)
 version = "${project.property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
 
@@ -27,8 +30,7 @@ repositories {
 }
 
 loom {
-	val awFile = rootProject.file("src/main/resources/umbrellas.accesswidener")
-	accessWidenerPath = sc.process(awFile, "build/processed.aw")
+	accessWidenerPath = rootProject.file("src/main/resources/accesswideners/$awFile")
 
     splitEnvironmentSourceSets()
 
@@ -77,7 +79,8 @@ tasks {
 				mutableMapOf(
 					"version" to project.property("mod_version"),
 					"min_supported" to project.property("min_supported_version"),
-					"max_supported" to project.property("max_supported_version")
+					"max_supported" to project.property("max_supported_version"),
+					"aw_file" to awFile
 				)
 			)
 		}

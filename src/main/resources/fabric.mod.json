@@ -43,7 +43,7 @@
 			"environment": "client"
 		}
 	],
-	"accessWidener": "umbrellas.accesswidener",
+	"accessWidener": "accesswideners/${aw_file}",
 	"depends": {
 		"fabricloader": ">=0.16.14",
 		"minecraft": ">=${min_supported} <=${max_supported}",
