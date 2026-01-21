@@ -9,17 +9,18 @@ import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
-import org.joml.Vector3f;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
-import java.util.function.Consumer;
 
 //? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderTypes;
+import java.util.function.Consumer;
+import org.joml.Vector3fc;
 //?} else {
 /*import net.minecraft.client.renderer.RenderType;
+import java.util.Set;
+import org.joml.Vector3f;
 *///?}
 
 //? if >=1.21.9 {
@@ -28,7 +29,6 @@ import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
-import org.joml.Vector3fc;
 //?} else {
 /*import net.minecraft.client.model.geom.ModelPart;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -188,10 +188,10 @@ public class UmbrellaRenderer {
     }
     *///?}
 
-    public void getExtentsForGui(/*? if >=1.21.11 {*/Consumer<Vector3fc> consumer/*?} else {*//*Set<Vector3f> vertices*//*?}*/) {
+    public void getExtentsForGui(/*? if >=1.21.11 {*/Consumer<Vector3fc> input/*?} else {*//*Set<Vector3f> input*//*?}*/) {
         PoseStack poseStack = new PoseStack();
         poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
-        this.handleModel.root().getExtentsForGui(poseStack, consumer);
-        this.canopyModel.root().getExtentsForGui(poseStack, consumer);
+        this.handleModel.root().getExtentsForGui(poseStack, input);
+        this.canopyModel.root().getExtentsForGui(poseStack, input);
     }
 }
