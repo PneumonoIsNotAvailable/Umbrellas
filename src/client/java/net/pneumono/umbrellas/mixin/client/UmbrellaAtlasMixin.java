@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.mixin.client;
 
 import net.pneumono.umbrellas.Umbrellas;
