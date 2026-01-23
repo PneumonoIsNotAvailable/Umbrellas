@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.datagen;
 
 import com.mojang.serialization.Codec;

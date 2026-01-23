@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.util;
 
 import net.minecraft.resources.Identifier;

@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.registry;
 
 import net.fabricmc.fabric.api.loot.v3.LootTableEvents;

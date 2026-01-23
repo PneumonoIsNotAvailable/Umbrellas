@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;

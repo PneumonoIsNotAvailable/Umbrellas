@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;

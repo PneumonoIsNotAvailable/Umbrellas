@@ -103,9 +103,11 @@ tasks {
 }
 
 stonecutter {
-	replacements.string {
-		direction = eval(current.version, ">=1.21.11")
+	replacements.string("identifier_replacements", current.parsed >= "1.21.11") {
 		replace("ResourceLocation", "Identifier")
+	}
+
+	replacements.string(current.parsed >= "1.21.11") {
 		replace("critereon", "criterion")
 	}
 }

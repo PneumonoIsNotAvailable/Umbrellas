@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ModInitializer;

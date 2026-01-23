@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.content;
 
 import com.mojang.blaze3d.vertex.PoseStack;

@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.registry;
 
 import net.minecraft.core.Registry;
