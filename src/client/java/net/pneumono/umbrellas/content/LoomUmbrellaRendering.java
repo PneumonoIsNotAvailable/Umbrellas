@@ -29,7 +29,7 @@ public class LoomUmbrellaRendering {
         DyeColor baseColor = component.baseColor();
 
         List<Layer> layers = new ArrayList<>();
-        layers.add(new Layer(graphics, UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")), baseColor.getTextureDiffuseColor()));
+        layers.add(new Layer(graphics, UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER.apply(Umbrellas.id("base")), baseColor.getTextureDiffuseColor()));
         layers.addAll(getLayers(graphics, component));
 
         draw2DUmbrellaCanopy(graphics, layers.toArray(Layer[]::new));
@@ -48,7 +48,7 @@ public class LoomUmbrellaRendering {
         matrices.scale(10F / TEXTURE_SIZE);
 
         draw2DUmbrellaCanopy(graphics,
-                new Layer(graphics, UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")), DyeColor.GRAY.getTextureDiffuseColor()),
+                new Layer(graphics, UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER.apply(Umbrellas.id("base")), DyeColor.GRAY.getTextureDiffuseColor()),
                 new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(pattern), DyeColor.WHITE.getTextureDiffuseColor())
         );
 

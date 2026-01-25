@@ -110,6 +110,11 @@ stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("critereon", "criterion")
 	}
+
+	replacements.string(current.parsed >= "1.21.11") {
+		replace("RenderType::entitySolid", "RenderTypes::entitySolid")
+		replace("RenderType::entityNoOutline", "RenderTypes::entityNoOutline")
+	}
 }
 
 // configure the maven publication

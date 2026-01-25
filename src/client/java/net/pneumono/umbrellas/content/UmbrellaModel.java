@@ -23,7 +23,7 @@ public abstract class UmbrellaModel extends /*? if >=1.21.9 {*/Model<Unit>/*?} e
     public static final String CANOPY = "canopy";
 
     public UmbrellaModel(ModelPart root) {
-        super(root, /*? if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/);
+        super(root, RenderTypes::entitySolid);
     }
 
     public static class Handle extends UmbrellaModel {

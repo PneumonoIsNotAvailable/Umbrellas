@@ -5,10 +5,13 @@ import com.mojang.math.Axis;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlock;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
+import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 
 //? if >=1.21.9 {
 import it.unimi.dsi.fastutil.HashCommon;
@@ -30,9 +33,15 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
     //? if >=1.21.9
     private final ItemModelResolver itemModelResolver;
 
+    private final UmbrellaRenderer umbrellaRenderer;
+
     public UmbrellaStandBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        //? if >=1.21.9
+        //? if >=1.21.9 {
         this.itemModelResolver = context.itemModelResolver();
+        this.umbrellaRenderer = new UmbrellaRenderer(context.entityModelSet(), context.materials());
+        //?} else {
+        /*this.umbrellaRenderer = new UmbrellaRenderer(context.getModelSet());
+        *///?}
     }
 
     //? if >=1.21.9 {
@@ -44,43 +53,84 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
     @Override
     public void extractRenderState(UmbrellaStandBlockEntity entity, UmbrellaRenderState state, float f, Vec3 vec3, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay) {
         BlockEntityRenderer.super.extractRenderState(entity, state, f, vec3, crumblingOverlay);
+        ItemStack stack = entity.getTheItem();
+        state.patterns = stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
+        state.foil = stack.hasFoil();
         state.item = new ItemStackRenderState();
         this.itemModelResolver.updateForTopItem(state.item, entity.getTheItem(), ItemDisplayContext.NONE, entity.getLevel(), null, HashCommon.long2int(entity.getBlockPos().asLong()));
     }
 
     public static class UmbrellaRenderState extends BlockEntityRenderState {
         public ItemStackRenderState item;
+        public UmbrellaPatternsComponent patterns;
+        public boolean foil;
     }
 
     @Override
-    public void submit(UmbrellaRenderState state, PoseStack poseStack, SubmitNodeCollector submitNodeCollector, CameraRenderState cameraRenderState) {
-        poseStack.pushPose();
-        adjustPoseStack(poseStack, state.blockState);
-        state.item.submit(poseStack, submitNodeCollector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
-        poseStack.popPose();
+    public void submit(UmbrellaRenderState state, PoseStack poseStack, SubmitNodeCollector collector, CameraRenderState cameraRenderState) {
+        if (state.patterns == null) {
+            poseStack.pushPose();
+            translate(poseStack, state.blockState, true);
+            state.item.submit(poseStack, collector, state.lightCoords, OverlayTexture.NO_OVERLAY, 0);
+            poseStack.popPose();
+        } else {
+            submit(state.patterns, state.blockState, poseStack, state.lightCoords, OverlayTexture.NO_OVERLAY, state.foil, collector, state.breakProgress);
+        }
     }
 
     //?} else {
     /*@Override
-    public void render(UmbrellaStandBlockEntity entity, float tickProgress, PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, Vec3 vec3) {
-        poseStack.pushPose();
-        adjustPoseStack(poseStack, entity.getBlockState());
+    public void render(UmbrellaStandBlockEntity entity, float tickProgress, PoseStack poseStack, MultiBufferSource collector, int light, int overlay, Vec3 vec3) {
+        ItemStack stack = entity.getTheItem();
+        UmbrellaPatternsComponent patterns = stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
+        boolean foil = stack.hasFoil();
 
-        Minecraft.getInstance().getItemRenderer().renderStatic(
-                entity.getTheItem(),
-                ItemDisplayContext.NONE,
-                light, overlay,
-                poseStack, multiBufferSource,
-                entity.getLevel(), 0
-        );
-        poseStack.popPose();
+        if (patterns == null) {
+            poseStack.pushPose();
+            translate(poseStack, entity.getBlockState(), true);
+            Minecraft.getInstance().getItemRenderer().renderStatic(
+                    entity.getTheItem(),
+                    ItemDisplayContext.NONE,
+                    light, overlay,
+                    poseStack, collector,
+                    entity.getLevel(), 0
+            );
+            poseStack.popPose();
+        } else {
+            submit(patterns, entity.getBlockState(), poseStack, light, overlay, foil, collector);
+        }
     }
     *///?}
 
-    public static void adjustPoseStack(PoseStack poseStack, BlockState state) {
-        poseStack.translate(0.5, 0.0, 0.5);
-        float g = state.getValue(UmbrellaStandBlock.FACING).toYRot();
-        poseStack.mulPose(Axis.YP.rotationDegrees(-g));
-        poseStack.translate(0.03125, 1.5, 0.03125);
+    public void submit(
+            UmbrellaPatternsComponent patterns, BlockState state, PoseStack poseStack,
+            int light, int overlay, boolean foil,
+            //? if >=1.21.9 {
+            SubmitNodeCollector collector,
+            @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            //?} else {
+            /*MultiBufferSource collector
+            *///?}
+    ) {
+        poseStack.pushPose();
+
+        translate(poseStack, state, false);
+
+        this.umbrellaRenderer.submit(
+                patterns, poseStack,
+                light, overlay, foil,
+                collector/*? if >=1.21.9 {*/, 0, crumblingOverlay/*?}*/
+        );
+
+        poseStack.popPose();
+    }
+
+    public void translate(PoseStack poseStack, BlockState state, boolean item) {
+        poseStack.translate(0.5F, 0.0F, 0.5F);
+        float rotation = state.getValue(UmbrellaStandBlock.FACING).toYRot();
+        poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
+        if (!item) poseStack.translate(-0.5F, -0.5F, -0.5F);
+
+        poseStack.translate(0.03125F, 1.5F, 0.03125F);
     }
 }

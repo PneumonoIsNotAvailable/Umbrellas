@@ -3,7 +3,6 @@
 package net.pneumono.umbrellas.content;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.math.Axis;
 import net.minecraft.client.model.geom.EntityModelSet;
 import net.minecraft.client.resources.model.Material;
 import net.minecraft.core.Holder;
@@ -14,8 +13,10 @@ import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Function;
 
 //? if >=1.21.11 {
+import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
 import java.util.function.Consumer;
 import org.joml.Vector3fc;
@@ -29,11 +30,9 @@ import org.joml.Vector3f;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.resources.model.MaterialSet;
-import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
 //?} else {
-/*import net.minecraft.client.model.geom.ModelPart;
-import net.minecraft.client.renderer.MultiBufferSource;
+/*import net.minecraft.client.renderer.MultiBufferSource;
 *///?}
 
 public class UmbrellaRenderer {
@@ -54,141 +53,129 @@ public class UmbrellaRenderer {
     }
 
     public static Material getUmbrellaPatternTextureId(Holder<UmbrellaPattern> pattern) {
-        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER::apply);
+        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER::apply);
     }
 
-    //? if >=1.21.9 {
     public void submit(
             UmbrellaPatternsComponent patterns,
             PoseStack poseStack,
-            SubmitNodeCollector collector,
-            int light, int overlay,
-            float rotation,
+            int light, int overlay, boolean foil,
+            //? if >=1.21.9 {
+            SubmitNodeCollector collector, int k,
             @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            //?} else {
+            /*MultiBufferSource collector
+            *///?}
     ) {
         poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
         poseStack.scale(1.0F, -1.0F, -1.0F);
 
-        Material material = UmbrellasClient.UMBRELLA_BASE;
-        collector.submitModel(
-                this.handleModel, Unit.INSTANCE, poseStack,
-                material.renderType(/*? if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
-                light, overlay, -1,
-                materialSet.get(material), 0,
-                crumblingOverlay
-        );
-        submitCanopy(patterns, poseStack, collector, light, overlay, UmbrellasClient.UMBRELLA_BASE, crumblingOverlay);
+        submitHandle(poseStack, light, overlay, foil, collector/*? if >=1.21.9 {*/, k, crumblingOverlay/*?}*/);
+        submitCanopy(patterns, poseStack, light, overlay, foil, collector/*? if >=1.21.9 {*/, k, crumblingOverlay/*?}*/);
 
         poseStack.popPose();
+    }
+
+    public void submitHandle(
+            PoseStack poseStack,
+            int light, int overlay, boolean foil,
+            //? if >=1.21.9 {
+            SubmitNodeCollector collector, int k,
+            @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            //?} else {
+            /*MultiBufferSource collector
+            *///?}
+    ) {
+        //? if >=1.21.9 {
+        collector.submitModelPart(
+                this.handleModel.root(), poseStack,
+                UmbrellasClient.UMBRELLA_BASE.renderType(RenderTypes::entitySolid),
+                light, overlay,
+                materialSet.get(UmbrellasClient.UMBRELLA_BASE),
+                false, foil, -1,
+                crumblingOverlay, k
+        );
+        //?} else {
+        /*this.handleModel.root().render(
+                poseStack,
+                UmbrellasClient.UMBRELLA_BASE.buffer(collector, RenderTypes::entitySolid, false, foil),
+                light, overlay
+        );
+        *///?}
     }
 
     public void submitCanopy(
             UmbrellaPatternsComponent patterns,
             PoseStack poseStack,
-            SubmitNodeCollector collector,
-            int light, int overlay,
-            Material material,
+            int light, int overlay, boolean foil,
+            //? if >=1.21.9 {
+            SubmitNodeCollector collector, int k,
             @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            //?} else {
+            /*MultiBufferSource collector
+            *///?}
     ) {
-        collector.submitModel(
-                this.canopyModel, Unit.INSTANCE, poseStack,
-                material.renderType(/*? if >=1.21.11 {*/RenderTypes::entitySolid/*?} else {*//*RenderType::entitySolid*//*?}*/),
-                light, overlay, -1,
-                this.materialSet.get(material), 0,
-                crumblingOverlay
+        submitLayer(
+                poseStack,
+                light, overlay, foil, -1,
+                UmbrellasClient.UMBRELLA_BASE,
+                RenderTypes::entitySolid,
+                collector/*? if >=1.21.9 {*/, k, crumblingOverlay/*?}*/
         );
         submitLayer(
-                poseStack, collector,
-                light, overlay,
+                poseStack,
+                light, overlay, false,
                 patterns.baseColor().getTextureDiffuseColor(),
-                UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")),
-                crumblingOverlay
+                UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER.apply(Umbrellas.id("base")),
+                RenderTypes::entityNoOutline,
+                collector/*? if >=1.21.9 {*/, 0, crumblingOverlay/*?}*/
         );
 
         for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {
             UmbrellaPatternsComponent.Layer layer = patterns.layers().get(i);
             Holder<UmbrellaPattern> pattern = layer.pattern();
-            Material layerMaterial = getUmbrellaPatternTextureId(pattern);
 
+            int color = pattern.value().dyeable() ? layer.color().getTextureDiffuseColor() : -1;
             submitLayer(
-                    poseStack, collector,
-                    light, overlay,
-                    layer.color().getTextureDiffuseColor(),
-                    layerMaterial,
-                    crumblingOverlay
+                    poseStack,
+                    light, overlay, false, color,
+                    getUmbrellaPatternTextureId(pattern),
+                    RenderTypes::entityNoOutline,
+                    collector/*? if >=1.21.9 {*/, 0, crumblingOverlay/*?}*/
             );
         }
     }
 
     private void submitLayer(
-            PoseStack poseStack, SubmitNodeCollector collector,
-            int light, int overlay, int color, Material material,
+            PoseStack poseStack,
+            int light, int overlay, boolean foil, int color,
+            Material material,
+            Function<Identifier, RenderType> renderTypeFunction,
+            //? if >=1.21.9 {
+            SubmitNodeCollector collector, int k,
             @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            //?} else {
+            /*MultiBufferSource collector
+            *///?}
     ) {
-        collector.submitModel(
-                this.canopyModel, Unit.INSTANCE, poseStack,
-                material.renderType(/*? if >=1.21.11 {*/RenderTypes::entityNoOutline/*?} else {*//*RenderType::entityNoOutline*//*?}*/),
-                light, overlay, color, this.materialSet.get(material), 0, crumblingOverlay
-        );
-    }
-
-    //?} else {
-    /*public void submit(
-            PoseStack poseStack,
-            MultiBufferSource multiBufferSource,
-            int light, int overlay, boolean glint,
-            float rotation,
-            UmbrellaPatternsComponent patterns
-    ) {
-        poseStack.pushPose();
-        poseStack.mulPose(Axis.YP.rotationDegrees(rotation));
-        poseStack.scale(1.0F, -1.0F, -1.0F);
-
-        this.handleModel.renderToBuffer(poseStack, UmbrellasClient.UMBRELLA_BASE.buffer(multiBufferSource, RenderType::entitySolid), light, overlay);
-        submitCanopy(poseStack, multiBufferSource, light, overlay, glint, false, this.canopyModel.root(), UmbrellasClient.UMBRELLA_BASE, patterns);
-
-        poseStack.popPose();
-    }
-
-    public static void submitCanopy(
-            PoseStack poseStack,
-            MultiBufferSource multiBufferSource,
-            int light, int overlay,
-            boolean glint, boolean solid,
-            ModelPart canopy,
-            Material baseSprite,
-            UmbrellaPatternsComponent patterns
-    ) {
-        canopy.render(poseStack, baseSprite.buffer(multiBufferSource, RenderType::entitySolid, solid, glint), light, overlay);
-        submitLayer(
-                poseStack, multiBufferSource,
+        //? if >=1.21.9 {
+        collector.submitModelPart(
+                this.canopyModel.root(), poseStack,
+                material.renderType(renderTypeFunction),
                 light, overlay,
-                canopy,
-                UmbrellasClient.UMBRELLA_PATTERN_SPRITE_MAPPER.apply(Umbrellas.id("base")),
-                patterns.baseColor().getTextureDiffuseColor()
+                this.materialSet.get(material),
+                false, foil, color,
+                crumblingOverlay, k
         );
-
-        for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {
-            UmbrellaPatternsComponent.Layer layer = patterns.layers().get(i);
-            Holder<UmbrellaPattern> pattern = layer.pattern();
-            Material material = getUmbrellaPatternTextureId(pattern);
-
-            submitLayer(poseStack, multiBufferSource, light, overlay, canopy, material, pattern.value().dyeable() ? layer.color().getTextureDiffuseColor() : -1);
-        }
-    }
-
-    private static void submitLayer(
-            PoseStack poseStack, MultiBufferSource multiBufferSource, int light, int overlay, ModelPart canopy, Material material, int color
-    ) {
-        canopy.render(
+        //?} else {
+        /*this.canopyModel.root().render(
                 poseStack,
-                material.buffer(multiBufferSource, RenderType::entityNoOutline),
+                material.buffer(collector, renderTypeFunction, false, foil),
                 light, overlay,
                 color
         );
+        *///?}
     }
-    *///?}
 
     public void getExtentsForGui(/*? if >=1.21.11 {*/Consumer<Vector3fc> input/*?} else {*//*Set<Vector3f> input*//*?}*/) {
         PoseStack poseStack = new PoseStack();

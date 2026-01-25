@@ -18,7 +18,7 @@ public class UmbrellasClient implements ClientModInitializer {
 	public static final ModelLayerLocation UMBRELLA_CANOPY_LAYER = new ModelLayerLocation(Umbrellas.id("umbrella_canopy"), "main");
 
 	public static final Identifier UMBRELLA_PATTERNS_ATLAS_TEXTURE = Umbrellas.id("textures/atlas/umbrella_patterns.png");
-	public static final MaterialMapper UMBRELLA_PATTERN_SPRITE_MAPPER = new MaterialMapper(UMBRELLA_PATTERNS_ATLAS_TEXTURE, "entity/umbrella");
+	public static final MaterialMapper UMBRELLA_PATTERN_MATERIAL_MAPPER = new MaterialMapper(UMBRELLA_PATTERNS_ATLAS_TEXTURE, "entity/umbrella");
 
 	public static final Material UMBRELLA_BASE = new Material(UMBRELLA_PATTERNS_ATLAS_TEXTURE, Umbrellas.id("entity/umbrella_base"));
 
@@ -29,6 +29,6 @@ public class UmbrellasClient implements ClientModInitializer {
 		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_HANDLE_LAYER, UmbrellaModel.Handle::createLayer);
 		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_CANOPY_LAYER, UmbrellaModel.Canopy::getTexturedModelData);
 
-		SpecialModelRenderers.ID_MAPPER.put(Umbrellas.id("umbrella"), UmbrellaModelRenderer.Unbaked.CODEC);
+		SpecialModelRenderers.ID_MAPPER.put(Umbrellas.id("umbrella"), UmbrellaSpecialModelRenderer.Unbaked.CODEC);
 	}
 }

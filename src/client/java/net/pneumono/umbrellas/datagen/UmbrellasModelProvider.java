@@ -12,7 +12,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.content.UmbrellaModelRenderer;
+import net.pneumono.umbrellas.content.UmbrellaSpecialModelRenderer;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 
@@ -92,7 +92,7 @@ public class UmbrellasModelProvider extends FabricModelProvider {
     }
 
     public void registerPatternableUmbrella(ItemModelGenerators generators, Item item) {
-        ItemModel.Unbaked unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(item), new UmbrellaModelRenderer.Unbaked());
+        ItemModel.Unbaked unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(item), new UmbrellaSpecialModelRenderer.Unbaked());
         generators.itemModelOutput.accept(item, unbaked);
         generators.generateFlatItem(item, TEMPLATE_UMBRELLA);
     }
