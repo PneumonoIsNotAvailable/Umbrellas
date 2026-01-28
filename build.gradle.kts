@@ -1,6 +1,7 @@
 plugins {
 	id("fabric-loom") version "1.14-SNAPSHOT"
 	id("maven-publish")
+	id("me.modmuss50.mod-publish-plugin") version "1.1.0"
 }
 
 val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
@@ -114,6 +115,38 @@ stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("RenderType::entitySolid", "RenderTypes::entitySolid")
 		replace("RenderType::entityNoOutline", "RenderTypes::entityNoOutline")
+	}
+}
+
+publishMods {
+	file = tasks.remapJar.get().archiveFile
+	additionalFiles.from(tasks.remapSourcesJar.get().archiveFile)
+	displayName = "Umbrellas ${project.version}"
+	version = "${project.version}"
+	changelog = rootProject.file("CHANGELOG.md").readText()
+	type = STABLE
+	modLoaders.addAll("fabric", "quilt")
+
+	dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
+
+	modrinth {
+		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		projectId = "dgTb67Ox"
+
+		minecraftVersionRange {
+			start = "${property("min_supported_version")}"
+			end = "${property("max_supported_version")}"
+		}
+
+		requires {
+			// PneumonoCore
+			id = "ZLKQjA7t"
+		}
+
+		requires {
+			// Fabric API
+			id = "P7dR8mSH"
+		}
 	}
 }
 
