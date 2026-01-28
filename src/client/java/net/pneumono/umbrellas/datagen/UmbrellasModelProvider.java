@@ -94,7 +94,7 @@ public class UmbrellasModelProvider extends FabricModelProvider {
     public void registerPatternableUmbrella(ItemModelGenerators generators, Item item) {
         ItemModel.Unbaked unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(item), new UmbrellaSpecialModelRenderer.Unbaked());
         generators.itemModelOutput.accept(item, unbaked);
-        generators.generateFlatItem(item, TEMPLATE_UMBRELLA);
+        TEMPLATE_UMBRELLA.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(item), generators.modelOutput);
     }
 
     public void registerExtraUmbrella(ItemModelGenerators generators, Item item) {

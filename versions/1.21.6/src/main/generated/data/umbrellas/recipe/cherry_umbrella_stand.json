@@ -1,0 +1,18 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "umbrella_stand",
+  "key": {
+    "P": "minecraft:cherry_planks",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "P",
+    "S",
+    "P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:cherry_umbrella_stand"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "banner_to_umbrella",
+  "ingredients": [
+    "minecraft:piglin_banner_pattern"
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:piglin_umbrella_pattern"
+  }
+}

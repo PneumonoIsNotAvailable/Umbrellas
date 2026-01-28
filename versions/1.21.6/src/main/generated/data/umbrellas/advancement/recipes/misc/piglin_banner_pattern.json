@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:piglin_banner_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "piglin_umbrella_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "umbrellas:piglin_umbrella_pattern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "piglin_umbrella_pattern"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:piglin_banner_pattern"
+    ]
+  }
+}

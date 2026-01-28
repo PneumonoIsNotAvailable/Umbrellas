@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "banner_to_umbrella",
+  "ingredients": [
+    "minecraft:creeper_banner_pattern"
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:creeper_umbrella_pattern"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "extra_umbrellas",
+  "key": {
+    "F": "minecraft:flowering_azalea",
+    "M": "minecraft:moss_block",
+    "S": "minecraft:stick",
+    "U": "#umbrellas:umbrellas"
+  },
+  "pattern": [
+    "MFM",
+    "MUM",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:azalea_umbrella"
+  }
+}

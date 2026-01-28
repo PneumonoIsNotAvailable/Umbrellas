@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:mojang_banner_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "mojang_umbrella_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "umbrellas:mojang_umbrella_pattern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "mojang_umbrella_pattern"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:mojang_banner_pattern"
+    ]
+  }
+}

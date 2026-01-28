@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "umbrella",
+  "key": {
+    "L": "minecraft:leather",
+    "S": "minecraft:stick",
+    "W": "minecraft:light_blue_wool"
+  },
+  "pattern": [
+    "WLW",
+    "LSL",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:light_blue_umbrella"
+  }
+}

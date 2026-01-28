@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "bordure_indented_umbrella_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "umbrellas:bordure_indented_umbrella_pattern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:bordure_indented_banner_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "bordure_indented_umbrella_pattern"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:bordure_indented_banner_pattern"
+    ]
+  }
+}

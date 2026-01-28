@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:pale_oak_umbrella_stand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "pale_oak_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:pale_oak_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "pale_oak_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:pale_oak_umbrella_stand"
+    ]
+  }
+}

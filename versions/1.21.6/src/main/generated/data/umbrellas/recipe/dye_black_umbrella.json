@@ -1,0 +1,29 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "umbrella_dye",
+  "ingredients": [
+    "minecraft:black_dye",
+    [
+      "umbrellas:white_umbrella",
+      "umbrellas:orange_umbrella",
+      "umbrellas:magenta_umbrella",
+      "umbrellas:light_blue_umbrella",
+      "umbrellas:yellow_umbrella",
+      "umbrellas:lime_umbrella",
+      "umbrellas:pink_umbrella",
+      "umbrellas:gray_umbrella",
+      "umbrellas:light_gray_umbrella",
+      "umbrellas:cyan_umbrella",
+      "umbrellas:purple_umbrella",
+      "umbrellas:blue_umbrella",
+      "umbrellas:brown_umbrella",
+      "umbrellas:green_umbrella",
+      "umbrellas:red_umbrella"
+    ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:black_umbrella"
+  }
+}

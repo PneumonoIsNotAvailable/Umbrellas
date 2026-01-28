@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "umbrella_to_banner",
+  "ingredients": [
+    "umbrellas:globe_umbrella_pattern"
+  ],
+  "result": {
+    "count": 1,
+    "id": "minecraft:globe_banner_pattern"
+  }
+}
