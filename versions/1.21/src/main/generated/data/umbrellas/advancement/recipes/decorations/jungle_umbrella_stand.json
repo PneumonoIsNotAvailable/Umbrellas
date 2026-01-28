@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:jungle_umbrella_stand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "jungle_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:jungle_planks"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "jungle_planks"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:jungle_umbrella_stand"
+    ]
+  }
+}

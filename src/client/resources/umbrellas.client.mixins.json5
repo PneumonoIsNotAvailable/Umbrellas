@@ -3,7 +3,10 @@
     "package": "net.pneumono.umbrellas.mixin.client",
     "compatibilityLevel": "JAVA_21",
     "client": [
+        //? if >=1.21.6
         "ArmedEntityRenderStateMixin",
+        //? if <1.21.6
+        //"BlockEntityWithoutLevelRendererMixin",
         "HumanoidModelMixin",
         "ItemInHandLayerMixin",
         "UmbrellaAtlasMixin",

@@ -18,11 +18,15 @@ import java.util.function.Function;
 //? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderType;
 import net.minecraft.client.renderer.rendertype.RenderTypes;
-import java.util.function.Consumer;
-import org.joml.Vector3fc;
 //?} else {
 /*import net.minecraft.client.renderer.RenderType;
-import java.util.Set;
+*///?}
+
+//? if >=1.21.11 {
+import java.util.function.Consumer;
+import org.joml.Vector3fc;
+//?} else if >=1.21.6 {
+/*import java.util.Set;
 import org.joml.Vector3f;
 *///?}
 
@@ -53,7 +57,7 @@ public class UmbrellaRenderer {
     }
 
     public static Material getUmbrellaPatternTextureId(Holder<UmbrellaPattern> pattern) {
-        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER::apply);
+        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient::getUmbrellaMaterial);
     }
 
     public void submit(
@@ -98,7 +102,12 @@ public class UmbrellaRenderer {
         //?} else {
         /*this.handleModel.root().render(
                 poseStack,
-                UmbrellasClient.UMBRELLA_BASE.buffer(collector, RenderTypes::entitySolid, false, foil),
+                UmbrellasClient.UMBRELLA_BASE.buffer(
+                        collector,
+                        RenderTypes::entitySolid,
+                        /^? if >=1.21.6 {^/false, /^?}^/
+                        foil
+                ),
                 light, overlay
         );
         *///?}
@@ -126,7 +135,7 @@ public class UmbrellaRenderer {
                 poseStack,
                 light, overlay, false,
                 patterns.baseColor().getTextureDiffuseColor(),
-                UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER.apply(Umbrellas.id("base")),
+                UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")),
                 RenderTypes::entityNoOutline,
                 collector/*? if >=1.21.9 {*/, 0, crumblingOverlay/*?}*/
         );
@@ -170,17 +179,24 @@ public class UmbrellaRenderer {
         //?} else {
         /*this.canopyModel.root().render(
                 poseStack,
-                material.buffer(collector, renderTypeFunction, false, foil),
+                material.buffer(
+                        collector,
+                        renderTypeFunction,
+                        /^? if >=1.21.6 {^/false, /^?}^/
+                        foil
+                ),
                 light, overlay,
                 color
         );
         *///?}
     }
 
+    //? if >=1.21.6 {
     public void getExtentsForGui(/*? if >=1.21.11 {*/Consumer<Vector3fc> input/*?} else {*//*Set<Vector3f> input*//*?}*/) {
         PoseStack poseStack = new PoseStack();
         poseStack.scale(0.6666667F, -0.6666667F, -0.6666667F);
         this.handleModel.root().getExtentsForGui(poseStack, input);
         this.canopyModel.root().getExtentsForGui(poseStack, input);
     }
+    //?}
 }

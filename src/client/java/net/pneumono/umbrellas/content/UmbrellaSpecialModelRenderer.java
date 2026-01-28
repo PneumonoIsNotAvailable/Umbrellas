@@ -1,5 +1,6 @@
 package net.pneumono.umbrellas.content;
 
+//? if >=1.21.6 {
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
@@ -103,3 +104,4 @@ public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<Umbrel
         }
     }
 }
+//?}

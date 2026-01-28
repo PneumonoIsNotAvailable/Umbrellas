@@ -7,7 +7,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.LoomScreen;
-import net.minecraft.client.renderer.RenderPipelines;
 import net.minecraft.core.Holder;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -37,6 +36,10 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.List;
+
+//? if >=1.21.6 {
+import net.minecraft.client.renderer.RenderPipelines;
+//?}
 
 @Mixin(LoomScreen.class)
 public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> {
@@ -89,7 +92,11 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             at = @At(
                     value = "INVOKE",
                     shift = At.Shift.AFTER,
+                    //? if >=1.21.6 {
                     target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
+                    //?} else {
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/Identifier;IIII)V",
+                    *///?}
                     ordinal = 3
             ),
             cancellable = true
@@ -110,7 +117,13 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
         if (this.umbrellaPatterns != null && !this.hasMaxPatterns) {
             LoomUmbrellaRendering.drawResultUmbrella(graphics, x + 135, y + 12, outputSlot.getItem());
         } else if (this.hasMaxPatterns) {
-            graphics.blitSprite(RenderPipelines.GUI_TEXTURED, ERROR_SPRITE, x + outputSlot.x - 5, y + outputSlot.y - 5, 26, 26);
+            graphics.blitSprite(
+                    /*? if >=1.21.6 {*/RenderPipelines.GUI_TEXTURED, /*?}*/
+                    ERROR_SPRITE,
+                    x + outputSlot.x - 5,
+                    y + outputSlot.y - 5,
+                    26, 26
+            );
         }
 
         if (!this.displayPatterns) return;
@@ -139,7 +152,12 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                     texture = PATTERN_SPRITE;
                 }
 
-                graphics.blitSprite(RenderPipelines.GUI_TEXTURED, texture, newX, newY, 14, 14);
+                graphics.blitSprite(
+                        /*? if >=1.21.6 {*/RenderPipelines.GUI_TEXTURED, /*?}*/
+                        texture,
+                        newX, newY,
+                        14, 14
+                );
                 LoomUmbrellaRendering.drawPatternUmbrella(graphics, newX, newY, list.get(index));
             }
         }
@@ -151,9 +169,13 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             method = "renderBg",
             at = @At(
                     value = "INVOKE",
+                    //? if >=1.21.6 {
                     target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
+                    //?} else {
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/Identifier;IIIIII)V"
+                    *///?}
             ),
-            index = 1
+            index = /*? if >=1.21.6 {*/1/*?} else {*//*0*//*?}*/
     )
     private Identifier useModifiedTextureIfUsingUmbrella(Identifier original) {
         return this.isUsingUmbrellas ? SPRITE : original;

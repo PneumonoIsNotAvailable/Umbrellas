@@ -4,10 +4,15 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
+import net.minecraft.tags.TagKey;
+import net.minecraft.world.item.Item;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
+
+//? if >=1.21.6
+import net.minecraft.data.tags.TagAppender;
 
 public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider {
     public UmbrellasItemTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
@@ -16,7 +21,7 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
 
     @Override
     protected void addTags(HolderLookup.Provider provider) {
-        valueLookupBuilder(UmbrellasTags.PATTERNABLE_UMBRELLAS).add(
+        create(UmbrellasTags.PATTERNABLE_UMBRELLAS).add(
                 UmbrellasItems.WHITE_UMBRELLA,
                 UmbrellasItems.ORANGE_UMBRELLA,
                 UmbrellasItems.MAGENTA_UMBRELLA,
@@ -35,7 +40,7 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
                 UmbrellasItems.BLACK_UMBRELLA
         );
 
-        valueLookupBuilder(UmbrellasTags.EXTRA_UMBRELLAS).add(
+        create(UmbrellasTags.EXTRA_UMBRELLAS).add(
                 UmbrellasItems.ANIMALS_UMBRELLA,
                 UmbrellasItems.AZALEA_UMBRELLA,
                 UmbrellasItems.GALACTIC_UMBRELLA,
@@ -43,12 +48,20 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
                 UmbrellasItems.JELLYFISH_UMBRELLA
         );
 
-        valueLookupBuilder(UmbrellasTags.UMBRELLAS)
+        create(UmbrellasTags.UMBRELLAS)
                 .addTag(UmbrellasTags.PATTERNABLE_UMBRELLAS)
                 .addTag(UmbrellasTags.EXTRA_UMBRELLAS);
 
-        valueLookupBuilder(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
+        create(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
 
-        valueLookupBuilder(ItemTags.DURABILITY_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
+        create(ItemTags.DURABILITY_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
+    }
+
+    private /*? if >=1.21.6 {*/TagAppender<Item, Item>/*?} else {*//*ItemTagProvider.FabricTagBuilder*//*?}*/ create(TagKey<Item> tag) {
+        //? if >=1.21.6 {
+        return valueLookupBuilder(tag);
+        //?} else {
+        /*return getOrCreateTagBuilder(tag);
+        *///?}
     }
 }

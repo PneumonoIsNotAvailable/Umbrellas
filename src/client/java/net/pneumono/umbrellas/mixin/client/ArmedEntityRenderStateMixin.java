@@ -1,5 +1,6 @@
 package net.pneumono.umbrellas.mixin.client;
 
+//? if >=1.21.6 {
 import net.minecraft.client.renderer.entity.state.ArmedEntityRenderState;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.world.entity.HumanoidArm;
@@ -12,6 +13,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+@SuppressWarnings("AddedMixinMembersNamePattern")
 @Mixin(ArmedEntityRenderState.class)
 public abstract class ArmedEntityRenderStateMixin implements UmbrellaHoldingEntityRenderState {
     @Unique
@@ -25,22 +27,22 @@ public abstract class ArmedEntityRenderStateMixin implements UmbrellaHoldingEnti
     )
     private static void updateRenderStateWithUmbrella(LivingEntity entity, ArmedEntityRenderState state, ItemModelResolver itemModelResolver/*? if >=1.21.11 {*/, float f/*?}*/, CallbackInfo ci) {
         if (!(state instanceof UmbrellaHoldingEntityRenderState umbrellaState)) return;
-        umbrellaState.umbrellas$setShouldAdjustArm(false, ArmsUtil.shouldAdjustArm(HumanoidArm.LEFT, entity, umbrellaState));
-        umbrellaState.umbrellas$setShouldAdjustArm(true, ArmsUtil.shouldAdjustArm(HumanoidArm.RIGHT, entity, umbrellaState));
+        umbrellaState.setShouldAdjustArm(false, ArmsUtil.shouldAdjustArm(HumanoidArm.LEFT, entity));
+        umbrellaState.setShouldAdjustArm(true, ArmsUtil.shouldAdjustArm(HumanoidArm.RIGHT, entity));
     }
 
     @Override
-    public boolean umbrellas$shouldAdjustLeftArm() {
+    public boolean shouldAdjustLeftArm() {
         return this.shouldAdjustLeftArm;
     }
 
     @Override
-    public boolean umbrellas$shouldAdjustRightArm() {
+    public boolean shouldAdjustRightArm() {
         return this.shouldAdjustRightArm;
     }
 
     @Override
-    public void umbrellas$setShouldAdjustArm(boolean right, boolean hasUmbrella) {
+    public void setShouldAdjustArm(boolean right, boolean hasUmbrella) {
         if (right) {
             this.shouldAdjustRightArm = hasUmbrella;
         } else {
@@ -48,3 +50,4 @@ public abstract class ArmedEntityRenderStateMixin implements UmbrellaHoldingEnti
         }
     }
 }
+//?}

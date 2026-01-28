@@ -69,6 +69,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasBlocks.CHERRY_UMBRELLA_STAND, "Cherry Umbrella Stand");
         builder.add(UmbrellasBlocks.JUNGLE_UMBRELLA_STAND, "Jungle Umbrella Stand");
         builder.add(UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND, "Dark Oak Umbrella Stand");
+        //? if >=1.21.6
         builder.add(UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND, "Pale Oak Umbrella Stand");
         builder.add(UmbrellasBlocks.CRIMSON_UMBRELLA_STAND, "Crimson Umbrella Stand");
         builder.add(UmbrellasBlocks.WARPED_UMBRELLA_STAND, "Warped Umbrella Stand");

@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "group": "umbrella_stand",
+  "key": {
+    "P": {
+      "item": "minecraft:jungle_planks"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    }
+  },
+  "pattern": [
+    "P",
+    "S",
+    "P"
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:jungle_umbrella_stand"
+  }
+}

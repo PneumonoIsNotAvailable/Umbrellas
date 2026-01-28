@@ -7,7 +7,6 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlock;
 import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
@@ -28,6 +27,9 @@ import org.jetbrains.annotations.Nullable;
 /*import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 *///?}
+
+//? if >=1.21.6
+import net.minecraft.world.phys.Vec3;
 
 public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<UmbrellaStandBlockEntity/*? if >=1.21.9 {*/, UmbrellaStandBlockEntityRenderer.UmbrellaRenderState/*?}*/> {
     //? if >=1.21.9
@@ -80,7 +82,7 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
 
     //?} else {
     /*@Override
-    public void render(UmbrellaStandBlockEntity entity, float tickProgress, PoseStack poseStack, MultiBufferSource collector, int light, int overlay, Vec3 vec3) {
+    public void render(UmbrellaStandBlockEntity entity, float tickProgress, PoseStack poseStack, MultiBufferSource collector, int light, int overlay/^? if >=1.21.6 {^/, Vec3 vec3/^?}^/) {
         ItemStack stack = entity.getTheItem();
         UmbrellaPatternsComponent patterns = stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
         boolean foil = stack.hasFoil();

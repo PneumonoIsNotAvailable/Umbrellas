@@ -8,11 +8,11 @@ import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
-import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
+import net.pneumono.umbrellas.content.item.UmbrellaPatternItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.util.VersionUtil;
@@ -21,8 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+//? if >=1.21.6
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+
 public class UmbrellasItems {
-    public static final List<Item> UMBRELLAS = new ArrayList<>();
+    public static final List<Item> PATTERNABLES = new ArrayList<>();
     private static final int MAX_UMBRELLA_DAMAGE = 600;
 
     public static final UmbrellaItem WHITE_UMBRELLA = registerPatternableUmbrella(DyeColor.WHITE);
@@ -69,6 +72,7 @@ public class UmbrellasItems {
     public static final Item CHERRY_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
     public static final Item JUNGLE_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
     public static final Item DARK_OAK_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
+    //? if >=1.21.6
     public static final Item PALE_OAK_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
     public static final Item CRIMSON_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
     public static final Item WARPED_UMBRELLA_STAND = registerBlockItem(UmbrellasBlocks.WARPED_UMBRELLA_STAND);
@@ -78,10 +82,12 @@ public class UmbrellasItems {
     public static final ResourceKey<CreativeModeTab> CREATIVE_MODE_TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Umbrellas.id(Umbrellas.MOD_ID));
 
     private static UmbrellaItem registerPatternableUmbrella(DyeColor color) {
-        return registerUmbrella(color.getName(), settings -> new UmbrellaItem(settings.component(
+        UmbrellaItem item = registerUmbrella(color.getName(), settings -> new UmbrellaItem(settings.component(
                 UmbrellasDataComponents.UMBRELLA_PATTERNS,
                 new UmbrellaPatternsComponent(color, List.of())
         )), Rarity.COMMON);
+        PATTERNABLES.add(item);
+        return item;
     }
 
     private static UmbrellaItem registerExtraUmbrella(String name) {
@@ -102,7 +108,7 @@ public class UmbrellasItems {
     private static Item registerUmbrellaPatternItem(String name, Rarity rarity, boolean requiresDye) {
         return registerItem(
                 name + "_umbrella_pattern",
-                Item::new,
+                UmbrellaPatternItem::new,
                 new Item.Properties().stacksTo(1).rarity(rarity)
                         .component(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS, new ProvidesUmbrellaPatterns(
                                 UmbrellasTags.pattern("pattern_item/" + name),
@@ -116,26 +122,28 @@ public class UmbrellasItems {
         return registerItem(
                 VersionUtil.identifier(block.builtInRegistryHolder().key()).getPath(),
                 settings -> new BlockItem(block, settings),
-                new Item.Properties().useBlockDescriptionPrefix()
+                new Item.Properties()/*? if >=1.21.6 {*/.useBlockDescriptionPrefix()/*?}*/
         );
     }
 
     protected static <T extends Item> T registerItem(String name, Function<Item.Properties, T> factory, Item.Properties settings) {
         ResourceKey<Item> key = ResourceKey.create(Registries.ITEM, Umbrellas.id(name));
-        return Registry.register(BuiltInRegistries.ITEM, key, factory.apply(settings.setId(key)));
+        return Registry.register(
+                BuiltInRegistries.ITEM, key,
+                factory.apply(settings/*? if >=1.21.6 {*/.setId(key)/*?}*/)
+        );
     }
 
     private static Item.Properties createDefaultUmbrellaSettings() {
         return new Item.Properties()
                 .stacksTo(1)
                 .durability(MAX_UMBRELLA_DAMAGE)
-                .enchantable(15)
-                .repairable(UmbrellasTags.REPAIRS_UMBRELLAS);
+                //? if >=1.21.6
+                .enchantable(15).repairable(UmbrellasTags.REPAIRS_UMBRELLAS)
+                ;
     }
 
     public static void registerUmbrellasItems() {
-        BuiltInRegistries.ITEM.addAlias(Umbrellas.id("umbrella"), Umbrellas.id("white_umbrella"));
-
         Item[] umbrellas = new Item[]{
                 WHITE_UMBRELLA,
                 LIGHT_GRAY_UMBRELLA,
@@ -180,6 +188,7 @@ public class UmbrellasItems {
                 CHERRY_UMBRELLA_STAND,
                 JUNGLE_UMBRELLA_STAND,
                 DARK_OAK_UMBRELLA_STAND,
+                //? if >=1.21.6
                 PALE_OAK_UMBRELLA_STAND,
                 CRIMSON_UMBRELLA_STAND,
                 WARPED_UMBRELLA_STAND,
@@ -205,12 +214,24 @@ public class UmbrellasItems {
                         entries.accept(item);
                     }
                     displayContext.holders().lookup(Registries.ENCHANTMENT).ifPresent(registryWrapper -> {
-                        entries.accept(EnchantmentHelper.createBook(
-                                new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.GLIDING), 3)
-                        ));
-                        entries.accept(EnchantmentHelper.createBook(
-                                new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.BILLOWING), 1)
-                        ));
+                        entries.accept(
+                                //? if >=1.21.6 {
+                                EnchantmentHelper.createBook(
+                                //?} else {
+                                /*EnchantedBookItem.createForEnchantment(
+                                *///?}
+                                        new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.GLIDING), 3)
+                                )
+                        );
+                        entries.accept(
+                                //? if >=1.21.6 {
+                                EnchantmentHelper.createBook(
+                                //?} else {
+                                /*EnchantedBookItem.createForEnchantment(
+                                *///?}
+                                        new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.BILLOWING), 1)
+                                )
+                        );
                     });
                 }).build()
         );

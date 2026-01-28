@@ -15,14 +15,22 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.gameevent.GameEvent;
-import net.minecraft.world.level.storage.ValueInput;
-import net.minecraft.world.level.storage.ValueOutput;
 import net.minecraft.world.ticks.ContainerSingleItem;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+
+//? if >=1.21.6 {
+import net.minecraft.world.level.storage.ValueInput;
+import net.minecraft.world.level.storage.ValueOutput;
+//?} else {
+/*import com.mojang.datafixers.util.Pair;
+import net.minecraft.nbt.NbtOps;
+import net.minecraft.nbt.Tag;
+import net.minecraft.resources.RegistryOps;
+*///?}
 
 public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSingleItem.BlockContainerSingleItem {
     private ItemStack umbrellaStack = ItemStack.EMPTY;
@@ -31,6 +39,7 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
         super(UmbrellasBlocks.UMBRELLA_STAND_BLOCK_ENTITY, pos, state);
     }
 
+    //? if >=1.21.6 {
     @Override
     protected void loadAdditional(ValueInput input) {
         super.loadAdditional(input);
@@ -44,6 +53,30 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
             output.store("UmbrellaItem", ItemStack.CODEC, this.umbrellaStack);
         }
     }
+    //?} else {
+    /*@Override
+    protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.loadAdditional(compoundTag, provider);
+        if (compoundTag.contains("UmbrellaItem")) {
+            RegistryOps<Tag> ops = provider.createSerializationContext(NbtOps.INSTANCE);
+            this.umbrellaStack = ItemStack.CODEC
+                    .decode(ops, compoundTag.get("UmbrellaItem"))
+                    .mapOrElse(Pair::getFirst, error -> ItemStack.EMPTY);
+        }
+    }
+
+    @Override
+    protected void saveAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
+        super.saveAdditional(compoundTag, provider);
+        if (this.umbrellaStack != null && !this.umbrellaStack.isEmpty()) {
+            RegistryOps<Tag> ops = provider.createSerializationContext(NbtOps.INSTANCE);
+            Tag tag = ItemStack.CODEC.encodeStart(ops, this.umbrellaStack).mapOrElse(nbt -> nbt, error -> null);
+            if (tag != null) {
+                compoundTag.put("UmbrellaItem", tag);
+            }
+        }
+    }
+    *///?}
 
     @Override
     public @NotNull ItemStack getTheItem() {

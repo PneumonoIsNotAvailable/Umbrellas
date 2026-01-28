@@ -1,13 +1,15 @@
 package net.pneumono.umbrellas.registry;
 
 import com.mojang.serialization.Codec;
-import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+
+//? if >=1.21.6
+import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
 
 public class UmbrellasDataComponents {
     public static final DataComponentType<Long> LAST_DAMAGE = registerComponent("last_damage", DataComponentType.<Long>builder().persistent(Codec.LONG).build());
@@ -25,7 +27,9 @@ public class UmbrellasDataComponents {
     }
 
     public static void registerUmbrellasDataComponents() {
+        //? if >=1.21.6 {
         ComponentTooltipAppenderRegistry.addFirst(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
         ComponentTooltipAppenderRegistry.addFirst(UmbrellasDataComponents.UMBRELLA_PATTERNS);
+        //?}
     }
 }

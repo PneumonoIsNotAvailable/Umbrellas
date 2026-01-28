@@ -2,21 +2,29 @@
 
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.minecraft.client.data.models.BlockModelGenerators;
-import net.minecraft.client.data.models.ItemModelGenerators;
-import net.minecraft.client.data.models.model.*;
-import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
-import net.pneumono.umbrellas.content.UmbrellaSpecialModelRenderer;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 
 import java.util.Optional;
+
+//? if >=1.21.6 {
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.*;
+import net.minecraft.client.renderer.item.ItemModel;
+import net.pneumono.umbrellas.content.UmbrellaSpecialModelRenderer;
+//?} else {
+/*import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.data.models.BlockModelGenerators;
+import net.minecraft.data.models.ItemModelGenerators;
+import net.minecraft.data.models.model.*;
+*///?}
 
 public class UmbrellasModelProvider extends FabricModelProvider {
     public UmbrellasModelProvider(FabricDataOutput output) {
@@ -34,6 +42,7 @@ public class UmbrellasModelProvider extends FabricModelProvider {
         registerUmbrellaStand(generators, UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
         registerUmbrellaStand(generators, UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
         registerUmbrellaStand(generators, UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
+        //? if >=1.21.6
         registerUmbrellaStand(generators, UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
         registerUmbrellaStand(generators, UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
         registerUmbrellaStand(generators, UmbrellasBlocks.WARPED_UMBRELLA_STAND);
@@ -46,9 +55,17 @@ public class UmbrellasModelProvider extends FabricModelProvider {
         Identifier modelId = TEMPLATE_UMBRELLA_STAND.create(block, textureMap, generators.modelOutput);
         generators.blockStateOutput.accept(BlockModelGenerators.createSimpleBlock(
                 block,
-                BlockModelGenerators.plainVariant(modelId))
-        );
+                //? if >=1.21.6 {
+                BlockModelGenerators.plainVariant(modelId)
+                //?} else {
+                /*modelId
+                *///?}
+        ));
+        //? if >=1.21.6 {
         generators.registerSimpleItemModel(block, modelId);
+        //?} else {
+        /*generators.delegateItemModel(block, modelId);
+        *///?}
     }
 
     private static final ModelTemplate TEMPLATE_UMBRELLA = new ModelTemplate(Optional.of(Umbrellas.id("item/template_umbrella")), Optional.empty());
@@ -92,12 +109,17 @@ public class UmbrellasModelProvider extends FabricModelProvider {
     }
 
     public void registerPatternableUmbrella(ItemModelGenerators generators, Item item) {
+        //? if >=1.21.6 {
         ItemModel.Unbaked unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(item), new UmbrellaSpecialModelRenderer.Unbaked());
         generators.itemModelOutput.accept(item, unbaked);
         TEMPLATE_UMBRELLA.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(item), generators.modelOutput);
+        //?} else {
+        /*TEMPLATE_UMBRELLA.create(ModelLocationUtils.getModelLocation(item), TextureMapping.layer0(item), generators.output);
+        *///?}
     }
 
     public void registerExtraUmbrella(ItemModelGenerators generators, Item item) {
+        //? if >=1.21.6
         generators.itemModelOutput.accept(item, ItemModelUtils.plainModel(ModelLocationUtils.getModelLocation(item)));
     }
 }

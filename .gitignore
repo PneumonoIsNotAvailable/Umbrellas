@@ -42,6 +42,7 @@ replay_*.log
 # datagen output
 
 src/main/generated/.cache/
+/versions/1.21/src/main/generated/.cache/
 /versions/1.21.6/src/main/generated/.cache/
 /versions/1.21.9/src/main/generated/.cache/
 /versions/1.21.11/src/main/generated/.cache/

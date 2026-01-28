@@ -13,8 +13,8 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
@@ -25,6 +25,9 @@ import net.pneumono.umbrellas.registry.UmbrellasTags;
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
 
+//? if >=1.21.6
+import net.minecraft.world.item.Item;
+
 public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
     public UmbrellasAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output, registryLookup);
@@ -32,7 +35,9 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
 
     @Override
     public void generateAdvancement(HolderLookup.Provider provider, Consumer<AdvancementHolder> consumer) {
+        //? if >=1.21.6
         HolderLookup.RegistryLookup<Item> itemLookup = provider.lookupOrThrow(Registries.ITEM);
+        HolderLookup.RegistryLookup<Enchantment> enchantmentLookup = provider.lookupOrThrow(Registries.ENCHANTMENT);
 
         AdvancementHolder getUmbrellaAdvancement = Advancement.Builder.advancement().parent(Advancement.Builder.advancement().build(Identifier.withDefaultNamespace("adventure/root")))
                 .display(
@@ -45,11 +50,11 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         true,
                         false
                 )
-                .addCriterion("has_umbrella", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(itemLookup, UmbrellasTags.UMBRELLAS)))
+                .addCriterion("has_umbrella", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(/*? if >=1.21.6 {*/itemLookup, /*?}*/UmbrellasTags.UMBRELLAS)))
                 .save(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
 
         ItemStack glidingEnchanted = new ItemStack(UmbrellasItems.RED_UMBRELLA);
-        glidingEnchanted.enchant(provider.getOrThrow(UmbrellasEnchantments.GLIDING), 3);
+        glidingEnchanted.enchant(enchantmentLookup.getOrThrow(UmbrellasEnchantments.GLIDING), 3);
         Advancement.Builder.advancement().parent(getUmbrellaAdvancement)
                 .display(
                         glidingEnchanted,
@@ -65,7 +70,7 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .save(consumer, Umbrellas.MOD_ID + ":adventure/use_gliding_umbrella");
 
         ItemStack billowingEnchanted = new ItemStack(UmbrellasItems.RED_UMBRELLA);
-        billowingEnchanted.enchant(provider.getOrThrow(UmbrellasEnchantments.BILLOWING), 3);
+        billowingEnchanted.enchant(enchantmentLookup.getOrThrow(UmbrellasEnchantments.BILLOWING), 3);
         Advancement.Builder.advancement().parent(getUmbrellaAdvancement)
                 .display(
                         billowingEnchanted,

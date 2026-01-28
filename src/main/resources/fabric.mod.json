@@ -39,7 +39,7 @@
 	"mixins": [
 		"umbrellas.mixins.json",
 		{
-			"config": "umbrellas.client.mixins.json",
+			"config": "umbrellas.client.mixins.json5",
 			"environment": "client"
 		}
 	],

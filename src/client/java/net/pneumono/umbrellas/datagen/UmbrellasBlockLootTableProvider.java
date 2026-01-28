@@ -21,6 +21,7 @@ public class UmbrellasBlockLootTableProvider extends FabricBlockLootTableProvide
         this.dropSelf(UmbrellasBlocks.CHERRY_UMBRELLA_STAND);
         this.dropSelf(UmbrellasBlocks.JUNGLE_UMBRELLA_STAND);
         this.dropSelf(UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND);
+        //? if >=1.21.6
         this.dropSelf(UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND);
         this.dropSelf(UmbrellasBlocks.CRIMSON_UMBRELLA_STAND);
         this.dropSelf(UmbrellasBlocks.WARPED_UMBRELLA_STAND);

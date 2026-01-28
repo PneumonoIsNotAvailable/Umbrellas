@@ -2,6 +2,7 @@ plugins {
 	id("fabric-loom") version "1.14-SNAPSHOT"
 	id("maven-publish")
 	id("me.modmuss50.mod-publish-plugin") version "1.1.0"
+	id("dev.kikugie.fletching-table") version "0.1.0-alpha.22"
 }
 
 val javaVersion = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5"))
@@ -10,7 +11,11 @@ java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
 val awFile = if (stonecutter.eval(stonecutter.current.version, ">=1.21.11"))
-	"1.21.11.accesswidener" else "1.21.accesswidener"
+	"1.21.11.accesswidener"
+else if (stonecutter.eval(stonecutter.current.version, ">=1.21.6"))
+	"1.21.6.accesswidener"
+else
+	"1.21.accesswidener"
 
 base.archivesName.set(project.property("mod_id") as String)
 version = "${project.property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
@@ -115,6 +120,13 @@ stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("RenderType::entitySolid", "RenderTypes::entitySolid")
 		replace("RenderType::entityNoOutline", "RenderTypes::entityNoOutline")
+	}
+}
+
+fletchingTable {
+	j52j.register("main") {
+		extension("json", "umbrellas.client.mixins.json5")
+		extension("json", "assets/umbrellas/models/item/template_umbrella.json5")
 	}
 }
 

@@ -1,6 +1,5 @@
 package net.pneumono.umbrellas.mixin;
 
-import com.llamalad7.mixinextras.injector.ModifyReturnValue;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.core.Holder;
@@ -18,6 +17,12 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+//? if >=1.21.6 {
+import com.llamalad7.mixinextras.injector.ModifyReturnValue;
+//?} else {
+/*import com.llamalad7.mixinextras.injector.ModifyExpressionValue;
+*///?}
+
 @Mixin(LivingEntity.class)
 public abstract class LivingEntityMixin extends Entity implements Attackable {
     public LivingEntityMixin(EntityType<?> type, Level level) {
@@ -28,10 +33,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
 
     @Shadow public abstract ItemStack getOffhandItem();
 
+    //? if >=1.21.6 {
     @ModifyReturnValue(
             method = "getEffectiveGravity",
             at = @At("RETURN")
     )
+    //?} else {
+    /*@ModifyExpressionValue(
+            method = "travel",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/entity/LivingEntity;getGravity()D"
+            )
+    )
+    *///?}
     private double applyUmbrellaGravity(double gravity) {
         return UmbrellaUtils.getEffectiveGravityWithUmbrellas(this, getMainHandItem(), getOffhandItem(), gravity);
     }
@@ -46,7 +61,7 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
     }
 
     @WrapOperation(
-            method = "calculateFallPower",
+            method = "calculateFallDamage",
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/entity/LivingEntity;getAttributeValue(Lnet/minecraft/core/Holder;)D"
