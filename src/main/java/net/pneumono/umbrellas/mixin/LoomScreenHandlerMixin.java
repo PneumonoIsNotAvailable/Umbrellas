@@ -6,17 +6,12 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import com.llamalad7.mixinextras.sugar.Local;
 import net.minecraft.core.Holder;
-import net.minecraft.core.Registry;
-import net.minecraft.core.component.DataComponentType;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.Container;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
-import net.minecraft.world.item.BannerItem;
-import net.minecraft.world.item.DyeColor;
-import net.minecraft.world.item.DyeItem;
-import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.entity.BannerPattern;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
@@ -37,6 +32,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
+
+//? if >=1.21.6 {
+import net.minecraft.core.Registry;
+import net.minecraft.core.component.DataComponentType;
+//?} else {
+/*import net.minecraft.core.HolderGetter;
+*///?}
 
 @Mixin(LoomMenu.class)
 public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu implements LoomScreenHandlerAccess {
@@ -65,7 +67,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
     @Unique
     private List<Holder<UmbrellaPattern>> selectableUmbrellaPatterns = List.of();
     @Unique
-    private Registry<UmbrellaPattern> umbrellaPatternLookup;
+    private /*? if >=1.21.6 {*/Registry<UmbrellaPattern>/*?} else {*//*HolderGetter<UmbrellaPattern>*//*?}*/ umbrellaPatternGetter;
     @Unique
     private boolean isUsingUmbrellas = false;
 
@@ -74,7 +76,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
             at = @At("RETURN")
     )
     private void setUmbrellaPatternLookup(int syncId, Inventory inventory, ContainerLevelAccess access, CallbackInfo ci) {
-        this.umbrellaPatternLookup = inventory.player.registryAccess().lookupOrThrow(UmbrellaPatterns.UMBRELLA_PATTERN_KEY);
+        this.umbrellaPatternGetter = inventory.player.registryAccess().lookupOrThrow(UmbrellaPatterns.UMBRELLA_PATTERN_KEY);
     }
 
     @Inject(
@@ -95,7 +97,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
     @Unique
     private List<Holder<UmbrellaPattern>> getSelectablePatterns(ItemStack stack) {
         if (stack.isEmpty()) {
-            return this.umbrellaPatternLookup
+            return this.umbrellaPatternGetter
                     .get(UmbrellasTags.NO_ITEM_REQUIRED)
                     .map(ImmutableList::copyOf)
                     .orElse(ImmutableList.of());
@@ -105,7 +107,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
                     ProvidesUmbrellaPatterns.DEFAULT
             ).patterns();
             if (tagKey == null) return List.of();
-            return this.umbrellaPatternLookup
+            return this.umbrellaPatternGetter
                     .get(tagKey)
                     .map(ImmutableList::copyOf)
                     .orElse(ImmutableList.of());
@@ -211,6 +213,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
         return original.call(object) || stack.is(UmbrellasTags.PATTERNABLE_UMBRELLAS);
     }
 
+    //? if >=1.21.6 {
     @WrapOperation(
             method = "quickMoveStack",
             at = @At(
@@ -221,6 +224,15 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
     private boolean slotHasPatternItem(ItemStack itemStack, DataComponentType<?> componentType, Operation<Boolean> original) {
         return original.call(itemStack, componentType) || itemStack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
     }
+    //?} else {
+    /*@WrapOperation(
+            method = "quickMoveStack",
+            constant = @Constant(classValue = BannerPatternItem.class)
+    )
+    private boolean slotHasPatternItem(Object object, Operation<Boolean> original, @Local(ordinal = 1) ItemStack stack) {
+        return original.call(object) || stack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+    }
+    *///?}
 
     @Unique
     private void setupResultSlot(Holder<UmbrellaPattern> pattern) {

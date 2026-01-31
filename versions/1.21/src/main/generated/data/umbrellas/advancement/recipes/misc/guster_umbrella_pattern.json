@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "guster_banner_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:guster_banner_pattern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:guster_umbrella_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "guster_banner_pattern"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:guster_umbrella_pattern"
+    ]
+  }
+}

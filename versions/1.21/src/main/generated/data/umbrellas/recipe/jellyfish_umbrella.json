@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "extra_umbrellas",
+  "key": {
+    "K": {
+      "item": "minecraft:kelp"
+    },
+    "L": {
+      "item": "minecraft:light_blue_stained_glass"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "U": {
+      "tag": "umbrellas:umbrellas"
+    }
+  },
+  "pattern": [
+    "LKL",
+    "LUL",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:jellyfish_umbrella"
+  }
+}

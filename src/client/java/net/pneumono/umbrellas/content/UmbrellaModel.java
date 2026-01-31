@@ -18,13 +18,36 @@ import net.minecraft.client.renderer.rendertype.RenderTypes;
 import net.minecraft.util.Unit;
 //?}
 
+//? if <1.21.6 {
+/*import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+*///?}
+
 public abstract class UmbrellaModel extends /*? if >=1.21.9 {*/Model<Unit>/*?} else {*//*Model*//*?}*/ {
     public static final String HANDLE = "handle";
     public static final String CANOPY = "canopy";
+    //? if <1.21.6
+    //private final ModelPart root;
 
     public UmbrellaModel(ModelPart root) {
+        //? if >=1.21.6 {
         super(root, RenderTypes::entitySolid);
+        //?} else {
+        /*super(RenderTypes::entitySolid);
+        this.root = root;
+        *///?}
     }
+
+    //? if <1.21.6 {
+    /*@Override
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
+        this.root.render(poseStack, vertexConsumer, i, j, k);
+    }
+
+    public ModelPart root() {
+        return this.root;
+    }
+    *///?}
 
     public static class Handle extends UmbrellaModel {
         public Handle(ModelPart root) {

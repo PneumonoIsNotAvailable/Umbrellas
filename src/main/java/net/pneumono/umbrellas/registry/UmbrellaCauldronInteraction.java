@@ -3,7 +3,6 @@ package net.pneumono.umbrellas.registry;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.cauldron.CauldronInteraction;
 import net.minecraft.world.InteractionHand;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -13,11 +12,23 @@ import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 
+//? if >=1.21.6 {
+import net.minecraft.world.InteractionResult;
+//?} else {
+/*import net.minecraft.world.ItemInteractionResult;
+*///?}
+
 public class UmbrellaCauldronInteraction {
-    private static InteractionResult cleanUmbrella(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack) {
+    private static /*? if >=1.21.6 {*/InteractionResult/*?} else {*//*ItemInteractionResult*//*?}*/ cleanUmbrella(
+            BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack
+    ) {
         UmbrellaPatternsComponent umbrellaPatternsComponent = stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
         if (umbrellaPatternsComponent.layers().isEmpty()) {
+            //? if >=1.21.6 {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
+            //?} else {
+            /*return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+            *///?}
         }
         if (!level.isClientSide()) {
             ItemStack itemStack = stack.copyWithCount(1);
@@ -27,7 +38,11 @@ public class UmbrellaCauldronInteraction {
             LayeredCauldronBlock.lowerFillLevel(state, level, pos);
         }
 
+        //? if >=1.21.6 {
         return InteractionResult.SUCCESS;
+         //?} else {
+        /*return ItemInteractionResult.SUCCESS;
+        *///?}
     }
 
     public static void registerCauldronBehavior() {

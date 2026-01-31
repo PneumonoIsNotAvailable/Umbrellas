@@ -23,6 +23,7 @@ public class UmbrellasBlocks {
     public static final Block CHERRY_UMBRELLA_STAND = registerBlock("cherry_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE).noOcclusion());
     public static final Block JUNGLE_UMBRELLA_STAND = registerBlock("jungle_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE).noOcclusion());
     public static final Block DARK_OAK_UMBRELLA_STAND = registerBlock("dark_oak_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE).noOcclusion());
+    //? if >=1.21.6
     public static final Block PALE_OAK_UMBRELLA_STAND = registerBlock("pale_oak_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.PALE_OAK_FENCE).noOcclusion());
     public static final Block CRIMSON_UMBRELLA_STAND = registerBlock("crimson_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE).noOcclusion());
     public static final Block WARPED_UMBRELLA_STAND = registerBlock("warped_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE).noOcclusion());
@@ -38,6 +39,7 @@ public class UmbrellasBlocks {
                     CHERRY_UMBRELLA_STAND,
                     JUNGLE_UMBRELLA_STAND,
                     DARK_OAK_UMBRELLA_STAND,
+                    //? if >=1.21.6
                     PALE_OAK_UMBRELLA_STAND,
                     CRIMSON_UMBRELLA_STAND,
                     WARPED_UMBRELLA_STAND,
@@ -48,10 +50,13 @@ public class UmbrellasBlocks {
 
     private static Block registerBlock(String name, Function<BlockBehaviour.Properties, Block> factory, BlockBehaviour.Properties properties) {
         ResourceKey<Block> key = ResourceKey.create(Registries.BLOCK, Umbrellas.id(name));
-        return Registry.register(BuiltInRegistries.BLOCK, key, factory.apply(properties.setId(key)));
+        return Registry.register(
+                BuiltInRegistries.BLOCK, key,
+                factory.apply(properties/*? if >=1.21.6 {*/.setId(key)/*?}*/)
+        );
     }
 
     public static void registerUmbrellasBlocks() {
-        BuiltInRegistries.BLOCK.addAlias(Umbrellas.id("umbrella_stand"), Umbrellas.id("spruce_umbrella_stand"));
+
     }
 }

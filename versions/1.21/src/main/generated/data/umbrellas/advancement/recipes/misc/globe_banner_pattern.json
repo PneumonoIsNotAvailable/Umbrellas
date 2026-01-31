@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "globe_umbrella_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "umbrellas:globe_umbrella_pattern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:globe_banner_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "globe_umbrella_pattern"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:globe_banner_pattern"
+    ]
+  }
+}

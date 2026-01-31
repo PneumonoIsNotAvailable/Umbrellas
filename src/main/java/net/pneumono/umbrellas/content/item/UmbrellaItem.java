@@ -1,10 +1,8 @@
 package net.pneumono.umbrellas.content.item;
 
 import net.minecraft.core.component.DataComponents;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.entity.Entity;
-import net.minecraft.world.entity.EquipmentSlot;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.Item;
@@ -13,14 +11,35 @@ import net.pneumono.umbrellas.UmbrellasConfig;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Map;
+
+//? if >=1.21.6 {
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.EquipmentSlot;
+import org.jetbrains.annotations.Nullable;
+//?} else {
+/*import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.level.Level;
+import java.util.List;
+*///?}
 
 public class UmbrellaItem extends Item {
     public UmbrellaItem(Properties properties) {
         super(properties);
     }
+
+    //? if <1.21.6 {
+    /*@Override
+    public void appendHoverText(ItemStack itemStack, TooltipContext context, List<Component> list, TooltipFlag flag) {
+        super.appendHoverText(itemStack, context, list, flag);
+        UmbrellaPatternsComponent component = itemStack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
+        if (component != null) {
+            component.addToTooltip(context, list::add, flag);
+        }
+    }
+    *///?}
 
     @Override
     public boolean isFoil(ItemStack stack) {
@@ -39,9 +58,15 @@ public class UmbrellaItem extends Item {
     }
 
     // Very scuffed, only exists temporarily as a backwards compatibility feature
+    //? if >=1.21.6 {
     @Override
     public void inventoryTick(ItemStack stack, ServerLevel level, Entity entity, @Nullable EquipmentSlot slot) {
         super.inventoryTick(stack, level, entity, slot);
+    //?} else {
+    /*@Override
+    public void inventoryTick(ItemStack stack, Level level, Entity entity, int i, boolean bl) {
+        super.inventoryTick(stack, level, entity, i, bl);
+    *///?}
         UmbrellaPatternsComponent component = stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
         if (component == null) return;
         DyeColor color = createBackwardsCompatColorMap().get(stack.getItem());
@@ -49,7 +74,7 @@ public class UmbrellaItem extends Item {
             stack.set(UmbrellasDataComponents.UMBRELLA_PATTERNS, new UmbrellaPatternsComponent(color, component.layers()));
         }
     }
-    
+
     private static Map<Item, DyeColor> createBackwardsCompatColorMap() {
         return Map.ofEntries(
                 Map.entry(UmbrellasItems.WHITE_UMBRELLA, DyeColor.WHITE),

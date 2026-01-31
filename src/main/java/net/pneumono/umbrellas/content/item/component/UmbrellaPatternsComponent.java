@@ -6,7 +6,6 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
-import net.minecraft.core.component.DataComponentGetter;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -20,6 +19,9 @@ import net.pneumono.umbrellas.content.UmbrellaPattern;
 
 import java.util.List;
 import java.util.function.Consumer;
+
+//? if >=1.21.6
+import net.minecraft.core.component.DataComponentGetter;
 
 public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) implements TooltipProvider {
     public static final UmbrellaPatternsComponent DEFAULT = new UmbrellaPatternsComponent(DyeColor.GRAY, List.of());
@@ -45,7 +47,12 @@ public record UmbrellaPatternsComponent(DyeColor baseColor, List<Layer> layers) 
     }
 
     @Override
-    public void addToTooltip(Item.TooltipContext context, Consumer<Component> textConsumer, TooltipFlag flag, DataComponentGetter getter) {
+    public void addToTooltip(
+            Item.TooltipContext context,
+            Consumer<Component> textConsumer,
+            TooltipFlag flag
+            /*? if >=1.21.6 {*/, DataComponentGetter getter/*?}*/
+    ) {
         for (int i = 0; i < Math.min(this.layers().size(), MAX_PATTERNS); i++) {
             textConsumer.accept(this.layers().get(i).getTooltipText().withStyle(ChatFormatting.GRAY));
         }

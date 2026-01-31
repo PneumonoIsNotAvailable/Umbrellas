@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "extra_umbrellas",
+  "key": {
+    "B": {
+      "item": "minecraft:black_wool"
+    },
+    "I": {
+      "item": "minecraft:iron_ingot"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "U": {
+      "tag": "umbrellas:umbrellas"
+    }
+  },
+  "pattern": [
+    "BIB",
+    "BUB",
+    " S "
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:gothic_umbrella"
+  }
+}

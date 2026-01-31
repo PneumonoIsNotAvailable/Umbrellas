@@ -1,0 +1,61 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "equipment",
+  "group": "umbrella_dye",
+  "ingredients": [
+    {
+      "item": "minecraft:orange_dye"
+    },
+    [
+      {
+        "item": "umbrellas:white_umbrella"
+      },
+      {
+        "item": "umbrellas:magenta_umbrella"
+      },
+      {
+        "item": "umbrellas:light_blue_umbrella"
+      },
+      {
+        "item": "umbrellas:yellow_umbrella"
+      },
+      {
+        "item": "umbrellas:lime_umbrella"
+      },
+      {
+        "item": "umbrellas:pink_umbrella"
+      },
+      {
+        "item": "umbrellas:gray_umbrella"
+      },
+      {
+        "item": "umbrellas:light_gray_umbrella"
+      },
+      {
+        "item": "umbrellas:cyan_umbrella"
+      },
+      {
+        "item": "umbrellas:purple_umbrella"
+      },
+      {
+        "item": "umbrellas:blue_umbrella"
+      },
+      {
+        "item": "umbrellas:brown_umbrella"
+      },
+      {
+        "item": "umbrellas:green_umbrella"
+      },
+      {
+        "item": "umbrellas:red_umbrella"
+      },
+      {
+        "item": "umbrellas:black_umbrella"
+      }
+    ]
+  ],
+  "result": {
+    "count": 1,
+    "id": "umbrellas:orange_umbrella"
+  }
+}
