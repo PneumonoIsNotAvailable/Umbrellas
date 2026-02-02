@@ -10,7 +10,8 @@
         "HumanoidModelMixin",
         "ItemInHandLayerMixin",
         "UmbrellaAtlasMixin",
-        "LoomScreenMixin"
+        "LoomScreenMixin",
+        "WeatherRendererMixin"
     ],
     "injectors": {
         "defaultRequire": 1

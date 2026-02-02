@@ -70,6 +70,43 @@ public class UmbrellaUtils {
         return false;
     }
 
+    public static int getShelteredHeight(Level level, int checkedX, int checkedY, int checkedZ) {
+        int areaWidth = 1;
+        int startY = -1;
+        int endY = 10;
+
+        for (int x = -areaWidth; x <= areaWidth; ++x) {
+            for (int y = startY; y <= endY; ++y) {
+                for (int z = -areaWidth; z <= areaWidth; ++z) {
+                    BlockPos newPos = new BlockPos(checkedX + x, checkedY + y, checkedZ + z);
+                    if (level.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack()) {
+                        return newPos.getY() + 4;
+                    }
+                }
+            }
+        }
+
+        AABB box = new AABB(
+                new Vec3(checkedX - areaWidth, checkedY + startY, checkedZ - areaWidth),
+                new Vec3(checkedX + areaWidth, checkedY + endY, checkedZ + areaWidth)
+        );
+
+        for (Entity temp : level.getEntities(null, box)) {
+            if (temp instanceof LivingEntity friend) {
+                ItemStack friendMainHandStack = friend.getMainHandItem();
+                if (friendMainHandStack.is(UmbrellasTags.UMBRELLAS)) {
+                    return (int)(friend.getY() + 4);
+                }
+                ItemStack friendOffHandStack = friend.getOffhandItem();
+                if (friendOffHandStack.is(UmbrellasTags.UMBRELLAS)) {
+                    return (int)(friend.getY() + 4);
+                }
+            }
+        }
+
+        return checkedY;
+    }
+
     /**
      * Damages item stacks if {@link UmbrellasConfig#DURABILITY} is enabled, with a 20 tick cooldown.<p>
      */
