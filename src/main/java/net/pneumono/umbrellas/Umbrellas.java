@@ -17,7 +17,7 @@ public class Umbrellas implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
-		LOGGER.info("Initialising Umbrellas");
+		LOGGER.info("Initializing Umbrellas");
 		UmbrellasConfig.registerUmbrellasConfigs();
 
 		DynamicRegistries.registerSynced(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellaPattern.CODEC);
