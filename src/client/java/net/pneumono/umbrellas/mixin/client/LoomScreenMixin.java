@@ -19,14 +19,15 @@ import net.minecraft.world.level.block.entity.BannerPattern;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.LoomUmbrellaRendering;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
+import net.pneumono.umbrellas.content.item.UmbrellaPatternItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
 import org.jetbrains.annotations.Nullable;
 import org.objectweb.asm.Opcodes;
-import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -41,18 +42,24 @@ import java.util.List;
 import net.minecraft.client.renderer.RenderPipelines;
 //?}
 
+//? if >=1.21
+import org.spongepowered.asm.mixin.Final;
+
 @Mixin(LoomScreen.class)
 public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> {
     public LoomScreenMixin(LoomMenu handler, Inventory inventory, Component title) {
         super(handler, inventory, title);
     }
 
+    //? if >=1.21 {
     @Shadow
     @Final
     private static Identifier ERROR_SPRITE;
     @Shadow
     @Final
     private static Identifier PATTERN_SELECTED_SPRITE;
+    //?}
+
     @Shadow
     private boolean displayPatterns;
     @Shadow
@@ -60,10 +67,12 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     @Shadow
     private int startRow;
 
+    //? if >=1.21 {
     @Unique
     private static final Identifier PATTERN_SPRITE = Umbrellas.id("pattern");
     @Unique
     private static final Identifier PATTERN_HIGHLIGHTED_SPRITE = Umbrellas.id("pattern_highlighted");
+    //?}
     @Unique
     private static final Identifier SPRITE = Umbrellas.id("textures/gui/loom.png");
     @Nullable
@@ -94,10 +103,12 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                     shift = At.Shift.AFTER,
                     //? if >=1.21.6 {
                     target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
-                    //?} else {
+                    //?} else if >=1.21 {
                     /*target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/Identifier;IIII)V",
+                    *///?} else {
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/Identifier;IIIIII)V",
                     *///?}
-                    ordinal = 3
+                    ordinal = /*? if >=1.21 {*/3/*?} else {*//*4*//*?}*/
             ),
             cancellable = true
     )
@@ -117,6 +128,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
         if (this.umbrellaPatterns != null && !this.hasMaxPatterns) {
             LoomUmbrellaRendering.drawResultUmbrella(graphics, x + 135, y + 12, outputSlot.getItem());
         } else if (this.hasMaxPatterns) {
+            //? if >=1.21 {
             graphics.blitSprite(
                     /*? if >=1.21.6 {*/RenderPipelines.GUI_TEXTURED, /*?}*/
                     ERROR_SPRITE,
@@ -124,6 +136,10 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                     y + outputSlot.y - 5,
                     26, 26
             );
+            //?} else {
+            /*Slot resultSlot = this.menu.getResultSlot();
+            graphics.blit(SPRITE, x + resultSlot.x - 2, y + resultSlot.y - 2, this.imageWidth, 17, 17, 16);
+            *///?}
         }
 
         if (!this.displayPatterns) return;
@@ -143,6 +159,8 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                 int newX = offX + j * 14;
                 int newY = offY + i * 14;
                 boolean isHighlighted = mouseX >= newX && mouseY >= newY && mouseX < newX + 14 && mouseY < newY + 14;
+
+                //? if >=1.21 {
                 Identifier texture;
                 if (index == this.menu.getSelectedBannerPatternIndex()) {
                     texture = PATTERN_SELECTED_SPRITE;
@@ -158,6 +176,17 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                         newX, newY,
                         14, 14
                 );
+                //?} else {
+                /*int yOffset = this.imageHeight;
+                if (index == this.menu.getSelectedBannerPatternIndex()) {
+                    yOffset += 14;
+                } else if (isHighlighted) {
+                    yOffset += 28;
+                }
+
+                graphics.blit(SPRITE, newX, newY, 0, yOffset, 14, 14);
+                *///?}
+
                 LoomUmbrellaRendering.drawPatternUmbrella(graphics, newX, newY, list.get(index));
             }
         }
@@ -190,11 +219,16 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
         this.isUsingUmbrellas = inputStack.is(UmbrellasTags.PATTERNABLE_UMBRELLAS);
     }
 
+    //? if >=1.21 {
     @Inject(
             method = "containerChanged",
             at = @At(
                     value = "FIELD",
+                    //? if >=1.21 {
                     target = "Lnet/minecraft/client/gui/screens/inventory/LoomScreen;resultBannerPatterns:Lnet/minecraft/world/level/block/entity/BannerPatternLayers;",
+                    //?} else {
+                    /*target = "Lnet/minecraft/client/gui/screens/inventory/LoomScreen;resultBannerPatterns:Ljava/util/List;",
+                    *///?}
                     opcode = Opcodes.PUTFIELD,
                     ordinal = 0
             )
@@ -213,9 +247,38 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             )
     )
     private void setUmbrellaPatternsToOutputPatterns(CallbackInfo ci) {
-        this.umbrellaPatterns = this.menu.getResultSlot().getItem()
-                .getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
+        this.umbrellaPatterns = VersionedComponents.getOrDefault(
+                this.menu.getResultSlot().getItem(),
+                UmbrellasDataComponents.UMBRELLA_PATTERNS,
+                UmbrellaPatternsComponent.DEFAULT
+        );
     }
+    //?} else {
+    /*@WrapOperation(
+            method = "containerChanged",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z",
+                    ordinal = 0
+            )
+    )
+    private boolean setUmbrellaPatternsToOutputPatterns(ItemStack stack, Operation<Boolean> original) {
+        // Overrides at this point to prevent ClassCastException from assuming the ItemStack is always a BannerItem
+        if (stack.getItem() instanceof BannerItem) {
+            return original.call(stack);
+        } else if (original.call(stack)) {
+            this.umbrellaPatterns = null;
+            return true;
+        } else {
+            this.umbrellaPatterns = VersionedComponents.getOrDefault(
+                    this.menu.getResultSlot().getItem(),
+                    UmbrellasDataComponents.UMBRELLA_PATTERNS,
+                    UmbrellaPatternsComponent.DEFAULT
+            );
+            return true;
+        }
+    }
+    *///?}
 
     @WrapOperation(
             method = "containerChanged",
@@ -227,8 +290,10 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     )
     private void setHasTooManyPatterns(LoomScreen instance, boolean value, Operation<Void> original) {
         ItemStack inputStack = this.menu.getBannerSlot().getItem();
-        UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
-                UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT
+        UmbrellaPatternsComponent umbrellaPatternsComponent = VersionedComponents.getOrDefault(
+                inputStack,
+                UmbrellasDataComponents.UMBRELLA_PATTERNS,
+                UmbrellaPatternsComponent.DEFAULT
         );
         original.call(instance, value || umbrellaPatternsComponent.layers().size() >= UmbrellaPatternsComponent.MAX_PATTERNS);
     }
@@ -237,7 +302,11 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             method = "containerChanged",
             at = @At(
                     value = "FIELD",
+                    //? if >=1.21 {
                     target = "Lnet/minecraft/client/gui/screens/inventory/LoomScreen;resultBannerPatterns:Lnet/minecraft/world/level/block/entity/BannerPatternLayers;",
+                    //?} else {
+                    /*target = "Lnet/minecraft/client/gui/screens/inventory/LoomScreen;resultBannerPatterns:Ljava/util/List;",
+                    *///?}
                     opcode = Opcodes.PUTFIELD,
                     ordinal = 2
             )
@@ -251,23 +320,18 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z",
-                    ordinal = 2
+                    ordinal = /*? if >=1.21 {*/2/*?} else {*//*3*//*?}*/
             )
     )
     private boolean slotHasDyeItem(ItemStack instance, Operation<Boolean> original) {
-        boolean invert = false;
         if (this.isUsingUmbrellas) {
-            ProvidesUmbrellaPatterns component = this.menu.getPatternSlot().getItem().get(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+            ProvidesUmbrellaPatterns component = UmbrellaPatternItem.getProvided(this.menu.getPatternSlot().getItem());
             if (component != null && !component.requiresDye()) {
-                invert = true;
+                return !original.call(instance);
             }
         }
 
-        if (invert) {
-            return !original.call(instance);
-        } else {
-            return original.call(instance);
-        }
+        return original.call(instance);
     }
 
     @WrapOperation(

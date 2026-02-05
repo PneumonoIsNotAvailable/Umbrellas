@@ -16,6 +16,9 @@ import java.util.concurrent.CompletableFuture;
 //? if <1.21.6
 //import net.minecraft.world.item.crafting.Ingredient;
 
+//? if <1.21
+//import java.util.function.Consumer;
+
 public class UmbrellasRecipeProvider extends FabricRecipeProvider {
     //? if >=1.21.6 {
     public UmbrellasRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -213,11 +216,11 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
     /*private static final String HAS_UMBRELLA = "has_umbrella";
 
     public UmbrellasRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
-        super(output, registriesFuture);
+        super(output/^? if >=1.21 {^/, registriesFuture/^?}^/);
     }
 
     @Override
-    public void buildRecipes(RecipeOutput recipeOutput) {
+    public void buildRecipes(/^? if >=1.21 {^/RecipeOutput/^?} else {^//^Consumer<FinishedRecipe>^//^?}^/ recipeOutput) {
         createPatternableUmbrella(recipeOutput, UmbrellasItems.WHITE_UMBRELLA, Items.WHITE_WOOL);
         createPatternableUmbrella(recipeOutput, UmbrellasItems.ORANGE_UMBRELLA, Items.ORANGE_WOOL);
         createPatternableUmbrella(recipeOutput, UmbrellasItems.MAGENTA_UMBRELLA, Items.MAGENTA_WOOL);
@@ -340,11 +343,15 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                 new Pair<>(Items.SKULL_BANNER_PATTERN, UmbrellasItems.SKULL_UMBRELLA_PATTERN),
                 new Pair<>(Items.FLOWER_BANNER_PATTERN, UmbrellasItems.FLOWER_UMBRELLA_PATTERN),
                 new Pair<>(Items.MOJANG_BANNER_PATTERN, UmbrellasItems.MOJANG_UMBRELLA_PATTERN),
-                new Pair<>(Items.PIGLIN_BANNER_PATTERN, UmbrellasItems.PIGLIN_UMBRELLA_PATTERN),
-                new Pair<>(Items.FLOW_BANNER_PATTERN, UmbrellasItems.FLOW_UMBRELLA_PATTERN),
+                new Pair<>(Items.PIGLIN_BANNER_PATTERN, UmbrellasItems.PIGLIN_UMBRELLA_PATTERN)
+                //? if >=1.21 {
+                , new Pair<>(Items.FLOW_BANNER_PATTERN, UmbrellasItems.FLOW_UMBRELLA_PATTERN),
                 new Pair<>(Items.GUSTER_BANNER_PATTERN, UmbrellasItems.GUSTER_UMBRELLA_PATTERN)
-                //? if >=1.21.6
-                , new Pair<>(Items.FIELD_MASONED_BANNER_PATTERN, UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN), new Pair<>(Items.BORDURE_INDENTED_BANNER_PATTERN, UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN)
+                //?}
+                //? if >=1.21.6 {
+                , new Pair<>(Items.FIELD_MASONED_BANNER_PATTERN, UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN),
+                new Pair<>(Items.BORDURE_INDENTED_BANNER_PATTERN, UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN)
+                //?}
         );
 
         for (Pair<Item, Item> pair : patterns) {
@@ -382,7 +389,10 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
         ^///?}
     }
 
-    private void createPatternableUmbrella(RecipeOutput recipeOutput, Item umbrella, Item wool) {
+    private void createPatternableUmbrella(
+            /^? if >=1.21 {^/RecipeOutput/^?} else {^//^Consumer<FinishedRecipe>^//^?}^/ recipeOutput,
+            Item umbrella, Item wool
+    ) {
         ShapedRecipeBuilder.shaped(RecipeCategory.TOOLS, umbrella)
                 .pattern("WLW")
                 .pattern("LSL")
@@ -396,7 +406,10 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                 .save(recipeOutput);
     }
 
-    private void createUmbrellaStand(RecipeOutput recipeOutput, Item stand, Item planks) {
+    private void createUmbrellaStand(
+            /^? if >=1.21 {^/RecipeOutput/^?} else {^//^Consumer<FinishedRecipe>^//^?}^/ recipeOutput,
+            Item stand, Item planks
+    ) {
         ShapedRecipeBuilder.shaped(RecipeCategory.DECORATIONS, stand)
                 .pattern("P")
                 .pattern("S")

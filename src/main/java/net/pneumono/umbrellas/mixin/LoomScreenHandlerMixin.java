@@ -13,13 +13,14 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.*;
 import net.minecraft.world.item.*;
 import net.minecraft.world.level.block.entity.BannerPattern;
-import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
+import net.pneumono.umbrellas.content.item.UmbrellaPatternItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.util.LoomScreenHandlerAccess;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -76,7 +77,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
             at = @At("RETURN")
     )
     private void setUmbrellaPatternLookup(int syncId, Inventory inventory, ContainerLevelAccess access, CallbackInfo ci) {
-        this.umbrellaPatternGetter = inventory.player.registryAccess().lookupOrThrow(UmbrellaPatterns.UMBRELLA_PATTERN_KEY);
+        this.umbrellaPatternGetter = inventory.player.level().registryAccess().lookupOrThrow(UmbrellaPatterns.UMBRELLA_PATTERN_KEY);
     }
 
     @Inject(
@@ -95,17 +96,14 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
     }
 
     @Unique
-    private List<Holder<UmbrellaPattern>> getSelectablePatterns(ItemStack stack) {
+    private List<Holder<UmbrellaPattern>> getSelectableUmbrellaPatterns(ItemStack stack) {
         if (stack.isEmpty()) {
             return this.umbrellaPatternGetter
                     .get(UmbrellasTags.NO_ITEM_REQUIRED)
                     .map(ImmutableList::copyOf)
                     .orElse(ImmutableList.of());
         } else {
-            TagKey<UmbrellaPattern> tagKey = stack.getOrDefault(
-                    UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS,
-                    ProvidesUmbrellaPatterns.DEFAULT
-            ).patterns();
+            TagKey<UmbrellaPattern> tagKey = UmbrellaPatternItem.getProvidedOrDefault(stack).patterns();
             if (tagKey == null) return List.of();
             return this.umbrellaPatternGetter
                     .get(tagKey)
@@ -144,14 +142,14 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
             boolean indexValid = this.isUmbrellaPatternIndexValid(patternIndex);
 
             List<Holder<UmbrellaPattern>> oldPatterns = this.selectableUmbrellaPatterns;
-            this.selectableUmbrellaPatterns = this.getSelectablePatterns(patternStack).stream().filter(
+            this.selectableUmbrellaPatterns = this.getSelectableUmbrellaPatterns(patternStack).stream().filter(
                     pattern -> pattern.value().dyeable() == hasDye
             ).toList();
 
             Holder<UmbrellaPattern> selectedPattern;
             if (this.selectableUmbrellaPatterns.size() == 1) {
                 this.selectedBannerPatternIndex.set(0);
-                selectedPattern = this.selectableUmbrellaPatterns.getFirst();
+                selectedPattern = this.selectableUmbrellaPatterns.get(0);
 
             } else if (!indexValid) {
                 this.selectedBannerPatternIndex.set(-1);
@@ -172,7 +170,8 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
             }
 
             if (selectedPattern != null) {
-                UmbrellaPatternsComponent umbrellaPatternsComponent = inputStack.getOrDefault(
+                UmbrellaPatternsComponent umbrellaPatternsComponent = VersionedComponents.getOrDefault(
+                        inputStack,
                         UmbrellasDataComponents.UMBRELLA_PATTERNS,
                         UmbrellaPatternsComponent.DEFAULT
                 );
@@ -202,7 +201,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
     @Unique
     @Override
     public List<Holder<UmbrellaPattern>> getUmbrellaPatterns() {
-        return selectableUmbrellaPatterns;
+        return this.selectableUmbrellaPatterns;
     }
 
     @WrapOperation(
@@ -221,8 +220,8 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
                     target = "Lnet/minecraft/world/item/ItemStack;has(Lnet/minecraft/core/component/DataComponentType;)Z"
             )
     )
-    private boolean slotHasPatternItem(ItemStack itemStack, DataComponentType<?> componentType, Operation<Boolean> original) {
-        return original.call(itemStack, componentType) || itemStack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+    private boolean slotHasPatternItem(ItemStack stack, DataComponentType<?> componentType, Operation<Boolean> original) {
+        return original.call(stack, componentType) || UmbrellaPatternItem.canProvide(stack);
     }
     //?} else {
     /*@WrapOperation(
@@ -230,7 +229,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
             constant = @Constant(classValue = BannerPatternItem.class)
     )
     private boolean slotHasPatternItem(Object object, Operation<Boolean> original, @Local(ordinal = 1) ItemStack stack) {
-        return original.call(object) || stack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+        return original.call(object) || UmbrellaPatternItem.canProvide(stack);
     }
     *///?}
 
@@ -242,16 +241,23 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
         if (!inputStack.isEmpty()) {
             empty = inputStack.copyWithCount(1);
             DyeColor dyeColor = dyeStack.getItem() instanceof DyeItem dyeItem ? dyeItem.getDyeColor() : DyeColor.WHITE;
-            empty.update(
+            VersionedComponents.update(
+                    empty,
                     UmbrellasDataComponents.UMBRELLA_PATTERNS,
                     UmbrellaPatternsComponent.DEFAULT,
                     component -> new UmbrellaPatternsComponent.Builder().copy(component).add(pattern, dyeColor).build()
             );
         }
 
+        //? if >=1.21 {
         if (!ItemStack.isSameItemSameComponents(empty, this.resultSlot.getItem())) {
             this.resultSlot.setByPlayer(empty);
         }
+        //?} else {
+        /*if (!ItemStack.isSameItemSameTags(empty, this.resultSlot.getItem())) {
+            this.resultSlot.setByPlayer(empty);
+        }
+        *///?}
     }
 
     @Mixin(targets = "net/minecraft/world/inventory/LoomMenu$3")
@@ -272,7 +278,7 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
                 at = @At("RETURN")
         )
         private boolean canInsertWithUmbrella(boolean original, ItemStack stack) {
-            return original || stack.has(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS);
+            return original || UmbrellaPatternItem.canProvide(stack);
         }
     }
 }

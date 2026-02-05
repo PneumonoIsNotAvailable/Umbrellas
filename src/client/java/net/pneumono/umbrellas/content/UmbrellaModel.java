@@ -38,13 +38,20 @@ public abstract class UmbrellaModel extends /*? if >=1.21.9 {*/Model<Unit>/*?} e
         *///?}
     }
 
-    //? if <1.21.6 {
+    //? if <1.21 {
+    /*@Override
+    public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, float f, float g, float h, float k) {
+        this.root.render(poseStack, vertexConsumer, i, j, f, g, h, k);
+    }
+    *///?} else if <1.21.6 {
     /*@Override
     public void renderToBuffer(PoseStack poseStack, VertexConsumer vertexConsumer, int i, int j, int k) {
         this.root.render(poseStack, vertexConsumer, i, j, k);
     }
+    *///?}
 
-    public ModelPart root() {
+    //? if <1.21.6 {
+    /*public ModelPart root() {
         return this.root;
     }
     *///?}

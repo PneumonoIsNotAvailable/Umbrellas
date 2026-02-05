@@ -1,0 +1,33 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:azalea_umbrella"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_umbrella": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "umbrellas:umbrellas"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "has_umbrella",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:azalea_umbrella"
+    ]
+  },
+  "sends_telemetry_event": false
+}

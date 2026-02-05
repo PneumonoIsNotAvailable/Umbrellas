@@ -113,6 +113,10 @@ stonecutter {
 		replace("ResourceLocation", "Identifier")
 	}
 
+	replacements.string("bootstrap_replacements", current.parsed >= "1.21") {
+		replace("BootstapContext", "BootstrapContext")
+	}
+
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("critereon", "criterion")
 	}
@@ -125,6 +129,7 @@ stonecutter {
 
 fletchingTable {
 	j52j.register("main") {
+		extension("json", "umbrellas.mixins.json5")
 		extension("json", "umbrellas.client.mixins.json5")
 		extension("json", "assets/umbrellas/models/item/template_umbrella.json5")
 	}

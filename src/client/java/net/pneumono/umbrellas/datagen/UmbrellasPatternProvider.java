@@ -1,4 +1,5 @@
 //~ identifier_replacements
+//~ bootstrap_replacements
 
 package net.pneumono.umbrellas.datagen;
 
@@ -27,7 +28,7 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
             String directoryName,
             Codec<UmbrellaPattern> codec
     ) {
-        super(dataOutput, registriesFuture, outputType, directoryName, codec);
+        super(dataOutput/*? if >=1.21 {*/, registriesFuture/*?}*/, outputType, directoryName, codec);
     }
     
     private static final List<Pattern> PATTERNS = List.of(
@@ -134,7 +135,7 @@ public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPa
     );
 
     @Override
-    protected void configure(BiConsumer<Identifier, UmbrellaPattern> provider, HolderLookup.Provider lookup) {
+    protected void configure(BiConsumer<Identifier, UmbrellaPattern> provider/*? if >=1.21 {*/, HolderLookup.Provider lookup/*?}*/) {
         for (Pattern pattern : PATTERNS) {
             provider.accept(VersionUtil.identifier(pattern.key), pattern.pattern);
         }

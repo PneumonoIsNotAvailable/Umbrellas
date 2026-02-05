@@ -20,6 +20,7 @@ import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasEnchantments;
 import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
 
 import java.util.List;
 
@@ -116,11 +117,15 @@ public class UmbrellaUtils {
         long time = level.getGameTime();
 
         if (
-                !stack.has(UmbrellasDataComponents.LAST_DAMAGE)
-                || stack.getOrDefault(UmbrellasDataComponents.LAST_DAMAGE, time) + 20 <= time
+                !VersionedComponents.has(stack, UmbrellasDataComponents.LAST_DAMAGE)
+                || VersionedComponents.getOrDefault(stack, UmbrellasDataComponents.LAST_DAMAGE, time) + 20 <= time
         ) {
-            stack.set(UmbrellasDataComponents.LAST_DAMAGE, time);
+            VersionedComponents.set(stack, UmbrellasDataComponents.LAST_DAMAGE, time);
+            //? if >=1.21 {
             stack.hurtAndBreak(amount, entity, slot);
+            //?} else {
+            /*stack.hurtAndBreak(amount, entity, entity1 -> entity1.broadcastBreakEvent(slot));
+            *///?}
         }
     }
 
@@ -226,7 +231,11 @@ public class UmbrellaUtils {
      * When set to {@link EnchantmentAbilityType#NEVER}, returns {@code 0}.<p>
      */
     public static int getSlowFallingStrength(ItemStack stack, RandomSource random) {
-        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(stack, random, UmbrellasEnchantments.SLOW_FALLING, 3, 0);
+        return UmbrellasConfig.SLOW_FALLING.getValue().getStrength(
+                stack, random,
+                /*? if >=1.21 {*/UmbrellasEnchantments.SLOW_FALLING/*?} else {*//*UmbrellasEnchantments.GLIDING*//*?}*/,
+                3, 0
+        );
     }
 
     /**
@@ -237,11 +246,15 @@ public class UmbrellaUtils {
      * When set to {@link EnchantmentAbilityType#NEVER}, returns false.<p>
      */
     public static boolean hasSmokeBoosting(ItemStack stack, RandomSource random) {
-        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(stack, random, UmbrellasEnchantments.SMOKE_BOOSTING, 1, 0) > 0;
+        return UmbrellasConfig.SMOKE_BOOSTING.getValue().getStrength(
+                stack, random,
+                /*? if >=1.21 {*/UmbrellasEnchantments.SMOKE_BOOSTING/*?} else {*//*UmbrellasEnchantments.BILLOWING*//*?}*/,
+                1, 0
+        ) > 0;
     }
 
     public static double getEffectiveGravityWithUmbrellas(Entity entity, ItemStack mainhand, ItemStack offhand, double baseGravity) {
-        int strength = getSlowFallingStrength(mainhand, offhand, entity.getRandom());
+        int strength = getSlowFallingStrength(mainhand, offhand, entity.level().getRandom());
 
         if (strength > 0 && entity.getDeltaMovement().y() <= 0.0) {
             return Math.min(
@@ -272,14 +285,16 @@ public class UmbrellaUtils {
     }
 
     public static void tickSmokeBoost(Entity entity, ItemStack mainhand, ItemStack offhand) {
+        RandomSource randomSource = entity.level().getRandom();
+
         boolean usingMainHand = false;
         boolean usingUmbrella = false;
         boolean shouldTick = false;
-        if (UmbrellaUtils.hasSmokeBoosting(mainhand, entity.getRandom())) {
+        if (UmbrellaUtils.hasSmokeBoosting(mainhand, randomSource)) {
             usingMainHand = true;
             usingUmbrella = true;
             shouldTick = true;
-        } else if (UmbrellaUtils.hasSmokeBoosting(offhand, entity.getRandom())) {
+        } else if (UmbrellaUtils.hasSmokeBoosting(offhand, randomSource)) {
             usingUmbrella = true;
             shouldTick = true;
         } else if (UmbrellasConfig.ELYTRA_SMOKE_BOOSTING.getValue() && entity instanceof LivingEntity living && living.isFallFlying()) {

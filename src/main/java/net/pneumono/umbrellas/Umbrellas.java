@@ -34,6 +34,10 @@ public class Umbrellas implements ModInitializer {
 	}
 
 	public static Identifier id(String path) {
+		//? if >=1.21 {
 		return Identifier.fromNamespaceAndPath(MOD_ID, path);
+		//?} else {
+		/*return Identifier.tryBuild(MOD_ID, path);
+		*///?}
 	}
 }

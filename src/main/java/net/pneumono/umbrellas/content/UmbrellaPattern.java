@@ -5,12 +5,15 @@ package net.pneumono.umbrellas.content;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.network.RegistryFriendlyByteBuf;
-import net.minecraft.network.codec.ByteBufCodecs;
-import net.minecraft.network.codec.StreamCodec;
 import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
+
+//? if >=1.21 {
+import net.minecraft.network.RegistryFriendlyByteBuf;
+import net.minecraft.network.codec.ByteBufCodecs;
+import net.minecraft.network.codec.StreamCodec;
+//?}
 
 public record UmbrellaPattern(Identifier assetId, String translationKey, boolean dyeable) {
     public static final Codec<UmbrellaPattern> CODEC = RecordCodecBuilder.create(
@@ -20,6 +23,7 @@ public record UmbrellaPattern(Identifier assetId, String translationKey, boolean
                     Codec.BOOL.fieldOf("dyeable").forGetter(UmbrellaPattern::dyeable)
             ).apply(instance, UmbrellaPattern::new)
     );
+    //? if >=1.21 {
     public static final StreamCodec<RegistryFriendlyByteBuf, UmbrellaPattern> PACKET_CODEC = StreamCodec.composite(
             Identifier.STREAM_CODEC,
             UmbrellaPattern::assetId,
@@ -29,9 +33,12 @@ public record UmbrellaPattern(Identifier assetId, String translationKey, boolean
             UmbrellaPattern::dyeable,
             UmbrellaPattern::new
     );
+    //?}
 
     public static final Codec<Holder<UmbrellaPattern>> ENTRY_CODEC = RegistryFileCodec.create(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, CODEC);
+    //? if >=1.21 {
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<UmbrellaPattern>> ENTRY_PACKET_CODEC = ByteBufCodecs.holder(
             UmbrellaPatterns.UMBRELLA_PATTERN_KEY, PACKET_CODEC
     );
+    //?}
 }

@@ -101,8 +101,10 @@ public class UmbrellasModelProvider extends FabricModelProvider {
         generators.generateFlatItem(UmbrellasItems.MOJANG_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        //? if >=1.21 {
         generators.generateFlatItem(UmbrellasItems.FLOW_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(UmbrellasItems.GUSTER_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
+        //?}
         generators.generateFlatItem(UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);
         generators.generateFlatItem(UmbrellasItems.PRIDE_UMBRELLA_PATTERN, ModelTemplates.FLAT_ITEM);

@@ -2,19 +2,21 @@ package net.pneumono.umbrellas.registry;
 
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.enchantment.Enchantment;
 import net.minecraft.world.item.enchantment.EnchantmentInstance;
 import net.minecraft.world.level.block.Block;
 import net.pneumono.umbrellas.Umbrellas;
+import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.UmbrellaItem;
 import net.pneumono.umbrellas.content.item.UmbrellaPatternItem;
 import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
-import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.util.VersionUtil;
 
 import java.util.ArrayList;
@@ -28,22 +30,22 @@ public class UmbrellasItems {
     public static final List<Item> PATTERNABLES = new ArrayList<>();
     private static final int MAX_UMBRELLA_DAMAGE = 600;
 
-    public static final UmbrellaItem WHITE_UMBRELLA = registerPatternableUmbrella(DyeColor.WHITE);
-    public static final UmbrellaItem ORANGE_UMBRELLA = registerPatternableUmbrella(DyeColor.ORANGE);
-    public static final UmbrellaItem MAGENTA_UMBRELLA = registerPatternableUmbrella(DyeColor.MAGENTA);
-    public static final UmbrellaItem LIGHT_BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_BLUE);
-    public static final UmbrellaItem YELLOW_UMBRELLA = registerPatternableUmbrella(DyeColor.YELLOW);
-    public static final UmbrellaItem LIME_UMBRELLA = registerPatternableUmbrella(DyeColor.LIME);
-    public static final UmbrellaItem PINK_UMBRELLA = registerPatternableUmbrella(DyeColor.PINK);
-    public static final UmbrellaItem GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.GRAY);
-    public static final UmbrellaItem LIGHT_GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_GRAY);
-    public static final UmbrellaItem CYAN_UMBRELLA = registerPatternableUmbrella(DyeColor.CYAN);
-    public static final UmbrellaItem PURPLE_UMBRELLA = registerPatternableUmbrella(DyeColor.PURPLE);
-    public static final UmbrellaItem BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.BLUE);
-    public static final UmbrellaItem BROWN_UMBRELLA = registerPatternableUmbrella(DyeColor.BROWN);
-    public static final UmbrellaItem GREEN_UMBRELLA = registerPatternableUmbrella(DyeColor.GREEN);
-    public static final UmbrellaItem RED_UMBRELLA = registerPatternableUmbrella(DyeColor.RED);
-    public static final UmbrellaItem BLACK_UMBRELLA = registerPatternableUmbrella(DyeColor.BLACK);
+    public static final PatternableUmbrellaItem WHITE_UMBRELLA = registerPatternableUmbrella(DyeColor.WHITE);
+    public static final PatternableUmbrellaItem ORANGE_UMBRELLA = registerPatternableUmbrella(DyeColor.ORANGE);
+    public static final PatternableUmbrellaItem MAGENTA_UMBRELLA = registerPatternableUmbrella(DyeColor.MAGENTA);
+    public static final PatternableUmbrellaItem LIGHT_BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_BLUE);
+    public static final PatternableUmbrellaItem YELLOW_UMBRELLA = registerPatternableUmbrella(DyeColor.YELLOW);
+    public static final PatternableUmbrellaItem LIME_UMBRELLA = registerPatternableUmbrella(DyeColor.LIME);
+    public static final PatternableUmbrellaItem PINK_UMBRELLA = registerPatternableUmbrella(DyeColor.PINK);
+    public static final PatternableUmbrellaItem GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.GRAY);
+    public static final PatternableUmbrellaItem LIGHT_GRAY_UMBRELLA = registerPatternableUmbrella(DyeColor.LIGHT_GRAY);
+    public static final PatternableUmbrellaItem CYAN_UMBRELLA = registerPatternableUmbrella(DyeColor.CYAN);
+    public static final PatternableUmbrellaItem PURPLE_UMBRELLA = registerPatternableUmbrella(DyeColor.PURPLE);
+    public static final PatternableUmbrellaItem BLUE_UMBRELLA = registerPatternableUmbrella(DyeColor.BLUE);
+    public static final PatternableUmbrellaItem BROWN_UMBRELLA = registerPatternableUmbrella(DyeColor.BROWN);
+    public static final PatternableUmbrellaItem GREEN_UMBRELLA = registerPatternableUmbrella(DyeColor.GREEN);
+    public static final PatternableUmbrellaItem RED_UMBRELLA = registerPatternableUmbrella(DyeColor.RED);
+    public static final PatternableUmbrellaItem BLACK_UMBRELLA = registerPatternableUmbrella(DyeColor.BLACK);
 
     // Most of these extra umbrellas are custom designs from a previous version of the mod used on a private server.
     // I figured it would be better to put them in the public mod than simply let these go to waste, so here they are!
@@ -59,8 +61,10 @@ public class UmbrellasItems {
     public static final Item MOJANG_UMBRELLA_PATTERN = registerUmbrellaPatternItem("mojang", Rarity.EPIC);
     public static final Item GLOBE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("globe", Rarity.COMMON);
     public static final Item PIGLIN_UMBRELLA_PATTERN = registerUmbrellaPatternItem("piglin", Rarity.COMMON);
+    //? if >=1.21 {
     public static final Item FLOW_UMBRELLA_PATTERN = registerUmbrellaPatternItem("flow", Rarity.RARE);
     public static final Item GUSTER_UMBRELLA_PATTERN = registerUmbrellaPatternItem("guster", Rarity.RARE);
+    //?}
     public static final Item FIELD_MASONED_UMBRELLA_PATTERN = registerUmbrellaPatternItem("field_masoned", Rarity.COMMON);
     public static final Item BORDURE_INDENTED_UMBRELLA_PATTERN = registerUmbrellaPatternItem("bordure_indented", Rarity.COMMON);
     public static final Item PRIDE_UMBRELLA_PATTERN = registerUmbrellaPatternItem("pride", Rarity.EPIC, false);
@@ -81,11 +85,8 @@ public class UmbrellasItems {
 
     public static final ResourceKey<CreativeModeTab> CREATIVE_MODE_TAB = ResourceKey.create(Registries.CREATIVE_MODE_TAB, Umbrellas.id(Umbrellas.MOD_ID));
 
-    private static UmbrellaItem registerPatternableUmbrella(DyeColor color) {
-        UmbrellaItem item = registerUmbrella(color.getName(), settings -> new UmbrellaItem(settings.component(
-                UmbrellasDataComponents.UMBRELLA_PATTERNS,
-                new UmbrellaPatternsComponent(color, List.of())
-        )), Rarity.COMMON);
+    private static PatternableUmbrellaItem registerPatternableUmbrella(DyeColor color) {
+        PatternableUmbrellaItem item = registerUmbrella(color.getName(), settings -> new PatternableUmbrellaItem(color, settings), Rarity.COMMON);
         PATTERNABLES.add(item);
         return item;
     }
@@ -108,12 +109,11 @@ public class UmbrellasItems {
     private static Item registerUmbrellaPatternItem(String name, Rarity rarity, boolean requiresDye) {
         return registerItem(
                 name + "_umbrella_pattern",
-                UmbrellaPatternItem::new,
+                properties -> new UmbrellaPatternItem(new ProvidesUmbrellaPatterns(
+                        UmbrellasTags.pattern("pattern_item/" + name),
+                        requiresDye
+                ), properties),
                 new Item.Properties().stacksTo(1).rarity(rarity)
-                        .component(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS, new ProvidesUmbrellaPatterns(
-                                UmbrellasTags.pattern("pattern_item/" + name),
-                                requiresDye
-                        ))
         );
     }
 
@@ -176,8 +176,10 @@ public class UmbrellasItems {
                 MOJANG_UMBRELLA_PATTERN,
                 GLOBE_UMBRELLA_PATTERN,
                 PIGLIN_UMBRELLA_PATTERN,
+                //? if >=1.21 {
                 FLOW_UMBRELLA_PATTERN,
                 GUSTER_UMBRELLA_PATTERN,
+                //?}
                 PRIDE_UMBRELLA_PATTERN
         };
         Item[] stands = new Item[]{
@@ -197,7 +199,8 @@ public class UmbrellasItems {
         };
 
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(content -> content.addAfter(Items.GUSTER_BANNER_PATTERN, patterns));
+        Item finalPattern = /*? if >=1.21 {*/Items.GUSTER_BANNER_PATTERN/*?} else {*//*Items.SKULL_BANNER_PATTERN*//*?}*/;
+        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(content -> content.addAfter(finalPattern, patterns));
         ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(content -> content.addBefore(Items.OAK_SIGN, stands));
 
         Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_MODE_TAB, FabricItemGroup.builder()
@@ -213,14 +216,14 @@ public class UmbrellasItems {
                     for (Item item : stands) {
                         entries.accept(item);
                     }
-                    displayContext.holders().lookup(Registries.ENCHANTMENT).ifPresent(registryWrapper -> {
+                    displayContext.holders().lookup(Registries.ENCHANTMENT).ifPresent(lookup -> {
                         entries.accept(
                                 //? if >=1.21.6 {
                                 EnchantmentHelper.createBook(
                                 //?} else {
                                 /*EnchantedBookItem.createForEnchantment(
                                 *///?}
-                                        new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.GLIDING), 3)
+                                        instance(lookup, UmbrellasEnchantments.GLIDING, 3)
                                 )
                         );
                         entries.accept(
@@ -229,11 +232,19 @@ public class UmbrellasItems {
                                 //?} else {
                                 /*EnchantedBookItem.createForEnchantment(
                                 *///?}
-                                        new EnchantmentInstance(registryWrapper.getOrThrow(UmbrellasEnchantments.BILLOWING), 1)
+                                        instance(lookup, UmbrellasEnchantments.BILLOWING, 1)
                                 )
                         );
                     });
                 }).build()
         );
+    }
+
+    private static EnchantmentInstance instance(HolderLookup.RegistryLookup<Enchantment> lookup, /*? if >=1.21 {*/ResourceKey<Enchantment>/*?} else {*//*Enchantment*//*?}*/ enchantment, int level) {
+        //? if >=1.21 {
+        return new EnchantmentInstance(lookup.getOrThrow(enchantment), level);
+        //?} else {
+        /*return new EnchantmentInstance(enchantment, level);
+        *///?}
     }
 }

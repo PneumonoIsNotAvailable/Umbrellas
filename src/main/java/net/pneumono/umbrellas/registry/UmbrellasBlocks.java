@@ -16,19 +16,19 @@ import net.pneumono.umbrellas.content.block.UmbrellaStandBlockEntity;
 import java.util.function.Function;
 
 public class UmbrellasBlocks {
-    public static final Block OAK_UMBRELLA_STAND = registerBlock("oak_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.OAK_FENCE).noOcclusion());
-    public static final Block SPRUCE_UMBRELLA_STAND = registerBlock("spruce_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.SPRUCE_FENCE).noOcclusion());
-    public static final Block BIRCH_UMBRELLA_STAND = registerBlock("birch_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.BIRCH_FENCE).noOcclusion());
-    public static final Block ACACIA_UMBRELLA_STAND = registerBlock("acacia_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.ACACIA_FENCE).noOcclusion());
-    public static final Block CHERRY_UMBRELLA_STAND = registerBlock("cherry_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CHERRY_FENCE).noOcclusion());
-    public static final Block JUNGLE_UMBRELLA_STAND = registerBlock("jungle_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.JUNGLE_FENCE).noOcclusion());
-    public static final Block DARK_OAK_UMBRELLA_STAND = registerBlock("dark_oak_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.DARK_OAK_FENCE).noOcclusion());
+    public static final Block OAK_UMBRELLA_STAND = registerBlock("oak_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.OAK_FENCE).noOcclusion());
+    public static final Block SPRUCE_UMBRELLA_STAND = registerBlock("spruce_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.SPRUCE_FENCE).noOcclusion());
+    public static final Block BIRCH_UMBRELLA_STAND = registerBlock("birch_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.BIRCH_FENCE).noOcclusion());
+    public static final Block ACACIA_UMBRELLA_STAND = registerBlock("acacia_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.ACACIA_FENCE).noOcclusion());
+    public static final Block CHERRY_UMBRELLA_STAND = registerBlock("cherry_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.CHERRY_FENCE).noOcclusion());
+    public static final Block JUNGLE_UMBRELLA_STAND = registerBlock("jungle_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.JUNGLE_FENCE).noOcclusion());
+    public static final Block DARK_OAK_UMBRELLA_STAND = registerBlock("dark_oak_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.DARK_OAK_FENCE).noOcclusion());
     //? if >=1.21.6
-    public static final Block PALE_OAK_UMBRELLA_STAND = registerBlock("pale_oak_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.PALE_OAK_FENCE).noOcclusion());
-    public static final Block CRIMSON_UMBRELLA_STAND = registerBlock("crimson_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.CRIMSON_FENCE).noOcclusion());
-    public static final Block WARPED_UMBRELLA_STAND = registerBlock("warped_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.WARPED_FENCE).noOcclusion());
-    public static final Block MANGROVE_UMBRELLA_STAND = registerBlock("mangrove_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.MANGROVE_FENCE).noOcclusion());
-    public static final Block BAMBOO_UMBRELLA_STAND = registerBlock("bamboo_umbrella_stand", UmbrellaStandBlock::new, BlockBehaviour.Properties.ofFullCopy(Blocks.BAMBOO_FENCE).noOcclusion());
+    public static final Block PALE_OAK_UMBRELLA_STAND = registerBlock("pale_oak_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.PALE_OAK_FENCE).noOcclusion());
+    public static final Block CRIMSON_UMBRELLA_STAND = registerBlock("crimson_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.CRIMSON_FENCE).noOcclusion());
+    public static final Block WARPED_UMBRELLA_STAND = registerBlock("warped_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.WARPED_FENCE).noOcclusion());
+    public static final Block MANGROVE_UMBRELLA_STAND = registerBlock("mangrove_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.MANGROVE_FENCE).noOcclusion());
+    public static final Block BAMBOO_UMBRELLA_STAND = registerBlock("bamboo_umbrella_stand", UmbrellaStandBlock::new, copy(Blocks.BAMBOO_FENCE).noOcclusion());
 
     public static final BlockEntityType<UmbrellaStandBlockEntity> UMBRELLA_STAND_BLOCK_ENTITY = Registry.register(BuiltInRegistries.BLOCK_ENTITY_TYPE, Umbrellas.id("umbrella_stand"),
             FabricBlockEntityTypeBuilder.create(UmbrellaStandBlockEntity::new,
@@ -54,6 +54,14 @@ public class UmbrellasBlocks {
                 BuiltInRegistries.BLOCK, key,
                 factory.apply(properties/*? if >=1.21.6 {*/.setId(key)/*?}*/)
         );
+    }
+
+    public static BlockBehaviour.Properties copy(Block block) {
+        //? if >=1.21 {
+        return BlockBehaviour.Properties.ofFullCopy(block);
+        //?} else {
+        /*return BlockBehaviour.Properties.copy(block);
+        *///?}
     }
 
     public static void registerUmbrellasBlocks() {

@@ -9,7 +9,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class UmbrellasBlockLootTableProvider extends FabricBlockLootTableProvider {
     public UmbrellasBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
-        super(dataOutput, registryLookup);
+        super(dataOutput/*? if >=1.21 {*/, registryLookup/*?}*/);
     }
 
     @Override

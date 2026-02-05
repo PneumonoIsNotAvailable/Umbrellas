@@ -11,34 +11,37 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.LayeredCauldronBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
 
-//? if >=1.21.6 {
+//? if >=1.21.6 || <1.21 {
 import net.minecraft.world.InteractionResult;
 //?} else {
 /*import net.minecraft.world.ItemInteractionResult;
 *///?}
 
 public class UmbrellaCauldronInteraction {
-    private static /*? if >=1.21.6 {*/InteractionResult/*?} else {*//*ItemInteractionResult*//*?}*/ cleanUmbrella(
+    private static /*? if >=1.21.6 || <1.21 {*/InteractionResult/*?} else {*//*ItemInteractionResult*//*?}*/ cleanUmbrella(
             BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, ItemStack stack
     ) {
-        UmbrellaPatternsComponent umbrellaPatternsComponent = stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
+        UmbrellaPatternsComponent umbrellaPatternsComponent = VersionedComponents.getOrDefault(stack, UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
         if (umbrellaPatternsComponent.layers().isEmpty()) {
             //? if >=1.21.6 {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
-            //?} else {
+            //?} else if <1.21 {
+            /*return InteractionResult.PASS;
+            *///?} else {
             /*return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             *///?}
         }
         if (!level.isClientSide()) {
             ItemStack itemStack = stack.copyWithCount(1);
-            itemStack.set(UmbrellasDataComponents.UMBRELLA_PATTERNS, umbrellaPatternsComponent.withoutTopLayer());
+            VersionedComponents.set(stack, UmbrellasDataComponents.UMBRELLA_PATTERNS, umbrellaPatternsComponent.withoutTopLayer());
             player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, itemStack, false));
             player.awardStat(UmbrellasMisc.CLEAN_UMBRELLA);
             LayeredCauldronBlock.lowerFillLevel(state, level, pos);
         }
 
-        //? if >=1.21.6 {
+        //? if >=1.21.6 || <1.21 {
         return InteractionResult.SUCCESS;
          //?} else {
         /*return ItemInteractionResult.SUCCESS;
@@ -65,7 +68,7 @@ public class UmbrellaCauldronInteraction {
                 UmbrellasItems.PINK_UMBRELLA
         };
         for (Item item : washableUmbrellas) {
-            CauldronInteraction.WATER.map().put(item, UmbrellaCauldronInteraction::cleanUmbrella);
+            CauldronInteraction.WATER/*? if >=1.21 {*/.map()/*?}*/.put(item, UmbrellaCauldronInteraction::cleanUmbrella);
         }
     }
 }
