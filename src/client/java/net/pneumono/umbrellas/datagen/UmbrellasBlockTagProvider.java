@@ -45,10 +45,12 @@ public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvide
         ).forceAddTag(
                 BlockTags.WALLS
         ).add(
+                //? if >=1.21 {
                 Blocks.COPPER_GRATE,
                 Blocks.EXPOSED_COPPER_GRATE,
                 Blocks.WEATHERED_COPPER_GRATE,
                 Blocks.OXIDIZED_COPPER_GRATE,
+                //?}
                 Blocks.SCAFFOLDING
         );
 

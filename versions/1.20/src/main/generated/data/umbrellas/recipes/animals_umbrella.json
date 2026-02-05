@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "extra_umbrellas",
+  "key": {
+    "A": {
+      "item": "minecraft:axolotl_bucket"
+    },
+    "R": {
+      "item": "minecraft:red_wool"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "U": {
+      "tag": "umbrellas:umbrellas"
+    }
+  },
+  "pattern": [
+    "RAR",
+    "RUR",
+    " S "
+  ],
+  "result": {
+    "item": "umbrellas:animals_umbrella"
+  },
+  "show_notification": true
+}

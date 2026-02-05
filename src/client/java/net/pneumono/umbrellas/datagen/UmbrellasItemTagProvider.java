@@ -54,6 +54,7 @@ public class UmbrellasItemTagProvider extends FabricTagProvider.ItemTagProvider 
 
         create(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
 
+        //? if >=1.21
         create(ItemTags.DURABILITY_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
     }
 

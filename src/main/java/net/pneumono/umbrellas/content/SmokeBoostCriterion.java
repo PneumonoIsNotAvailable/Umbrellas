@@ -1,3 +1,5 @@
+//~ identifier_replacements
+
 package net.pneumono.umbrellas.content;
 
 import com.mojang.serialization.Codec;
@@ -11,16 +13,40 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+//? if <1.21 {
+/*import net.minecraft.resources.Identifier;
+import com.google.gson.JsonObject;
+import net.pneumono.umbrellas.Umbrellas;
+*///?}
+
 public class SmokeBoostCriterion extends SimpleCriterionTrigger<SmokeBoostCriterion.TriggerInstance> {
+    //? if <1.21
+    //public static final Identifier ID = Umbrellas.id("smoke_boost");
+
+    //? if >=1.21 {
     @Override
     public @NotNull Codec<TriggerInstance> codec() {
         return TriggerInstance.CODEC;
     }
+    //?}
 
     public void trigger(ServerPlayer player, ItemStack stack, int height) {
         super.trigger(player, triggerInstance -> triggerInstance.matches(stack, height));
     }
 
+    //? if <1.21 {
+    /*@Override
+    protected TriggerInstance createInstance(JsonObject jsonObject, ContextAwarePredicate contextAwarePredicate, DeserializationContext deserializationContext) {
+        return new TriggerInstance(contextAwarePredicate, ItemPredicate.fromJson(jsonObject.get("item")), MinMaxBounds.Doubles.fromJson(jsonObject.get("height")));
+    }
+
+    @Override
+    public Identifier getId() {
+        return ID;
+    }
+    *///?}
+
+    //? if >=1.21 {
     public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item, MinMaxBounds.Doubles height) implements SimpleCriterionTrigger.SimpleInstance {
         public static Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(builder -> builder.group(
                 EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
@@ -49,4 +75,32 @@ public class SmokeBoostCriterion extends SimpleCriterionTrigger<SmokeBoostCriter
             return (this.item.isEmpty() || this.item.get().test(stack)) && this.height.matches(height);
         }
     }
+    //?} else {
+    /*public static class TriggerInstance extends AbstractCriterionTriggerInstance {
+        private final ItemPredicate item;
+        private final MinMaxBounds.Doubles height;
+
+        public TriggerInstance(ContextAwarePredicate contextAwarePredicate, ItemPredicate item, MinMaxBounds.Doubles height) {
+            super(ID, contextAwarePredicate);
+            this.item = item;
+            this.height = height;
+        }
+
+        public static TriggerInstance create() {
+            return new TriggerInstance(ContextAwarePredicate.ANY, ItemPredicate.ANY, MinMaxBounds.Doubles.ANY);
+        }
+
+        public static TriggerInstance height(MinMaxBounds.Doubles bounds) {
+            return new TriggerInstance(ContextAwarePredicate.ANY, ItemPredicate.ANY, bounds);
+        }
+
+        public static TriggerInstance minHeight(double min) {
+            return height(MinMaxBounds.Doubles.atLeast(min));
+        }
+
+        public boolean matches(ItemStack stack, double height) {
+            return this.item.matches(stack) && this.height.matches(height);
+        }
+    }
+    *///?}
 }

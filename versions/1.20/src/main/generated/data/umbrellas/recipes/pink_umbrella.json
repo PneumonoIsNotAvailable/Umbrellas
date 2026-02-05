@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "equipment",
+  "group": "umbrella",
+  "key": {
+    "L": {
+      "item": "minecraft:leather"
+    },
+    "S": {
+      "item": "minecraft:stick"
+    },
+    "W": {
+      "item": "minecraft:pink_wool"
+    }
+  },
+  "pattern": [
+    "WLW",
+    "LSL",
+    " S "
+  ],
+  "result": {
+    "item": "umbrellas:pink_umbrella"
+  },
+  "show_notification": true
+}

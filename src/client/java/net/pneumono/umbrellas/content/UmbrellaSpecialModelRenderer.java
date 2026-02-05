@@ -6,10 +6,13 @@ import com.mojang.serialization.MapCodec;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.special.SpecialModelRenderer;
+import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
+import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -30,7 +33,7 @@ import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.MultiBufferSource;
 *///?}
 
-public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<UmbrellaPatternsComponent> {
+public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<UmbrellaSpecialModelRenderer.Data> {
     private final UmbrellaRenderer renderer;
 
     public UmbrellaSpecialModelRenderer(UmbrellaRenderer renderer) {
@@ -39,38 +42,26 @@ public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<Umbrel
 
     @Nullable
     @Override
-    public UmbrellaPatternsComponent extractArgument(ItemStack stack) {
-        return stack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS);
+    public Data extractArgument(ItemStack stack) {
+        return new Data(stack);
     }
 
-    //? if >=1.21.9 {
     @Override
-    public void submit(
-            @Nullable UmbrellaPatternsComponent data,
+    public void /*? if >=1.21.9 {*/submit/*?} else {*//*render*//*?}*/(
+            @Nullable Data data,
             ItemDisplayContext itemDisplayContext,
-            PoseStack poseStack, SubmitNodeCollector collector,
-            int light, int overlay, boolean foil, int k
-    ) {
-        this.renderer.submit(
-                Objects.requireNonNullElse(data, UmbrellaPatternsComponent.DEFAULT),
-                poseStack, light, overlay, foil, collector, k, null
-        );
-    }
-
-    //?} else {
-    /*@Override
-    public void render(
-            @Nullable UmbrellaPatternsComponent data,
-            ItemDisplayContext displayContext,
-            PoseStack poseStack, MultiBufferSource collector,
+            PoseStack poseStack,
+            /*? if >=1.21.9 {*/SubmitNodeCollector collector/*?} else {*//*MultiBufferSource collector*//*?}*/,
             int light, int overlay, boolean foil
+            /*? if >=1.21.9 {*/, int k/*?}*/
     ) {
+        Data submitted = Objects.requireNonNullElse(data, Data.DEFAULT);
         this.renderer.submit(
-                Objects.requireNonNullElse(data, UmbrellaPatternsComponent.DEFAULT),
+                submitted.baseColor(), submitted.patterns(),
                 poseStack, light, overlay, foil, collector
+                /*? if >=1.21.9 {*/, k, null/*?}*/
         );
     }
-    *///?}
 
     @Override
     public void getExtents(/*? if >=1.21.11 {*/Consumer<Vector3fc> input/*?} else {*//*Set<Vector3f> input*//*?}*/) {
@@ -101,6 +92,14 @@ public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<Umbrel
         @Override
         public @NotNull MapCodec<UmbrellaSpecialModelRenderer.Unbaked> type() {
             return CODEC;
+        }
+    }
+
+    public record Data(DyeColor baseColor, UmbrellaPatternsComponent patterns) {
+        public static final Data DEFAULT = new Data(DyeColor.WHITE, UmbrellaPatternsComponent.DEFAULT);
+
+        public Data(ItemStack stack) {
+            this(PatternableUmbrellaItem.getColor(stack), VersionedComponents.get(stack, UmbrellasDataComponents.UMBRELLA_PATTERNS));
         }
     }
 }

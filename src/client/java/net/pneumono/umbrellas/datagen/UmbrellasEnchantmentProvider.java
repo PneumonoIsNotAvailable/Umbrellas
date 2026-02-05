@@ -1,5 +1,6 @@
 package net.pneumono.umbrellas.datagen;
 
+//? if >=1.21 {
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
@@ -87,3 +88,4 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
         return "Enchantments";
     }
 }
+//?}

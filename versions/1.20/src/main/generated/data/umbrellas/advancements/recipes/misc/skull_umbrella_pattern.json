@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:skull_umbrella_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "skull_banner_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:skull_banner_pattern"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "skull_banner_pattern",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:skull_umbrella_pattern"
+    ]
+  },
+  "sends_telemetry_event": false
+}

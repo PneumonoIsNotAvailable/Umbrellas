@@ -8,8 +8,10 @@ import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.UmbrellasClient;
+import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +32,11 @@ public class LoomUmbrellaRendering {
         pose.translate(x, y);
         pose.scale(32F / TEXTURE_SIZE);
 
-        UmbrellaPatternsComponent component = stack.getOrDefault(UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
-        DyeColor baseColor = component.baseColor();
+        UmbrellaPatternsComponent component = VersionedComponents.getOrDefault(stack, UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT);
+        DyeColor baseColor = PatternableUmbrellaItem.getColor(stack);
 
         List<Layer> layers = new ArrayList<>();
-        layers.add(new Layer(graphics, UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")), baseColor.getTextureDiffuseColor()));
+        layers.add(new Layer(graphics, UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")), baseColor));
         layers.addAll(getLayers(graphics, component));
 
         draw2DUmbrellaCanopy(graphics, layers.toArray(Layer[]::new));
@@ -43,7 +45,7 @@ public class LoomUmbrellaRendering {
     }
 
     public static List<Layer> getLayers(GuiGraphics graphics, UmbrellaPatternsComponent component) {
-        return component.layers().stream().map(layer -> new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(layer.pattern()), layer.color().getTextureDiffuseColor())).toList();
+        return component.layers().stream().map(layer -> new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(layer.pattern()), layer.color())).toList();
     }
 
     public static void drawPatternUmbrella(GuiGraphics graphics, int x, int y, Holder<UmbrellaPattern> pattern) {
@@ -53,8 +55,8 @@ public class LoomUmbrellaRendering {
         pose.scale(10F / TEXTURE_SIZE);
 
         draw2DUmbrellaCanopy(graphics,
-                new Layer(graphics, UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")), DyeColor.GRAY.getTextureDiffuseColor()),
-                new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(pattern), DyeColor.WHITE.getTextureDiffuseColor())
+                new Layer(graphics, UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")), DyeColor.GRAY),
+                new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(pattern), DyeColor.WHITE)
         );
 
         pose.pop();
@@ -66,7 +68,7 @@ public class LoomUmbrellaRendering {
         }
     }
 
-    public static void draw2DUmbrellaCanopyLayer(GuiGraphics graphics, TextureAtlasSprite sprite, int color) {
+    public static void draw2DUmbrellaCanopyLayer(GuiGraphics graphics, TextureAtlasSprite sprite, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
         Pose pose = new Pose(graphics.pose());
         pose.push();
 
@@ -100,27 +102,34 @@ public class LoomUmbrellaRendering {
         pose.pop();
     }
 
-    public static void draw(GuiGraphics graphics, TextureAtlasSprite sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, int color) {
+    public static void draw(GuiGraphics graphics, TextureAtlasSprite sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
         //? if >=1.21.6 {
         graphics.innerBlit(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), x1, x2, y1, y2, u1, u2, v1, v2, color);
-        //?} else {
+        //?} else if >=1.21 {
         /*float red = (color >> 16 & 0xFF) / 255F;
         float green = (color >> 8 & 0xFF) / 255F;
         float blue = (color & 0xFF) / 255F;
         graphics.innerBlit(sprite.atlasLocation(), x1, x2, y1, y2, 0, u1, u2, v1, v2, red, green, blue, 1);
+        *///?} else {
+        /*graphics.innerBlit(sprite.atlasLocation(), x1, x2, y1, y2, 0, u1, u2, v1, v2, color[0], color[1], color[2], 1);
         *///?}
     }
 
-    public record Layer(TextureAtlasSprite sprite, int color) {
-        //? if >=1.21.9 {
-        public Layer(GuiGraphics graphics, Material material, int color) {
-            this(graphics.getSprite(material), color);
+    public record Layer(TextureAtlasSprite sprite, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
+        public Layer(GuiGraphics graphics, Material material, DyeColor color) {
+            this(
+                    //? if >=1.21.9 {
+                    graphics.getSprite(material),
+                    //?} else {
+                    /*material.sprite(),
+                    *///?}
+                    //? if >=1.21 {
+                    color.getTextureDiffuseColor()
+                    //?} else {
+                    /*color.getTextureDiffuseColors()
+                    *///?}
+            );
         }
-        //?} else {
-        /*public Layer(GuiGraphics graphics, Material material, int color) {
-            this(material.sprite(), color);
-        }
-        *///?}
     }
 
     private static class Pose {

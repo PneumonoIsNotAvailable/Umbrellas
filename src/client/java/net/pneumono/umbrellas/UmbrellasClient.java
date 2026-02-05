@@ -17,8 +17,12 @@ import net.minecraft.client.renderer.special.SpecialModelRenderers;
 //?} else {
 /*import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
 import net.minecraft.world.item.Item;
+import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
+import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
+import net.pneumono.umbrellas.util.data.VersionedComponents;
+
 import java.util.HashMap;
 import java.util.Map;
 *///?}
@@ -51,7 +55,8 @@ public class UmbrellasClient implements ClientModInitializer {
 				itemStack, mode, poseStack, collector,
 				light, overlay
 		) -> UMBRELLA_RENDERER.submit(
-				itemStack.get(UmbrellasDataComponents.UMBRELLA_PATTERNS),
+				PatternableUmbrellaItem.getColor(itemStack),
+				VersionedComponents.getOrDefault(itemStack, UmbrellasDataComponents.UMBRELLA_PATTERNS, UmbrellaPatternsComponent.DEFAULT),
 				poseStack, light, overlay, itemStack.hasFoil(), collector
 		);
 

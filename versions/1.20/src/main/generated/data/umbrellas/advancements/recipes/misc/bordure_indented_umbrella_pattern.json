@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:bordure_indented_umbrella_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    },
+    "vine": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:vine"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "requirements": [
+    [
+      "vine",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:bordure_indented_umbrella_pattern"
+    ]
+  },
+  "sends_telemetry_event": false
+}

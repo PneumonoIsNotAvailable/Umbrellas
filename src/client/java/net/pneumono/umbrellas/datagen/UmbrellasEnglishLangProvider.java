@@ -17,11 +17,11 @@ import java.util.function.BiConsumer;
 
 public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
     public UmbrellasEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> provider) {
-        super(dataOutput, provider);
+        super(dataOutput/*? if >=1.21 {*/, provider/*?}*/);
     }
 
     @Override
-    public void generateTranslations(HolderLookup.Provider provider, TranslationBuilder translationBuilder) {
+    public void generateTranslations(/*? if >=1.21 {*/HolderLookup.Provider provider, /*?}*/TranslationBuilder translationBuilder) {
         PneumonoCoreTranslationBuilder builder = new PneumonoCoreTranslationBuilder(translationBuilder, Umbrellas.MOD_ID);
 
         builder.add(UmbrellasItems.WHITE_UMBRELLA, "White Umbrella");
@@ -53,8 +53,10 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasItems.MOJANG_UMBRELLA_PATTERN, "Thing Umbrella Pattern");
         builder.add(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, "Globe Umbrella Pattern");
         builder.add(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN, "Snout Umbrella Pattern");
+        //? if >=1.21 {
         builder.add(UmbrellasItems.FLOW_UMBRELLA_PATTERN, "Flow Umbrella Pattern");
         builder.add(UmbrellasItems.GUSTER_UMBRELLA_PATTERN, "Guster Umbrella Pattern");
+        //?}
         builder.add(UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN, "Field Masoned Umbrella Pattern");
         builder.add(UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN, "Bordure Indented Umbrella Pattern");
         builder.add(UmbrellasItems.PRIDE_UMBRELLA_PATTERN, "Pride Umbrella Pattern");
@@ -78,8 +80,13 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
 
         builder.addItemGroup(UmbrellasItems.CREATIVE_MODE_TAB, "Umbrellas");
 
+        //? if >=1.21 {
         builder.add(VersionUtil.identifier(UmbrellasEnchantments.GLIDING).toLanguageKey("enchantment"), "Gliding");
         builder.add(VersionUtil.identifier(UmbrellasEnchantments.BILLOWING).toLanguageKey("enchantment"), "Billowing");
+        //?} else {
+        /*builder.addEnchantment(UmbrellasEnchantments.GLIDING, "Gliding");
+        builder.addEnchantment(UmbrellasEnchantments.BILLOWING, "Billowing");
+        *///?}
 
         builder.add(UmbrellasMisc.CLEAN_UMBRELLA.toLanguageKey("stat"), "Umbrellas Cleaned");
         builder.add(UmbrellasMisc.TIME_UMBRELLA_GLIDING.toLanguageKey("stat"), "Time Spent Gliding with Umbrella");

@@ -1,0 +1,37 @@
+{
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "has_umbrella": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "umbrellas:umbrellas"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    }
+  },
+  "display": {
+    "announce_to_chat": true,
+    "description": {
+      "translate": "advancements.umbrellas.get_umbrella.description"
+    },
+    "frame": "task",
+    "hidden": false,
+    "icon": {
+      "item": "umbrellas:red_umbrella",
+      "nbt": "{Damage:0}"
+    },
+    "show_toast": true,
+    "title": {
+      "translate": "advancements.umbrellas.get_umbrella.name"
+    }
+  },
+  "requirements": [
+    [
+      "has_umbrella"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

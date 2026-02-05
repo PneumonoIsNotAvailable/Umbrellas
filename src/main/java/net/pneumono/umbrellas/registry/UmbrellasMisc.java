@@ -2,7 +2,6 @@
 
 package net.pneumono.umbrellas.registry;
 
-import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
 import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
@@ -28,6 +27,13 @@ import net.minecraft.world.entity.npc.villager.VillagerTrades;
 import net.minecraft.world.entity.npc.VillagerTrades;
 *///?}
 
+//? if >=1.21 {
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+//?} else {
+/*import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
+import net.minecraft.advancements.CriteriaTriggers;
+*///?}
+
 public class UmbrellasMisc {
     public static final SmokeBoostCriterion SMOKE_BOOST_CRITERION = registerCriterion("smoke_boost", new SmokeBoostCriterion());
     public static final TimeGlidingCriterion TIME_GLIDING_CRITERION = registerCriterion("time_gliding", new TimeGlidingCriterion());
@@ -39,7 +45,11 @@ public class UmbrellasMisc {
     public static final SoundEvent UMBRELLA_STAND_PICKUP_SOUND = registerSoundEvent("block.umbrella_stand.pickup");
 
     private static <T extends CriterionTrigger<?>> T registerCriterion(String name, T criterion) {
+        //? if >=1.21 {
         return Registry.register(BuiltInRegistries.TRIGGER_TYPES, Umbrellas.id(name), criterion);
+        //?} else {
+        /*return CriteriaTriggers.register(criterion);
+        *///?}
     }
 
     private static Identifier registerStat(String name, StatFormatter format) {
@@ -55,7 +65,13 @@ public class UmbrellasMisc {
     }
 
     public static void registerUmbrellasMisc() {
-        LootTableEvents.MODIFY.register((key, tableBuilder, source, registries) -> {
+        LootTableEvents.MODIFY.register((
+                //? if >=1.21 {
+                key, tableBuilder, source, registries
+                //?} else {
+                /*resourceManager, lootDataManager, key, tableBuilder, source
+                *///?}
+        ) -> {
             if (BuiltInLootTables.BASTION_OTHER.equals(key) && source.isBuiltin()) {
                 LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
                         .with(EmptyLootItem.emptyItem().setWeight(11).build())
@@ -63,6 +79,7 @@ public class UmbrellasMisc {
                 tableBuilder.pool(pool.build());
             }
 
+            //? if >=1.21 {
             if (BuiltInLootTables.TRIAL_CHAMBERS_REWARD_OMINOUS_UNIQUE.equals(key) && source.isBuiltin()) {
                 LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
                         .with(EmptyLootItem.emptyItem().setWeight(11).build())
@@ -76,6 +93,7 @@ public class UmbrellasMisc {
                         .with(LootItem.lootTableItem(UmbrellasItems.GUSTER_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());
             }
+            //?}
         });
 
         VillagerTrades.EmeraldForItems factory = new VillagerTrades.EmeraldForItems(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, 8, 1, 30);

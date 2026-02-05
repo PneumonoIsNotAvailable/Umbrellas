@@ -1,0 +1,35 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "crimson_planks": {
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:crimson_planks"
+            ]
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:crimson_umbrella_stand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "crimson_planks",
+      "has_the_recipe"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:crimson_umbrella_stand"
+    ]
+  },
+  "sends_telemetry_event": false
+}

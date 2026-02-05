@@ -24,6 +24,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(UmbrellasBlockTagProvider::new);
         pack.addProvider(UmbrellasPatternTagProvider::new);
         pack.addProvider(UmbrellasRecipeProvider::new);
+        //? if >=1.21
         pack.addProvider(UmbrellasEnchantmentProvider::new);
         pack.addProvider(UmbrellasAdvancementProvider::new);
         pack.addProvider(UmbrellasModelProvider::new);
@@ -33,6 +34,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
 
     @Override
     public void buildRegistry(RegistrySetBuilder registryBuilder) {
+        //? if >=1.21
         registryBuilder.add(Registries.ENCHANTMENT, UmbrellasEnchantmentProvider::bootstrap);
         registryBuilder.add(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, UmbrellasPatternProvider::bootstrap);
     }
