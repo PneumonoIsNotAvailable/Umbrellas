@@ -60,13 +60,12 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
     /*@Override
     protected void loadAdditional(CompoundTag compoundTag, HolderLookup.Provider provider) {
         super.loadAdditional(compoundTag, provider);
+        this.umbrellaStack = ItemStack.EMPTY;
         if (compoundTag.contains("UmbrellaItem")) {
             RegistryOps<Tag> ops = provider.createSerializationContext(NbtOps.INSTANCE);
             this.umbrellaStack = ItemStack.CODEC
                     .decode(ops, compoundTag.get("UmbrellaItem"))
                     .mapOrElse(Pair::getFirst, error -> ItemStack.EMPTY);
-        } else {
-            this.umbrellaStack = ItemStack.EMPTY;
         }
     }
 
@@ -79,20 +78,22 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
             if (tag != null) {
                 compoundTag.put("UmbrellaItem", tag);
             }
+        } else {
+            // Necessary so that the tag is not empty (empty tags are not sent to the client)
+            compoundTag.put("UmbrellaItem", new CompoundTag());
         }
     }
     *///?} else {
     /*@Override
     public void load(CompoundTag compoundTag) {
         super.load(compoundTag);
+        this.umbrellaStack = ItemStack.EMPTY;
         if (compoundTag.contains("UmbrellaItem")) {
             Optional<ItemStack> optional = ItemStack.CODEC
                     .decode(NbtOps.INSTANCE, compoundTag.get("UmbrellaItem"))
                     .map(Pair::getFirst)
                     .get().left();
             optional.ifPresent(stack -> this.umbrellaStack = stack);
-        } else {
-            this.umbrellaStack = ItemStack.EMPTY;
         }
     }
 
@@ -103,6 +104,9 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
             ItemStack.CODEC
                     .encodeStart(NbtOps.INSTANCE, this.umbrellaStack)
                     .get().ifLeft(tag -> compoundTag.put("UmbrellaItem", tag));
+        } else {
+            // Necessary so that the tag is not empty (empty tags are not sent to the client)
+            compoundTag.put("UmbrellaItem", new CompoundTag());
         }
     }
     *///?}
@@ -123,7 +127,7 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
     @Override
     public void setItem(int i, ItemStack stack) {
         this.umbrellaStack = stack;
-        updateClients();
+        update();
     }
 
     public boolean hasStack() {
@@ -138,18 +142,19 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
     public ItemStack removeItem(int i, int j) {
         if (i > 0 || j <= 0) return ItemStack.EMPTY;
         ItemStack stack = this.umbrellaStack.split(j);
-        updateClients();
+        update();
         return stack;
     }
 
-    public void updateClients() {
+    public void update() {
         Level level = this.getLevel();
         if (level != null) {
             BlockPos pos = getBlockPos();
             BlockState state = getBlockState();
+            BlockState newState = getBlockState().setValue(UmbrellaStandBlock.HAS_UMBRELLA, !this.umbrellaStack.isEmpty());
+
+            level.setBlock(pos, newState, Block.UPDATE_ALL);
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(state));
-            level.updateNeighborsAt(pos, state.getBlock());
-            level.sendBlockUpdated(pos, state, state, Block.UPDATE_ALL);
             setChanged(level, pos, state);
         }
     }
@@ -157,10 +162,6 @@ public class UmbrellaStandBlockEntity extends BlockEntity implements ContainerSi
     @Override
     public int getMaxStackSize() {
         return 1;
-    }
-
-    public int getComparatorOutput() {
-        return this.umbrellaStack.isEmpty() ? 0 : 15;
     }
 
     @Override

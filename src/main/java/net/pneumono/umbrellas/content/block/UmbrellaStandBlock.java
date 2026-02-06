@@ -54,6 +54,7 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
     public static final MapCodec<UmbrellaStandBlock> CODEC = simpleCodec(UmbrellaStandBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
+    public static final BooleanProperty HAS_UMBRELLA = BooleanProperty.create("has_umbrella");
     private static final VoxelShape SHAPE = Block.box(7, 0, 7, 9, 16, 9);
 
     //? if >=1.21 {
@@ -68,12 +69,13 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
         this.registerDefaultState(this.stateDefinition.any()
                 .setValue(WATERLOGGED, false)
                 .setValue(FACING, Direction.NORTH)
+                .setValue(HAS_UMBRELLA, false)
         );
     }
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(WATERLOGGED, FACING);
+        builder.add(WATERLOGGED, FACING, HAS_UMBRELLA);
     }
 
     //? if <1.21 {
@@ -97,16 +99,6 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
     protected @NotNull /*? if >=1.21.6 || <1.21 {*/InteractionResult/*?} else {*//*ItemInteractionResult*//*?}*/ useItemOn(
             ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit
     ) {
-        if (!(level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity)) {
-            //? if >=1.21.6 {
-            return InteractionResult.PASS;
-            //?} else if >=1.21 {
-            /*return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
-            *///?} else {
-            /*return InteractionResult.PASS;
-            *///?}
-        }
-
         if (stack.isEmpty()) {
             //? if >=1.21.6 {
             return InteractionResult.TRY_WITH_EMPTY_HAND;
@@ -127,7 +119,7 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
             *///?}
         }
 
-        if (!blockEntity.hasStack() && level.getBlockState(pos.above()).isAir() && level.getBlockState(pos.above(2)).isAir()) {
+        if (!state.getValue(HAS_UMBRELLA) && level.getBlockState(pos.above()).isAir() && level.getBlockState(pos.above(2)).isAir()) {
             if (!level.isClientSide()) {
                 player.awardStat(Stats.ITEM_USED.get(stack.getItem()));
                 //? if >=1.21 {
@@ -138,7 +130,9 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
                     stack.shrink(1);
                 }
                 *///?}
-                blockEntity.setTheItem(resultStack);
+                if (level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity) {
+                    blockEntity.setTheItem(resultStack);
+                }
 
                 level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state));
                 level.playSound(null, pos, UmbrellasMisc.UMBRELLA_STAND_INSERT_SOUND, SoundSource.BLOCKS);
@@ -164,19 +158,17 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
     //? if >=1.21
     @Override
     protected @NotNull InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
-        if (!(level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity)) {
-            return InteractionResult.PASS;
-        }
-
-        if (!blockEntity.hasStack()) {
+        if (!state.getValue(HAS_UMBRELLA)) {
             return InteractionResult.PASS;
         }
 
         if (!level.isClientSide()) {
-            ItemStack stack = blockEntity.removeTheItem();
+            if (level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity) {
+                ItemStack stack = blockEntity.removeTheItem();
 
-            if (!player.addItem(stack)) {
-                player.drop(stack, false);
+                if (!player.addItem(stack)) {
+                    player.drop(stack, false);
+                }
             }
 
             level.gameEvent(GameEvent.BLOCK_CHANGE, pos, GameEvent.Context.of(player, state));
@@ -201,9 +193,12 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
         //? if >=1.21 {
         Containers.dropContentsOnDestroy(state, state2, level, pos);
         //?} else {
-        /^if (level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity entity) {
-            Containers.dropContents(level, pos, entity);
-        }
+        /^if (!state.is(state2.getBlock())) {
+			if (level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity entity) {
+				Containers.dropContents(level, pos, entity);
+				level.updateNeighbourForOutputSignal(pos, state.getBlock());
+			}
+		}
         ^///?}
         super.onRemove(state, level, pos, state2, bl);
     }
@@ -216,7 +211,7 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
 
     @Override
     public int getAnalogOutputSignal(BlockState state, Level level, BlockPos pos /*? if >=1.21.9 {*/, Direction direction/*?}*/) {
-        return level.getBlockEntity(pos) instanceof UmbrellaStandBlockEntity blockEntity ? blockEntity.getComparatorOutput() : 0;
+        return state.getValue(HAS_UMBRELLA) ? 15 : 0;
     }
 
     @Override
