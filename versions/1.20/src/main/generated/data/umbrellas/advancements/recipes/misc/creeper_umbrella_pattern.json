@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "creeper_banner_pattern": {
+    "has_creeper_banner_pattern": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "creeper_banner_pattern",
+      "has_creeper_banner_pattern",
       "has_the_recipe"
     ]
   ],

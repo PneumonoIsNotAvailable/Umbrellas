@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "creeper_umbrella_pattern": {
+    "has_creeper_umbrella_pattern": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "creeper_umbrella_pattern",
+      "has_creeper_umbrella_pattern",
       "has_the_recipe"
     ]
   ],

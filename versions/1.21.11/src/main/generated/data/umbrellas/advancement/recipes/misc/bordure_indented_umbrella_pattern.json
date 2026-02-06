@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "bordure_indented_banner_pattern": {
+    "has_bordure_indented_banner_pattern": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "bordure_indented_banner_pattern"
+      "has_bordure_indented_banner_pattern"
     ]
   ],
   "rewards": {

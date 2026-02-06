@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "globe_umbrella_pattern": {
+    "has_globe_umbrella_pattern": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "globe_umbrella_pattern",
+      "has_globe_umbrella_pattern",
       "has_the_recipe"
     ]
   ],

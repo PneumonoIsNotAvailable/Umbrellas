@@ -1,13 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "umbrellas:yellow_umbrella"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "leather": {
+    "has_leather": {
       "conditions": {
         "items": [
           {
@@ -17,7 +11,7 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "stick": {
+    "has_stick": {
       "conditions": {
         "items": [
           {
@@ -26,13 +20,19 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:yellow_umbrella"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
       "has_the_recipe",
-      "leather",
-      "stick"
+      "has_leather",
+      "has_stick"
     ]
   ],
   "rewards": {

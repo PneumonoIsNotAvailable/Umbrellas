@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "guster_umbrella_pattern": {
+    "has_guster_umbrella_pattern": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "guster_umbrella_pattern"
+      "has_guster_umbrella_pattern"
     ]
   ],
   "rewards": {

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "flow_umbrella_pattern": {
+    "has_flow_umbrella_pattern": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "flow_umbrella_pattern"
+      "has_flow_umbrella_pattern"
     ]
   ],
   "rewards": {

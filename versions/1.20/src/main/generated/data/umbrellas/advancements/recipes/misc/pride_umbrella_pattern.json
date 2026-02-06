@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "glow_ink_sac": {
+    "has_glow_ink_sac": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "glow_ink_sac",
+      "has_glow_ink_sac",
       "has_the_recipe"
     ]
   ],

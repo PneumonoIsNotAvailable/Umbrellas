@@ -1,13 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_the_recipe": {
-      "conditions": {
-        "recipe": "umbrellas:spruce_umbrella_stand"
-      },
-      "trigger": "minecraft:recipe_unlocked"
-    },
-    "spruce_planks": {
+    "has_spruce_planks": {
       "conditions": {
         "items": [
           {
@@ -18,11 +12,17 @@
         ]
       },
       "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:spruce_umbrella_stand"
+      },
+      "trigger": "minecraft:recipe_unlocked"
     }
   },
   "requirements": [
     [
-      "spruce_planks",
+      "has_spruce_planks",
       "has_the_recipe"
     ]
   ],

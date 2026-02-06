@@ -7,7 +7,7 @@
       },
       "trigger": "minecraft:recipe_unlocked"
     },
-    "vine": {
+    "has_vine": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "vine",
+      "has_vine",
       "has_the_recipe"
     ]
   ],

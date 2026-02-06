@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "flower_umbrella_pattern": {
+    "has_flower_umbrella_pattern": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "flower_umbrella_pattern",
+      "has_flower_umbrella_pattern",
       "has_the_recipe"
     ]
   ],

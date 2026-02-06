@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "acacia_planks": {
+    "has_acacia_planks": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "acacia_planks",
+      "has_acacia_planks",
       "has_the_recipe"
     ]
   ],

@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "globe_banner_pattern": {
+    "has_globe_banner_pattern": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "globe_banner_pattern"
+      "has_globe_banner_pattern"
     ]
   ],
   "rewards": {

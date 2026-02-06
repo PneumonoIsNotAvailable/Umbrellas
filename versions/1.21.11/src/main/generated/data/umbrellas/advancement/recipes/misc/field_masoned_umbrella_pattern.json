@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "field_masoned_banner_pattern": {
+    "has_field_masoned_banner_pattern": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "field_masoned_banner_pattern"
+      "has_field_masoned_banner_pattern"
     ]
   ],
   "rewards": {

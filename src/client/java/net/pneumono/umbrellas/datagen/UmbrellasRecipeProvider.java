@@ -166,13 +166,13 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             for (Pair<Item, Item> pair : patterns) {
                 shapeless(RecipeCategory.MISC, pair.getSecond())
                         .requires(pair.getFirst())
-                        .unlockedBy(getItemName(pair.getFirst()), has(pair.getFirst()))
+                        .unlockedBy(getHasName(pair.getFirst()), has(pair.getFirst()))
                         .group("banner_to_umbrella")
                         .save(output);
 
                 shapeless(RecipeCategory.MISC, pair.getFirst())
                         .requires(pair.getSecond())
-                        .unlockedBy(getItemName(pair.getSecond()), has(pair.getSecond()))
+                        .unlockedBy(getHasName(pair.getSecond()), has(pair.getSecond()))
                         .group("umbrella_to_banner")
                         .save(output);
             }
@@ -180,7 +180,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             shapeless(RecipeCategory.MISC, UmbrellasItems.PRIDE_UMBRELLA_PATTERN)
                     .requires(Items.PAPER)
                     .requires(Items.GLOW_INK_SAC)
-                    .unlockedBy(getItemName(Items.GLOW_INK_SAC), has(Items.GLOW_INK_SAC))
+                    .unlockedBy(getHasName(Items.GLOW_INK_SAC), has(Items.GLOW_INK_SAC))
                     .save(output);
         }
 
@@ -193,8 +193,8 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .define('L', Items.LEATHER)
                     .define('S', Items.STICK)
                     .group("umbrella")
-                    .unlockedBy(getItemName(Items.LEATHER), has(Items.LEATHER))
-                    .unlockedBy(getItemName(Items.STICK), has(Items.STICK))
+                    .unlockedBy(getHasName(Items.LEATHER), has(Items.LEATHER))
+                    .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
                     .save(output);
         }
 
@@ -206,7 +206,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .define('P', planks)
                     .define('S', Items.STICK)
                     .group("umbrella_stand")
-                    .unlockedBy(getItemName(planks), has(planks))
+                    .unlockedBy(getHasName(planks), has(planks))
                     .save(output);
         }
     }
@@ -357,13 +357,13 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
         for (Pair<Item, Item> pair : patterns) {
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, pair.getSecond())
                     .requires(pair.getFirst())
-                    .unlockedBy(getItemName(pair.getFirst()), has(pair.getFirst()))
+                    .unlockedBy(getHasName(pair.getFirst()), has(pair.getFirst()))
                     .group("banner_to_umbrella")
                     .save(recipeOutput);
 
             ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, pair.getFirst())
                     .requires(pair.getSecond())
-                    .unlockedBy(getItemName(pair.getSecond()), has(pair.getSecond()))
+                    .unlockedBy(getHasName(pair.getSecond()), has(pair.getSecond()))
                     .group("umbrella_to_banner")
                     .save(recipeOutput);
         }
@@ -371,20 +371,20 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, UmbrellasItems.PRIDE_UMBRELLA_PATTERN)
                 .requires(Items.PAPER)
                 .requires(Items.GLOW_INK_SAC)
-                .unlockedBy(getItemName(Items.GLOW_INK_SAC), has(Items.GLOW_INK_SAC))
+                .unlockedBy(getHasName(Items.GLOW_INK_SAC), has(Items.GLOW_INK_SAC))
                 .save(recipeOutput);
 
         //? if <1.21.6 {
         /^ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, UmbrellasItems.FIELD_MASONED_UMBRELLA_PATTERN)
                 .requires(Items.PAPER)
                 .requires(Items.BRICKS)
-                .unlockedBy(getItemName(Items.BRICKS), has(Items.BRICKS))
+                .unlockedBy(getHasName(Items.BRICKS), has(Items.BRICKS))
                 .save(recipeOutput);
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, UmbrellasItems.BORDURE_INDENTED_UMBRELLA_PATTERN)
                 .requires(Items.PAPER)
                 .requires(Items.VINE)
-                .unlockedBy(getItemName(Items.VINE), has(Items.VINE))
+                .unlockedBy(getHasName(Items.VINE), has(Items.VINE))
                 .save(recipeOutput);
         ^///?}
     }
@@ -401,8 +401,8 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                 .define('L', Items.LEATHER)
                 .define('S', Items.STICK)
                 .group("umbrella")
-                .unlockedBy(getItemName(Items.LEATHER), has(Items.LEATHER))
-                .unlockedBy(getItemName(Items.STICK), has(Items.STICK))
+                .unlockedBy(getHasName(Items.LEATHER), has(Items.LEATHER))
+                .unlockedBy(getHasName(Items.STICK), has(Items.STICK))
                 .save(recipeOutput);
     }
 
@@ -417,7 +417,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                 .define('P', planks)
                 .define('S', Items.STICK)
                 .group("umbrella_stand")
-                .unlockedBy(getItemName(planks), has(planks))
+                .unlockedBy(getHasName(planks), has(planks))
                 .save(recipeOutput);
     }
     *///?}

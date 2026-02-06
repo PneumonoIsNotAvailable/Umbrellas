@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "flower_banner_pattern": {
+    "has_flower_banner_pattern": {
       "conditions": {
         "items": [
           {
@@ -21,7 +21,7 @@
   "requirements": [
     [
       "has_the_recipe",
-      "flower_banner_pattern"
+      "has_flower_banner_pattern"
     ]
   ],
   "rewards": {
