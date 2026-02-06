@@ -241,7 +241,7 @@ public class UmbrellaRenderer {
         this.canopyModel.root().render(
                 poseStack,
                 material.sprite().wrap(
-                        ItemRenderer./^? if >=1.21.6 {^/getFoilBufferDirect/^?} else {^//^getFoilBuffer^//^?}^/(
+                        ItemRenderer./^? if >=1.21.6 {^/getFoilBuffer/^?} else {^//^getFoilBufferDirect^//^?}^/(
                                 collector, renderType, true, foil
                         )
                 ),
