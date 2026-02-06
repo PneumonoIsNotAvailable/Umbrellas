@@ -35,9 +35,11 @@ import org.joml.Vector3f;
 import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.resources.model.MaterialSet;
+import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
 //?} else {
 /*import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.entity.ItemRenderer;
 import org.jetbrains.annotations.Nullable;
 *///?}
 
@@ -94,14 +96,25 @@ public class UmbrellaRenderer {
             *///?}
     ) {
         //? if >=1.21.9 {
-        collector.submitModelPart(
-                this.handleModel.root(), poseStack,
+        collector.submitModel(
+                this.handleModel, Unit.INSTANCE,
+                poseStack,
                 UmbrellasClient.UMBRELLA_BASE.renderType(RenderTypes::entitySolid),
-                light, overlay,
+                light, overlay, -1,
                 materialSet.get(UmbrellasClient.UMBRELLA_BASE),
-                false, foil, -1,
-                crumblingOverlay, k
+                k, crumblingOverlay
         );
+
+        if (foil) {
+            collector.submitModel(
+                    this.handleModel, Unit.INSTANCE,
+                    poseStack,
+                    RenderTypes.entityGlint(),
+                    light, overlay, -1,
+                    materialSet.get(UmbrellasClient.UMBRELLA_BASE),
+                    k, crumblingOverlay
+            );
+        }
         //?} else {
         /*this.handleModel.root().render(
                 poseStack,
@@ -130,17 +143,33 @@ public class UmbrellaRenderer {
     ) {
         submitLayer(
                 poseStack,
-                light, overlay, foil, null,
+                light, overlay, null,
                 UmbrellasClient.UMBRELLA_BASE,
                 RenderTypes::entitySolid,
-                collector/*? if >=1.21.9 {*/, k, crumblingOverlay/*?}*/
+                collector,
+                /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*foil*//*?}*/
         );
+
+        //? if >=1.21.9 {
+        if (foil) {
+            submitLayer(
+                    poseStack,
+                    light, overlay, null,
+                    UmbrellasClient.UMBRELLA_BASE,
+                    RenderTypes.entityGlint(),
+                    collector,
+                    k, crumblingOverlay
+            );
+        }
+        //?}
+
         submitLayer(
                 poseStack,
-                light, overlay, false, baseColor,
+                light, overlay, baseColor,
                 UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")),
                 RenderTypes::entityNoOutline,
-                collector/*? if >=1.21.9 {*/, 0, crumblingOverlay/*?}*/
+                collector,
+                /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
         );
 
         for (int i = 0; i < 16 && i < patterns.layers().size(); i++) {
@@ -150,17 +179,18 @@ public class UmbrellaRenderer {
             DyeColor color = pattern.value().dyeable() ? layer.color() : null;
             submitLayer(
                     poseStack,
-                    light, overlay, false, color,
+                    light, overlay, color,
                     getUmbrellaPatternTextureId(pattern),
                     RenderTypes::entityNoOutline,
-                    collector/*? if >=1.21.9 {*/, 0, crumblingOverlay/*?}*/
+                    collector,
+                    /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
             );
         }
     }
 
     private void submitLayer(
             PoseStack poseStack,
-            int light, int overlay, boolean foil,
+            int light, int overlay,
             @Nullable DyeColor color,
             Material material,
             Function<Identifier, RenderType> renderTypeFunction,
@@ -168,39 +198,59 @@ public class UmbrellaRenderer {
             SubmitNodeCollector collector, int k,
             @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
             //?} else {
-            /*MultiBufferSource collector
+            /*MultiBufferSource collector, boolean foil
+            *///?}
+    ) {
+        submitLayer(
+                poseStack, light, overlay, color, material,
+                material.renderType(renderTypeFunction),
+                collector,
+                /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*foil*//*?}*/
+        );
+    }
+
+    private void submitLayer(
+            PoseStack poseStack,
+            int light, int overlay,
+            @Nullable DyeColor color,
+            Material material,
+            RenderType renderType,
+            //? if >=1.21.9 {
+            SubmitNodeCollector collector, int k,
+            @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            //?} else {
+            /*MultiBufferSource collector, boolean foil
             *///?}
     ) {
         //? if >=1.21.9 {
         int diffuseColor = color == null ? -1 : color.getTextureDiffuseColor();
-        collector.submitModelPart(
-                this.canopyModel.root(), poseStack,
-                material.renderType(renderTypeFunction),
-                light, overlay,
-                this.materialSet.get(material),
-                false, foil, diffuseColor,
-                crumblingOverlay, k
+        collector.submitModel(
+                this.canopyModel, Unit.INSTANCE,
+                poseStack,
+                renderType,
+                light, overlay, diffuseColor,
+                materialSet.get(material),
+                k, crumblingOverlay
         );
-        //?} else if >=1.21 {
-        /*int diffuseColor = color == null ? -1 : color.getTextureDiffuseColor();
+        //?} else {
+        /*//? if >=1.21 {
+        int diffuseColor = color == null ? -1 : color.getTextureDiffuseColor();
+        //?} else {
+        /^float[] diffuseColors = color == null ? new float[]{1, 1, 1} : color.getTextureDiffuseColors();
+        ^///?}
         this.canopyModel.root().render(
                 poseStack,
-                material.buffer(
-                        collector,
-                        renderTypeFunction,
-                        /^? if >=1.21.6 {^//^false, ^//^?}^/
-                        foil
+                material.sprite().wrap(
+                        ItemRenderer./^? if >=1.21.6 {^/getFoilBufferDirect/^?} else {^//^getFoilBuffer^//^?}^/(
+                                collector, renderType, true, foil
+                        )
                 ),
                 light, overlay,
+                //? if >=1.21 {
                 diffuseColor
-        );
-        *///?} else {
-        /*float[] diffuseColors = color == null ? new float[]{1, 1, 1} : color.getTextureDiffuseColors();
-        this.canopyModel.root().render(
-                poseStack,
-                material.buffer(collector, renderTypeFunction, foil),
-                light, overlay,
-                diffuseColors[0], diffuseColors[1], diffuseColors[2], 1
+                //?} else {
+                /^diffuseColors[0], diffuseColors[1], diffuseColors[2], 1
+                ^///?}
         );
         *///?}
     }

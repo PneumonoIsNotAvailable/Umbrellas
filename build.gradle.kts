@@ -124,6 +124,7 @@ stonecutter {
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("RenderType::entitySolid", "RenderTypes::entitySolid")
 		replace("RenderType::entityNoOutline", "RenderTypes::entityNoOutline")
+		replace("RenderType.entityGlint", "RenderTypes.entityGlint")
 	}
 }
 
