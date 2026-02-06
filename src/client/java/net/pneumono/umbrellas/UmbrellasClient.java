@@ -46,7 +46,7 @@ public class UmbrellasClient implements ClientModInitializer {
 		BlockEntityRenderers.register(UmbrellasBlocks.UMBRELLA_STAND_BLOCK_ENTITY, UmbrellaStandBlockEntityRenderer::new);
 
 		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_HANDLE_LAYER, UmbrellaModel.Handle::createLayer);
-		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_CANOPY_LAYER, UmbrellaModel.Canopy::getTexturedModelData);
+		EntityModelLayerRegistry.registerModelLayer(UMBRELLA_CANOPY_LAYER, UmbrellaModel.Canopy::createLayer);
 
 		//? if >=1.21.6 {
 		SpecialModelRenderers.ID_MAPPER.put(Umbrellas.id("umbrella"), UmbrellaSpecialModelRenderer.Unbaked.CODEC);
@@ -70,8 +70,8 @@ public class UmbrellasClient implements ClientModInitializer {
 		//? if >=1.21.6 {
 		return UmbrellasClient.UMBRELLA_PATTERN_MATERIAL_MAPPER.apply(id);
 		//?} else {
-		/*return UMBRELLA_MATERIALS.computeIfAbsent(id, (location) ->
-				new Material(UMBRELLA_PATTERNS_ATLAS_TEXTURE, location.withPrefix("entity/umbrella/"))
+		/*return UMBRELLA_MATERIALS.computeIfAbsent(id, (identifier) ->
+				new Material(UMBRELLA_PATTERNS_ATLAS_TEXTURE, identifier.withPrefix("entity/umbrella/"))
 		);
 		*///?}
 	}

@@ -80,7 +80,7 @@ public abstract class UmbrellaModel extends /*? if >=1.21.9 {*/Model<Unit>/*?} e
             super(root);
         }
 
-        public static LayerDefinition getTexturedModelData() {
+        public static LayerDefinition createLayer() {
             MeshDefinition meshDefinition = new MeshDefinition();
             PartDefinition partDefinition = meshDefinition.getRoot();
 
