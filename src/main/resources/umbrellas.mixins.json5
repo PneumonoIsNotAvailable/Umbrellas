@@ -1,7 +1,7 @@
 {
     "required": true,
     "package": "net.pneumono.umbrellas.mixin",
-    "compatibilityLevel": "JAVA_21",
+    "compatibilityLevel": /*? if >=1.20.5 {*/"JAVA_21"/*?} else {*//*"JAVA_17"*//*?}*/,
     "mixins": [
         //? if <1.21
         //"EnchantmentHelperMixin",

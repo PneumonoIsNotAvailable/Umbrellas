@@ -75,6 +75,8 @@ dependencies {
 }
 
 tasks {
+	val java = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) 21 else 17
+
 	processResources {
 		inputs.property("version", project.property("mod_version"))
 		inputs.property("min_supported", project.property("min_supported_version"))
@@ -86,14 +88,14 @@ tasks {
 					"version" to project.property("mod_version"),
 					"min_supported" to project.property("min_supported_version"),
 					"max_supported" to project.property("max_supported_version"),
-					"aw_file" to awFile
+					"aw_file" to awFile,
+					"java" to "$java"
 				)
 			)
 		}
 	}
 
 	withType<JavaCompile> {
-		val java = if (stonecutter.eval(stonecutter.current.version, ">=1.20.5")) 21 else 17
 		options.release.set(java)
 	}
 
