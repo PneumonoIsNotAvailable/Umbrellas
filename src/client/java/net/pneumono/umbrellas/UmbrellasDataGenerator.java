@@ -30,6 +30,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
         pack.addProvider(UmbrellasModelProvider::new);
         pack.addProvider(UmbrellasEnglishLangProvider::new);
         pack.addProvider(UmbrellasBlockLootTableProvider::new);
+        pack.addProvider(UmbrellasTextureProvider::new);
     }
 
     @Override
