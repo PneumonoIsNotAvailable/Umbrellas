@@ -68,32 +68,32 @@ public abstract class TextureProvider implements DataProvider {
                 //, true
         ));
 
-        MultiPackResourceManager resourceManager = new MultiPackResourceManager(PackType.CLIENT_RESOURCES, packs);
+        try (MultiPackResourceManager resourceManager = new MultiPackResourceManager(PackType.CLIENT_RESOURCES, packs)) {
+            BiConsumer<NativeImage, Identifier> output = (image, id) -> {
+                Path path = this.packOutput.getOutputFolder()
+                        .resolve("assets")
+                        .resolve(id.getNamespace())
+                        .resolve(id.getPath());
 
-        BiConsumer<NativeImage, Identifier> output = (image, id) -> {
-            Path path = this.packOutput.getOutputFolder()
-                    .resolve("assets")
-                    .resolve(id.getNamespace())
-                    .resolve(id.getPath());
+                try {
+                    Files.createDirectories(path.getParent());
+                    image.writeToFile(path);
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to write texture " + id, e);
+                }
 
-            try {
-                Files.createDirectories(path.getParent());
-                image.writeToFile(path);
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to write texture " + id, e);
-            }
+                try {
+                    byte[] bytes = imageToByteArray(image);
+                    cachedOutput.writeIfNeeded(path, bytes, Hashing.sha1().hashBytes(bytes));
+                } catch (IOException e) {
+                    throw new RuntimeException("Failed to write texture to cache " + id, e);
+                }
+            };
 
-            try {
-                byte[] bytes = imageToByteArray(image);
-                cachedOutput.writeIfNeeded(path, bytes, Hashing.sha1().hashBytes(bytes));
-            } catch (IOException e) {
-                throw new RuntimeException("Failed to write texture to cache " + id, e);
-            }
-        };
-
-        return this.registries.thenCompose(provider -> CompletableFuture.runAsync(() -> generate(
-                resourceManager, provider, output
-        )));
+            return this.registries.thenCompose(provider -> CompletableFuture.runAsync(() -> generate(
+                    resourceManager, provider, output
+            )));
+        }
     }
 
     private static byte[] imageToByteArray(NativeImage image) throws IOException {
@@ -149,10 +149,10 @@ public abstract class TextureProvider implements DataProvider {
     public abstract void generate(ResourceManager manager, HolderLookup.Provider registries, BiConsumer<NativeImage, Identifier> output);
 
     public void applyAlpha(ResourceManager manager, BiConsumer<NativeImage, Identifier> output, Identifier baseId, Identifier alphaSourceId, Identifier outputId) {
-        try {
-            NativeImage base = readImage(manager, baseId);
-            NativeImage alphaSource = readImage(manager, alphaSourceId);
-
+        try (
+                NativeImage base = readImage(manager, baseId);
+                NativeImage alphaSource = readImage(manager, alphaSourceId)
+        ) {
             int width = base.getWidth();
             int height = base.getHeight();
             if (width != alphaSource.getWidth() || height != alphaSource.getHeight()) {
@@ -186,11 +186,11 @@ public abstract class TextureProvider implements DataProvider {
     }
 
     public void applyColorAndAlpha(ResourceManager manager, BiConsumer<NativeImage, Identifier> output, Identifier baseId, Identifier colorSourceId, Identifier alphaSourceId, Identifier outputId) {
-        try {
-            NativeImage base = readImage(manager, baseId);
-            NativeImage colorSource = readImage(manager, colorSourceId);
-            NativeImage alphaSource = readImage(manager, alphaSourceId);
-
+        try (
+                NativeImage base = readImage(manager, baseId);
+                NativeImage colorSource = readImage(manager, colorSourceId);
+                NativeImage alphaSource = readImage(manager, alphaSourceId)
+        ) {
             int width = base.getWidth();
             int height = base.getHeight();
             if (
