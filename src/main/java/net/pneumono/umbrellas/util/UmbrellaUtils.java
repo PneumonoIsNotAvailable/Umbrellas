@@ -41,7 +41,7 @@ public class UmbrellaUtils {
             for (int y = startY; y <= endY; ++y) {
                 for (int z = -areaWidth; z <= areaWidth; ++z) {
                     BlockPos newPos = new BlockPos(pos.getX() + x, pos.getY() + y - 1, pos.getZ() + z);
-                    if (level.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack() && newPos.distSqr(pos) <= areaWidth) {
+                    if (level.getBlockEntity(newPos) instanceof UmbrellaStandBlockEntity blockEntity && blockEntity.hasStack()) {
                         return true;
                     }
                 }
@@ -55,7 +55,7 @@ public class UmbrellaUtils {
         );
 
         for (Entity temp : level.getEntities(null, box)) {
-            if (temp instanceof LivingEntity friend && friend.getOnPos().distSqr(pos) <= entityAreaWidth) {
+            if (temp instanceof LivingEntity friend) {
                 ItemStack friendMainHandStack = friend.getMainHandItem();
                 if (friendMainHandStack.is(UmbrellasTags.UMBRELLAS)) {
                     if (damageUmbrellas) damageUmbrella(friendMainHandStack, 1, level, friend, EquipmentSlot.MAINHAND);
