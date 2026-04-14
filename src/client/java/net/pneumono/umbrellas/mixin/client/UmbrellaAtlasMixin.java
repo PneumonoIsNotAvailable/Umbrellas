@@ -12,11 +12,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-//? if >=1.21.9 {
-import net.minecraft.client.resources.model.AtlasManager;
+//? if >=26.1 {
+import net.minecraft.client.resources.model.sprite.AtlasManager;
 import java.util.ArrayList;
 import java.util.List;
-//?} else {
+//?} else if >=1.21.9 {
+/*import net.minecraft.client.resources.model.AtlasManager;
+import java.util.ArrayList;
+import java.util.List;
+*///?} else {
 /*import net.minecraft.client.resources.model.ModelManager;
 import net.minecraft.resources.Identifier;
 import java.util.HashMap;

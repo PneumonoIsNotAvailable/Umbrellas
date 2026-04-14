@@ -1,8 +1,9 @@
+//~ render_replacements
+
 package net.pneumono.umbrellas.content;
 
-import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -16,6 +17,13 @@ import net.pneumono.umbrellas.util.data.VersionedComponents;
 import java.util.ArrayList;
 import java.util.List;
 
+//? if >=26.1 {
+import net.minecraft.client.gui.GuiGraphicsExtractor;
+//?} else {
+/*import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.resources.model.Material;
+ *///?}
+
 //? if >=1.21.6 {
 import net.minecraft.client.renderer.RenderPipelines;
 import org.joml.Matrix3x2fStack;
@@ -26,7 +34,7 @@ import org.joml.Matrix3x2fStack;
 public class LoomUmbrellaRendering {
     public static int TEXTURE_SIZE = 21;
 
-    public static void drawResultUmbrella(GuiGraphics graphics, int x, int y, ItemStack stack) {
+    public static void drawResultUmbrella(GuiGraphicsExtractor graphics, int x, int y, ItemStack stack) {
         Pose pose = new Pose(graphics.pose());
         pose.push();
         pose.translate(x, y);
@@ -36,7 +44,7 @@ public class LoomUmbrellaRendering {
         DyeColor baseColor = PatternableUmbrellaItem.getColor(stack);
 
         List<Layer> layers = new ArrayList<>();
-        layers.add(new Layer(graphics, UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")), baseColor));
+        layers.add(new Layer(graphics, UmbrellasClient.getUmbrellaSpriteId(Umbrellas.id("base")), baseColor));
         layers.addAll(getLayers(graphics, component));
 
         draw2DUmbrellaCanopy(graphics, layers.toArray(Layer[]::new));
@@ -44,31 +52,31 @@ public class LoomUmbrellaRendering {
         pose.pop();
     }
 
-    public static List<Layer> getLayers(GuiGraphics graphics, UmbrellaPatternsComponent component) {
+    public static List<Layer> getLayers(GuiGraphicsExtractor graphics, UmbrellaPatternsComponent component) {
         return component.layers().stream().map(layer -> new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(layer.pattern()), layer.color())).toList();
     }
 
-    public static void drawPatternUmbrella(GuiGraphics graphics, int x, int y, Holder<UmbrellaPattern> pattern) {
+    public static void drawPatternUmbrella(GuiGraphicsExtractor graphics, int x, int y, Holder<UmbrellaPattern> pattern) {
         Pose pose = new Pose(graphics.pose());
         pose.push();
         pose.translate(x + 2, y + 2);
         pose.scale(10F / TEXTURE_SIZE);
 
         draw2DUmbrellaCanopy(graphics,
-                new Layer(graphics, UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")), DyeColor.GRAY),
+                new Layer(graphics, UmbrellasClient.getUmbrellaSpriteId(Umbrellas.id("base")), DyeColor.GRAY),
                 new Layer(graphics, UmbrellaRenderer.getUmbrellaPatternTextureId(pattern), DyeColor.WHITE)
         );
 
         pose.pop();
     }
 
-    public static void draw2DUmbrellaCanopy(GuiGraphics graphics, Layer... layers) {
+    public static void draw2DUmbrellaCanopy(GuiGraphicsExtractor graphics, Layer... layers) {
         for (Layer layer : layers) {
             draw2DUmbrellaCanopyLayer(graphics, layer.sprite, layer.color);
         }
     }
 
-    public static void draw2DUmbrellaCanopyLayer(GuiGraphics graphics, TextureAtlasSprite sprite, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
+    public static void draw2DUmbrellaCanopyLayer(GuiGraphicsExtractor graphics, TextureAtlasSprite sprite, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
         Pose pose = new Pose(graphics.pose());
         pose.push();
 
@@ -102,7 +110,7 @@ public class LoomUmbrellaRendering {
         pose.pop();
     }
 
-    public static void draw(GuiGraphics graphics, TextureAtlasSprite sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
+    public static void draw(GuiGraphicsExtractor graphics, TextureAtlasSprite sprite, int x1, int x2, int y1, int y2, float u1, float u2, float v1, float v2, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
         //? if >=1.21.6 {
         graphics.innerBlit(RenderPipelines.GUI_TEXTURED, sprite.atlasLocation(), x1, x2, y1, y2, u1, u2, v1, v2, color);
         //?} else if >=1.21 {
@@ -116,7 +124,7 @@ public class LoomUmbrellaRendering {
     }
 
     public record Layer(TextureAtlasSprite sprite, /*? if >=1.21 {*/int/*?} else {*//*float[]*//*?}*/ color) {
-        public Layer(GuiGraphics graphics, Material material, DyeColor color) {
+        public Layer(GuiGraphicsExtractor graphics, /*? if >=26.1 {*/SpriteId/*?} else {*//*Material*//*?}*/ material, DyeColor color) {
             this(
                     //? if >=1.21.9 {
                     graphics.getSprite(material),

@@ -1,7 +1,9 @@
+//~ datagen_replacements
+
 package net.pneumono.umbrellas.datagen;
 
 import com.mojang.datafixers.util.Pair;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.*;
@@ -21,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class UmbrellasRecipeProvider extends FabricRecipeProvider {
     //? if >=1.21.6 {
-    public UmbrellasRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public UmbrellasRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 
@@ -79,7 +81,25 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     UmbrellasItems.RED_UMBRELLA,
                     UmbrellasItems.BLACK_UMBRELLA
             );
-            colorItemWithDye(Arrays.stream(DyeColor.values()).map(color -> (Item) DyeItem.byColor(color)).toList(), umbrellas, "umbrella_dye", RecipeCategory.TOOLS);
+            List<Item> dyes = List.of(
+                    Items.BLACK_DYE,
+                    Items.BLUE_DYE,
+                    Items.BROWN_DYE,
+                    Items.CYAN_DYE,
+                    Items.GRAY_DYE,
+                    Items.GREEN_DYE,
+                    Items.LIGHT_BLUE_DYE,
+                    Items.LIGHT_GRAY_DYE,
+                    Items.LIME_DYE,
+                    Items.MAGENTA_DYE,
+                    Items.ORANGE_DYE,
+                    Items.PINK_DYE,
+                    Items.PURPLE_DYE,
+                    Items.RED_DYE,
+                    Items.YELLOW_DYE,
+                    Items.WHITE_DYE
+            );
+            colorItemWithDye(dyes, umbrellas, "umbrella_dye", RecipeCategory.TOOLS);
 
             createUmbrellaStand(UmbrellasItems.OAK_UMBRELLA_STAND, Items.OAK_PLANKS);
             createUmbrellaStand(UmbrellasItems.SPRUCE_UMBRELLA_STAND, Items.SPRUCE_PLANKS);
@@ -215,7 +235,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
     //?} else {
     /*private static final String HAS_UMBRELLA = "has_umbrella";
 
-    public UmbrellasRecipeProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public UmbrellasRecipeProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output/^? if >=1.21 {^/, registriesFuture/^?}^/);
     }
 

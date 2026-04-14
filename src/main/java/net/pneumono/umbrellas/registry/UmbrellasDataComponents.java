@@ -6,8 +6,11 @@ import net.pneumono.umbrellas.content.item.component.ProvidesUmbrellaPatterns;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.util.data.VersionedComponentType;
 
-//? if >=1.21.6
-import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
+//? if >=26.1 {
+import net.fabricmc.fabric.api.item.v1.ItemComponentTooltipProviderRegistry;
+//?} else if >=1.21.6 {
+/*import net.fabricmc.fabric.api.item.v1.ComponentTooltipAppenderRegistry;
+*///?}
 
 //? if >=1.21 {
 import net.minecraft.core.Registry;
@@ -35,8 +38,10 @@ public class UmbrellasDataComponents {
 
     public static void registerUmbrellasDataComponents() {
         //? if >=1.21.6 {
-        ComponentTooltipAppenderRegistry.addFirst(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS.getType());
-        ComponentTooltipAppenderRegistry.addFirst(UmbrellasDataComponents.UMBRELLA_PATTERNS.getType());
+        //~ if >=26.1 'ComponentTooltipAppenderRegistry' -> 'ItemComponentTooltipProviderRegistry' {
+        ItemComponentTooltipProviderRegistry.addFirst(UmbrellasDataComponents.PROVIDES_UMBRELLA_PATTERNS.getType());
+        ItemComponentTooltipProviderRegistry.addFirst(UmbrellasDataComponents.UMBRELLA_PATTERNS.getType());
+        //~}
         //?}
     }
 }

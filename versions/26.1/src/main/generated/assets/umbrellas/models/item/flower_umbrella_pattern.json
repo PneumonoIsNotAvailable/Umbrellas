@@ -1,0 +1,6 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "umbrellas:item/flower_umbrella_pattern"
+  }
+}

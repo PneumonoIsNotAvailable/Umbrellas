@@ -34,6 +34,9 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import java.util.List;
 
+//? if >=26.1
+import net.minecraft.core.component.DataComponents;
+
 //? if >=1.21.6 {
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
@@ -214,13 +217,17 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
 
     //? if >=1.21.6 {
     @WrapOperation(
-            method = "quickMoveStack",
+            //? if >=26.1 {
+            method = "isPatternItem",
+            //?} else {
+            /*method = "quickMoveStack",
+            *///?}
             at = @At(
                     value = "INVOKE",
                     target = "Lnet/minecraft/world/item/ItemStack;has(Lnet/minecraft/core/component/DataComponentType;)Z"
             )
     )
-    private boolean slotHasPatternItem(ItemStack stack, DataComponentType<?> componentType, Operation<Boolean> original) {
+    private /*? if >=26.1 {*/static/*?}*/ boolean slotHasPatternItem(ItemStack stack, DataComponentType<?> componentType, Operation<Boolean> original) {
         return original.call(stack, componentType) || UmbrellaPatternItem.canProvide(stack);
     }
     //?} else {
@@ -240,7 +247,11 @@ public abstract class LoomScreenHandlerMixin extends AbstractContainerMenu imple
         ItemStack empty = ItemStack.EMPTY;
         if (!inputStack.isEmpty()) {
             empty = inputStack.copyWithCount(1);
-            DyeColor dyeColor = dyeStack.getItem() instanceof DyeItem dyeItem ? dyeItem.getDyeColor() : DyeColor.WHITE;
+            //? if >=26.1 {
+            DyeColor dyeColor = dyeStack.getOrDefault(DataComponents.DYE, DyeColor.WHITE);
+            //?} else {
+            /*DyeColor dyeColor = dyeStack.getItem() instanceof DyeItem dyeItem ? dyeItem.getDyeColor() : DyeColor.WHITE;
+            *///?}
             VersionedComponents.update(
                     empty,
                     UmbrellasDataComponents.UMBRELLA_PATTERNS,

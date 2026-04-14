@@ -1,14 +1,21 @@
+//~ datagen_replacements
+
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.core.HolderLookup;
 import net.pneumono.umbrellas.registry.UmbrellasBlocks;
 
 import java.util.concurrent.CompletableFuture;
 
-public class UmbrellasBlockLootTableProvider extends FabricBlockLootTableProvider {
-    public UmbrellasBlockLootTableProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+//? if >=26.1 {
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootSubProvider;
+//?} else {
+/*import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
+*///?}
+
+public class UmbrellasBlockLootTableProvider extends /*? if >=26.1 {*/FabricBlockLootSubProvider/*?} else {*//*FabricBlockLootTableProvider*//*?}*/ {
+    public UmbrellasBlockLootTableProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(dataOutput/*? if >=1.21 {*/, registryLookup/*?}*/);
     }
 

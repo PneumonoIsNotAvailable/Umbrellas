@@ -1,7 +1,9 @@
+//~ datagen_replacements
+
 package net.pneumono.umbrellas.datagen;
 
 //? if >=1.21 {
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricDynamicRegistryProvider;
 import net.fabricmc.fabric.api.resource.conditions.v1.ResourceCondition;
 import net.minecraft.core.HolderGetter;
@@ -56,7 +58,7 @@ public class UmbrellasEnchantmentProvider extends FabricDynamicRegistryProvider 
 
     );
 
-    public UmbrellasEnchantmentProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+    public UmbrellasEnchantmentProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

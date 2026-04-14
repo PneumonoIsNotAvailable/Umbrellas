@@ -7,7 +7,7 @@ import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
 import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
-import net.pneumono.umbrellas.registry.UmbrellaCauldronInteraction;
+import net.pneumono.umbrellas.registry.UmbrellaCauldronInteractions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,7 +30,7 @@ public class Umbrellas implements ModInitializer {
 		UmbrellasMisc.registerUmbrellasMisc();
 		UmbrellaPatterns.registerUmbrellasPatterns();
 
-		UmbrellaCauldronInteraction.registerCauldronBehavior();
+		UmbrellaCauldronInteractions.registerCauldronBehavior();
 	}
 
 	public static Identifier id(String path) {

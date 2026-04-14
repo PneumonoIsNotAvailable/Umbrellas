@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "umbrellas:item/blue_umbrella",
+    "model": {
+      "type": "umbrellas:umbrella"
+    }
+  }
+}

@@ -1,7 +1,9 @@
+//~ datagen_replacements
+
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.TagKey;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
@@ -15,8 +17,8 @@ import net.minecraft.data.tags.TagAppender;
 import net.minecraft.resources.ResourceKey;
 //?}
 
-public class UmbrellasPatternTagProvider extends FabricTagProvider<UmbrellaPattern> {
-    public UmbrellasPatternTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public class UmbrellasPatternTagProvider extends FabricTagsProvider<UmbrellaPattern> {
+    public UmbrellasPatternTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, UmbrellaPatterns.UMBRELLA_PATTERN_KEY, registriesFuture);
     }
 

@@ -2,7 +2,7 @@
 
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.criterion.InventoryChangeTrigger;
@@ -10,7 +10,6 @@ import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.world.item.ItemStack;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
@@ -20,6 +19,15 @@ import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+
+//? if >=26.1 {
+import net.minecraft.world.item.ItemStackTemplate;
+import net.minecraft.world.item.enchantment.ItemEnchantments;
+import net.minecraft.core.component.DataComponentPatch;
+import net.minecraft.core.component.DataComponents;
+//?} else {
+/*import net.minecraft.world.item.ItemStack;
+*///?}
 
 //? if >=1.21.6
 import net.minecraft.world.item.Item;
@@ -34,7 +42,7 @@ import net.minecraft.world.item.enchantment.Enchantment;
 *///?}
 
 public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
-    public UmbrellasAdvancementProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
+    public UmbrellasAdvancementProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registryLookup) {
         super(output/*? if >=1.21 {*/, registryLookup/*?}*/);
     }
 
@@ -66,8 +74,16 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .addCriterion("has_umbrella", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(/*? if >=1.21.6 {*/itemLookup, /*?}*/UmbrellasTags.UMBRELLAS)))
                 .save(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
 
-        ItemStack glidingEnchanted = new ItemStack(UmbrellasItems.RED_UMBRELLA);
+        //? if >=26.1 {
+        DataComponentPatch.Builder glidingDataBuilder = DataComponentPatch.builder();
+        ItemEnchantments.Mutable glidingMutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        glidingMutable.set(enchantmentLookup.getOrThrow(UmbrellasEnchantments.GLIDING), 3);
+        glidingDataBuilder.set(DataComponents.ENCHANTMENTS, glidingMutable.toImmutable());
+        ItemStackTemplate glidingEnchanted = new ItemStackTemplate(UmbrellasItems.RED_UMBRELLA, glidingDataBuilder.build());
+        //?} else {
+        /*ItemStack glidingEnchanted = new ItemStack(UmbrellasItems.RED_UMBRELLA);
         glidingEnchanted.enchant(enchantmentLookup.getOrThrow(UmbrellasEnchantments.GLIDING), 3);
+        *///?}
         Advancement.Builder.advancement().parent(getUmbrellaAdvancement)
                 .display(
                         glidingEnchanted,
@@ -82,8 +98,16 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                 .addCriterion("used_gliding_umbrella", TimeGlidingCriterion.TriggerInstance.minHeight(19.75))
                 .save(consumer, Umbrellas.MOD_ID + ":adventure/use_gliding_umbrella");
 
-        ItemStack billowingEnchanted = new ItemStack(UmbrellasItems.RED_UMBRELLA);
+        //? if >=26.1 {
+        DataComponentPatch.Builder billowingDataBuilder = DataComponentPatch.builder();
+        ItemEnchantments.Mutable billowingMutable = new ItemEnchantments.Mutable(ItemEnchantments.EMPTY);
+        billowingMutable.set(enchantmentLookup.getOrThrow(UmbrellasEnchantments.BILLOWING), 3);
+        billowingDataBuilder.set(DataComponents.ENCHANTMENTS, billowingMutable.toImmutable());
+        ItemStackTemplate billowingEnchanted = new ItemStackTemplate(UmbrellasItems.RED_UMBRELLA, billowingDataBuilder.build());
+        //?} else {
+        /*ItemStack billowingEnchanted = new ItemStack(UmbrellasItems.RED_UMBRELLA);
         billowingEnchanted.enchant(enchantmentLookup.getOrThrow(UmbrellasEnchantments.BILLOWING), 3);
+        *///?}
         Advancement.Builder.advancement().parent(getUmbrellaAdvancement)
                 .display(
                         billowingEnchanted,

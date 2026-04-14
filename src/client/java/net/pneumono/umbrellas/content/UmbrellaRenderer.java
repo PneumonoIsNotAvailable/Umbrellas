@@ -4,7 +4,7 @@ package net.pneumono.umbrellas.content;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.resources.model.Material;
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
@@ -15,6 +15,12 @@ import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+
+//? if >=26.1 {
+import net.minecraft.client.resources.model.sprite.SpriteId;
+//?} else {
+/*import net.minecraft.client.resources.model.Material;
+*///?}
 
 //? if >=1.21.11 {
 import net.minecraft.client.renderer.rendertype.RenderType;
@@ -31,37 +37,47 @@ import org.joml.Vector3fc;
 import org.joml.Vector3f;
 *///?}
 
-//? if >=1.21.9 {
+//? if >=26.1 {
 import net.minecraft.client.renderer.SubmitNodeCollector;
+import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
+import net.minecraft.util.Unit;
+import org.jetbrains.annotations.Nullable;
+//?} else if >=1.21.9 {
+/*import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.resources.model.MaterialSet;
 import net.minecraft.util.Unit;
 import org.jetbrains.annotations.Nullable;
-//?} else {
+*///?} else {
 /*import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.ItemRenderer;
 import org.jetbrains.annotations.Nullable;
 *///?}
 
 public class UmbrellaRenderer {
-    public static final Map<Identifier, Material> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
+    //~ if >=26.1 'Material' -> 'SpriteId'
+    public static final Map<Identifier, SpriteId> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
 
     //? if >=1.21.9
-    private final MaterialSet materialSet;
+    private final /*? if >=26.1 {*/SpriteGetter/*?} else if >=1.21.9 {*//*MaterialSet*//*?}*/ spriteGetter;
 
     private final UmbrellaModel.Handle handleModel;
     private final UmbrellaModel.Canopy canopyModel;
 
-    public UmbrellaRenderer(EntityModelSet models/*? if >=1.21.9 {*/, MaterialSet materialSet/*?}*/) {
+    public UmbrellaRenderer(
+            EntityModelSet models
+            /*? if >=26.1 {*/, SpriteGetter spriteGetter/*?} else if >=1.21.9 {*//*, MaterialSet spriteGetter*//*?}*/
+    ) {
         //? if >=1.21.9
-        this.materialSet = materialSet;
+        this.spriteGetter = spriteGetter;
 
         this.handleModel = new UmbrellaModel.Handle(models.bakeLayer(UmbrellasClient.UMBRELLA_HANDLE_LAYER));
         this.canopyModel = new UmbrellaModel.Canopy(models.bakeLayer(UmbrellasClient.UMBRELLA_CANOPY_LAYER));
     }
 
-    public static Material getUmbrellaPatternTextureId(Holder<UmbrellaPattern> pattern) {
-        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient::getUmbrellaMaterial);
+    //~ if >=26.1 'Material' -> 'SpriteId'
+    public static SpriteId getUmbrellaPatternTextureId(Holder<UmbrellaPattern> pattern) {
+        return UMBRELLA_PATTERN_TEXTURES.computeIfAbsent(pattern.value().assetId(), UmbrellasClient::getUmbrellaSpriteId);
     }
 
     public void submit(
@@ -101,7 +117,7 @@ public class UmbrellaRenderer {
                 poseStack,
                 UmbrellasClient.UMBRELLA_BASE.renderType(RenderTypes::entitySolid),
                 light, overlay, -1,
-                materialSet.get(UmbrellasClient.UMBRELLA_BASE),
+                spriteGetter.get(UmbrellasClient.UMBRELLA_BASE),
                 k, crumblingOverlay
         );
 
@@ -111,7 +127,7 @@ public class UmbrellaRenderer {
                     poseStack,
                     RenderTypes.entityGlint(),
                     light, overlay, -1,
-                    materialSet.get(UmbrellasClient.UMBRELLA_BASE),
+                    spriteGetter.get(UmbrellasClient.UMBRELLA_BASE),
                     k, crumblingOverlay
             );
         }
@@ -166,8 +182,8 @@ public class UmbrellaRenderer {
         submitLayer(
                 poseStack,
                 light, overlay, baseColor,
-                UmbrellasClient.getUmbrellaMaterial(Umbrellas.id("base")),
-                RenderTypes::entityNoOutline,
+                UmbrellasClient.getUmbrellaSpriteId(Umbrellas.id("base")),
+                RenderTypes::/*? if >=26.1 {*/bannerPattern/*?} else {*//*entityNoOutline*//*?}*/,
                 collector,
                 /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
         );
@@ -181,7 +197,7 @@ public class UmbrellaRenderer {
                     poseStack,
                     light, overlay, color,
                     getUmbrellaPatternTextureId(pattern),
-                    RenderTypes::entityNoOutline,
+                    RenderTypes::/*? if >=26.1 {*/bannerPattern/*?} else {*//*entityNoOutline*//*?}*/,
                     collector,
                     /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
             );
@@ -192,7 +208,8 @@ public class UmbrellaRenderer {
             PoseStack poseStack,
             int light, int overlay,
             @Nullable DyeColor color,
-            Material material,
+            //~ if >=26.1 'Material' -> 'SpriteId'
+            SpriteId material,
             Function<Identifier, RenderType> renderTypeFunction,
             //? if >=1.21.9 {
             SubmitNodeCollector collector, int k,
@@ -213,7 +230,8 @@ public class UmbrellaRenderer {
             PoseStack poseStack,
             int light, int overlay,
             @Nullable DyeColor color,
-            Material material,
+            //~ if >=26.1 'Material' -> 'SpriteId'
+            SpriteId material,
             RenderType renderType,
             //? if >=1.21.9 {
             SubmitNodeCollector collector, int k,
@@ -229,7 +247,7 @@ public class UmbrellaRenderer {
                 poseStack,
                 renderType,
                 light, overlay, diffuseColor,
-                materialSet.get(material),
+                spriteGetter.get(material),
                 k, crumblingOverlay
         );
         //?} else {

@@ -1,8 +1,9 @@
 //~ identifier_replacements
+//~ datagen_replacements
 
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
@@ -27,7 +28,7 @@ import net.minecraft.data.models.model.*;
 *///?}
 
 public class UmbrellasModelProvider extends FabricModelProvider {
-    public UmbrellasModelProvider(FabricDataOutput output) {
+    public UmbrellasModelProvider(FabricPackOutput output) {
         super(output);
     }
 

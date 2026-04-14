@@ -1,7 +1,5 @@
 package net.pneumono.umbrellas.registry;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -22,6 +20,14 @@ import net.pneumono.umbrellas.util.VersionUtil;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+
+//? if >=26.1 {
+import net.fabricmc.fabric.api.creativetab.v1.FabricCreativeModeTab;
+import net.fabricmc.fabric.api.creativetab.v1.CreativeModeTabEvents;
+//?} else {
+/*import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
+import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
+*///?}
 
 //? if >=1.21.6
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
@@ -198,12 +204,16 @@ public class UmbrellasItems {
                 BAMBOO_UMBRELLA_STAND
         };
 
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> content.addAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
+        //~ if >=26.1 'ItemGroupEvents.modifyEntriesEvent' -> 'CreativeModeTabEvents.modifyOutputEvent' {
+        //~ if >=26.1 'add' -> 'insert' {
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.TOOLS_AND_UTILITIES).register(content -> content.insertAfter(Items.WARPED_FUNGUS_ON_A_STICK, umbrellas));
         Item finalPattern = /*? if >=1.21 {*/Items.GUSTER_BANNER_PATTERN/*?} else {*//*Items.SKULL_BANNER_PATTERN*//*?}*/;
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.INGREDIENTS).register(content -> content.addAfter(finalPattern, patterns));
-        ItemGroupEvents.modifyEntriesEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(content -> content.addBefore(Items.OAK_SIGN, stands));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.INGREDIENTS).register(content -> content.insertAfter(finalPattern, patterns));
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS).register(content -> content.insertBefore(Items.OAK_SIGN, stands));
+        //~}
+        //~}
 
-        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_MODE_TAB, FabricItemGroup.builder()
+        Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, CREATIVE_MODE_TAB, /*? if >=26.1 {*/FabricCreativeModeTab/*?} else {*//*FabricItemGroup*//*?}*/.builder()
                 .title(Component.translatable(VersionUtil.identifier(CREATIVE_MODE_TAB).toLanguageKey("itemGroup")))
                 .icon(() -> new ItemStack(RED_UMBRELLA))
                 .displayItems((displayContext, entries) -> {

@@ -20,7 +20,7 @@ public class UmbrellasDataGenerator implements DataGeneratorEntrypoint {
                 "umbrellas/umbrella_pattern",
                 UmbrellaPattern.CODEC
         ));
-        pack.addProvider(UmbrellasItemTagProvider::new);
+        pack.addProvider(UmbrellasItemTagsProvider::new);
         pack.addProvider(UmbrellasBlockTagProvider::new);
         pack.addProvider(UmbrellasPatternTagProvider::new);
         pack.addProvider(UmbrellasRecipeProvider::new);

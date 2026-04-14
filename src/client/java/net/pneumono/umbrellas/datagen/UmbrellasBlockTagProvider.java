@@ -1,7 +1,9 @@
+//~ datagen_replacements
+
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
+import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagsProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.TagKey;
@@ -15,8 +17,8 @@ import java.util.concurrent.CompletableFuture;
 //? if >=1.21.6
 import net.minecraft.data.tags.TagAppender;
 
-public class UmbrellasBlockTagProvider extends FabricTagProvider.BlockTagProvider {
-    public UmbrellasBlockTagProvider(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+public class UmbrellasBlockTagProvider extends FabricTagsProvider./*? if >=26.1 {*/BlockTagsProvider/*?} else {*//*BlockTagProvider*//*?}*/ {
+    public UmbrellasBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
         super(output, registriesFuture);
     }
 

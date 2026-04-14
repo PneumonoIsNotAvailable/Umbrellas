@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_flow_banner_pattern": {
+      "conditions": {
+        "items": [
+          {
+            "items": "minecraft:flow_banner_pattern"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "umbrellas:flow_umbrella_pattern"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_flow_banner_pattern"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "umbrellas:flow_umbrella_pattern"
+    ]
+  }
+}

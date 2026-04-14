@@ -2,7 +2,6 @@
 
 package net.pneumono.umbrellas.registry;
 
-import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -19,12 +18,14 @@ import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
 
-//? if >=1.21.11 {
+//? if <1.21.11 {
+/*import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
+import net.minecraft.world.entity.npc.VillagerProfession;
+import net.minecraft.world.entity.npc.VillagerTrades;
+*///?} else if <26.1 {
+/*import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;
 import net.minecraft.world.entity.npc.villager.VillagerProfession;
 import net.minecraft.world.entity.npc.villager.VillagerTrades;
-//?} else {
-/*import net.minecraft.world.entity.npc.VillagerProfession;
-import net.minecraft.world.entity.npc.VillagerTrades;
 *///?}
 
 //? if >=1.21 {
@@ -72,31 +73,35 @@ public class UmbrellasMisc {
                 /*resourceManager, lootDataManager, key, tableBuilder, source
                 *///?}
         ) -> {
+            //~ if >=26.1 'with' -> 'add' {
             if (BuiltInLootTables.BASTION_OTHER.equals(key) && source.isBuiltin()) {
                 LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
-                        .with(EmptyLootItem.emptyItem().setWeight(11).build())
-                        .with(LootItem.lootTableItem(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN).setWeight(1).build());
+                        .add(EmptyLootItem.emptyItem().setWeight(11).build())
+                        .add(LootItem.lootTableItem(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());
             }
 
             //? if >=1.21 {
             if (BuiltInLootTables.TRIAL_CHAMBERS_REWARD_OMINOUS_UNIQUE.equals(key) && source.isBuiltin()) {
                 LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
-                        .with(EmptyLootItem.emptyItem().setWeight(11).build())
-                        .with(LootItem.lootTableItem(UmbrellasItems.FLOW_UMBRELLA_PATTERN).setWeight(1).build());
+                        .add(EmptyLootItem.emptyItem().setWeight(11).build())
+                        .add(LootItem.lootTableItem(UmbrellasItems.FLOW_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());
             }
 
             if (BuiltInLootTables.TRIAL_CHAMBERS_REWARD_UNIQUE.equals(key) && source.isBuiltin()) {
                 LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
-                        .with(EmptyLootItem.emptyItem().setWeight(11).build())
-                        .with(LootItem.lootTableItem(UmbrellasItems.GUSTER_UMBRELLA_PATTERN).setWeight(1).build());
+                        .add(EmptyLootItem.emptyItem().setWeight(11).build())
+                        .add(LootItem.lootTableItem(UmbrellasItems.GUSTER_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());
             }
             //?}
+            //~}
         });
 
-        VillagerTrades.EmeraldForItems factory = new VillagerTrades.EmeraldForItems(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, 8, 1, 30);
+        //? if <26.1 {
+        /*VillagerTrades.EmeraldForItems factory = new VillagerTrades.EmeraldForItems(UmbrellasItems.GLOBE_UMBRELLA_PATTERN, 8, 1, 30);
         TradeOfferHelper.registerVillagerOffers(VillagerProfession.CARTOGRAPHER, 5, factories -> factories.add(factory));
+        *///?}
     }
 }

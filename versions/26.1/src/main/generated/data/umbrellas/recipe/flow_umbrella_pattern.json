@@ -1,0 +1,11 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "group": "banner_to_umbrella",
+  "ingredients": [
+    "minecraft:flow_banner_pattern"
+  ],
+  "result": {
+    "id": "umbrellas:flow_umbrella_pattern"
+  }
+}

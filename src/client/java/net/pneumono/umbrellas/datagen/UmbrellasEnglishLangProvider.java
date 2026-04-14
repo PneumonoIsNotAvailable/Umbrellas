@@ -1,6 +1,8 @@
+//~ datagen_replacements
+
 package net.pneumono.umbrellas.datagen;
 
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.resources.ResourceKey;
@@ -16,7 +18,7 @@ import java.util.concurrent.CompletableFuture;
 import java.util.function.BiConsumer;
 
 public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
-    public UmbrellasEnglishLangProvider(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> provider) {
+    public UmbrellasEnglishLangProvider(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> provider) {
         super(dataOutput/*? if >=1.21 {*/, provider/*?}*/);
     }
 

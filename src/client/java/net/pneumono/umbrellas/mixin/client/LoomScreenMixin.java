@@ -1,10 +1,11 @@
 //~ identifier_replacements
+//~ render_replacements
 
 package net.pneumono.umbrellas.mixin.client;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import net.minecraft.client.gui.GuiGraphics;
+import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.LoomScreen;
 import net.minecraft.core.Holder;
@@ -97,22 +98,33 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     }
 
     @Inject(
-            method = "renderBg",
+            //? if >=26.1 {
+            method = "extractBackground",
+            //?} else {
+            /*method = "renderBg",
+            *///?}
             at = @At(
                     value = "INVOKE",
                     shift = At.Shift.AFTER,
                     //? if >=1.21.6 {
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
                     //?} else if >=1.21 {
-                    /*target = "Lnet/minecraft/client/gui/GuiGraphics;blitSprite(Lnet/minecraft/resources/Identifier;IIII)V",
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lnet/minecraft/resources/Identifier;IIII)V",
                     *///?} else {
-                    /*target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/Identifier;IIIIII)V",
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lnet/minecraft/resources/Identifier;IIIIII)V",
                     *///?}
                     ordinal = /*? if >=1.21 {*/3/*?} else {*//*4*//*?}*/
             ),
             cancellable = true
     )
-    private void drawBackground(GuiGraphics graphics, float deltaTicks, int mouseX, int mouseY, CallbackInfo ci) {
+    private void drawBackground(
+            //? if >=26.1 {
+            GuiGraphicsExtractor graphics, int mouseX, int mouseY, float deltaTicks,
+            //?} else {
+            /*GuiGraphicsExtractor graphics, float deltaTicks, int mouseX, int mouseY,
+            *///?}
+            CallbackInfo ci
+    ) {
         int x = this.leftPos;
         int y = this.topPos;
 
@@ -195,13 +207,17 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
     }
 
     @ModifyArg(
-            method = "renderBg",
+            //? if >=26.1 {
+            method = "extractBackground",
+            //?} else {
+            /*method = "renderBg",
+            *///?}
             at = @At(
                     value = "INVOKE",
                     //? if >=1.21.6 {
-                    target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
                     //?} else {
-                    /*target = "Lnet/minecraft/client/gui/GuiGraphics;blit(Lnet/minecraft/resources/Identifier;IIIIII)V"
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lnet/minecraft/resources/Identifier;IIIIII)V"
                     *///?}
             ),
             index = /*? if >=1.21.6 {*/1/*?} else {*//*0*//*?}*/

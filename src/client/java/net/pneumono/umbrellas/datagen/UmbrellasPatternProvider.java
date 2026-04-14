@@ -1,10 +1,11 @@
 //~ identifier_replacements
 //~ bootstrap_replacements
+//~ datagen_replacements
 
 package net.pneumono.umbrellas.datagen;
 
 import com.mojang.serialization.Codec;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricCodecDataProvider;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.PackOutput;
@@ -22,7 +23,7 @@ import java.util.function.BiConsumer;
 
 public class UmbrellasPatternProvider extends FabricCodecDataProvider<UmbrellaPattern> {
     public UmbrellasPatternProvider(
-            FabricDataOutput dataOutput,
+            FabricPackOutput dataOutput,
             CompletableFuture<HolderLookup.Provider> registriesFuture,
             PackOutput.Target outputType,
             String directoryName,

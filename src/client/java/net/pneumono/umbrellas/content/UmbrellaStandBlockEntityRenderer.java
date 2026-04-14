@@ -14,6 +14,12 @@ import net.pneumono.umbrellas.content.item.PatternableUmbrellaItem;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
 import net.pneumono.umbrellas.registry.UmbrellasDataComponents;
 
+//? if >=26.1 {
+import net.minecraft.client.renderer.state.level.CameraRenderState;
+//?} else if >=1.21.9 {
+/*import net.minecraft.client.renderer.state.CameraRenderState;
+*///?}
+
 //? if >=1.21.9 {
 import it.unimi.dsi.fastutil.HashCommon;
 import net.minecraft.client.renderer.SubmitNodeCollector;
@@ -21,7 +27,6 @@ import net.minecraft.client.renderer.blockentity.state.BlockEntityRenderState;
 import net.minecraft.client.renderer.feature.ModelFeatureRenderer;
 import net.minecraft.client.renderer.item.ItemModelResolver;
 import net.minecraft.client.renderer.item.ItemStackRenderState;
-import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.pneumono.umbrellas.util.data.VersionedComponents;
 import org.jetbrains.annotations.NotNull;
@@ -42,10 +47,13 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
     private final UmbrellaRenderer umbrellaRenderer;
 
     public UmbrellaStandBlockEntityRenderer(BlockEntityRendererProvider.Context context) {
-        //? if >=1.21.9 {
+        //? if >=26.1 {
         this.itemModelResolver = context.itemModelResolver();
+        this.umbrellaRenderer = new UmbrellaRenderer(context.entityModelSet(), context.sprites());
+        //?} else if >=1.21.9 {
+        /*this.itemModelResolver = context.itemModelResolver();
         this.umbrellaRenderer = new UmbrellaRenderer(context.entityModelSet(), context.materials());
-        //?} else {
+        *///?} else {
         /*this.umbrellaRenderer = new UmbrellaRenderer(context.getModelSet());
         *///?}
     }
@@ -64,6 +72,7 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
         state.patterns = VersionedComponents.get(stack, UmbrellasDataComponents.UMBRELLA_PATTERNS);
         state.foil = stack.hasFoil();
         state.item = new ItemStackRenderState();
+        state.blockState = entity.getBlockState();
         this.itemModelResolver.updateForTopItem(state.item, entity.getTheItem(), ItemDisplayContext.NONE, entity.getLevel(), null, HashCommon.long2int(entity.getBlockPos().asLong()));
     }
 
@@ -72,6 +81,7 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
         public DyeColor baseColor;
         public UmbrellaPatternsComponent patterns;
         public boolean foil;
+        public BlockState blockState;
     }
 
     @Override

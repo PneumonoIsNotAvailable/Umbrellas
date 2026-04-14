@@ -49,7 +49,7 @@ public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<Umbrel
     @Override
     public void /*? if >=1.21.9 {*/submit/*?} else {*//*render*//*?}*/(
             @Nullable Data data,
-            ItemDisplayContext itemDisplayContext,
+            /*? if <26.1 {*//*ItemDisplayContext itemDisplayContext,*//*?}*/
             PoseStack poseStack,
             /*? if >=1.21.9 {*/SubmitNodeCollector collector/*?} else {*//*MultiBufferSource collector*//*?}*/,
             int light, int overlay, boolean foil
@@ -69,17 +69,17 @@ public class UmbrellaSpecialModelRenderer implements SpecialModelRenderer<Umbrel
     }
 
     @Environment(EnvType.CLIENT)
-    public static class Unbaked implements SpecialModelRenderer.Unbaked {
+    public static class Unbaked implements SpecialModelRenderer.Unbaked/*? if >=26.1 {*/<UmbrellaSpecialModelRenderer.Data>/*?}*/ {
         public static final Unbaked INSTANCE = new Unbaked();
         public static final MapCodec<UmbrellaSpecialModelRenderer.Unbaked> CODEC = MapCodec.unit(INSTANCE);
 
         //? if >=1.21.9 {
         @Nullable
         @Override
-        public SpecialModelRenderer<?> bake(BakingContext bakingContext) {
+        public UmbrellaSpecialModelRenderer bake(BakingContext bakingContext) {
             return new UmbrellaSpecialModelRenderer(new UmbrellaRenderer(
                     bakingContext.entityModelSet()
-                    /*? if >=1.21.9 {*/, bakingContext.materials()/*?}*/
+                    /*? if >=26.1 {*/, bakingContext.sprites()/*?} else if >=1.21.9 {*//*, bakingContext.materials()*//*?}*/
             ));
         }
         //?} else {
