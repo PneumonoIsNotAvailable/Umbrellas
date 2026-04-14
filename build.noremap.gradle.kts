@@ -72,15 +72,13 @@ tasks {
 
 	processResources {
 		inputs.property("version", project.property("mod_version"))
-		inputs.property("min_supported", project.property("min_supported_version"))
-		inputs.property("max_supported", project.property("max_supported_version"))
+		inputs.property("supported_versions", "~${project.property("min_supported_version")}")
 
 		filesMatching("fabric.mod.json") {
 			expand(
 				mutableMapOf(
 					"version" to project.property("mod_version"),
-					"min_supported" to project.property("min_supported_version"),
-					"max_supported" to project.property("max_supported_version"),
+					"supported_versions" to "~${project.property("min_supported_version")}",
 					"aw_file" to awFile,
 					"java" to "$java"
 				)
@@ -153,10 +151,13 @@ publishMods {
 	type = STABLE
 	modLoaders.addAll("fabric", "quilt")
 
-	dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
+	val modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+	val discordToken = providers.environmentVariable("DISCORD_TOKEN")
+
+	dryRun = modrinthToken.getOrNull() == null || discordToken.getOrNull() == null
 
 	modrinth {
-		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		accessToken = modrinthToken
 		projectId = "dgTb67Ox"
 
 		minecraftVersionRange {
@@ -172,6 +173,18 @@ publishMods {
 		requires {
 			// Fabric API
 			id = "P7dR8mSH"
+		}
+	}
+
+	if (stonecutter.current.project == "26.1") {
+		discord {
+			webhookUrl = discordToken
+
+			username = "Umbrellas Updates"
+
+			avatarUrl = "https://github.com/PneumonoIsNotAvailable/Umbrellas/blob/master/src/main/resources/assets/umbrellas/icon.png?raw=true"
+
+			content = changelog.map { "# Umbrellas version ${project.property("mod_version")}\n<@&1472490332783378472>\n" + it }
 		}
 	}
 }
