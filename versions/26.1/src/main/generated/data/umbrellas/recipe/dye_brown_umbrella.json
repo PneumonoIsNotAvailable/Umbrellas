@@ -3,7 +3,7 @@
   "category": "equipment",
   "group": "umbrella_dye",
   "ingredients": [
-    "minecraft:purple_dye",
+    "minecraft:brown_dye",
     [
       "umbrellas:white_umbrella",
       "umbrellas:orange_umbrella",
