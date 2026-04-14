@@ -3,7 +3,6 @@
 package net.pneumono.umbrellas.content;
 
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.resources.model.sprite.SpriteId;
 import net.minecraft.core.Holder;
 import net.minecraft.world.item.DyeColor;
 import net.minecraft.world.item.ItemStack;
@@ -19,6 +18,7 @@ import java.util.List;
 
 //? if >=26.1 {
 import net.minecraft.client.gui.GuiGraphicsExtractor;
+import net.minecraft.client.resources.model.sprite.SpriteId;
 //?} else {
 /*import net.minecraft.client.gui.GuiGraphicsExtractor;
 import net.minecraft.client.resources.model.Material;

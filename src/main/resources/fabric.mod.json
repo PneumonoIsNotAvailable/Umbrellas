@@ -34,9 +34,6 @@
 		],
 		"fabric-datagen": [
 			"net.pneumono.umbrellas.UmbrellasDataGenerator"
-		],
-		"modmenu": [
-			"net.pneumono.umbrellas.UmbrellasModMenu"
 		]
 	},
 	"mixins": [

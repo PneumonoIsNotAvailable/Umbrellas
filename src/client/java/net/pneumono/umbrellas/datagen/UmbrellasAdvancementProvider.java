@@ -1,4 +1,5 @@
 //~ identifier_replacements
+//~ datagen_replacements
 
 package net.pneumono.umbrellas.datagen;
 

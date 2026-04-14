@@ -64,7 +64,7 @@ dependencies {
 	implementation("maven.modrinth:pneumono_core:${property("core_version")}")
 
 	// Mod Menu
-	implementation("com.terraformersmc:modmenu:${property("modmenu_version")}")
+	runtimeOnly("com.terraformersmc:modmenu:${property("modmenu_version")}")
 }
 
 tasks {
@@ -123,6 +123,10 @@ stonecutter {
 
 	replacements.string(current.parsed >= "1.21.11") {
 		replace("critereon", "criterion")
+	}
+
+	replacements.string(current.parsed >= "26.1") {
+		replace("RenderTypes::entityNoOutline", "RenderTypes::bannerPattern")
 	}
 
 	replacements.string(current.parsed >= "1.21.11") {

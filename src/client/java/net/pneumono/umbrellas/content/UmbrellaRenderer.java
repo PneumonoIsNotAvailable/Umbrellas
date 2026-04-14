@@ -4,7 +4,6 @@ package net.pneumono.umbrellas.content;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import net.minecraft.client.model.geom.EntityModelSet;
-import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.core.Holder;
 import net.minecraft.resources.Identifier;
 import net.minecraft.world.item.DyeColor;
@@ -17,6 +16,7 @@ import java.util.Map;
 import java.util.function.Function;
 
 //? if >=26.1 {
+import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
 //?} else {
 /*import net.minecraft.client.resources.model.Material;
@@ -59,7 +59,7 @@ public class UmbrellaRenderer {
     public static final Map<Identifier, SpriteId> UMBRELLA_PATTERN_TEXTURES = new HashMap<>();
 
     //? if >=1.21.9
-    private final /*? if >=26.1 {*/SpriteGetter/*?} else if >=1.21.9 {*//*MaterialSet*//*?}*/ spriteGetter;
+    private final /*? if >=26.1 {*/SpriteGetter/*?} else {*//*MaterialSet*//*?}*/ spriteGetter;
 
     private final UmbrellaModel.Handle handleModel;
     private final UmbrellaModel.Canopy canopyModel;
@@ -183,7 +183,7 @@ public class UmbrellaRenderer {
                 poseStack,
                 light, overlay, baseColor,
                 UmbrellasClient.getUmbrellaSpriteId(Umbrellas.id("base")),
-                RenderTypes::/*? if >=26.1 {*/bannerPattern/*?} else {*//*entityNoOutline*//*?}*/,
+                RenderTypes::bannerPattern,
                 collector,
                 /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
         );
@@ -197,7 +197,7 @@ public class UmbrellaRenderer {
                     poseStack,
                     light, overlay, color,
                     getUmbrellaPatternTextureId(pattern),
-                    RenderTypes::/*? if >=26.1 {*/bannerPattern/*?} else {*//*entityNoOutline*//*?}*/,
+                    RenderTypes::bannerPattern,
                     collector,
                     /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
             );
