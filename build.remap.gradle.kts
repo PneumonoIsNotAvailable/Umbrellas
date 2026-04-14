@@ -158,10 +158,12 @@ publishMods {
 	type = STABLE
 	modLoaders.addAll("fabric", "quilt")
 
-	dryRun = providers.environmentVariable("MODRINTH_TOKEN").getOrNull() == null
+	val modrinthToken = providers.environmentVariable("MODRINTH_TOKEN")
+
+	dryRun = modrinthToken.getOrNull() == null
 
 	modrinth {
-		accessToken = providers.environmentVariable("MODRINTH_TOKEN")
+		accessToken = modrinthToken
 		projectId = "dgTb67Ox"
 
 		minecraftVersionRange {
