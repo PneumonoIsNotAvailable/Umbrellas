@@ -1,2 +1,2 @@
-- Minor texture improvements
-- Fixed Umbrellas not consistently blocking skylight checks
+- Added support for 26.1.X
+- Added additional Mod Menu links
