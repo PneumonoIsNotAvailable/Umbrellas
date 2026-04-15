@@ -38,6 +38,11 @@ public class UmbrellaItem extends Item {
     }
 
     @Override
+    public int getEnchantmentValue() {
+        return 15;
+    }
+
+    @Override
     public boolean isValidRepairItem(ItemStack itemStack, ItemStack itemStack2) {
         return itemStack2.is(UmbrellasTags.REPAIRS_UMBRELLAS);
     }
