@@ -1,2 +1,5 @@
 - Added support for 26.1.X
 - Added additional Mod Menu links
+- Fixed Umbrellas not being reparable using leather in anvils
+- (1.20) Fixed advancements being given for any use of their respective enchantment, rather than 20 blocks
+- (1.20, 1.21) Fixed Umbrellas not being enchantable via enchanting table
