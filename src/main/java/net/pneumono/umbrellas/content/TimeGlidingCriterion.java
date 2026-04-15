@@ -101,6 +101,19 @@ public class TimeGlidingCriterion extends SimpleCriterionTrigger<TimeGlidingCrit
         public boolean matches(ItemStack stack, double height) {
             return this.item.matches(stack) && this.height.matches(height);
         }
+
+        @Override
+        public JsonObject serializeToJson(SerializationContext serializationContext) {
+            JsonObject jsonObject = super.serializeToJson(serializationContext);
+            if (this.item != null) {
+                jsonObject.add("item", this.item.serializeToJson());
+            }
+            if (this.height != null) {
+                jsonObject.add("height", this.height.serializeToJson());
+            }
+
+            return jsonObject;
+        }
     }
     *///?}
 }

@@ -6,6 +6,7 @@ import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.advancements.Criterion;
 import net.minecraft.advancements.criterion.*;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.pneumono.umbrellas.registry.UmbrellasMisc;
@@ -67,11 +68,11 @@ public class SmokeBoostCriterion extends SimpleCriterionTrigger<SmokeBoostCriter
             return UmbrellasMisc.SMOKE_BOOST_CRITERION.createCriterion(new TriggerInstance(Optional.empty(), Optional.empty(), bounds));
         }
 
-        public static Criterion<TriggerInstance> minHeight(int min) {
+        public static Criterion<TriggerInstance> minHeight(double min) {
             return height(MinMaxBounds.Doubles.atLeast(min));
         }
 
-        public boolean matches(ItemStack stack, int height) {
+        public boolean matches(ItemStack stack, double height) {
             return (this.item.isEmpty() || this.item.get().test(stack)) && this.height.matches(height);
         }
     }
@@ -100,6 +101,19 @@ public class SmokeBoostCriterion extends SimpleCriterionTrigger<SmokeBoostCriter
 
         public boolean matches(ItemStack stack, double height) {
             return this.item.matches(stack) && this.height.matches(height);
+        }
+
+        @Override
+        public JsonObject serializeToJson(SerializationContext serializationContext) {
+            JsonObject jsonObject = super.serializeToJson(serializationContext);
+            if (this.item != null) {
+                jsonObject.add("item", this.item.serializeToJson());
+            }
+            if (this.height != null) {
+                jsonObject.add("height", this.height.serializeToJson());
+            }
+
+            return jsonObject;
         }
     }
     *///?}

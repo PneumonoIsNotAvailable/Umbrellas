@@ -2,7 +2,11 @@
   "parent": "umbrellas:adventure/get_umbrella",
   "criteria": {
     "used_billowing_umbrella": {
-      "conditions": {},
+      "conditions": {
+        "height": {
+          "min": 19.0
+        }
+      },
       "trigger": "umbrellas:smoke_boost"
     }
   },

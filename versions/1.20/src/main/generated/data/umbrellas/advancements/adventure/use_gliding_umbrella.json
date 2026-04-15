@@ -2,7 +2,11 @@
   "parent": "umbrellas:adventure/get_umbrella",
   "criteria": {
     "used_gliding_umbrella": {
-      "conditions": {},
+      "conditions": {
+        "height": {
+          "min": 19.75
+        }
+      },
       "trigger": "umbrellas:time_gliding"
     }
   },
