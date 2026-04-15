@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
@@ -55,6 +56,8 @@ public class UmbrellasItemTagsProvider extends FabricTagsProvider./*? if >=26.1 
                 .addTag(UmbrellasTags.EXTRA_UMBRELLAS);
 
         create(UmbrellasTags.UMBRELLA_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);
+
+        create(UmbrellasTags.REPAIRS_UMBRELLAS).add(Items.LEATHER);
 
         //? if >=1.21
         create(ItemTags.DURABILITY_ENCHANTABLE).addTag(UmbrellasTags.UMBRELLAS);

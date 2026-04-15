@@ -13,6 +13,7 @@ import net.pneumono.umbrellas.util.data.VersionedComponents;
 import net.minecraft.world.item.TooltipFlag;
 import net.minecraft.world.level.Level;
 import net.pneumono.umbrellas.content.item.component.UmbrellaPatternsComponent;
+import net.pneumono.umbrellas.registry.UmbrellasTags;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
@@ -34,6 +35,11 @@ public class UmbrellaItem extends Item {
         if (component != null) {
             component.addToTooltip(context, list::add, flag);
         }
+    }
+
+    @Override
+    public boolean isValidRepairItem(ItemStack itemStack, ItemStack itemStack2) {
+        return itemStack2.is(UmbrellasTags.REPAIRS_UMBRELLAS);
     }
     *///?}
 
