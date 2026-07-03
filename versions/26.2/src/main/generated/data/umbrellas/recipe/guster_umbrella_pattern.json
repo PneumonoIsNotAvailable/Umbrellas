@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "banner_to_umbrella",
+  "ingredients": [
+    "minecraft:guster_banner_pattern"
+  ],
+  "result": {
+    "id": "umbrellas:guster_umbrella_pattern"
+  }
+}

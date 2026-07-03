@@ -2,7 +2,6 @@
 
 package net.pneumono.umbrellas.registry;
 
-import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.core.Registry;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.resources.Identifier;
@@ -17,6 +16,12 @@ import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
+
+//? if >=26.2 {
+import net.minecraft.advancements.triggers.CriterionTrigger;
+//?} else {
+/*import net.minecraft.advancements.CriterionTrigger;
+*///?}
 
 //? if <1.21.11 {
 /*import net.fabricmc.fabric.api.object.builder.v1.trade.TradeOfferHelper;

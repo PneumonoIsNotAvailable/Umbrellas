@@ -6,8 +6,6 @@ package net.pneumono.umbrellas.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
 import net.minecraft.advancements.Advancement;
-import net.minecraft.advancements.criterion.InventoryChangeTrigger;
-import net.minecraft.advancements.criterion.ItemPredicate;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
@@ -20,6 +18,14 @@ import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
 import java.util.function.Consumer;
+
+//? if >=26.2 {
+import net.minecraft.advancements.predicates.*;
+import net.minecraft.advancements.triggers.*;
+//?} else {
+/*import net.minecraft.advancements.criterion.InventoryChangeTrigger;
+import net.minecraft.advancements.criterion.ItemPredicate;
+*///?}
 
 //? if >=26.1 {
 import net.minecraft.world.item.ItemStackTemplate;

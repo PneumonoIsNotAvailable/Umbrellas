@@ -38,37 +38,44 @@ public abstract class WeatherRendererMixin {
             *///?}
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/level/Level;getHeight(Lnet/minecraft/world/level/levelgen/Heightmap$Types;II)I"
+                    //? if >=26.2 {
+                    target = "Lnet/minecraft/client/multiplayer/ClientLevel;getHeight(Lnet/minecraft/world/level/levelgen/Heightmap$Types;II)I"
+                    //?} else {
+                    /*target = "Lnet/minecraft/world/level/Level;getHeight(Lnet/minecraft/world/level/levelgen/Heightmap$Types;II)I"
+                    *///?}
             )
     )
-    private int blockRainWithUmbrella(Level level, Heightmap.Types types, int x, int z, Operation<Integer> original) {
+    private int blockRainWithUmbrella(/*? if >=26.2 {*/ClientLevel/*?} else {*//*Level*//*?}*/ level, Heightmap.Types types, int x, int z, Operation<Integer> original) {
         return UmbrellaUtils.getShelteredHeight(level, x, original.call(level, types, x, z), z);
     }
 
-    @WrapOperation(
+
+    //? if >=26.2 {
+    /*@WrapOperation(
             //? if >=1.21.6 {
             method = "tickRainParticles",
             //?} else {
-            /*method = "tickRain",
-            *///?}
+            /^method = "tickRain",
+            ^///?}
             at = @At(
                     value = "INVOKE",
                     //? if >=1.21.6 {
                     target = "Lnet/minecraft/client/multiplayer/ClientLevel;getHeightmapPos(Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/BlockPos;"
                     //?} else {
-                    /*target = "Lnet/minecraft/world/level/LevelReader;getHeightmapPos(Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/BlockPos;"
-                    *///?}
+                    /^target = "Lnet/minecraft/world/level/LevelReader;getHeightmapPos(Lnet/minecraft/world/level/levelgen/Heightmap$Types;Lnet/minecraft/core/BlockPos;)Lnet/minecraft/core/BlockPos;"
+                    ^///?}
             )
     )
     private BlockPos blockRainParticlesWithUmbrella(
-            /*? if >=1.21.6 {*/ClientLevel/*?} else {*//*LevelReader*//*?}*/ level,
+            /^? if >=1.21.6 {^/ClientLevel/^?} else {^//^LevelReader^//^?}^/ level,
             Heightmap.Types types, BlockPos pos, Operation<BlockPos> original
     ) {
         int x = pos.getX();
         int z = pos.getZ();
         return new BlockPos(x, UmbrellaUtils.getShelteredHeight(
-                /*? if >=1.21.6 {*/level/*?} else {*//*this.level*//*?}*/,
+                /^? if >=1.21.6 {^/level/^?} else {^//^this.level^//^?}^/,
                 x, original.call(level, types, pos).getY(), z), z
         );
     }
+    *///?}
 }

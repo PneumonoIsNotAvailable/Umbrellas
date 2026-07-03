@@ -1,0 +1,10 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "group": "banner_to_umbrella",
+  "ingredients": [
+    "minecraft:skull_banner_pattern"
+  ],
+  "result": {
+    "id": "umbrellas:skull_umbrella_pattern"
+  }
+}

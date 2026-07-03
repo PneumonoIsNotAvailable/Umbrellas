@@ -7,6 +7,8 @@
         "ArmedEntityRenderStateMixin",
         //? if <1.21.6
         //"BlockEntityWithoutLevelRendererMixin",
+        //? if >=26.2
+        "ClientLevelMixin",
         "HumanoidModelMixin",
         "ItemInHandLayerMixin",
         "UmbrellaAtlasMixin",

@@ -128,7 +128,7 @@ public class UmbrellasPatternTagProvider extends FabricTagsProvider<UmbrellaPatt
         this.create(UmbrellasTags.BORDURE_INDENTED).add(UmbrellaPatterns.BORDURE_INDENTED);
     }
 
-    private TagAppender</*? if >=1.21.6 {*/ResourceKey<UmbrellaPattern>, /*?}*/UmbrellaPattern> create(TagKey<UmbrellaPattern> key) {
+    private TagAppender</*? if >=1.21.6 && <26.2 {*//*ResourceKey<UmbrellaPattern>, *//*?}*/UmbrellaPattern> create(TagKey<UmbrellaPattern> key) {
         //? if >=1.21.6 {
         return this.builder(key);
         //?} else {

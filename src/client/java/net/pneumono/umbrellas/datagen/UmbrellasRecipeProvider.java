@@ -46,7 +46,25 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
 
         @Override
         public void buildRecipes() {
-            createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA, Items.WHITE_WOOL);
+            //? if >=26.2 {
+            createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA, Items.WOOL.white());
+            createPatternableUmbrella(UmbrellasItems.ORANGE_UMBRELLA, Items.WOOL.orange());
+            createPatternableUmbrella(UmbrellasItems.MAGENTA_UMBRELLA, Items.WOOL.magenta());
+            createPatternableUmbrella(UmbrellasItems.LIGHT_BLUE_UMBRELLA, Items.WOOL.lightBlue());
+            createPatternableUmbrella(UmbrellasItems.YELLOW_UMBRELLA, Items.WOOL.yellow());
+            createPatternableUmbrella(UmbrellasItems.LIME_UMBRELLA, Items.WOOL.lime());
+            createPatternableUmbrella(UmbrellasItems.PINK_UMBRELLA, Items.WOOL.pink());
+            createPatternableUmbrella(UmbrellasItems.GRAY_UMBRELLA, Items.WOOL.gray());
+            createPatternableUmbrella(UmbrellasItems.LIGHT_GRAY_UMBRELLA, Items.WOOL.lightGray());
+            createPatternableUmbrella(UmbrellasItems.CYAN_UMBRELLA, Items.WOOL.cyan());
+            createPatternableUmbrella(UmbrellasItems.PURPLE_UMBRELLA, Items.WOOL.purple());
+            createPatternableUmbrella(UmbrellasItems.BLUE_UMBRELLA, Items.WOOL.blue());
+            createPatternableUmbrella(UmbrellasItems.BROWN_UMBRELLA, Items.WOOL.brown());
+            createPatternableUmbrella(UmbrellasItems.GREEN_UMBRELLA, Items.WOOL.green());
+            createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA, Items.WOOL.red());
+            createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA, Items.WOOL.black());
+            //?} else {
+            /*createPatternableUmbrella(UmbrellasItems.WHITE_UMBRELLA, Items.WHITE_WOOL);
             createPatternableUmbrella(UmbrellasItems.ORANGE_UMBRELLA, Items.ORANGE_WOOL);
             createPatternableUmbrella(UmbrellasItems.MAGENTA_UMBRELLA, Items.MAGENTA_WOOL);
             createPatternableUmbrella(UmbrellasItems.LIGHT_BLUE_UMBRELLA, Items.LIGHT_BLUE_WOOL);
@@ -62,6 +80,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
             createPatternableUmbrella(UmbrellasItems.GREEN_UMBRELLA, Items.GREEN_WOOL);
             createPatternableUmbrella(UmbrellasItems.RED_UMBRELLA, Items.RED_WOOL);
             createPatternableUmbrella(UmbrellasItems.BLACK_UMBRELLA, Items.BLACK_WOOL);
+            *///?}
 
             List<Item> umbrellas = List.of(
                     UmbrellasItems.WHITE_UMBRELLA,
@@ -81,7 +100,10 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     UmbrellasItems.RED_UMBRELLA,
                     UmbrellasItems.BLACK_UMBRELLA
             );
-            List<Item> dyes = List.of(
+            //? if >=26.2 {
+            List<Item> dyes = Items.DYE.asList();
+            //?} else {
+            /*List<Item> dyes = List.of(
                     Items.WHITE_DYE,
                     Items.ORANGE_DYE,
                     Items.MAGENTA_DYE,
@@ -99,6 +121,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     Items.RED_DYE,
                     Items.BLACK_DYE
             );
+            *///?}
             colorItemWithDye(dyes, umbrellas, "umbrella_dye", RecipeCategory.TOOLS);
 
             createUmbrellaStand(UmbrellasItems.OAK_UMBRELLA_STAND, Items.OAK_PLANKS);
@@ -118,7 +141,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .pattern("RAR")
                     .pattern("RUR")
                     .pattern(" S ")
-                    .define('R', Items.RED_WOOL)
+                    .define('R', Items./*? if >=26.2 {*/WOOL.red()/*?} else {*//*RED_WOOL*//*?}*/)
                     .define('A', Items.AXOLOTL_BUCKET)
                     .define('U', UmbrellasTags.UMBRELLAS)
                     .define('S', Items.STICK)
@@ -140,7 +163,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .pattern("PEP")
                     .pattern("PUP")
                     .pattern(" S ")
-                    .define('P', Items.PURPLE_WOOL)
+                    .define('P', Items./*? if >=26.2 {*/WOOL.purple()/*?} else {*//*PURPLE_WOOL*//*?}*/)
                     .define('E', Items.ENDER_PEARL)
                     .define('U', UmbrellasTags.UMBRELLAS)
                     .define('S', Items.STICK)
@@ -151,7 +174,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .pattern("BIB")
                     .pattern("BUB")
                     .pattern(" S ")
-                    .define('B', Items.BLACK_WOOL)
+                    .define('B', Items./*? if >=26.2 {*/WOOL.black()/*?} else {*//*BLACK_WOOL*//*?}*/)
                     .define('I', Items.IRON_INGOT)
                     .define('U', UmbrellasTags.UMBRELLAS)
                     .define('S', Items.STICK)
@@ -162,7 +185,7 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
                     .pattern("LKL")
                     .pattern("LUL")
                     .pattern(" S ")
-                    .define('L', Items.LIGHT_BLUE_STAINED_GLASS)
+                    .define('L', Items./*? if >=26.2 {*/STAINED_GLASS.lightBlue()/*?} else {*//*LIGHT_BLUE_STAINED_GLASS*//*?}*/)
                     .define('K', Items.KELP)
                     .define('U', UmbrellasTags.UMBRELLAS)
                     .define('S', Items.STICK)

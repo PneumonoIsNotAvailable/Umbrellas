@@ -4,8 +4,6 @@ package net.pneumono.umbrellas.content;
 
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import net.minecraft.advancements.Criterion;
-import net.minecraft.advancements.criterion.*;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
@@ -13,6 +11,15 @@ import net.pneumono.umbrellas.registry.UmbrellasMisc;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
+
+//? if >=26.2 {
+import net.minecraft.advancements.predicates.entity.*;
+import net.minecraft.advancements.predicates.*;
+import net.minecraft.advancements.triggers.*;
+//?} else {
+/*import net.minecraft.advancements.Criterion;
+import net.minecraft.advancements.criterion.*;
+*///?}
 
 //? if <1.21 {
 /*import net.minecraft.resources.Identifier;

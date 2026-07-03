@@ -14,8 +14,14 @@ import net.pneumono.umbrellas.registry.UmbrellasTags;
 
 import java.util.concurrent.CompletableFuture;
 
-//? if >=1.21.6
-import net.minecraft.data.tags.TagAppender;
+//? if >=26.2 {
+import net.minecraft.data.tags.BlockItemTagAppender;
+import net.minecraft.references.BlockIds;
+import net.minecraft.references.BlockItemId;
+import net.minecraft.references.BlockItemIds;
+//?} else if >=1.21.6 {
+/*import net.minecraft.data.tags.TagAppender;
+*///?}
 
 public class UmbrellasBlockTagProvider extends FabricTagsProvider./*? if >=26.1 {*/BlockTagsProvider/*?} else {*//*BlockTagProvider*//*?}*/ {
     public UmbrellasBlockTagProvider(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
@@ -29,8 +35,13 @@ public class UmbrellasBlockTagProvider extends FabricTagsProvider./*? if >=26.1 
         ).forceAddTag(
                 BlockTags.CAMPFIRES
         ).add(
-                Blocks.LAVA,
+                //? if >=26.2 {
+                BlockIds.LAVA,
+                BlockIds.LAVA_CAULDRON
+                //?} else {
+                /*Blocks.LAVA,
                 Blocks.LAVA_CAULDRON
+                *///?}
         );
 
         create(UmbrellasTags.BOOSTS_ELYTRA).forceAddTag(
@@ -38,15 +49,27 @@ public class UmbrellasBlockTagProvider extends FabricTagsProvider./*? if >=26.1 
         );
 
         create(UmbrellasTags.UMBRELLA_BOOSTING_TOGGLEABLE).add(
-                Blocks.LAVA,
+                //? if >=26.2 {
+                BlockIds.LAVA,
+                BlockIds.LAVA_CAULDRON
+                //?} else {
+                /*Blocks.LAVA,
                 Blocks.LAVA_CAULDRON
+                *///?}
         );
 
         create(UmbrellasTags.SMOKE_PASSES_THROUGH).forceAddTag(
                 BlockTags.LEAVES
         ).forceAddTag(
                 BlockTags.WALLS
-        ).add(
+        )
+        //? if >=26.2 {
+        .addAll(
+                BlockItemIds.COPPER_GRATE.asList().stream().map(BlockItemId::block)
+        )
+        .add(BlockItemIds.SCAFFOLDING.block())
+        //?} else {
+        /*.add(
                 //? if >=1.21 {
                 Blocks.COPPER_GRATE,
                 Blocks.EXPOSED_COPPER_GRATE,
@@ -54,9 +77,28 @@ public class UmbrellasBlockTagProvider extends FabricTagsProvider./*? if >=26.1 
                 Blocks.OXIDIZED_COPPER_GRATE,
                 //?}
                 Blocks.SCAFFOLDING
-        );
+        )
+        *///?}
+        ;
 
+        //? if >=26.2 {
+        //noinspection DataFlowIssue
         create(BlockTags.MINEABLE_WITH_AXE).add(
+                UmbrellasBlocks.OAK_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.SPRUCE_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.BIRCH_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.ACACIA_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.CHERRY_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.JUNGLE_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.DARK_OAK_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.PALE_OAK_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.CRIMSON_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.WARPED_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.MANGROVE_UMBRELLA_STAND.properties().blockId(),
+                UmbrellasBlocks.BAMBOO_UMBRELLA_STAND.properties().blockId()
+        );
+        //?} else {
+        /*create(BlockTags.MINEABLE_WITH_AXE).add(
                 UmbrellasBlocks.OAK_UMBRELLA_STAND,
                 UmbrellasBlocks.SPRUCE_UMBRELLA_STAND,
                 UmbrellasBlocks.BIRCH_UMBRELLA_STAND,
@@ -71,12 +113,15 @@ public class UmbrellasBlockTagProvider extends FabricTagsProvider./*? if >=26.1 
                 UmbrellasBlocks.MANGROVE_UMBRELLA_STAND,
                 UmbrellasBlocks.BAMBOO_UMBRELLA_STAND
         );
+        *///?}
     }
 
-    private /*? if >=1.21.6 {*/TagAppender<Block, Block>/*?} else {*//*BlockTagProvider.FabricTagBuilder*//*?}*/ create(TagKey<Block> tag) {
-        //? if >=1.21.6 {
-        return valueLookupBuilder(tag);
-         //?} else {
+    private /*? if >=26.2 {*/BlockItemTagAppender<Block>/*?} else if >=1.21.6 {*//*TagAppender<Block, Block>*//*?} else {*//*BlockTagProvider.FabricTagBuilder*//*?}*/ create(TagKey<Block> tag) {
+        //? if >=26.2 {
+        return builder(tag);
+        //?} else if >=1.21.6 {
+        /*return valueLookupBuilder(tag);
+        *///?} else {
         /*return getOrCreateTagBuilder(tag);
         *///?}
     }
