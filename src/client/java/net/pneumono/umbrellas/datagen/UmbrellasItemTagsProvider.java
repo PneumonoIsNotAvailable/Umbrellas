@@ -8,6 +8,7 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
@@ -18,7 +19,6 @@ import net.minecraft.data.tags.BlockItemTagAppender;
 import net.minecraft.references.ItemIds;
 //?} else if >=1.21.6 {
 /*import net.minecraft.data.tags.TagAppender;
-import net.minecraft.world.item.Items;
 *///?}
 
 public class UmbrellasItemTagsProvider extends FabricTagsProvider./*? if >=26.1 {*/ItemTagsProvider/*?} else {*//*ItemTagProvider*//*?}*/ {
