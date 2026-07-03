@@ -28,6 +28,8 @@
   "configs.umbrellas.enchantment_glint": "Enchantment Glint",
   "configs.umbrellas.enchantment_glint.tooltip": "Whether enchantment glint is visible on enchanted umbrellas",
   "configs.umbrellas.screen_title": "Umbrellas Configs",
+  "configs.umbrellas.skylight_blocking": "Skylight Blocking",
+  "configs.umbrellas.skylight_blocking.tooltip": "Whether Umbrellas block skylight and rain. Currently, this can cause performance issues in certain modpacks. This will be fixed soon",
   "configs.umbrellas.slow_falling": "Slow Falling",
   "configs.umbrellas.slow_falling.always": "Always",
   "configs.umbrellas.slow_falling.enchanted_only": "Enchanted Only",

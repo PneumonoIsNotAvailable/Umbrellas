@@ -148,6 +148,11 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
                 "Whether umbrellas have limited durability"
         );
         builder.addConfig(
+                UmbrellasConfig.SKYLIGHT_BLOCKING,
+                "Skylight Blocking",
+                "Whether Umbrellas block skylight and rain. Currently, this can cause performance issues in certain modpacks. This will be fixed soon"
+        );
+        builder.addConfig(
                 UmbrellasConfig.DISABLE_FIREWORK_BOOSTING,
                 "Disable Firework Boosting",
                 "Whether Fireworks can be used to boost Elytra. This can be disabled in favor of using Campfires and a Billowing Umbrella"

@@ -33,6 +33,8 @@ public class UmbrellaUtils {
      * because otherwise fitting under there (especially when moving with another player) would be really annoying.<p>
      */
     public static boolean isUnderUmbrella(Level level, BlockPos pos, boolean damageUmbrellas) {
+        if (!UmbrellasConfig.SKYLIGHT_BLOCKING.getValue()) return false;
+
         int areaWidth = 2;
         int startY = 0;
         int endY = 10;
@@ -72,6 +74,8 @@ public class UmbrellaUtils {
     }
 
     public static int getShelteredHeight(Level level, int checkedX, int checkedY, int checkedZ) {
+        if (!UmbrellasConfig.SKYLIGHT_BLOCKING.getValue()) return checkedY;
+
         int areaWidth = 1;
         int startY = -1;
         int endY = 10;

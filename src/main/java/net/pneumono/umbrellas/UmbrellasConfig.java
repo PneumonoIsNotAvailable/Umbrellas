@@ -18,6 +18,9 @@ public class UmbrellasConfig {
     public static final BooleanConfiguration DURABILITY = register("durability", new BooleanConfiguration(
             true, new ConfigSettings().category("umbrellas").loadType(LoadType.INSTANT)
     ));
+    public static final BooleanConfiguration SKYLIGHT_BLOCKING = register("skylight_blocking", new BooleanConfiguration(
+            true, new ConfigSettings().category("umbrellas").loadType(LoadType.INSTANT)
+    ));
     public static final BooleanConfiguration DISABLE_FIREWORK_BOOSTING = register("disable_firework_boosting", new BooleanConfiguration(
             false, new ConfigSettings().category("elytra_changes").loadType(LoadType.INSTANT)
     ));
