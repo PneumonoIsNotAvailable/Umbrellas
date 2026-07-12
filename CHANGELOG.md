@@ -1,5 +1,2 @@
-- Added support for 26.2
-- Added config option to disable skylight check modifications for performance
-  - The modifications to skylight/rain checks made by the mod are very unoptimized, which is typically fine but can cause issues when Umbrellas is added to certain modpacks
-  - Modpacks that do not use the skylight/rain-blocking mechanic should disable this feature to improve performance
-  - Optimizations will be made for the mod in the future, this is a temporary solution (although the config option will continue to be available even after optimizations have been made)
+- Fix cauldron washing not removing umbrella pattern layers
+- (26.2) Fix rendering issues with umbrella pattern layers
