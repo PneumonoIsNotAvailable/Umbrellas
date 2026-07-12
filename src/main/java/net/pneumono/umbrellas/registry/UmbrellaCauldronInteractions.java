@@ -38,7 +38,7 @@ public class UmbrellaCauldronInteractions {
         }
         if (!level.isClientSide()) {
             ItemStack itemStack = stack.copyWithCount(1);
-            VersionedComponents.set(stack, UmbrellasDataComponents.UMBRELLA_PATTERNS, umbrellaPatternsComponent.withoutTopLayer());
+            VersionedComponents.set(itemStack, UmbrellasDataComponents.UMBRELLA_PATTERNS, umbrellaPatternsComponent.withoutTopLayer());
             player.setItemInHand(hand, ItemUtils.createFilledResult(stack, player, itemStack, false));
             player.awardStat(UmbrellasMisc.CLEAN_UMBRELLA);
             LayeredCauldronBlock.lowerFillLevel(state, level, pos);
