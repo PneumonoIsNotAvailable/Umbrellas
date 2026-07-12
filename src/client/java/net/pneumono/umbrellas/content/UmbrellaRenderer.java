@@ -15,6 +15,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
 
+//? if >=26.2 {
+import net.minecraft.client.renderer.OrderedSubmitNodeCollector;
+//?}
+
 //? if >=26.1 {
 import net.minecraft.client.resources.model.sprite.SpriteGetter;
 import net.minecraft.client.resources.model.sprite.SpriteId;
@@ -198,7 +202,7 @@ public class UmbrellaRenderer {
                     light, overlay, color,
                     getUmbrellaPatternTextureId(pattern),
                     RenderTypes::bannerPattern,
-                    collector,
+                    collector/*? if >=26.2 {*/.order(i + 1)/*?}*/,
                     /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*false*//*?}*/
             );
         }
@@ -209,18 +213,18 @@ public class UmbrellaRenderer {
             int light, int overlay,
             @Nullable DyeColor color,
             //~ if >=26.1 'Material' -> 'SpriteId'
-            SpriteId material,
+            SpriteId spriteId,
             Function<Identifier, RenderType> renderTypeFunction,
             //? if >=1.21.9 {
-            SubmitNodeCollector collector, int k,
-            @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            /*? if >=26.2 {*/OrderedSubmitNodeCollector/*?} else {*//*SubmitNodeCollector*//*?}*/ collector,
+            int k, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
             //?} else {
             /*MultiBufferSource collector, boolean foil
             *///?}
     ) {
         submitLayer(
-                poseStack, light, overlay, color, material,
-                material.renderType(renderTypeFunction),
+                poseStack, light, overlay, color, spriteId,
+                spriteId.renderType(renderTypeFunction),
                 collector,
                 /*? if >=1.21.9 {*/k, crumblingOverlay/*?} else {*//*foil*//*?}*/
         );
@@ -231,11 +235,11 @@ public class UmbrellaRenderer {
             int light, int overlay,
             @Nullable DyeColor color,
             //~ if >=26.1 'Material' -> 'SpriteId'
-            SpriteId material,
+            SpriteId spriteId,
             RenderType renderType,
             //? if >=1.21.9 {
-            SubmitNodeCollector collector, int k,
-            @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
+            /*? if >=26.2 {*/OrderedSubmitNodeCollector/*?} else {*//*SubmitNodeCollector*//*?}*/ collector,
+            int k, @Nullable ModelFeatureRenderer.CrumblingOverlay crumblingOverlay
             //?} else {
             /*MultiBufferSource collector, boolean foil
             *///?}
@@ -247,7 +251,7 @@ public class UmbrellaRenderer {
                 poseStack,
                 renderType,
                 light, overlay, diffuseColor,
-                spriteGetter.get(material),
+                spriteGetter.get(spriteId),
                 k, crumblingOverlay
         );
         //?} else {
@@ -258,7 +262,7 @@ public class UmbrellaRenderer {
         ^///?}
         this.canopyModel.root().render(
                 poseStack,
-                material.sprite().wrap(
+                spriteId.sprite().wrap(
                         ItemRenderer./^? if >=1.21.6 {^/getFoilBuffer/^?} else {^//^getFoilBufferDirect^//^?}^/(
                                 collector, renderType, true, foil
                         )
