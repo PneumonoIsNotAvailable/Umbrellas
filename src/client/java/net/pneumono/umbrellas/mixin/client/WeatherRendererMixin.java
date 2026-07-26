@@ -50,7 +50,7 @@ public abstract class WeatherRendererMixin {
     }
 
 
-    //? if >=26.2 {
+    //? if <26.2 {
     /*@WrapOperation(
             //? if >=1.21.6 {
             method = "tickRainParticles",
