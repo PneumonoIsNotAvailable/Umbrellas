@@ -4,7 +4,9 @@ package net.pneumono.umbrellas;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistries;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.resources.Identifier;
+import net.pneumono.umbrellas.compat.EveryCompat;
 import net.pneumono.umbrellas.content.UmbrellaPattern;
 import net.pneumono.umbrellas.registry.*;
 import net.pneumono.umbrellas.registry.UmbrellaCauldronInteractions;
@@ -31,6 +33,10 @@ public class Umbrellas implements ModInitializer {
 		UmbrellaPatterns.registerUmbrellasPatterns();
 
 		UmbrellaCauldronInteractions.registerCauldronBehavior();
+
+		if (isModLoaded("everycomp")) {
+			EveryCompat.register();
+		}
 	}
 
 	public static Identifier id(String path) {
@@ -39,5 +45,9 @@ public class Umbrellas implements ModInitializer {
 		//?} else {
 		/*return Identifier.tryBuild(MOD_ID, path);
 		*///?}
+	}
+
+	public static boolean isModLoaded(String name) {
+		return FabricLoader.getInstance().isModLoaded(name);
 	}
 }

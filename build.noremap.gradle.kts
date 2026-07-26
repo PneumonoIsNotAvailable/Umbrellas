@@ -1,5 +1,5 @@
 plugins {
-	id("net.fabricmc.fabric-loom") version "1.15-SNAPSHOT"
+	id("net.fabricmc.fabric-loom") version "1.17-SNAPSHOT"
 	id("maven-publish")
 	id("me.modmuss50.mod-publish-plugin") version "1.1.0"
 	id("dev.kikugie.fletching-table") version "0.1.0-alpha.22"
@@ -14,10 +14,9 @@ val awFile = "26.1.accesswidener"
 base.archivesName.set(project.property("mod_id") as String)
 version = "${project.property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"
 
-repositories {
-	// Mod Menu
-	maven("https://maven.terraformersmc.com/")
+val everyCompat = project.property("everycomp_version") != "[VERSIONED]" && project.property("moonlight_version") != "[VERSIONED]"
 
+repositories {
 	// Core
 	exclusiveContent {
 		forRepository {
@@ -27,6 +26,9 @@ repositories {
 			includeGroup("maven.modrinth")
 		}
 	}
+
+	// Every Compat
+	maven("https://registry.somethingcatchy.net/repository/maven-releases/")
 }
 
 loom {
@@ -42,6 +44,7 @@ loom {
 	}
 
 	runConfigs.all {
+		@Suppress("DEPRECATION")
 		ideConfigGenerated(true)
 	}
 }
@@ -50,6 +53,10 @@ fabricApi {
 	configureDataGeneration {
 		client = true
 	}
+}
+
+stonecutter {
+	constants["every_compat"] = everyCompat
 }
 
 dependencies {
@@ -63,8 +70,15 @@ dependencies {
 	// Core mod
 	implementation("maven.modrinth:pneumono_core:${property("core_version")}")
 
-	// Mod Menu
-	runtimeOnly("com.terraformersmc:modmenu:${property("modmenu_version")}")
+	// Every Compat
+	if (everyCompat) {
+		compileOnly("net.mehvahdjukaar:everycomp-fabric:${property("everycomp_version")}:fabric") {
+			isTransitive = false
+		}
+		compileOnly("net.mehvahdjukaar:moonlight-fabric:${property("moonlight_version")}") {
+			isTransitive = false
+		}
+	}
 }
 
 tasks {
