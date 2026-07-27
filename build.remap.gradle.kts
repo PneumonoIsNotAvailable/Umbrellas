@@ -79,7 +79,7 @@ dependencies {
 
 	// Every Compat
 	if (everyCompat) {
-		modCompileOnly("net.mehvahdjukaar:everycomp-fabric:${property("everycomp_version")}:fabric") {
+		modCompileOnly("net.mehvahdjukaar:everycomp-fabric:${property("everycomp_version")}") {
             isTransitive = false
 		}
 		modCompileOnly("net.mehvahdjukaar:moonlight-fabric:${property("moonlight_version")}") {
