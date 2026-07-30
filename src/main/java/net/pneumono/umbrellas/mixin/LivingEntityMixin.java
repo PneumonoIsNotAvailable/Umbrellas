@@ -1,7 +1,5 @@
 package net.pneumono.umbrellas.mixin;
 
-import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
-import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.world.entity.Attackable;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
@@ -13,6 +11,7 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 //? if >=1.21.6 {
@@ -25,8 +24,7 @@ import org.spongepowered.asm.mixin.injection.ModifyConstant;
 *///?}
 
 //? if >=1.21 {
-import net.minecraft.core.Holder;
-import net.minecraft.world.entity.ai.attributes.Attribute;
+
 //?}
 
 @Mixin(LivingEntity.class)
@@ -71,27 +69,20 @@ public abstract class LivingEntityMixin extends Entity implements Attackable {
         UmbrellaUtils.tickGlidingStats(this, getMainHandItem(), getOffhandItem());
     }
 
-    //? if >=1.21 {
-    @WrapOperation(
+    @ModifyArg(
             method = "calculateFallDamage",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/world/entity/LivingEntity;getAttributeValue(Lnet/minecraft/core/Holder;)D"
+                    //? if >=1.21.6 {
+                    target = "Lnet/minecraft/util/Mth;floor(D)I"
+                    //?} else if >=1.21 {
+                    /*target = "Lnet/minecraft/util/Mth;ceil(D)I"
+                    *///?} else {
+                    /*target = "Lnet/minecraft/util/Mth;ceil(F)I"
+                    *///?}
             )
     )
-    private double computeFallDamageWithUmbrellas(LivingEntity instance, Holder<Attribute> attribute, Operation<Double> original) {
-        return original.call(instance, attribute) * UmbrellaUtils.getUmbrellaFallDamageMultiplier(instance);
+    private /*? if >=1.21 {*/double/*?} else {*//*float*//*?}*/ calculateFallDamageWithUmbrellas(/*? if >=1.21 {*/double/*?} else {*//*float*//*?}*/ fallDamage) {
+        return (float) UmbrellaUtils.modifyFallDamage((LivingEntity)(Object)this, fallDamage);
     }
-    //?} else {
-    /*@WrapOperation(
-            method = "calculateFallDamage",
-            at = @At(
-                    value = "INVOKE",
-                    target = "Lnet/minecraft/util/Mth;ceil(F)I"
-            )
-    )
-    private int computeFallDamageWithUmbrellas(float f, Operation<Integer> original) {
-        return original.call(f * UmbrellaUtils.getUmbrellaFallDamageMultiplier((LivingEntity)(Object)this));
-    }
-    *///?}
 }
