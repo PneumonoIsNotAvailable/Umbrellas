@@ -80,7 +80,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
         builder.add(UmbrellasBlocks.MANGROVE_UMBRELLA_STAND, "Mangrove Umbrella Stand");
         builder.add(UmbrellasBlocks.BAMBOO_UMBRELLA_STAND, "Bamboo Umbrella Stand");
 
-        builder.addItemGroup(UmbrellasItems.CREATIVE_MODE_TAB, "Umbrellas");
+        builder.addCreativeModeTab(UmbrellasItems.CREATIVE_MODE_TAB, "Umbrellas");
 
         //? if >=1.21 {
         builder.add(VersionUtil.identifier(UmbrellasEnchantments.GLIDING).toLanguageKey("enchantment"), "Gliding");
