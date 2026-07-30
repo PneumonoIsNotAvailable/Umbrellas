@@ -202,7 +202,7 @@ public class UmbrellasEnglishLangProvider extends FabricLanguageProvider {
             builder.accept(UmbrellaPatterns.SQUARE_BOTTOM_LEFT, "%s Bottom-Left Quarter");
             builder.accept(UmbrellaPatterns.SQUARE_BOTTOM_RIGHT, "%s Bottom-Right Quarter");
             builder.accept(UmbrellaPatterns.SQUARE_TOP_LEFT, "%s Top-Left Quarter");
-            builder.accept(UmbrellaPatterns.SQUARE_TOP_RIGHT, "%sTop-Right Quarter");
+            builder.accept(UmbrellaPatterns.SQUARE_TOP_RIGHT, "%s Top-Right Quarter");
             builder.accept(UmbrellaPatterns.STRIPE_BOTTOM, "%s Bottom Stripe");
             builder.accept(UmbrellaPatterns.STRIPE_TOP, "%s Top Stripe");
             builder.accept(UmbrellaPatterns.STRIPE_LEFT, "%s Left Stripe");
