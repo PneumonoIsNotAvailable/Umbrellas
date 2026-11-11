@@ -108,7 +108,7 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
                     shift = At.Shift.AFTER,
                     //? if >=26.3 {
                     target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
-                    //? if >=1.21.6 {
+                    //?} else if >=1.21.6 {
                     /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
                     *///?} else if >=1.21 {
                     /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lnet/minecraft/resources/Identifier;IIII)V",
