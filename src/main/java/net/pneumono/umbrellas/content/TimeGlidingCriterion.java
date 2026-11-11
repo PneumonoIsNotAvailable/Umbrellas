@@ -11,6 +11,11 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
+//? if >=26.3 {
+import net.minecraft.core.Holder;
+import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
+//?}
+
 //? if >=26.2 {
 import net.minecraft.advancements.predicates.entity.*;
 import net.minecraft.advancements.predicates.*;
@@ -54,15 +59,15 @@ public class TimeGlidingCriterion extends SimpleCriterionTrigger<TimeGlidingCrit
     *///?}
 
     //? if >=1.21 {
-    public record TriggerInstance(Optional<ContextAwarePredicate> player, Optional<ItemPredicate> item, MinMaxBounds.Doubles height) implements SimpleCriterionTrigger.SimpleInstance {
+    public record TriggerInstance(Optional</*? if >=26.3 {*/Holder<LootItemCondition>/*?} else {*//*ContextAwarePredicate*//*?}*/> player, Optional<ItemPredicate> item, MinMaxBounds.Doubles height) implements SimpleCriterionTrigger.SimpleInstance {
         public static Codec<TriggerInstance> CODEC = RecordCodecBuilder.create(builder -> builder.group(
-                EntityPredicate.ADVANCEMENT_CODEC.optionalFieldOf("player").forGetter(TriggerInstance::player),
+                /*? if >=26.3 {*/LootItemCondition.CODEC/*?} else {*//*EntityPredicate.ADVANCEMENT_CODEC*//*?}*/.optionalFieldOf("player").forGetter(TriggerInstance::player),
                 ItemPredicate.CODEC.optionalFieldOf("item").forGetter(TriggerInstance::item),
                 MinMaxBounds.Doubles.CODEC.optionalFieldOf("height", MinMaxBounds.Doubles.ANY).forGetter(TriggerInstance::height)
         ).apply(builder, TriggerInstance::new));
 
         @Override
-        public @NotNull Optional<ContextAwarePredicate> player() {
+        public @NotNull Optional</*? if >=26.3 {*/Holder<LootItemCondition>/*?} else {*//*Optional<ContextAwarePredicate>*//*?}*/> player() {
             return this.player;
         }
 

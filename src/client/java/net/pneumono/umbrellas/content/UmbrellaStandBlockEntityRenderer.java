@@ -150,7 +150,11 @@ public class UmbrellaStandBlockEntityRenderer implements BlockEntityRenderer<Umb
     public void translate(PoseStack poseStack, BlockState state, boolean item) {
         poseStack.translate(0.5F, 0.0F, 0.5F);
         float rotation = state.getValue(UmbrellaStandBlock.FACING).toYRot();
-        poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
+        //? if >=26.3 {
+        poseStack.rotate(Axis.YP.rotationDegrees(-rotation));
+        //?} else {
+        /*poseStack.mulPose(Axis.YP.rotationDegrees(-rotation));
+        *///?}
         if (!item) poseStack.translate(-0.5F, -0.5F, -0.5F);
 
         poseStack.translate(0.03125F, 1.5F, 0.03125F);

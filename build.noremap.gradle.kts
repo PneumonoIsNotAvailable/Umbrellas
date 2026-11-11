@@ -9,7 +9,10 @@ val javaVersion = JavaVersion.VERSION_25
 java.targetCompatibility = javaVersion
 java.sourceCompatibility = javaVersion
 
-val awFile = "26.1.accesswidener"
+val awFile = if (stonecutter.eval(stonecutter.current.version, ">=26.3"))
+	"26.3.accesswidener"
+else
+	"26.1.accesswidener"
 
 base.archivesName.set(project.property("mod_id") as String)
 version = "${project.property("mod_version")}+${stonecutter.current.project}+${property("mod_subversion")}"

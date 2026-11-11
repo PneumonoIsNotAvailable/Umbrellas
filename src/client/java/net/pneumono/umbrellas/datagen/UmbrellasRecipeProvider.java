@@ -5,9 +5,12 @@ package net.pneumono.umbrellas.datagen;
 import com.mojang.datafixers.util.Pair;
 import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
+import net.minecraft.advancements.Advancement;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.data.recipes.*;
+import net.minecraft.data.worldgen.BootstrapContext;
 import net.minecraft.world.item.*;
+import net.minecraft.world.item.crafting.Recipe;
 import net.pneumono.umbrellas.registry.UmbrellasItems;
 import net.pneumono.umbrellas.registry.UmbrellasTags;
 
@@ -27,10 +30,17 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
         super(output, registriesFuture);
     }
 
+    //? if >=26.3 {
     @Override
+    protected RecipeProvider createRecipeProvider(HolderLookup.Provider registries, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+        return new UmbrellasRecipeGenerator(registries, recipes, advancements);
+    }
+    //?} else {
+    /*@Override
     protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput output) {
         return new UmbrellasRecipeGenerator(provider, output);
     }
+    *///?}
 
     @Override
     public String getName() {
@@ -40,9 +50,15 @@ public class UmbrellasRecipeProvider extends FabricRecipeProvider {
     private static class UmbrellasRecipeGenerator extends RecipeProvider {
         private static final String HAS_UMBRELLA = "has_umbrella";
 
-        protected UmbrellasRecipeGenerator(HolderLookup.Provider provider, RecipeOutput output) {
+        //? if >=26.3 {
+        protected UmbrellasRecipeGenerator(HolderLookup.Provider registries, BootstrapContext<Recipe<?>> recipes, BootstrapContext<Advancement> advancements) {
+            super(recipes, advancements);
+        }
+        //?} else {
+        /*protected UmbrellasRecipeGenerator(HolderLookup.Provider provider, RecipeOutput output) {
             super(provider, output);
         }
+        *///?}
 
         @Override
         public void buildRecipes() {

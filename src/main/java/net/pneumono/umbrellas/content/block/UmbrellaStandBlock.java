@@ -33,6 +33,9 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Objects;
 
+//? if >=26.3
+import net.minecraft.util.Prediction;
+
 //? if >=1.21.6 {
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.util.RandomSource;
@@ -50,19 +53,19 @@ import com.mojang.serialization.MapCodec;
 //?}
 
 public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterloggedBlock {
-    //? if >=1.21
-    public static final MapCodec<UmbrellaStandBlock> CODEC = simpleCodec(UmbrellaStandBlock::new);
+    //? if >=1.21 && <26.3
+    //public static final MapCodec<UmbrellaStandBlock> CODEC = simpleCodec(UmbrellaStandBlock::new);
     public static final BooleanProperty WATERLOGGED = BlockStateProperties.WATERLOGGED;
     public static final EnumProperty<Direction> FACING = BlockStateProperties.HORIZONTAL_FACING;
     public static final BooleanProperty HAS_UMBRELLA = BooleanProperty.create("has_umbrella");
     private static final VoxelShape SHAPE = Block.box(7, 0, 7, 9, 16, 9);
 
-    //? if >=1.21 {
-    @Override
+    //? if >=1.21 && <26.3 {
+    /*@Override
     protected @NotNull MapCodec<? extends BaseEntityBlock> codec() {
         return CODEC;
     }
-    //?}
+    *///?}
 
     public UmbrellaStandBlock(BlockBehaviour.Properties properties) {
         super(properties);
@@ -167,7 +170,11 @@ public class UmbrellaStandBlock extends BaseEntityBlock implements SimpleWaterlo
                 ItemStack stack = blockEntity.removeTheItem();
 
                 if (!player.addItem(stack)) {
-                    player.drop(stack, false);
+                    player.drop(
+                            stack, false
+                            //? if >=26.3
+                            , Prediction.SERVER_ONLY
+                    );
                 }
             }
 

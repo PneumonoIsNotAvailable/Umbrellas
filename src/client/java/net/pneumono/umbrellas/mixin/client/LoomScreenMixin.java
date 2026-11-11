@@ -106,9 +106,11 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             at = @At(
                     value = "INVOKE",
                     shift = At.Shift.AFTER,
+                    //? if >=26.3 {
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
                     //? if >=1.21.6 {
-                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
-                    //?} else if >=1.21 {
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIII)V",
+                    *///?} else if >=1.21 {
                     /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blitSprite(Lnet/minecraft/resources/Identifier;IIII)V",
                     *///?} else {
                     /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lnet/minecraft/resources/Identifier;IIIIII)V",
@@ -214,9 +216,11 @@ public abstract class LoomScreenMixin extends AbstractContainerScreen<LoomMenu> 
             *///?}
             at = @At(
                     value = "INVOKE",
-                    //? if >=1.21.6 {
-                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
-                    //?} else {
+                    //? if >=26.3 {
+                    target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/renderpearl/api/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
+                    //?} else if >=1.21.6 {
+                    /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lcom/mojang/blaze3d/pipeline/RenderPipeline;Lnet/minecraft/resources/Identifier;IIFFIIII)V"
+                    *///?} else {
                     /*target = "Lnet/minecraft/client/gui/GuiGraphicsExtractor;blit(Lnet/minecraft/resources/Identifier;IIIIII)V"
                     *///?}
             ),

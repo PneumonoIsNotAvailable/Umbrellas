@@ -72,14 +72,21 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         UmbrellasItems.RED_UMBRELLA,
                         Component.translatable("advancements.umbrellas.get_umbrella.name"),
                         Component.translatable("advancements.umbrellas.get_umbrella.description"),
-                        null,
+                        //? if <26.3
+                        //null,
                         AdvancementType.TASK,
                         true,
                         true,
                         false
                 )
                 .addCriterion("has_umbrella", InventoryChangeTrigger.TriggerInstance.hasItems(ItemPredicate.Builder.item().of(/*? if >=1.21.6 {*/itemLookup, /*?}*/UmbrellasTags.UMBRELLAS)))
-                .save(consumer, Umbrellas.MOD_ID + ":adventure/get_umbrella");
+                .save(consumer,
+                        //? if >=26.3 {
+                        Umbrellas.id("adventure/get_umbrella")
+                        //?} else {
+                        /*Umbrellas.MOD_ID + ":adventure/get_umbrella"
+                        *///?}
+                );
 
         //? if >=26.1 {
         DataComponentPatch.Builder glidingDataBuilder = DataComponentPatch.builder();
@@ -96,14 +103,21 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         glidingEnchanted,
                         Component.translatable("advancements.umbrellas.use_gliding_umbrella.name"),
                         Component.translatable("advancements.umbrellas.use_gliding_umbrella.description"),
-                        null,
+                        //? if <26.3
+                        //null,
                         AdvancementType.TASK,
                         true,
                         true,
                         false
                 )
                 .addCriterion("used_gliding_umbrella", TimeGlidingCriterion.TriggerInstance.minHeight(19.75))
-                .save(consumer, Umbrellas.MOD_ID + ":adventure/use_gliding_umbrella");
+                .save(consumer,
+                        //? if >=26.3 {
+                        Umbrellas.id("adventure/use_gliding_umbrella")
+                        //?} else {
+                        /*Umbrellas.MOD_ID + ":adventure/use_gliding_umbrella"
+                         *///?}
+                );
 
         //? if >=26.1 {
         DataComponentPatch.Builder billowingDataBuilder = DataComponentPatch.builder();
@@ -120,14 +134,21 @@ public class UmbrellasAdvancementProvider extends FabricAdvancementProvider {
                         billowingEnchanted,
                         Component.translatable("advancements.umbrellas.use_billowing_umbrella.name"),
                         Component.translatable("advancements.umbrellas.use_billowing_umbrella.description"),
-                        null,
+                        //? if <26.3
+                        //null,
                         AdvancementType.TASK,
                         true,
                         true,
                         false
                 )
                 .addCriterion("used_billowing_umbrella", SmokeBoostCriterion.TriggerInstance.minHeight(19))
-                .save(consumer, Umbrellas.MOD_ID + ":adventure/use_billowing_umbrella");
+                .save(consumer,
+                        //? if >=26.3 {
+                        Umbrellas.id("adventure/use_billowing_umbrella")
+                        //?} else {
+                        /*Umbrellas.MOD_ID + ":adventure/use_billowing_umbrella"
+                         *///?}
+                );;
         //?} else {
         /*Advancement getUmbrellaAdvancement = Advancement.Builder.advancement().parent(Advancement.Builder.advancement().build(Identifier.tryParse("adventure/root")))
                 .display(

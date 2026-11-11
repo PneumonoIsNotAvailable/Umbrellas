@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "group": "umbrella_stand",
+  "key": {
+    "P": "minecraft:spruce_planks",
+    "S": "minecraft:stick"
+  },
+  "pattern": [
+    "P",
+    "S",
+    "P"
+  ],
+  "result": {
+    "id": "umbrellas:spruce_umbrella_stand"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "parent": "umbrellas:block/template_umbrella_stand",
+  "textures": {
+    "texture": "umbrellas:block/acacia_umbrella_stand"
+  }
+}

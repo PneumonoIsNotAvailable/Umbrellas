@@ -59,7 +59,11 @@ public class ArmsUtil {
     }
 
     public static void adjustArm(PoseStack poseStack) {
-        poseStack.mulPose(Axis.XP.rotationDegrees(200));
+        //? if >=26.3 {
+        poseStack.rotate(Axis.XP.rotationDegrees(200));
+        //?} else {
+        /*poseStack.mulPose(Axis.XP.rotationDegrees(200));
+        *///?}
         poseStack.translate(0, 0.0625, 1);
     }
 }

@@ -12,10 +12,15 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
-import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.pneumono.umbrellas.Umbrellas;
 import net.pneumono.umbrellas.content.SmokeBoostCriterion;
 import net.pneumono.umbrellas.content.TimeGlidingCriterion;
+
+//? if >=26.3 {
+import net.minecraft.world.level.storage.loot.providers.number.ints.ContextIntProviders;
+//?} else {
+/*import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
+*///?}
 
 //? if >=26.2 {
 import net.minecraft.advancements.triggers.CriterionTrigger;
@@ -80,7 +85,7 @@ public class UmbrellasMisc {
         ) -> {
             //~ if >=26.1 'with' -> 'add' {
             if (BuiltInLootTables.BASTION_OTHER.equals(key) && source.isBuiltin()) {
-                LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
+                LootPool.Builder pool = LootPool.lootPool().setRolls(/*? if >=26.3 {*/ContextIntProviders.exactly(1)/*?} else {*//*ConstantValue.exactly(1.0f)*//*?}*/)
                         .add(EmptyLootItem.emptyItem().setWeight(11).build())
                         .add(LootItem.lootTableItem(UmbrellasItems.PIGLIN_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());
@@ -88,14 +93,14 @@ public class UmbrellasMisc {
 
             //? if >=1.21 {
             if (BuiltInLootTables.TRIAL_CHAMBERS_REWARD_OMINOUS_UNIQUE.equals(key) && source.isBuiltin()) {
-                LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
+                LootPool.Builder pool = LootPool.lootPool().setRolls(/*? if >=26.3 {*/ContextIntProviders.exactly(1)/*?} else {*//*ConstantValue.exactly(1.0f)*//*?}*/)
                         .add(EmptyLootItem.emptyItem().setWeight(11).build())
                         .add(LootItem.lootTableItem(UmbrellasItems.FLOW_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());
             }
 
             if (BuiltInLootTables.TRIAL_CHAMBERS_REWARD_UNIQUE.equals(key) && source.isBuiltin()) {
-                LootPool.Builder pool = LootPool.lootPool().setRolls(ConstantValue.exactly(1.0f))
+                LootPool.Builder pool = LootPool.lootPool().setRolls(/*? if >=26.3 {*/ContextIntProviders.exactly(1)/*?} else {*//*ConstantValue.exactly(1.0f)*//*?}*/)
                         .add(EmptyLootItem.emptyItem().setWeight(11).build())
                         .add(LootItem.lootTableItem(UmbrellasItems.GUSTER_UMBRELLA_PATTERN).setWeight(1).build());
                 tableBuilder.pool(pool.build());

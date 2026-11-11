@@ -5,9 +5,14 @@ package net.pneumono.umbrellas.content;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.core.Holder;
-import net.minecraft.resources.RegistryFileCodec;
 import net.minecraft.resources.Identifier;
 import net.pneumono.umbrellas.registry.UmbrellaPatterns;
+
+//? if >=26.3 {
+import net.minecraft.core.registries.codec.RegistryCodecs;
+//?} else {
+/*import net.minecraft.resources.RegistryFileCodec;
+*///?}
 
 //? if >=1.21 {
 import net.minecraft.network.RegistryFriendlyByteBuf;
@@ -35,7 +40,16 @@ public record UmbrellaPattern(Identifier assetId, String translationKey, boolean
     );
     //?}
 
-    public static final Codec<Holder<UmbrellaPattern>> ENTRY_CODEC = RegistryFileCodec.create(UmbrellaPatterns.UMBRELLA_PATTERN_KEY, CODEC);
+    //? if >=26.3 {
+    public static final Codec<Holder<UmbrellaPattern>> ENTRY_CODEC = RegistryCodecs.holder(
+            UmbrellaPatterns.UMBRELLA_PATTERN_KEY, CODEC
+    );
+    //?} else {
+    /*public static final Codec<Holder<UmbrellaPattern>> ENTRY_CODEC = RegistryFileCodec.create(
+            UmbrellaPatterns.UMBRELLA_PATTERN_KEY, CODEC
+    );
+    *///?}
+
     //? if >=1.21 {
     public static final StreamCodec<RegistryFriendlyByteBuf, Holder<UmbrellaPattern>> ENTRY_PACKET_CODEC = ByteBufCodecs.holder(
             UmbrellaPatterns.UMBRELLA_PATTERN_KEY, PACKET_CODEC

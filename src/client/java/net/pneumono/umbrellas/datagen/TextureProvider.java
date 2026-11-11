@@ -52,6 +52,8 @@ public abstract class TextureProvider implements DataProvider {
                         //? if >=1.21
                         makePackInfo("vanilla_textures")
                 )
+                //? if >=26.3
+                .fullResources()
         );
 
         packs.add(new PathPackResources(
